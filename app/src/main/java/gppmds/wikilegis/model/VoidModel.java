@@ -1,7 +1,8 @@
 package gppmds.wikilegis.model;
 
 /**
- * Created by freemanpivo on 8/28/16.
+ * File: VoidModel.java
  */
+
 public class VoidModel {
 }
