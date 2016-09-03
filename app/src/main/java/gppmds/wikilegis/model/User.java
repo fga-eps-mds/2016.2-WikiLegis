@@ -1,7 +1,7 @@
 package gppmds.wikilegis.model;
 
 import android.util.Patterns;
-import exception.UserException;
+import gppmds.wikilegis.exception.UserException;
 
 /**
  * Created by thiago on 9/1/16.
@@ -29,7 +29,7 @@ public class User {
     private String email;
     private String password;
 
-    public User(String firstName, String lastNmae, String email, String password) {
+    public User(String firstName, String lastNmae, String email, String password) throws UserException {
         setFirstName(firstName);
         setLastName(lastNmae);
         setEmail(email);
@@ -158,5 +158,4 @@ public class User {
             return  false;
         }
     }
-
 }
