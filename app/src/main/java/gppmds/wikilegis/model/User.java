@@ -146,7 +146,7 @@ public class User {
 
 
     private boolean passwordIsEqual(final String password, final String passwordConfimation){
-        if(password.equals(password)) {
+        if(password.equals(passwordConfimation)) {
             return true;
         }else {
             return  false;
