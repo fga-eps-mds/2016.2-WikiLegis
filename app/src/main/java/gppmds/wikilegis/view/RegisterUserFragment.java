@@ -1,7 +1,5 @@
 package gppmds.wikilegis.view;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
@@ -48,6 +47,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         Button register = (Button) view.findViewById(R.id.registerButton);
 
         register.setOnClickListener(this);
+        this.settingEditText(view);
 
         return view;
     }
@@ -73,7 +73,68 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
 
         this.settingTextTyped();
 
-        //this.validateUserInformation();
+        this.validateUserInformation();
     }
 
+    private void setMessageError(EditText editText, String message){
+        assert editText != null;
+        assert message != null;
+
+        editText.requestFocus();
+        editText.setError(message);
+    }
+
+    private void validateUserInformation(){
+        try{
+            User user = new User(firstName, lastName, email, password);
+
+            String SUCCESSFUL_REGISTRATION_MESSAGE = "Cadastro efetuado com sucesso!";
+            Toast.makeText(getActivity().getBaseContext(),
+                    SUCCESSFUL_REGISTRATION_MESSAGE, Toast.LENGTH_LONG).show();
+
+        }catch(UserException e){
+            String exceptionMessage = e.getMessage();
+
+            switch(exceptionMessage){
+                case User.FIRST_NAME_CANT_BE_EMPTY:
+                    setMessageError(firstNameField, exceptionMessage);
+                    break;
+                case User.FIRST_NAME_CANT_BE_HIGHER_THAN_30:
+                    setMessageError(firstNameField, exceptionMessage);
+                    break;
+                case User.LAST_NAME_CANT_BE_EMPTY:
+                    setMessageError(lastNameField, exceptionMessage);
+                    break;
+                case User.LAST_NAME_CANT_BE_HIGHER_THAN_30:
+                    setMessageError(lastNameField, exceptionMessage);
+                    break;
+                case User.EMAIL_CANT_BE_EMPTY_EMAIL:
+                    setMessageError(emailField, exceptionMessage);
+                    break;
+                case User.EMAIL_CANT_BE_HIGHER_THAN_150:
+                    setMessageError(emailField, exceptionMessage);
+                    break;
+                case User.INVALID_EMAIL:
+                    setMessageError(emailField, exceptionMessage);
+                    break;
+                case User.PASSWORD_CANT_BE_EMPTY:
+                    setMessageError(passwordField, exceptionMessage);
+                    break;
+                case User.PASSWORD_CANT_BE_LESS_THAN_6:
+                    setMessageError(passwordField, exceptionMessage);
+                    break;
+                case User.PASSWORD_CANT_BE_HIGHER_THAN_10:
+                    setMessageError(passwordField, exceptionMessage);
+                    break;
+                /*
+                case User.PASSWORD_ARE_NOT_EQUALS:
+                    setMessageError(passwordField, exceptionMessage);
+                    break;
+                */
+                default:
+                    //nothing to do
+                    break;
+            }
+        }
+    }
 }

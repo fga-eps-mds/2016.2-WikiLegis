@@ -114,7 +114,6 @@ public class User {
 
     //Validation methods
 
-
     private boolean stringIsNull(final String string){
         if(string == null || string.isEmpty()) {
             return false;
