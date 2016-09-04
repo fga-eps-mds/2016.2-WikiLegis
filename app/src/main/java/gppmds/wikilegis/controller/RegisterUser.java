@@ -27,11 +27,16 @@ public class RegisterUser {
             String exceptionMessage = e.getMessage();
 
             return exceptionMessage;
+
+        } catch (IOException e) {
+
+            return "IOException";
+
         }
     }
 
 
-    public boolean emailIsRepeated(String email) throws IOException{
+    public static boolean emailIsRepeated(String email) throws IOException{
 
         UtilitiesDAO utilities = new UtilitiesDAO();
 

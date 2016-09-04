@@ -1,6 +1,10 @@
 package gppmds.wikilegis.model;
 
 import android.util.Patterns;
+
+import java.io.IOException;
+
+import gppmds.wikilegis.controller.RegisterUser;
 import gppmds.wikilegis.exception.UserException;
 
 /**
@@ -24,13 +28,15 @@ public class User {
     public static final String PASSWORD_CANT_BE_LESS_THAN_6 = "Inválido, a senha deve conter no mínimo 6 caractéres.";
     public static final String PASSWORD_CANT_BE_HIGHER_THAN_10 = "Inválido, a senha deve ter no máximo 10 caractéres";
     public static final String PASSWORD_ISNT_EQUALS = "As senhas digitadas sao diferentes";
+    public static final String EMAIL_IS_REPEATED = "Este email já está cadastrado";
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public User(String firstName, String lastName, String email, String password, String passwordConfimation) throws UserException {
+    public User(String firstName, String lastName, String email, String password,
+                String passwordConfimation) throws UserException, IOException {
         setFirstName(firstName);
         setLastName(lastName);
         setEmail(email);
@@ -75,12 +81,16 @@ public class User {
         return email;
     }
 
-    private void setEmail(String email) throws UserException {
+    private void setEmail(String email) throws UserException, IOException {
         if (stringIsNull(email)) {
             if(validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)){
                 CharSequence emailCharSequence = email;
                 if(validateEmailFormat(email)) {
-                    this.email = email;
+                    if(!RegisterUser.emailIsRepeated(email)) {
+                        this.email=email;
+                    }else {
+                        throw new UserException(EMAIL_IS_REPEATED);
+                    }
                 }else{
                     throw new UserException(INVALID_EMAIL);
                 }
