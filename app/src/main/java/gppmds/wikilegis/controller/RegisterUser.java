@@ -31,7 +31,7 @@ public class RegisterUser {
     }
 
 
-    public boolean emailIsRepeated(String email)throws IOException{
+    public boolean emailIsRepeated(String email) throws IOException{
 
         UtilitiesDAO utilities = new UtilitiesDAO();
 
