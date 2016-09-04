@@ -11,19 +11,34 @@ import gppmds.wikilegis.model.User;
  */
 public class RegisterUser {
 
-    public User registerUser (String firstName , String lastName, String email,String password)throws UserException{
-        User user = new User(firstName ,lastName,email,password) ;
-        return user;
+    public String registerUser (String firstName,
+                                String lastName,
+                                String email,
+                                String password,
+                                String passwordConfirmation) {
+
+        try {
+
+            User user = new User(firstName, lastName, email, password);
+
+            return "SUCESS";
+
+        } catch (UserException e) {
+            String exceptionMessage = e.getMessage();
+
+            return exceptionMessage;
+        }
     }
 
 
     public boolean emailIsRepeated(String email)throws IOException{
+
         UtilitiesDAO utilities = new UtilitiesDAO();
 
-            if(utilities.findEmail(email)==true) {
+            if(utilities.findEmail(email) == true) {
                 return true;
             }
-            else{
+            else {
                 return false;
             }
 
