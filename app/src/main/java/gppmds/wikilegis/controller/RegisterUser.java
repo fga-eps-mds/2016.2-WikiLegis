@@ -19,7 +19,7 @@ public class RegisterUser {
 
         try {
 
-            User user = new User(firstName, lastName, email, password);
+            User user = new User(firstName, lastName, email, password, passwordConfirmation);
 
             return "SUCESS";
 

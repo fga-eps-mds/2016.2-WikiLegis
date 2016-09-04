@@ -23,17 +23,18 @@ public class User {
     public static final String PASSWORD_CANT_BE_EMPTY = "Inválido, a senha não pode ser vazia.";
     public static final String PASSWORD_CANT_BE_LESS_THAN_6 = "Inválido, a senha deve conter no mínimo 6 caractéres.";
     public static final String PASSWORD_CANT_BE_HIGHER_THAN_10 = "Inválido, a senha deve ter no máximo 10 caractéres";
+    public static final String PASSWORD_ISNT_EQUALS = "As senhas digitadas sao diferentes";
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public User(String firstName, String lastName, String email, String password) throws UserException {
+    public User(String firstName, String lastName, String email, String password, String passwordConfimation) throws UserException {
         setFirstName(firstName);
         setLastName(lastName);
         setEmail(email);
-        setPassword(password);
+        setPassword(password, passwordConfimation);
     }
 
     public String getFirstName() {
@@ -95,11 +96,15 @@ public class User {
         return password;
     }
 
-    private void setPassword(String password) throws UserException {
+    private void setPassword(String password, String passwordConfirmation) throws UserException {
         if(stringIsNull(password)){
             if(validateStringLengthLessThanMax(password,MAX_LENGTH_PASSWORD)){
                 if(validateStringLengthMoreThanMin(password,MIN_LENGTH_PASSWORD))
-                    this.password = password;
+                    if(passwordIsEqual(password, passwordConfirmation)){
+                        this.password = password;
+                    }else {
+                        throw new UserException(PASSWORD_ISNT_EQUALS);
+                    }
                 else {
                     throw  new UserException(PASSWORD_CANT_BE_LESS_THAN_6);
                 }
@@ -139,12 +144,12 @@ public class User {
         }
     }
 
-    //Perguntar para cliente se já existe um método
-    private boolean validateEmailExist(final String string){
-        if(string.contains("s")) {
-            return false;
+
+    private boolean passwordIsEqual(final String password, final String passwordConfimation){
+        if(password.equals(password)) {
+            return true;
         }else {
-            return  true;
+            return  false;
         }
     }
 
