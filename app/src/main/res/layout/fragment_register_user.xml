@@ -2,7 +2,8 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context="gppmds.wikilegis.view.RegisterUserFragment">
+                tools:context="gppmds.wikilegis.view.RegisterUserFragment"
+                android:background="@color/abc_search_url_text_normal">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -10,22 +11,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
         android:id="@+id/firstNameField"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp"/>
+        android:layout_marginTop="138dp"
+        android:text="Nome"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
         android:ems="10"
         android:id="@+id/lastNameField"
         android:layout_below="@+id/firstNameField"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:text="Sobrenome"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -33,7 +34,8 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/emailField"
-        android:layout_centerVertical="true"
+        android:text="E-mail"
+        android:layout_below="@+id/lastNameField"
         android:layout_centerHorizontal="true"/>
 
     <EditText
@@ -43,7 +45,8 @@
         android:ems="10"
         android:id="@+id/passwordField"
         android:layout_below="@+id/emailField"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -62,5 +65,9 @@
         android:layout_below="@+id/passwordConfirmationField"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
-        android:singleLine="false"/>
+        android:singleLine="false"
+        android:nestedScrollingEnabled="true"
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"/>
 </RelativeLayout>
