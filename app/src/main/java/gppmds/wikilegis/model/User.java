@@ -150,7 +150,7 @@ public class User {
 
     //Validar tipo de email
     private boolean validateEmailFormat(final String string){
-        CharSequence emailCharSequence = email;
+        String emailCharSequence = string;
         if(Patterns.EMAIL_ADDRESS.matcher(emailCharSequence).matches()) {
             return true;
         }else {

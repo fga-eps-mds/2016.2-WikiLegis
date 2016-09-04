@@ -9,7 +9,7 @@ import java.io.StringReader;
 /**
  * Created by josue on 9/3/16.
  */
-public class DaoUtilities {
+public class UtilitiesDAO {
 
     public boolean findEmail(String email) throws IOException {
         String auxiliaryEmail;

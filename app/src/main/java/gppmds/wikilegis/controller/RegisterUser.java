@@ -2,14 +2,14 @@ package gppmds.wikilegis.controller;
 
 import java.io.IOException;
 
-import gppmds.wikilegis.dao.DaoUtilities;
+import gppmds.wikilegis.dao.UtilitiesDAO;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
 /**
  * Created by josue on 9/3/16.
  */
-public class RegisterUserController {
+public class RegisterUser {
 
     public User registerUser (String firstName , String lastName, String email,String password)throws UserException{
         User user = new User(firstName ,lastName,email,password) ;
@@ -18,7 +18,7 @@ public class RegisterUserController {
 
 
     public boolean emailIsRepeated(String email)throws IOException{
-        DaoUtilities utilities = new DaoUtilities();
+        UtilitiesDAO utilities = new UtilitiesDAO();
 
             if(utilities.findEmail(email)==true) {
                 return true;
