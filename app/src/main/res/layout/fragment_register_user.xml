@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                tools:context="gppmds.wikilegis.view.RegisterUserFragment">
+
+    <!-- TODO: Update blank fragment layout -->
 
     <EditText
         android:layout_width="wrap_content"
@@ -12,7 +15,7 @@
         android:id="@+id/firstNameField"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="144dp"/>
+        android:layout_marginTop="138dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -22,7 +25,7 @@
         android:ems="10"
         android:id="@+id/lastNameField"
         android:layout_below="@+id/firstNameField"
-        android:layout_alignStart="@+id/firstNameField"/>
+        android:layout_centerHorizontal="true"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -30,7 +33,7 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/emailField"
-        android:layout_below="@+id/lastNameField"
+        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
 
     <EditText
@@ -58,5 +61,6 @@
         android:id="@+id/registerButton"
         android:layout_below="@+id/passwordConfirmationField"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="41dp"/>
+        android:layout_marginTop="41dp"
+        android:singleLine="false"/>
 </RelativeLayout>

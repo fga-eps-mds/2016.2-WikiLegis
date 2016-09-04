@@ -29,9 +29,9 @@ public class User {
     private String email;
     private String password;
 
-    public User(String firstName, String lastNmae, String email, String password) throws UserException {
+    public User(String firstName, String lastName, String email, String password) throws UserException {
         setFirstName(firstName);
-        setLastName(lastNmae);
+        setLastName(lastName);
         setEmail(email);
         setPassword(password);
     }
