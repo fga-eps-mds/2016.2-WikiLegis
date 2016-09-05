@@ -1,0 +1,133 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gppmds.wikilegis.view.RegisterUserFragment"
+    android:background="@drawable/background">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/firstNameField"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:hint="Nome"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/lastNameField"
+        android:layout_below="@+id/firstNameField"
+        android:layout_centerHorizontal="true"
+        android:hint="Sobrenome"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/emailField"
+        android:layout_below="@+id/lastNameField"
+        android:layout_centerHorizontal="true"
+        android:hint="E-mail"/>/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordField"
+        android:layout_below="@+id/emailField"
+        android:layout_centerHorizontal="true"
+        android:hint="Senha"/>
+    />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordConfirmationField"
+        android:layout_below="@+id/passwordField"
+        android:layout_centerHorizontal="true"
+        android:hint="Confirmação de senha"/>/>
+
+    <Button
+        android:layout_width="300px"
+        android:layout_height="wrap_content"
+        android:text="Cadastrar"
+        android:id="@+id/registerButton"
+        android:layout_below="@+id/passwordConfirmationField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:singleLine="false"
+        android:nestedScrollingEnabled="true"
+        android:focusable="false"
+        android:clickable="false"
+        android:background="#009688"
+        android:textColor="#ffffff"
+        android:textSize="14dp"/>
+
+    <ImageView
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:src="@drawable/logo_black"
+        android:id="@+id/imageViewLogo"
+        android:layout_marginTop="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:src="@drawable/user_name"
+        android:id="@+id/imageViewUserName"
+        android:layout_alignTop="@+id/firstNameField"
+        android:layout_toStartOf="@+id/firstNameField"
+        android:layout_alignBottom="@+id/firstNameField" />
+
+    <ImageView
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:src="@drawable/user_name"
+        android:id="@+id/imageViewLastName"
+        android:layout_alignTop="@+id/lastNameField"
+        android:layout_toStartOf="@+id/lastNameField"
+        android:layout_above="@+id/emailField" />
+
+    <ImageView
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:src="@drawable/email_user"
+        android:id="@+id/imageViewEmailUser"
+        android:layout_alignBottom="@+id/emailField"
+        android:layout_below="@+id/lastNameField"
+        android:layout_alignStart="@+id/imageViewLastName" />
+
+    <ImageView
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:src="@drawable/password_user"
+        android:id="@+id/imageViewPasswordUser"
+        android:layout_alignTop="@+id/passwordField"
+        android:layout_toStartOf="@+id/passwordField"
+        android:layout_alignBottom="@+id/passwordField" />
+
+    <ImageView
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:src="@drawable/password_user"
+        android:id="@+id/imageViewConfirmationPasswotd"
+        android:layout_alignBottom="@+id/passwordConfirmationField"
+        android:layout_toStartOf="@+id/passwordConfirmationField"
+        android:layout_alignTop="@+id/passwordConfirmationField" />
+
+</RelativeLayout>
