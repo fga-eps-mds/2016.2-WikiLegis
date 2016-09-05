@@ -15,13 +15,12 @@ import static junit.framework.Assert.assertTrue;
 public class UserTest {
 
     @Test
-    public void testEmptyFirstName(){
+    public void testEmptyFirstName() {
         boolean isValid = true;
 
         try {
             User user = new User("", "Cardoso", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -30,13 +29,12 @@ public class UserTest {
     }
 
     @Test
-    public void testMaxLengthFirstName(){
+    public void testMaxLengthFirstName() {
         boolean isValid = true;
 
         try {
             User user = new User("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Cardoso", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -45,13 +43,12 @@ public class UserTest {
     }
 
     @Test
-    public void testMaxMoreOneLengthFirstName(){
+    public void testMaxMoreOneLengthFirstName() {
         boolean isValid = true;
 
         try {
             User user = new User("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Cardoso", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -60,13 +57,12 @@ public class UserTest {
     }
 
     @Test
-    public void testMaxMinusOneLengthFirstName(){
+    public void testMaxMinusOneLengthFirstName() {
         boolean isValid = true;
 
         try {
             User user = new User("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "Cardoso", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -75,13 +71,12 @@ public class UserTest {
     }
 
     @Test
-    public void testMinLenghtFirstName(){
+    public void testMinLenghtFirstName() {
         boolean isValid = true;
 
         try {
             User user = new User("a", "Cardoso", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -89,13 +84,12 @@ public class UserTest {
     }
 
     @Test
-    public void testEmptySecondName(){
+    public void testEmptySecondName() {
         boolean isValid = true;
 
         try {
             User user = new User("Cardoso", "", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -104,13 +98,12 @@ public class UserTest {
     }
 
     @Test
-    public void testMaxLengthSecondName(){
+    public void testMaxLengthSecondName() {
         boolean isValid = true;
 
         try {
             User user = new User("Cardoso", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -119,13 +112,12 @@ public class UserTest {
     }
 
     @Test
-    public void testMaxMoreOneLengthSecondName(){
+    public void testMaxMoreOneLengthSecondName() {
         boolean isValid = true;
 
         try {
             User user = new User("Cardoso", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -134,13 +126,12 @@ public class UserTest {
     }
 
     @Test
-    public void testMaxMinusOneLengthSecondName(){
+    public void testMaxMinusOneLengthSecondName() {
         boolean isValid = true;
 
         try {
             User user = new User("Cardoso", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -149,17 +140,85 @@ public class UserTest {
     }
 
     @Test
-    public void testMinLenghtSecondName(){
+    public void testMinLenghtSecondName() {
         boolean isValid = true;
 
         try {
             User user = new User("Cardoso", "a", "a@a.com", "123456", "123456");
-        }
-        catch (UserException userException){
+        } catch (UserException userException) {
             isValid = false;
         }
 
         assertTrue(isValid);
     }
 
+    @Test
+    public void testMaxLenghtPassword() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Cardoso", "Nere", "a@a.com", "1234567890", "1234567890");
+
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertTrue(isValid);
+
+    }
+
+    @Test
+    public void testMinLenghtPassword() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Cardoso", "Nere", "a@a.com", "123456", "123456");
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertTrue(isValid);
+    }
+
+    @Test
+    public void testMaxMoreOneLenghtPassword() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Cardoso", "Nere", "a@a.com", "12345678901", "12345678901");
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void testMinMinusOneLenghtPassword() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Cardoso", "Nere", "a@a.com", "12345", "12345");
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void testDifferenceBetwenPasswords(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("Cardoso", "Nere", "a@a.com", "123456", "000000");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
 }
+
