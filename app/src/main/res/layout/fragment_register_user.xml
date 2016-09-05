@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="138dp"
-        android:text="Nome"/>
+        android:hint="Nome"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
         android:id="@+id/lastNameField"
         android:layout_below="@+id/firstNameField"
         android:layout_centerHorizontal="true"
-        android:text="Sobrenome"/>
+        android:hint="Sobrenome"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -34,9 +34,9 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/emailField"
-        android:text="E-mail"
         android:layout_below="@+id/lastNameField"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:hint="E-mail"/>/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -46,6 +46,7 @@
         android:id="@+id/passwordField"
         android:layout_below="@+id/emailField"
         android:layout_centerHorizontal="true"
+        android:hint="Senha"/>
         />
 
     <EditText
@@ -55,7 +56,8 @@
         android:ems="10"
         android:id="@+id/passwordConfirmationField"
         android:layout_below="@+id/passwordField"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:hint="Confirmação de senha"/>/>
 
     <Button
         android:layout_width="wrap_content"
