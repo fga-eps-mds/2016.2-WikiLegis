@@ -28,6 +28,8 @@ public class UserTest {
 
     }
 
+
+
     @Test
     public void testMaxLengthFirstName() {
         boolean isValid = true;
@@ -219,6 +221,58 @@ public class UserTest {
 
         assertFalse(isValid);
     }
+
+    @Test
+    public void testMaxLengthEmail(){
+        boolean isValid = true;
+
+        try{
+            User user = new User("Cardoso", "Nere", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                    "aaaaaaaa@aaa.aaaa", "123456", "123456");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertTrue(isValid);
+
+    }
+
+    @Test
+    public void testMaxMoreOneLenghtEmail(){
+        boolean isValid = true;
+
+        try{
+            User user = new User("Cardoso", "Nere", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                    "aaaaaaaa@aaa.aaaa", "123456", "123456");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+
+    }
+
+    @Test
+    public void testEmailPattern(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("Cardoso", "Nere", "aaaaaaaa", "12345678901", "12345678901");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+    @Test
+    public void
 
 }
 
