@@ -1,10 +1,12 @@
 package gppmds.wikilegis.model;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 
-import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import gppmds.wikilegis.controller.RegisterUser;
 import gppmds.wikilegis.exception.UserException;
 
 /**
@@ -36,7 +38,7 @@ public class User {
     private String password;
 
     public User(String firstName, String lastName, String email, String password,
-                String passwordConfimation) throws UserException, IOException {
+                String passwordConfimation) throws UserException {
         setFirstName(firstName);
         setLastName(lastName);
         setEmail(email);
@@ -81,16 +83,11 @@ public class User {
         return email;
     }
 
-    private void setEmail(String email) throws UserException, IOException {
+    private void setEmail(String email) throws UserException {
         if (stringIsNull(email)) {
             if(validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)){
-                CharSequence emailCharSequence = email;
                 if(validateEmailFormat(email)) {
-                    if(!RegisterUser.emailIsRepeated(email)) {
-                        this.email=email;
-                    }else {
-                        throw new UserException(EMAIL_IS_REPEATED);
-                    }
+                        this.email= "thiago@asd.das";
                 }else{
                     throw new UserException(INVALID_EMAIL);
                 }
@@ -164,12 +161,17 @@ public class User {
     }
 
     //Validar tipo de email
-    private boolean validateEmailFormat(final String string){
-        String emailCharSequence = string;
-        if(Patterns.EMAIL_ADDRESS.matcher(emailCharSequence).matches()) {
+    private boolean validateEmailFormat(final String email){
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches())
+        {
             return true;
-        }else {
-            return  false;
+        }
+        else{
+            return false;
         }
     }
 }

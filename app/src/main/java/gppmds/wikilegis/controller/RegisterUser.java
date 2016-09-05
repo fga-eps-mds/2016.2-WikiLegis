@@ -44,10 +44,6 @@ public class RegisterUser {
 
             return exceptionMessage;
 
-        } catch (IOException e) {
-
-            return "IOException";
-
         }
     }
 
