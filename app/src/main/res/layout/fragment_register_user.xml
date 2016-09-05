@@ -71,5 +71,8 @@
         android:nestedScrollingEnabled="true"
         android:focusable="false"
         android:clickable="false"
-        android:focusableInTouchMode="false"/>
+        android:focusableInTouchMode="false"
+        android:background="#009688"
+        android:textColor="#ffffff"
+        android:textSize="14dp"/>
 </RelativeLayout>
