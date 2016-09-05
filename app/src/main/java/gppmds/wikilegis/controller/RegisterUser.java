@@ -4,14 +4,12 @@ import android.content.Context;
 
 import java.io.IOException;
 
-import gppmds.wikilegis.api.Request;
+import gppmds.wikilegis.api.GetRequest;
 import gppmds.wikilegis.dao.UtilitiesDAO;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
-/**
- * Created by josue on 9/3/16.
- */
+
 public class RegisterUser {
     private static RegisterUser instance = null;
     private final Context context;
@@ -68,12 +66,12 @@ public class RegisterUser {
     }
 
     /**
-     * change the URL for other responses
+     * Log D the users
      */
-    public void usingRequestExemple(){
-        final String URL = "http://wikilegis.labhackercd.net/api/";
+    public void getUsersExemple(){
+        final String URL = "http://wikilegis.labhackercd.net/api/users/?api_key=9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b";
 
-        Request request = new Request();
+        GetRequest request = new GetRequest();
 
         request.execute(URL);
 

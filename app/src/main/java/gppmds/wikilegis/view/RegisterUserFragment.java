@@ -84,7 +84,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
 
     private void validateUserInformation() {
 
-        RegisterUser registerUser=new RegisterUser();
+        RegisterUser registerUser = RegisterUser.getInstance(getContext());
 
         String feedbackRegisterMessage=registerUser.registerUser(firstName, lastName, email, password, passwordConfirmation);
 

@@ -1,14 +1,12 @@
 package gppmds.wikilegis.view;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.RegisterUser;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
@@ -23,6 +21,8 @@ public class RegisterUserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         RegisterUserFragment registerUser = new RegisterUserFragment();
+        RegisterUser controller = RegisterUser.getInstance(getApplicationContext());
+        controller.getUsersExemple();
 
         openFragment(registerUser);
 

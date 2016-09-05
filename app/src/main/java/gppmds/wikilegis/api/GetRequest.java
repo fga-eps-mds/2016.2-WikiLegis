@@ -12,7 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class Request extends AsyncTask<String, String, String> {
+public class GetRequest extends AsyncTask<String, String, String> {
 
 
     protected String doInBackground(String... params) {
@@ -35,7 +35,7 @@ public class Request extends AsyncTask<String, String, String> {
 
         try{
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            text = readStream(in);
+            text = RequestTools.readStream(in);
         } catch (IOException e) {
             Log.e("Connection faild",", Try later");
         } finally {
@@ -54,18 +54,4 @@ public class Request extends AsyncTask<String, String, String> {
         Log.d("RESPONSE ------ :",result);
     }
 
-    // Treats the response
-    private String readStream(InputStream is) {
-        try {
-            ByteArrayOutputStream bo = new ByteArrayOutputStream();
-            int i = is.read();
-            while(i != -1) {
-                bo.write(i);
-                i = is.read();
-            }
-            return bo.toString();
-        } catch (IOException e) {
-            return "";
-        }
-    }
 }
