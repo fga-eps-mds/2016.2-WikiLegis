@@ -39,6 +39,7 @@
         android:layout_centerHorizontal="true"
         android:hint="E-mail"/>/>
 
+    a
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
         android:nestedScrollingEnabled="true"
         android:focusable="false"
         android:clickable="false"
-        android:focusableInTouchMode="false"
+        android:focusableriaInTouchMode="false"
         android:background="#009688"
         android:textColor="#ffffff"
         android:textSize="14dp"/>
@@ -80,7 +81,7 @@
     <ImageView
         android:layout_width="200px"
         android:layout_height="200px"
-        android:src="@drawable/logoBlack"
+        android:src="@drawable/logo_black"
         android:id="@+id/imageViewLogo"
         android:layout_marginTop="39dp"
         android:layout_alignParentTop="true"
@@ -89,7 +90,7 @@
     <ImageView
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/userName"
+        android:src="@drawable/user_name"
         android:id="@+id/imageViewUserName"
         android:layout_alignTop="@+id/firstNameField"
         android:layout_toStartOf="@+id/firstNameField"
@@ -98,7 +99,7 @@
     <ImageView
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/userName"
+        android:src="@drawable/user_name"
         android:id="@+id/imageViewLastName"
         android:layout_alignTop="@+id/lastNameField"
         android:layout_toStartOf="@+id/lastNameField"
@@ -107,7 +108,7 @@
     <ImageView
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/emailUser"
+        android:src="@drawable/email_user"
         android:id="@+id/imageViewEmailUser"
         android:layout_alignBottom="@+id/emailField"
         android:layout_below="@+id/lastNameField"
@@ -116,7 +117,7 @@
     <ImageView
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/passwordUser"
+        android:src="@drawable/password_user"
         android:id="@+id/imageViewPasswordUser"
         android:layout_alignTop="@+id/passwordField"
         android:layout_toStartOf="@+id/passwordField"
@@ -125,7 +126,7 @@
     <ImageView
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/passwordUser"
+        android:src="@drawable/password_user"
         android:id="@+id/imageViewConfirmationPasswotd"
         android:layout_alignBottom="@+id/passwordConfirmationField"
         android:layout_toStartOf="@+id/passwordConfirmationField"
