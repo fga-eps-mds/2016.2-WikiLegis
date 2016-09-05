@@ -60,7 +60,7 @@
         android:hint="Confirmação de senha"/>/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="300px"
         android:layout_height="wrap_content"
         android:text="Cadastrar"
         android:id="@+id/registerButton"
@@ -75,4 +75,13 @@
         android:background="#009688"
         android:textColor="#ffffff"
         android:textSize="14dp"/>
+
+    <ImageView
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:src="@drawable/logoBlack"
+        android:id="@+id/imageViewLogo"
+        android:layout_marginTop="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
