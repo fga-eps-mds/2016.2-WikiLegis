@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import dalvik.annotation.TestTarget;
 import gppmds.wikilegis.exception.UserException;
 
 import static junit.framework.Assert.assertFalse;
@@ -28,7 +29,19 @@ public class UserTest {
 
     }
 
+    @Test
+    public void testNullFirstName(){
+        boolean isValid = true;
 
+        try{
+            User user = new User(null, "Cardoso", "a@a.com", "123456", "123456");
+        }
+        catch (UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
 
     @Test
     public void testMaxLengthFirstName() {
@@ -97,6 +110,20 @@ public class UserTest {
 
         assertFalse(isValid);
 
+    }
+
+    @Test
+    public void testNullSecondName(){
+        boolean isValid = true;
+
+        try{
+            User user = new User("Cardoso", null, "a@a.com", "123456", "123456");
+        }
+        catch (UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
     }
 
     @Test
@@ -209,6 +236,35 @@ public class UserTest {
     }
 
     @Test
+    public void testNullPassword(){
+        boolean isValid = true;
+
+        try{
+            User user = new User("Nere", "Cardoso", "a@a.com", null, "123456");
+        }
+        catch (UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
+    public void testEmptyPassword(){
+        boolean isValid = true;
+
+        try{
+            User user = new User("Nere", "Cardoso", "a@a.com", "", "123456");
+        }
+        catch (UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
     public void testDifferenceBetwenPasswords(){
         boolean isValid = true;
 
@@ -236,6 +292,37 @@ public class UserTest {
         }
 
         assertTrue(isValid);
+
+    }
+
+    @Test
+    public void testEmptyEmail(){
+        boolean isValid = true;
+
+        try{
+            User user = new User("Nere", "Cardoso", "", "123456", "123456");
+
+        }
+        catch (UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+    public void testNullEmail(){
+        boolean isValid = true;
+
+        try{
+            User user = new User("Nere", "Cardoso", null, "123456", "123456");
+
+        }
+        catch (UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
 
     }
 
@@ -271,8 +358,7 @@ public class UserTest {
         assertFalse(isValid);
 
     }
-    @Test
-    public void
+
 
 }
 
