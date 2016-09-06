@@ -69,11 +69,19 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         this.passwordConfirmation=passwordConfirmationField.getText().toString();
     }
 
+    private void settingErrorNull(){
+        this.firstNameField.setError(null);
+        this.lastNameField.setError(null);
+        this.emailField.setError(null);
+        this.passwordField.setError(null);
+        this.passwordConfirmationField.setError(null);
+    }
+
     @Override
     public void onClick(View view) {
 
         this.settingTextTyped();
-
+        this.settingErrorNull();
         this.validateUserInformation();
     }
 
