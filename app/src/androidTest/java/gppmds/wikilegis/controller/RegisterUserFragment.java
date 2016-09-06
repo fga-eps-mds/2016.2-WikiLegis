@@ -58,14 +58,15 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.emailField)).check(matches(hasErrorText("Inválido, o email deve ter no máximo 150 caractéres")));
     }
 
-    public void testErrorWithInvalidEmail(){
+    public void testErrorWithEmptyPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
-        onView(withId(R.id.emailField)).perform(typeText("aaaaa#"));
+        onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
+        onView(withId(R.id.passwordField)).perform(typeText(""));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
 
-        onView(withId(R.id.emailField)).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
+        onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha não pode ser vazia.")));
     }
 
 }
