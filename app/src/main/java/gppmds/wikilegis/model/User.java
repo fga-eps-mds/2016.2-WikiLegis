@@ -1,8 +1,5 @@
-package gppmds.wikilegis.model;
 
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Patterns;
+package gppmds.wikilegis.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,13 +28,15 @@ public class User {
     public static final String PASSWORD_CANT_BE_HIGHER_THAN_10 = "Inválido, a senha deve ter no máximo 10 caractéres";
     public static final String PASSWORD_ISNT_EQUALS = "As senhas digitadas sao diferentes";
     public static final String EMAIL_IS_REPEATED = "Este email já está cadastrado";
+    public static final String NAME_CONTAINS_NUMBER = "Nome contem numero, digite apenas letras";
+    public static final String LAST_NAME_CONTAINS_NUMBER = "Sobrenome contem numero, digite apenas letras";
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
 
-    public User(String firstName, String lastName, String email, String password,
+    public User(String firstName , String lastName, String email, String password,
                 String passwordConfimation) throws UserException {
         setFirstName(firstName);
         setLastName(lastName);
@@ -50,14 +49,26 @@ public class User {
     }
 
     private void setFirstName(String firstName) throws UserException {
-        if(stringIsNull(firstName)){
-            if(validateStringLengthLessThanMax(firstName,MAX_LENGTH_FIRST_NAME)){
-                this.firstName = firstName;
-            }else {
-                throw  new UserException(FIRST_NAME_CANT_BE_HIGHER_THAN_30);
+        if(  stringIsNull(firstName)){
+
+            if(  validateNameWithOutNumber(firstName)) {
+
+                if (validateStringLengthLessThanMax(firstName, MAX_LENGTH_FIRST_NAME)) {
+
+                    this.firstName = firstName;
+
+                } else {
+
+                    throw new UserException(FIRST_NAME_CANT_BE_HIGHER_THAN_30);
+                }
             }
 
-        }else {
+            else{
+
+                throw new  UserException(NAME_CONTAINS_NUMBER);
+            }
+        }
+        else {
             throw  new UserException(FIRST_NAME_CANT_BE_EMPTY);
         }
     }
@@ -67,34 +78,43 @@ public class User {
     }
 
     private void setLastName(String lastName) throws UserException {
-        if(stringIsNull(lastName)){
-            if(validateStringLengthLessThanMax(lastName,MAX_LENGTH_LAST_NAME)){
-                this.lastName = lastName;
-            }else {
-                throw  new UserException(LAST_NAME_CANT_BE_HIGHER_THAN_30);
-            }
+        if(  stringIsNull(lastName)){
+            if(  validateNameWithOutNumber(lastName)) {
 
-        }else {
+
+                if (validateStringLengthLessThanMax(lastName, MAX_LENGTH_LAST_NAME)) {
+                    this.lastName = lastName;
+                } else {
+                    throw new UserException(LAST_NAME_CANT_BE_HIGHER_THAN_30);
+                }
+            } else{
+               throw new UserException(LAST_NAME_CONTAINS_NUMBER);
+            }
+        }
+        else {
             throw  new UserException(LAST_NAME_CANT_BE_EMPTY);
         }
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
     private void setEmail(String email) throws UserException {
         if (stringIsNull(email)) {
-            if(validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)){
-                if(validateEmailFormat(email)) {
+
+            if(  validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)){
+
+                if(  validateEmailFormat(email)) {
                         this.email= "thiago@asd.das";
-                }else{
+                }
+                else{
                     throw new UserException(INVALID_EMAIL);
                 }
-            }else{
+            }
+            else{
                 throw  new UserException(EMAIL_CANT_BE_HIGHER_THAN_150);
             }
-        }else{
+        }
+        else{
             throw  new UserException(EMAIL_CANT_BE_EMPTY_EMAIL);
         }
     }
@@ -103,23 +123,22 @@ public class User {
         return password;
     }
 
-    private void setPassword(String password, String passwordConfirmation) throws UserException {
-        if(stringIsNull(password)){
-            if(validateStringLengthLessThanMax(password,MAX_LENGTH_PASSWORD)){
-                if(validateStringLengthMoreThanMin(password,MIN_LENGTH_PASSWORD))
-                    if(passwordIsEqual(password, passwordConfirmation)){
+    private void setPassword( String password, String passwordConfirmation) throws UserException {
+        if(  stringIsNull(password)){
+            if(  validateStringLengthLessThanMax(password, MAX_LENGTH_PASSWORD)){
+                if(  validateStringLengthMoreThanMin(password, MIN_LENGTH_PASSWORD))
+                    if(  passwordIsEqual(password, passwordConfirmation)){
                         this.password = password;
-                    }else {
+                    } else {
                         throw new UserException(PASSWORD_ISNT_EQUALS);
-                    }
-                else {
+                    } else {
                     throw  new UserException(PASSWORD_CANT_BE_LESS_THAN_6);
                 }
-            }else {
+            } else {
                 throw  new UserException(PASSWORD_CANT_BE_HIGHER_THAN_10);
             }
 
-        }else {
+        } else {
             throw  new UserException(PASSWORD_CANT_BE_EMPTY);
         }
     }
@@ -127,35 +146,36 @@ public class User {
     //Validation methods
 
     private boolean stringIsNull(final String string){
-        if(string == null || string.isEmpty()) {
+        if(  string == null || string.isEmpty()) {
             return false;
-        }else {
+        } else {
             return  true;
         }
     }
 
 
     private boolean validateStringLengthLessThanMax(final String string, final int MAX){
-        if(string.length() > MAX) {
+        if(  string.length() > MAX) {
             return false;
-        }else {
+        } else {
             return  true;
         }
     }
 
     private boolean validateStringLengthMoreThanMin(final String string, final int MIN){
-        if(string.length() < MIN) {
+        if(  string.length() < MIN) {
             return false;
-        }else {
+        } else {
             return  true;
         }
     }
 
 
     private boolean passwordIsEqual(final String password, final String passwordConfimation){
-        if(password.equals(passwordConfimation)) {
+
+        if(  password.equals(passwordConfimation)) {
             return true;
-        }else {
+        } else {
             return  false;
         }
     }
@@ -172,6 +192,15 @@ public class User {
         }
         else{
             return false;
+        }
+    }
+
+    private boolean validateNameWithOutNumber(final String name){
+        if(  name.contains("0") || name.contains("1") || name.contains("2") || name.contains("3") || name.contains("4") || name.contains("5") || name.contains("6") || name.contains("7") || name.contains("8") || name.contains("9")){
+            return false;
+        }
+        else{
+            return true;
         }
     }
 }
