@@ -15,9 +15,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by freemanpivo on 8/28/16.
- */
 public class RegisterUserFragment extends ActivityInstrumentationTestCase2<RegisterUserActivity>{
 
     public RegisterUserFragment(){
@@ -86,7 +83,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha não pode ser vazia.")));
     }
 
-    public void testErrorWithLesserMinLenghtPassword(){
+    public void testErrorWithLesserMinLengthPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
@@ -97,7 +94,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha deve conter no mínimo 6 caractéres.")));
     }
 
-    public void testErrorWithOverrMaxLenghtPassword(){
+    public void testErrorWithOverMaxLengthPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
@@ -120,5 +117,28 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.passwordConfirmationField)).check(matches(hasErrorText("As senhas digitadas sao diferentes")));
     }
 
+    public void testErrorWithOverMaxLengthFirstName(){
+        onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+        closeSoftKeyboard();
+        onView(withId(R.id.registerButton)).perform(click());
+
+        onView((withId(R.id.firstNameField))).check(matches(hasErrorText("Inválido, o nome deve ter no máximo 30 caractéres")));
+    }
+
+    public void testErrorWithEmptyLastName(){
+        onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
+        onView(withId(R.id.lastNameField)).perform(typeText(""));
+        closeSoftKeyboard();
+        onView(withId(R.id.registerButton)).perform(click());
+        onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Inválido, o sobrenome não pode ser vazio.")));
+    }
+
+    public void testErrorWithOverMaxLengthLastName(){
+        onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
+        onView(withId(R.id.lastNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
+        closeSoftKeyboard();
+        onView(withId(R.id.registerButton)).perform(click());
+        onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Inválido, o sobrenome deve ter no máximo 30 caractéres")));
+    }
 
 }
