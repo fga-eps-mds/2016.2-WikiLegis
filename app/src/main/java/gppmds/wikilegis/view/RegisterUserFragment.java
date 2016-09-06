@@ -94,7 +94,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
 
         RegisterUser registerUser = RegisterUser.getInstance(getContext());
 
-        String feedbackRegisterMessage=registerUser.registerUser(firstName, lastName, email, password, passwordConfirmation);
+        String feedbackRegisterMessage = registerUser.registerUser(firstName, lastName, email, password, passwordConfirmation);
 
         switch (feedbackRegisterMessage) {
             case User.FIRST_NAME_CANT_BE_EMPTY:
@@ -142,9 +142,6 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
                 String SUCCESSFUL_REGISTRATION_MESSAGE="Cadastro efetuado com sucesso!";
                 Toast.makeText(getActivity().getBaseContext(),
                         SUCCESSFUL_REGISTRATION_MESSAGE, Toast.LENGTH_LONG).show();
-                break;
-            case User.EMAIL_IS_REPEATED:
-                setMessageError(emailField, feedbackRegisterMessage);
                 break;
             default:
                 //nothing to do

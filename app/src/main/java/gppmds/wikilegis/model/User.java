@@ -36,7 +36,6 @@ public class User {
     public static final String PASSWORD_CANT_BE_HIGHER_THAN_10 = "Inválido, a senha"
             + " deve ter no máximo 10 caractéres";
     public static final String PASSWORD_ISNT_EQUALS = "As senhas digitadas sao diferentes";
-    public static final String EMAIL_IS_REPEATED = "Este email já está cadastrado";
     public static final String NAME_CONTAINS_SPECIAL_CHARACTERS = "O nome deve ter apenas letras.";
     public static final String LAST_NAME_CONTAINS_SPECIAL_CHARACTERS = "O sobrenome"
             + " deve ter apenas letras.";

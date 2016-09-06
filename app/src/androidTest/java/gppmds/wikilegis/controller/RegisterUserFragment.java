@@ -141,4 +141,13 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Inválido, o sobrenome deve ter no máximo 30 caractéres")));
     }
 
+    public void testErrorWithInvalidEmail(){
+        onView(withId(R.id.firstNameField)).perform(typeText("Marcelo"));
+        onView(withId(R.id.lastNameField)).perform(typeText("Augusto"));
+        onView(withId(R.id.lastNameField)).perform(typeText("mekmay@hotmailcom"));
+        closeSoftKeyboard();
+        onView(withId(R.id.registerButton)).perform(click());
+        onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
+    }
+
 }
