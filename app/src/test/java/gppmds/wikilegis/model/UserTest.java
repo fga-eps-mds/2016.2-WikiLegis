@@ -358,7 +358,34 @@ public class UserTest {
         assertFalse(isValid);
 
     }
+    @Test
+    public void testNameWithNumber(){
+        boolean isValid = true;
 
+        try{
+            User user = new User ("1asa", "Nere", "aaaaaaaa", "12345678901", "12345678901");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+    @Test
+    public void testNameLastWithNumber(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("Josue", "Nasc1mento", "aaaaaaaa", "12345678901", "12345678901");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
 
 }
 
