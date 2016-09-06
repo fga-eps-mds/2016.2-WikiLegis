@@ -39,9 +39,7 @@ project.afterEvaluate {
                 )
 
                 def coverageSourceDirs = [
-                        "src/main/java",
-                        "src/$productFlavorName/java",
-                        "src/$buildTypeName/java"
+                        "src/main/java"
                 ]
                 additionalSourceDirs = files(coverageSourceDirs)
                 sourceDirectories = files(coverageSourceDirs)
