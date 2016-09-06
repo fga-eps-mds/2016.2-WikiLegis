@@ -10,17 +10,17 @@ import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
 
-public class RegisterUser {
-    private static RegisterUser instance = null;
+public class RegisterUserController {
+    private static RegisterUserController instance = null;
     private final Context context;
 
-    private RegisterUser(Context context) {
+    private RegisterUserController(Context context) {
         this.context = context;
     }
 
-    public static RegisterUser getInstance(Context context) {
+    public static RegisterUserController getInstance(Context context) {
         if (instance == null) {
-            instance = new RegisterUser(context);
+            instance = new RegisterUserController(context);
         } else {
 			/* ! Nothing To Do. */
         }

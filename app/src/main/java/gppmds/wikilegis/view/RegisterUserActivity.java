@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.RegisterUser;
+import gppmds.wikilegis.controller.RegisterUserController;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
@@ -21,7 +21,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         RegisterUserFragment registerUser = new RegisterUserFragment();
-        RegisterUser controller = RegisterUser.getInstance(getApplicationContext());
+        RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
         controller.getUsersExemple();
 
         openFragment(registerUser);
