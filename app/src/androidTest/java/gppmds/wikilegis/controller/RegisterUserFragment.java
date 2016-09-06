@@ -7,6 +7,7 @@ import org.junit.Before;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.view.RegisterUserActivity;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -29,11 +30,21 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         getActivity();
     }
 
-    public void testErrorWithEmptyName(){
+    public void testErrorWithEmptyFirstName(){
         onView(withId(R.id.firstNameField)).perform(typeText(""));
         onView(withId(R.id.registerButton)).perform(click());
 
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("Inválido, o nome não pode ser vazio.")));
+    }
+
+    public void testErrorWithEmptyEmail(){
+        onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
+        onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
+        closeSoftKeyboard();
+        onView(withId(R.id.emailField)).perform(typeText(""));
+        onView(withId(R.id.registerButton)).perform(click());
+
+        onView(withId(R.id.emailField)).check(matches(hasErrorText("Inválido, o email não pode ser vazio.")));
     }
 
 }
