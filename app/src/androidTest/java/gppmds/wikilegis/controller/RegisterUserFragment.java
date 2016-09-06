@@ -37,6 +37,14 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("Inválido, o nome não pode ser vazio.")));
     }
 
+    public void testErrorWithNumbersFirstName(){
+        onView(withId(R.id.firstNameField)).perform(typeText("aaa125"));
+        closeSoftKeyboard();
+        onView(withId(R.id.registerButton)).perform(click());
+
+        onView(withId(R.id.firstNameField)).check(matches(hasErrorText("O nome deve ter apenas letras.")));
+    }
+
     public void testErrorWithEmptyEmail(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
