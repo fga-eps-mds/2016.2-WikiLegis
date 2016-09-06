@@ -99,6 +99,37 @@ public class UserTest {
     }
 
     @Test
+    public void testNameWithNumber(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("1asa", "Nere", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+
+    @Test
+    public void testNameWithSpecialCharacters(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("l@sa", "Nere", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
     public void testEmptySecondName() {
         boolean isValid = true;
 
@@ -179,6 +210,36 @@ public class UserTest {
         }
 
         assertTrue(isValid);
+    }
+
+    @Test
+    public void testLastNameWithNumber(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("Josue", "Nasc1mento", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
+    public void testLastNameWithSpecialCharacters(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("lasa", "N&re", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
     }
 
     @Test
@@ -350,34 +411,6 @@ public class UserTest {
 
         try{
             User user = new User ("Cardoso", "Nere", "aaaaaaaa", "12345678901", "12345678901");
-        }
-        catch(UserException userException){
-            isValid = false;
-        }
-
-        assertFalse(isValid);
-
-    }
-    @Test
-    public void testNameWithNumber(){
-        boolean isValid = true;
-
-        try{
-            User user = new User ("1asa", "Nere", "aaaaaaaa", "12345678901", "12345678901");
-        }
-        catch(UserException userException){
-            isValid = false;
-        }
-
-        assertFalse(isValid);
-
-    }
-    @Test
-    public void testNameLastWithNumber(){
-        boolean isValid = true;
-
-        try{
-            User user = new User ("Josue", "Nasc1mento", "aaaaaaaa", "12345678901", "12345678901");
         }
         catch(UserException userException){
             isValid = false;

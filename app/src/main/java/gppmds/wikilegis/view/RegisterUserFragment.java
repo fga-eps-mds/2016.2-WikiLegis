@@ -100,7 +100,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
             case User.FIRST_NAME_CANT_BE_EMPTY:
                 setMessageError(firstNameField, feedbackRegisterMessage);
                 break;
-            case User.NAME_CONTAINS_NUMBER:
+            case User.NAME_CONTAINS_SPECIAL_CHARACTERS:
                 setMessageError(firstNameField, feedbackRegisterMessage);
                 break;
             case User.FIRST_NAME_CANT_BE_HIGHER_THAN_30:
@@ -109,7 +109,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
             case User.LAST_NAME_CANT_BE_EMPTY:
                 setMessageError(lastNameField, feedbackRegisterMessage);
                 break;
-            case User.LAST_NAME_CONTAINS_NUMBER:
+            case User.LAST_NAME_CONTAINS_SPECIAL_CHARACTERS:
                 setMessageError(lastNameField, feedbackRegisterMessage);
                 break;
             case User.LAST_NAME_CANT_BE_HIGHER_THAN_30:
