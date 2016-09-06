@@ -28,8 +28,8 @@ public class User {
     public static final String PASSWORD_CANT_BE_HIGHER_THAN_10 = "Inválido, a senha deve ter no máximo 10 caractéres";
     public static final String PASSWORD_ISNT_EQUALS = "As senhas digitadas sao diferentes";
     public static final String EMAIL_IS_REPEATED = "Este email já está cadastrado";
-    public static final String NAME_CONTAINS_NUMBER = "Nome contem numero, digite apenas letras";
-    public static final String LAST_NAME_CONTAINS_NUMBER = "Sobrenome contem numero, digite apenas letras";
+    public static final String NAME_CONTAINS_SPECIAL_CHARACTERS = "O nome deve ter apenas letras.";
+    public static final String LAST_NAME_CONTAINS_SPECIAL_CHARACTERS = "O sobrenome deve ter apenas letras.";
 
     private String firstName;
     private String lastName;
@@ -49,26 +49,21 @@ public class User {
     }
 
     private void setFirstName(String firstName) throws UserException {
-        if(  stringIsNull(firstName)){
+        if (stringIsNull(firstName)) {
 
-            if(  validateNameWithOutNumber(firstName)) {
+            if (validateNameContainsOnlyLetters(firstName)) {
 
                 if (validateStringLengthLessThanMax(firstName, MAX_LENGTH_FIRST_NAME)) {
 
                     this.firstName = firstName;
 
                 } else {
-
                     throw new UserException(FIRST_NAME_CANT_BE_HIGHER_THAN_30);
                 }
+            } else {
+                throw new  UserException(NAME_CONTAINS_SPECIAL_CHARACTERS);
             }
-
-            else{
-
-                throw new  UserException(NAME_CONTAINS_NUMBER);
-            }
-        }
-        else {
+        } else {
             throw  new UserException(FIRST_NAME_CANT_BE_EMPTY);
         }
     }
@@ -79,7 +74,7 @@ public class User {
 
     private void setLastName(String lastName) throws UserException {
         if(  stringIsNull(lastName)){
-            if(  validateNameWithOutNumber(lastName)) {
+            if(  validateNameContainsOnlyLetters(lastName)) {
 
 
                 if (validateStringLengthLessThanMax(lastName, MAX_LENGTH_LAST_NAME)) {
@@ -88,7 +83,7 @@ public class User {
                     throw new UserException(LAST_NAME_CANT_BE_HIGHER_THAN_30);
                 }
             } else{
-               throw new UserException(LAST_NAME_CONTAINS_NUMBER);
+               throw new UserException(LAST_NAME_CONTAINS_SPECIAL_CHARACTERS);
             }
         }
         else {
@@ -181,26 +176,26 @@ public class User {
     }
 
     //Validar tipo de email
-    private boolean validateEmailFormat(final String email){
+    private boolean validateEmailFormat (final String email) {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         CharSequence inputStr = email;
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(inputStr);
-        if (matcher.matches())
-        {
+        if (matcher.matches()) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    private boolean validateNameWithOutNumber(final String name){
-        if(  name.contains("0") || name.contains("1") || name.contains("2") || name.contains("3") || name.contains("4") || name.contains("5") || name.contains("6") || name.contains("7") || name.contains("8") || name.contains("9")){
-            return false;
+    private boolean validateNameContainsOnlyLetters(final String name){
+
+        for (int i = 0; i < name.length(); i++) {
+            if (Character.isLetter(name.charAt(i)) == false) {
+                return false;
+
+            }
         }
-        else{
-            return true;
-        }
+        return true;
     }
 }
