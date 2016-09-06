@@ -27,11 +27,11 @@ public class RegisterUser {
         return instance;
     }
 
-    public String registerUser (String firstName,
-                                String lastName,
-                                String email,
-                                String password,
-                                String passwordConfirmation) {
+    public String registerUser(String firstName,
+                               String lastName,
+                               String email,
+                               String password,
+                               String passwordConfirmation) {
 
         try {
 
@@ -41,21 +41,19 @@ public class RegisterUser {
 
         } catch (UserException e) {
             String exceptionMessage = e.getMessage();
-
             return exceptionMessage;
 
         }
     }
 
 
-    public static boolean emailIsRepeated(String email) throws IOException{
+    public static boolean emailIsRepeated(String email) throws IOException {
 
         UtilitiesDAO utilities = new UtilitiesDAO();
 
-            if(utilities.findEmail(email) == true) {
+            if (utilities.findEmail(email) == true) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
 
@@ -64,7 +62,7 @@ public class RegisterUser {
     /**
      * Log D the users
      */
-    public void getUsersExemple(){
+    public void getUsersExemple() {
         final String URL = "http://wikilegis.labhackercd.net/api/users/?api_key=9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b";
 
         GetRequest request = new GetRequest();
