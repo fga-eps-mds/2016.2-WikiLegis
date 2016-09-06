@@ -99,7 +99,7 @@ public class User {
             if(  validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)){
 
                 if(  validateEmailFormat(email)) {
-                        this.email= "thiago@asd.das";
+                        this.email = email;
                 }
                 else{
                     throw new UserException(INVALID_EMAIL);
@@ -121,18 +121,18 @@ public class User {
     private void setPassword( String password, String passwordConfirmation) throws UserException {
         if(  stringIsNull(password)){
             if(  validateStringLengthLessThanMax(password, MAX_LENGTH_PASSWORD)){
-                if(  validateStringLengthMoreThanMin(password, MIN_LENGTH_PASSWORD))
+                if(  validateStringLengthMoreThanMin(password, MIN_LENGTH_PASSWORD)){
                     if(  passwordIsEqual(password, passwordConfirmation)){
                         this.password = password;
                     } else {
                         throw new UserException(PASSWORD_ISNT_EQUALS);
-                    } else {
+                    }
+                }else {
                     throw  new UserException(PASSWORD_CANT_BE_LESS_THAN_6);
                 }
             } else {
                 throw  new UserException(PASSWORD_CANT_BE_HIGHER_THAN_10);
             }
-
         } else {
             throw  new UserException(PASSWORD_CANT_BE_EMPTY);
         }
@@ -141,7 +141,7 @@ public class User {
     //Validation methods
 
     private boolean stringIsNull(final String string){
-        if(  string == null || string.isEmpty()) {
+        if(  string == null || string.trim().isEmpty()) {
             return false;
         } else {
             return  true;
