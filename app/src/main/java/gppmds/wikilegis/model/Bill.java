@@ -1,5 +1,7 @@
 package gppmds.wikilegis.model;
 
+import gppmds.wikilegis.exception.BillException;
+
 /**
  * Created by thiago on 9/6/16.
  */
@@ -26,7 +28,7 @@ public class Bill {
 
     public Bill(final Integer id, final String title, final String name, final String epigraph,
                 final String status, final String theme, final String segments,
-                final String numberOfLike, final String numberOfDislike) {
+                final String numberOfLike, final String numberOfDislike) throws BillException {
         setId(id);
         setTitle(title);
         setName(name);
@@ -50,7 +52,7 @@ public class Bill {
         return title;
     }
 
-    private void setTitle(String title) {
+    private void setTitle(String title) throws  BillException {
         if (validateStringEmpty(title)) {
             this.title = title;
         } else {
@@ -63,7 +65,7 @@ public class Bill {
         return name;
     }
 
-    private void setName(String name) {
+    private void setName(String name) throws  BillException {
         if (validateStringEmpty(name)) {
             this.name = name;
         } else {
@@ -75,7 +77,7 @@ public class Bill {
         return epigraph;
     }
 
-    private void setEpigraph(String epigraph) {
+    private void setEpigraph(String epigraph) throws  BillException {
         if (validateStringEmpty(epigraph)) {
             this.epigraph = epigraph;
         } else {
@@ -87,7 +89,7 @@ public class Bill {
         return status;
     }
 
-    private void setStatus(String status) {
+    private void setStatus(String status) throws  BillException {
         if (validateStringEmpty(status)) {
             this.status = status;
         } else {
@@ -99,7 +101,7 @@ public class Bill {
         return theme;
     }
 
-    private void setTheme(String theme) {
+    private void setTheme(String theme) throws  BillException {
         if (validateStringEmpty(theme)) {
             this.theme = theme;
         } else {
@@ -111,7 +113,7 @@ public class Bill {
         return segments;
     }
 
-    private void setSegments(String segments) {
+    private void setSegments(String segments) throws  BillException {
         if (validateStringEmpty(segments)) {
             this.segments = segments;
         } else {
@@ -123,7 +125,7 @@ public class Bill {
         return numberOfLike;
     }
 
-    private void setNumberOfLike(String numberOfLike) {
+    private void setNumberOfLike(String numberOfLike) throws  BillException {
         if (validateStringEmpty(numberOfLike)) {
             this.numberOfLike = numberOfLike;
         } else {
@@ -135,7 +137,7 @@ public class Bill {
         return numberOfDislike;
     }
 
-    private void setNumberOfDislike(String numberOfDislike) {
+    private void setNumberOfDislike(String numberOfDislike) throws  BillException {
         if (validateStringEmpty(numberOfDislike)) {
             this.numberOfDislike = numberOfDislike;
         } else {
@@ -152,5 +154,4 @@ public class Bill {
             return true;
         }
     }
-
-    }
+}
