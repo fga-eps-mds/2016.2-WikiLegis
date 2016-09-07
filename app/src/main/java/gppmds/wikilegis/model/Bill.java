@@ -4,6 +4,16 @@ package gppmds.wikilegis.model;
  * Created by thiago on 9/6/16.
  */
 public class Bill {
+
+    private static final String TITLE_CANT_BE_EMPTY = "Título não pode ser carregado";
+    private static final String NAME_CANT_BE_EMPTY = "Nome não pode ser carregado";
+    private static final String EPIGRAPH_CANT_BE_EMPTY = "Epigrafe não pode ser carregado";
+    private static final String STATUS_CANT_BE_EMPTY = "Status não pode ser carregado";
+    private static final String THEME_CANT_BE_EMPTY = "Tema não pode ser carregado";
+    private static final String SEGMENTS_CANT_BE_EMPTY = "Segmentos não podem ser carregados";
+    private static final String NUMBEROFLIKE_CANT_BE_EMPTY = "Numero de likes não pode ser carregado";
+    private static final String NUMBEROFDISFLIKE_CANT_BE_EMPTY = "Numero de deslikes não pode ser carregado";
+
     private Integer id;
     private String title;
     private String name;
@@ -41,7 +51,12 @@ public class Bill {
     }
 
     private void setTitle(String title) {
-        this.title = title;
+        if (validateStringEmpty(title)) {
+            this.title = title;
+        } else {
+            throw  new BillException(TITLE_CANT_BE_EMPTY);
+        }
+
     }
 
     public String getName() {
@@ -49,7 +64,11 @@ public class Bill {
     }
 
     private void setName(String name) {
-        this.name = name;
+        if (validateStringEmpty(name)) {
+            this.name = name;
+        } else {
+            throw  new BillException(NAME_CANT_BE_EMPTY);
+        }
     }
 
     public String getEpigraph() {
@@ -57,7 +76,11 @@ public class Bill {
     }
 
     private void setEpigraph(String epigraph) {
-        this.epigraph = epigraph;
+        if (validateStringEmpty(epigraph)) {
+            this.epigraph = epigraph;
+        } else {
+            throw  new BillException(EPIGRAPH_CANT_BE_EMPTY);
+        }
     }
 
     public String getStatus() {
@@ -65,7 +88,11 @@ public class Bill {
     }
 
     private void setStatus(String status) {
-        this.status = status;
+        if (validateStringEmpty(status)) {
+            this.status = status;
+        } else {
+            throw  new BillException(STATUS_CANT_BE_EMPTY);
+        }
     }
 
     public String getTheme() {
@@ -73,7 +100,11 @@ public class Bill {
     }
 
     private void setTheme(String theme) {
-        this.theme = theme;
+        if (validateStringEmpty(theme)) {
+            this.theme = theme;
+        } else {
+            throw  new BillException(THEME_CANT_BE_EMPTY);
+        }
     }
 
     public String getSegments() {
@@ -81,7 +112,11 @@ public class Bill {
     }
 
     private void setSegments(String segments) {
-        this.segments = segments;
+        if (validateStringEmpty(segments)) {
+            this.segments = segments;
+        } else {
+            throw  new BillException(SEGMENTS_CANT_BE_EMPTY);
+        }
     }
 
     public String getNumberOfLike() {
@@ -89,7 +124,11 @@ public class Bill {
     }
 
     private void setNumberOfLike(String numberOfLike) {
-        this.numberOfLike = numberOfLike;
+        if (validateStringEmpty(numberOfLike)) {
+            this.numberOfLike = numberOfLike;
+        } else {
+            throw  new BillException(NUMBEROFLIKE_CANT_BE_EMPTY);
+        }
     }
 
     public String getNumberOfDislike() {
@@ -97,13 +136,17 @@ public class Bill {
     }
 
     private void setNumberOfDislike(String numberOfDislike) {
-        this.numberOfDislike = numberOfDislike;
+        if (validateStringEmpty(numberOfDislike)) {
+            this.numberOfDislike = numberOfDislike;
+        } else {
+            throw  new BillException(NUMBEROFDISFLIKE_CANT_BE_EMPTY);
+        }
     }
 
     //Methods of validation
 
-    private boolean validateStringEmpty(final String string){
-        if(string == null || string.trim().isEmpty()){
+    private boolean validateStringEmpty(final String string) {
+        if (string == null || string.trim().isEmpty()) {
             return false;
         } else {
             return true;
