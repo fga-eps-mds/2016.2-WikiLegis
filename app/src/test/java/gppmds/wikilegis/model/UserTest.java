@@ -44,6 +44,20 @@ public class UserTest {
     }
 
     @Test
+    public void testFirstNameWithOnlySpace() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("    ", "Cardoso", "a@a.com", "123456", "123456");
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
     public void testMaxLengthFirstName() {
         boolean isValid = true;
 
@@ -99,6 +113,37 @@ public class UserTest {
     }
 
     @Test
+    public void testNameWithNumber(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("1asa", "Nere", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+
+    @Test
+    public void testNameWithSpecialCharacters(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("l@sa", "Nere", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
     public void testEmptySecondName() {
         boolean isValid = true;
 
@@ -124,6 +169,20 @@ public class UserTest {
         }
 
         assertFalse(isValid);
+    }
+
+    @Test
+    public void testSecondNameWithOnlySpace() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Cardoso", "   ", "a@a.com", "123456", "123456");
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
     }
 
     @Test
@@ -179,6 +238,36 @@ public class UserTest {
         }
 
         assertTrue(isValid);
+    }
+
+    @Test
+    public void testLastNameWithNumber(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("Josue", "Nasc1mento", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
+    public void testLastNameWithSpecialCharacters(){
+        boolean isValid = true;
+
+        try{
+            User user = new User ("lasa", "N&re", "a@a.com", "1234567890", "1234567890");
+        }
+        catch(UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
     }
 
     @Test
@@ -243,6 +332,20 @@ public class UserTest {
             User user = new User("Nere", "Cardoso", "a@a.com", null, "123456");
         }
         catch (UserException userException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
+    public void testPasswordOnlySpace() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Cardoso", "Nere", "a@a.com", "    ", "123456");
+        } catch (UserException userException) {
             isValid = false;
         }
 
@@ -327,6 +430,20 @@ public class UserTest {
     }
 
     @Test
+    public void testEmailOnlySpace() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Cardoso", "Nere", "   ", "123456", "123456");
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
     public void testMaxMoreOneLenghtEmail(){
         boolean isValid = true;
 
@@ -358,7 +475,6 @@ public class UserTest {
         assertFalse(isValid);
 
     }
-
 
 }
 

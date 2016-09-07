@@ -69,11 +69,19 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         this.passwordConfirmation=passwordConfirmationField.getText().toString();
     }
 
+    private void settingErrorNull(){
+        this.firstNameField.setError(null);
+        this.lastNameField.setError(null);
+        this.emailField.setError(null);
+        this.passwordField.setError(null);
+        this.passwordConfirmationField.setError(null);
+    }
+
     @Override
     public void onClick(View view) {
 
         this.settingTextTyped();
-
+        this.settingErrorNull();
         this.validateUserInformation();
     }
 
@@ -86,16 +94,22 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
 
         RegisterUser registerUser = RegisterUser.getInstance(getContext());
 
-        String feedbackRegisterMessage=registerUser.registerUser(firstName, lastName, email, password, passwordConfirmation);
+        String feedbackRegisterMessage = registerUser.registerUser(firstName, lastName, email, password, passwordConfirmation);
 
         switch (feedbackRegisterMessage) {
             case User.FIRST_NAME_CANT_BE_EMPTY:
+                setMessageError(firstNameField, feedbackRegisterMessage);
+                break;
+            case User.NAME_CONTAINS_SPECIAL_CHARACTERS:
                 setMessageError(firstNameField, feedbackRegisterMessage);
                 break;
             case User.FIRST_NAME_CANT_BE_HIGHER_THAN_30:
                 setMessageError(firstNameField, feedbackRegisterMessage);
                 break;
             case User.LAST_NAME_CANT_BE_EMPTY:
+                setMessageError(lastNameField, feedbackRegisterMessage);
+                break;
+            case User.LAST_NAME_CONTAINS_SPECIAL_CHARACTERS:
                 setMessageError(lastNameField, feedbackRegisterMessage);
                 break;
             case User.LAST_NAME_CANT_BE_HIGHER_THAN_30:
@@ -128,9 +142,6 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
                 String SUCCESSFUL_REGISTRATION_MESSAGE="Cadastro efetuado com sucesso!";
                 Toast.makeText(getActivity().getBaseContext(),
                         SUCCESSFUL_REGISTRATION_MESSAGE, Toast.LENGTH_LONG).show();
-                break;
-            case User.EMAIL_IS_REPEATED:
-                setMessageError(emailField, feedbackRegisterMessage);
                 break;
             default:
                 //nothing to do
