@@ -14,7 +14,9 @@ public class Bill {
     private String numberOfLike;
     private String numberOfDislike;
 
-    public Bill(final Integer id, final String title, final String name, final String epigraph, final String status, final String theme, final String segments, final String numberOfLike, final String numberOfDislike) {
+    public Bill(final Integer id, final String title, final String name, final String epigraph,
+                final String status, final String theme, final String segments,
+                final String numberOfLike, final String numberOfDislike) {
         setId(id);
         setTitle(title);
         setName(name);
@@ -96,6 +98,16 @@ public class Bill {
 
     private void setNumberOfDislike(String numberOfDislike) {
         this.numberOfDislike = numberOfDislike;
+    }
+
+    //Methods of validation
+
+    private boolean validateStringEmpty(final String string){
+        if(string == null || string.trim().isEmpty()){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     }
