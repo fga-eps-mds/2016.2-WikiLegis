@@ -1,11 +1,13 @@
-package gppmds.wikilegis.controller;
+package gppmds.wikilegis.view;
 
+import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.view.RegisterUserActivity;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -15,9 +17,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class RegisterUserFragment extends ActivityInstrumentationTestCase2<RegisterUserActivity>{
+@RunWith(AndroidJUnit4.class)
+public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<RegisterUserActivity>{
 
-    public RegisterUserFragment(){
+    public RegisterUserFragmentTest(){
        super(RegisterUserActivity.class);
     }
 
@@ -27,6 +30,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         getActivity();
     }
 
+    @Test
     public void testErrorWithEmptyFirstName(){
         onView(withId(R.id.firstNameField)).perform(typeText(""));
         onView(withId(R.id.registerButton)).perform(click());
@@ -34,6 +38,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("Inválido, o nome não pode ser vazio.")));
     }
 
+    @Test
     public void testErrorWithNumbersFirstName(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
@@ -42,6 +47,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("O nome deve ter apenas letras.")));
     }
 
+    @Test
     public void testErrorWithNumbersLastName(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaa125"));
@@ -51,6 +57,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.lastNameField)).check(matches(hasErrorText("O sobrenome deve ter apenas letras.")));
     }
 
+    @Test
     public void testErrorWithEmptyEmail(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
@@ -61,6 +68,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.emailField)).check(matches(hasErrorText("Inválido, o email não pode ser vazio.")));
     }
 
+    @Test
     public void testErrorWithOverMaxLengthEmail(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
@@ -72,6 +80,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.emailField)).check(matches(hasErrorText("Inválido, o email deve ter no máximo 150 caractéres")));
     }
 
+    @Test
     public void testErrorWithEmptyPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
@@ -83,6 +92,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha não pode ser vazia.")));
     }
 
+    @Test
     public void testErrorWithLesserMinLengthPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
@@ -94,6 +104,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha deve conter no mínimo 6 caractéres.")));
     }
 
+    @Test
     public void testErrorWithOverMaxLengthPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
@@ -105,6 +116,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha deve ter no máximo 10 caractéres")));
     }
 
+    @Test
     public void testErrorWithConfirmPasswordDifferentPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
@@ -117,6 +129,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView(withId(R.id.passwordConfirmationField)).check(matches(hasErrorText("As senhas digitadas sao diferentes")));
     }
 
+    @Test
     public void testErrorWithOverMaxLengthFirstName(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         closeSoftKeyboard();
@@ -125,6 +138,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView((withId(R.id.firstNameField))).check(matches(hasErrorText("Inválido, o nome deve ter no máximo 30 caractéres")));
     }
 
+    @Test
     public void testErrorWithEmptyLastName(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText(""));
@@ -133,6 +147,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Inválido, o sobrenome não pode ser vazio.")));
     }
 
+    @Test
     public void testErrorWithOverMaxLengthLastName(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
@@ -141,6 +156,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
         onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Inválido, o sobrenome deve ter no máximo 30 caractéres")));
     }
 
+    @Test
     public void testErrorWithInvalidEmail(){
         onView(withId(R.id.firstNameField)).perform(typeText("Marcelo"));
         onView(withId(R.id.lastNameField)).perform(typeText("Augusto"));

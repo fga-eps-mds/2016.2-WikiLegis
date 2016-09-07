@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.RegisterUserActivity"
+            android:name=".gppmds.wikilegis.view.RegisterUserActivity"
             android:label="@string/title_activity_register_user"
             android:theme="@style/AppTheme.NoActionBar"/>
             <intent-filter>
