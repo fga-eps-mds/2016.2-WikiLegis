@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gppmds.wikilegis.view.LoginFragment"
+    android:background="@drawable/background">
+
+    <ImageView
+        android:layout_width="200px"
+        android:layout_height="200px"
+        android:src="@drawable/logo_black"
+        android:id="@+id/imageViewLogo"
+        android:layout_marginTop="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="300px"
+        android:layout_height="wrap_content"
+        android:text="Entrar"
+        android:id="@+id/registerButton"
+        android:layout_marginTop="45dp"
+        android:singleLine="false"
+        android:nestedScrollingEnabled="true"
+        android:focusable="false"
+        android:clickable="false"
+        android:background="#009688"
+        android:textColor="#ffffff"
+        android:textSize="14dp"
+        android:layout_below="@+id/passwordField"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:src="@drawable/password_user"
+        android:id="@+id/imageViewPasswordUser"
+        android:layout_alignTop="@+id/passwordField"
+        android:layout_toStartOf="@+id/passwordField"
+        android:layout_alignBottom="@+id/passwordField" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/firstNameField"
+        android:hint="E-mail"
+        android:layout_below="@+id/imageViewLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
+
+    <ImageView
+        android:layout_width="60px"
+        android:layout_height="60px"
+        android:src="@drawable/user_name"
+        android:id="@+id/imageViewUserName"
+        android:layout_alignTop="@+id/firstNameField"
+        android:layout_toStartOf="@+id/firstNameField"
+        android:layout_alignBottom="@+id/firstNameField" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/passwordField"
+        android:hint="Senha"
+        android:layout_below="@+id/firstNameField"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:text="Não possui cadastro?"
+        android:layout_marginBottom="62dp"
+        android:textColor="@color/abc_primary_text_material_dark"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:text="      Cadastre-se"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:layout_alignTop="@+id/editText"
+        android:layout_alignEnd="@+id/passwordField" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:text="Ou entrar como"
+        android:textColor="@color/abc_primary_text_material_dark"
+        android:layout_below="@+id/textView"
+        android:layout_toStartOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:text="Visitante"
+        android:textColor="@color/abc_primary_text_material_light"
+        android:layout_below="@+id/textView"
+        android:layout_toEndOf="@+id/editText" /><![CDATA[
+
+    />
+    ]]><!-- TODO: Update blank fragment layout -->
+
+</RelativeLayout>
