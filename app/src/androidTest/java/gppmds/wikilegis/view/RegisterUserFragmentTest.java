@@ -1,11 +1,15 @@
-package gppmds.wikilegis.controller;
+package gppmds.wikilegis.view;
 
+import android.app.Activity;
+import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.WindowManager;
 
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.view.RegisterUserActivity;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -15,16 +19,24 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class RegisterUserFragment extends ActivityInstrumentationTestCase2<RegisterUserActivity>{
+public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<RegisterUserActivity>{
 
-    public RegisterUserFragment(){
+    public RegisterUserFragmentTest(){
        super(RegisterUserActivity.class);
     }
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        getActivity();
+        final Activity activityOnTest = getActivity();
+        Runnable wakeUpDevice = new Runnable() {
+            public void run() {
+                activityOnTest.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        };
+        activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
     public void testErrorWithEmptyFirstName(){
@@ -64,6 +76,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
     public void testErrorWithOverMaxLengthEmail(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
+        closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@gmail.com"));
         closeSoftKeyboard();
@@ -75,7 +88,9 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
     public void testErrorWithEmptyPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
+        closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText(""));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
@@ -86,7 +101,9 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
     public void testErrorWithLesserMinLengthPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
+        closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText("1234"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
@@ -97,7 +114,9 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
     public void testErrorWithOverMaxLengthPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
+        closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText("1234567891011"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
@@ -108,8 +127,11 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
     public void testErrorWithConfirmPasswordDifferentPassword(){
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
+        closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText("123456789"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordConfirmationField)).perform(typeText("12345678"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
@@ -144,6 +166,7 @@ public class RegisterUserFragment extends ActivityInstrumentationTestCase2<Regis
     public void testErrorWithInvalidEmail(){
         onView(withId(R.id.firstNameField)).perform(typeText("Marcelo"));
         onView(withId(R.id.lastNameField)).perform(typeText("Augusto"));
+        closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("mekmay@hotmailcom"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());

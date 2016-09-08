@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gppmds.wikilegis.view.RegisterUserFragment"
+    tools:context="gppmds.wikilegis.gppmds.wikilegis.view.RegisterUserFragmentTest"
     android:background="@drawable/background">
 
     <!-- TODO: Update blank fragment layout -->
