@@ -1,7 +1,9 @@
 package gppmds.wikilegis.view;
 
+import android.app.Activity;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.WindowManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +28,15 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        getActivity();
+        final Activity activityOnTest = getActivity();
+        Runnable wakeUpDevice = new Runnable() {
+            public void run() {
+                activityOnTest.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        };
+        activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
     public void testErrorWithEmptyFirstName(){
