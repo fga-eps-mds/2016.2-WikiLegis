@@ -8,9 +8,9 @@
     android:fitsSystemWindows="true"
     android:id="@+id/content_panel"
     tools:context=".view.RegisterUserActivity"
-    android:background="@color/abc_search_url_text_normal">
+    android:background="@drawable/background">
 
-    <android.support.design.widget.AppBarLayout
+<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/accent_material_light"
-            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:backgroundTint="#b3f8ee"/>
 
     </android.support.design.widget.AppBarLayout>
 
