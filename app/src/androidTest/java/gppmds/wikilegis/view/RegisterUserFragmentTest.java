@@ -116,6 +116,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("aaaaa@gmail.com"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText("1234567891011"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
