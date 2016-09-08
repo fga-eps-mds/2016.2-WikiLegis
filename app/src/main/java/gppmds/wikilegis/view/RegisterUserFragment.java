@@ -10,8 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import gppmds.wikilegis.controller.RegisterUser;
-import gppmds.wikilegis.exception.UserException;
+import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
@@ -92,7 +91,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
 
     private void validateUserInformation() {
 
-        RegisterUser registerUser = RegisterUser.getInstance(getContext());
+        RegisterUserController registerUser = RegisterUserController.getInstance(getContext());
 
         String feedbackRegisterMessage = registerUser.registerUser(firstName, lastName, email, password, passwordConfirmation);
 
