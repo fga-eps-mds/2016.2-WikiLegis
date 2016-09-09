@@ -14,6 +14,7 @@ import org.json.JSONException;
 
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
@@ -90,6 +91,8 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         try {
             JSONHelper.billListFromJSON(e.getUsersExemple());
         } catch (JSONException e1) {
+            e1.printStackTrace();
+        } catch (BillException e1) {
             e1.printStackTrace();
         }
     }

@@ -51,7 +51,7 @@ public class RegisterUserController {
      * Log D the users
      */
     public static String getUsersExemple() {
-        final String URL = "http://wikilegis.labhackercd.net/api/segment_types/";
+        final String URL = "http://wikilegis.labhackercd.net/api/bills/";
         String getApi = null;
 
         GetRequest request = new GetRequest();
