@@ -50,14 +50,24 @@ public class RegisterUserController {
     /**
      * Log D the users
      */
-    public String getUsersExemple() {
-        final String URL = "http://wikilegis.labhackercd.net/api/segments/";
-        String apiString = "";
+
+    public static String getUsersExemple() {
+        final String URL = "http://wikilegis.labhackercd.net/api/bills/";
+        String getApi = null;
+
         GetRequest request = new GetRequest();
 
-        apiString=request.execute(URL).toString();
+        getApi = request.execute(URL).toString();
 
-        return apiString;
-
+        try {
+            getApi = request.get().toString();
+        } catch (ExecutionException e){
+            Log.d("ExecutionException", URL);
+            //Não faço ideia do que fazer
+        } catch (InterruptedException e){
+            Log.d("InterruptedException", URL);
+            //Não faço ideia do que fazer
+        }
+        return getApi;
     }
 }

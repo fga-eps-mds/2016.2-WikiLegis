@@ -12,11 +12,10 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.util.concurrent.ExecutionException;
-
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.GetRequest;
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
@@ -89,14 +88,14 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         this.settingErrorNull();
         this.validateUserInformation();
         RegisterUserController e = RegisterUserController.getInstance(getContext());
-        GetRequest g  =new GetRequest();
-        aux = e.getUsersExemple();
+
         try {
-            JSONHelper.processRequest(aux);
+            JSONHelper.billListFromJSON(e.getUsersExemple());
         } catch (JSONException e1) {
             e1.printStackTrace();
+        } catch (BillException e1) {
+            e1.printStackTrace();
         }
-        g.onPostExecute(aux);
     }
 
     private void setMessageError(EditText editText, String message) {
