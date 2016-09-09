@@ -1,11 +1,11 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.util.Log;
 
-import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-import gppmds.wikilegis.api.GetRequest;
-import gppmds.wikilegis.dao.UtilitiesDAO;
+import gppmds.wikilegis.dao.GetRequest;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
@@ -47,27 +47,24 @@ public class RegisterUserController {
     }
 
 
-    public static boolean emailIsRepeated(String email) throws IOException {
-
-        UtilitiesDAO utilities = new UtilitiesDAO();
-
-            if (utilities.findEmail(email) == true) {
-                return true;
-            } else {
-                return false;
-            }
-
-    }
-
     /**
      * Log D the users
      */
-    public void getUsersExemple() {
+    public static String getUsersExemple() {
         final String URL = "http://wikilegis.labhackercd.net/api/bills/";
+        String getApi = null;
 
         GetRequest request = new GetRequest();
 
         request.execute(URL);
 
+        try {
+            getApi = request.get().toString();
+        } catch (ExecutionException e){
+            //Não faço ideia do que fazer
+        } catch (InterruptedException e){
+            //Não faço ideia do que fazer
+        }
+        return getApi;
     }
 }
