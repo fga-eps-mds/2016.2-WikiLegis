@@ -1,5 +1,6 @@
 package gppmds.wikilegis.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.exception.BillException;
@@ -17,6 +18,7 @@ public class Bill {
     private static final String SEGMENTS_CANT_BE_EMPTY = "Segmentos não podem ser carregados";
     private static final String NUMBEROFLIKE_CANT_BE_EMPTY = "Numero de likes não pode ser carregado";
     private static final String NUMBEROFDISFLIKE_CANT_BE_EMPTY = "Numero de deslikes não pode ser carregado";
+    private static final String DESCRIPTION_CANT_BE_EMPTY = "Numero de descrições não pode ser carregado";
 
     private Integer id;
     private String title;
@@ -27,13 +29,14 @@ public class Bill {
     private List<Integer> segments;
 
     public Bill(final Integer id, final String title, final String epigraph,
-                final String status, final String theme, final List<Integer> segments) throws BillException {
+                final String status, final String description, final String theme) throws BillException {
         setId(id);
         setTitle(title);
         setEpigraph(epigraph);
+        setDescription(description);
         setStatus(status);
         setTheme(theme);
-        setSegments(segments);
+        this.segments = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -57,6 +60,15 @@ public class Bill {
 
     }
 
+    public String getDescription() { return description; }
+
+    private void setDescription(String description) throws BillException {
+        if(validateStringEmpty(description)){
+            this.description = description;
+        } else {
+            throw  new BillException(DESCRIPTION_CANT_BE_EMPTY);
+        }
+    }
 
     public String getEpigraph() {
         return epigraph;
@@ -98,8 +110,8 @@ public class Bill {
         return segments;
     }
 
-    private void setSegments(List<Integer> segments) throws  BillException {
-            this.segments = segments;
+    public void setSegments(Integer segment) throws  BillException {
+            this.segments.add(segment);
     }
 
     //Methods of validation
