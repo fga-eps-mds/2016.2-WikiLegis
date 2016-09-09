@@ -10,7 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+
+import java.util.concurrent.ExecutionException;
+
 import gppmds.wikilegis.controller.RegisterUserController;
+import gppmds.wikilegis.dao.GetRequest;
+import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
@@ -18,7 +24,7 @@ import gppmds.wikilegis.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterUserFragment extends Fragment implements View.OnClickListener {
+public class RegisterUserFragment extends Fragment implements View.OnClickListener{
 
     private static final String STRING_EMPTY="";
 
@@ -77,13 +83,20 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View view) {
-
+    public void onClick(View view)  {
+        String aux = null;
         this.settingTextTyped();
         this.settingErrorNull();
         this.validateUserInformation();
         RegisterUserController e = RegisterUserController.getInstance(getContext());
-        e.getUsersExemple();
+        GetRequest g  =new GetRequest();
+        aux = e.getUsersExemple();
+        try {
+            JSONHelper.processRequest(aux);
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+        g.onPostExecute(aux);
     }
 
     private void setMessageError(EditText editText, String message) {

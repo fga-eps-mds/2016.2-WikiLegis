@@ -50,12 +50,14 @@ public class RegisterUserController {
     /**
      * Log D the users
      */
-    public void getUsersExemple() {
+    public String getUsersExemple() {
         final String URL = "http://wikilegis.labhackercd.net/api/segments/";
-
+        String apiString = "";
         GetRequest request = new GetRequest();
 
-        request.execute(URL);
+        apiString=request.execute(URL).toString();
+
+        return apiString;
 
     }
 }
