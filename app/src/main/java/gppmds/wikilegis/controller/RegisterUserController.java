@@ -61,8 +61,10 @@ public class RegisterUserController {
         try {
             getApi = request.get().toString();
         } catch (ExecutionException e){
+            Log.d("ExecutionException", URL);
             //Não faço ideia do que fazer
         } catch (InterruptedException e){
+            Log.d("InterruptedException", URL);
             //Não faço ideia do que fazer
         }
         return getApi;
