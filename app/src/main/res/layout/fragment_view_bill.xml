@@ -13,5 +13,176 @@
         android:background="@drawable/background">
 
 
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:id="@+id/frameLayoutBox1"
+            android:layout_marginTop="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="#fffefe">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayoutBox1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Desmatamento"
+                    android:id="@+id/textViewTitleBox1"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Trata de desmatamento das florestas nativas do Brasil"
+                    android:id="@+id/textViewBox1"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="80dp" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/user_name"
+                    android:id="@+id/imageViewBox1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignTop="@+id/textViewBox1" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:id="@+id/frameLayoutBox2"
+
+            android:background="#fffefe"
+            android:layout_below="@+id/frameLayoutBox1"
+            android:layout_alignStart="@+id/frameLayoutBox1"
+            android:layout_marginTop="49dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayoutBox2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Processo penal"
+                    android:id="@+id/textViewTitleBox2"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Projeto de lei que visa alterar o código do processo penal"
+                    android:id="@+id/textViewBox2"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="80dp" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/user_name"
+                    android:id="@+id/imageViewBox2"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignTop="@+id/textViewBox2" />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:id="@+id/frameLayoutBox3"
+
+            android:background="#fffefe"
+            android:layout_below="@+id/frameLayoutBox2"
+            android:layout_alignStart="@+id/frameLayoutBox2"
+            android:layout_marginTop="49dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayoutBox3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Violencia contra o idoso"
+                    android:id="@+id/textViewTitleBox3"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Cria mecanismos para coibir a violência contra idosos, incluindo aumento de penas."
+                    android:id="@+id/textViewBox3"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="80dp" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/user_name"
+                    android:id="@+id/imageViewBox3"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignTop="@+id/textViewBox3" />
+            </RelativeLayout>
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:id="@+id/frameLayoutBox4"
+
+            android:background="#fffefe"
+            android:layout_below="@+id/frameLayoutBox3"
+            android:layout_alignStart="@+id/frameLayoutBox3"
+            android:layout_marginTop="49dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayoutBox4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Atividades em terrenos de marinha"
+                    android:id="@+id/textViewTitleBox4"
+                    android:layout_above="@+id/imageViewBox4"
+                    android:layout_alignStart="@+id/imageViewBox4" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Dispõe sobre a transferência de receitas, provenientes de aforamento e ocupação de terrenos de marinha"
+                    android:id="@+id/textViewBox4"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="80dp" />
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/user_name"
+                    android:id="@+id/imageViewBox4"
+                    android:layout_marginLeft="10dp"
+                    android:layout_alignTop="@+id/textViewBox4" />
+            </RelativeLayout>
+        </FrameLayout>
+
     </RelativeLayout>
 </ScrollView>
