@@ -47,7 +47,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/user_name"
+                    android:src="@drawable/justice"
                     android:id="@+id/imageViewBox1"
                     android:layout_marginLeft="10dp"
                     android:layout_alignTop="@+id/textViewBox1" />
@@ -90,7 +90,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/user_name"
+                    android:src="@drawable/justice"
                     android:id="@+id/imageViewBox2"
                     android:layout_marginLeft="10dp"
                     android:layout_alignTop="@+id/textViewBox2" />
@@ -133,7 +133,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/user_name"
+                    android:src="@drawable/justice"
                     android:id="@+id/imageViewBox3"
                     android:layout_marginLeft="10dp"
                     android:layout_alignTop="@+id/textViewBox3" />
@@ -177,7 +177,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/user_name"
+                    android:src="@drawable/justice"
                     android:id="@+id/imageViewBox4"
                     android:layout_marginLeft="10dp"
                     android:layout_alignTop="@+id/textViewBox4" />
