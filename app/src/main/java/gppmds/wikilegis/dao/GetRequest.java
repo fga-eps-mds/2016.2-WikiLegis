@@ -1,10 +1,9 @@
-package gppmds.wikilegis.api;
+package gppmds.wikilegis.dao;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -48,10 +47,10 @@ public class GetRequest extends AsyncTask<String, String, String> {
 
 
     @Override
-    protected void onPostExecute(String result) {
+    public void onPostExecute(String result) {
         super.onPostExecute(result);
         //Here you can use the data according to what you want
-        Log.d("RESPONSE ------ :",result);
+        Log.d("RESPONSE ------ :", result);
     }
 
 }

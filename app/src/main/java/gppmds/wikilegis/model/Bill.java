@@ -1,5 +1,7 @@
 package gppmds.wikilegis.model;
 
+import java.util.List;
+
 import gppmds.wikilegis.exception.BillException;
 
 /**
@@ -18,26 +20,20 @@ public class Bill {
 
     private Integer id;
     private String title;
-    private String name;
     private String epigraph;
     private String status;
+    private String description;
     private String theme;
-    private String segments;
-    private String numberOfLike;
-    private String numberOfDislike;
+    private List<Integer> segments;
 
-    public Bill(final Integer id, final String title, final String name, final String epigraph,
-                final String status, final String theme, final String segments,
-                final String numberOfLike, final String numberOfDislike) throws BillException {
+    public Bill(final Integer id, final String title, final String epigraph,
+                final String status, final String theme, final List<Integer> segments) throws BillException {
         setId(id);
         setTitle(title);
-        setName(name);
         setEpigraph(epigraph);
         setStatus(status);
         setTheme(theme);
         setSegments(segments);
-        setNumberOfLike(numberOfLike);
-        setNumberOfDislike(numberOfDislike);
     }
 
     public Integer getId() {
@@ -61,17 +57,6 @@ public class Bill {
 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    private void setName(String name) throws  BillException {
-        if (validateStringEmpty(name)) {
-            this.name = name;
-        } else {
-            throw  new BillException(NAME_CANT_BE_EMPTY);
-        }
-    }
 
     public String getEpigraph() {
         return epigraph;
@@ -109,40 +94,12 @@ public class Bill {
         }
     }
 
-    public String getSegments() {
+    public List<Integer> getSegments() {
         return segments;
     }
 
-    private void setSegments(String segments) throws  BillException {
-        if (validateStringEmpty(segments)) {
+    private void setSegments(List<Integer> segments) throws  BillException {
             this.segments = segments;
-        } else {
-            throw  new BillException(SEGMENTS_CANT_BE_EMPTY);
-        }
-    }
-
-    public String getNumberOfLike() {
-        return numberOfLike;
-    }
-
-    private void setNumberOfLike(String numberOfLike) throws  BillException {
-        if (validateStringEmpty(numberOfLike)) {
-            this.numberOfLike = numberOfLike;
-        } else {
-            throw  new BillException(NUMBEROFLIKE_CANT_BE_EMPTY);
-        }
-    }
-
-    public String getNumberOfDislike() {
-        return numberOfDislike;
-    }
-
-    private void setNumberOfDislike(String numberOfDislike) throws  BillException {
-        if (validateStringEmpty(numberOfDislike)) {
-            this.numberOfDislike = numberOfDislike;
-        } else {
-            throw  new BillException(NUMBEROFDISFLIKE_CANT_BE_EMPTY);
-        }
     }
 
     //Methods of validation
