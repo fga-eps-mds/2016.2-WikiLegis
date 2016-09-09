@@ -89,6 +89,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
     private void setMessageError(EditText editText, String message) {
         editText.requestFocus();
         editText.setError(message);
+
     }
 
     private void validateUserInformation() {

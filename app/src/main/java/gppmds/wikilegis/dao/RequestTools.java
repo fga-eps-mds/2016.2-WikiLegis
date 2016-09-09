@@ -1,4 +1,4 @@
-package gppmds.wikilegis.api;
+package gppmds.wikilegis.dao;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
