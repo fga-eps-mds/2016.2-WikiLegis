@@ -78,12 +78,12 @@
         android:layout_marginBottom="62dp"
         android:textColor="@color/abc_primary_text_material_dark"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_toStartOf="@+id/registerText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/registerText"
         android:text="      Cadastre-se"
         android:textColor="@color/abc_primary_text_material_light"
         android:layout_alignTop="@+id/editText"
@@ -95,16 +95,16 @@
         android:id="@+id/textView2"
         android:text="Ou entrar como"
         android:textColor="@color/abc_primary_text_material_dark"
-        android:layout_below="@+id/textView"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_below="@+id/registerText"
+        android:layout_toStartOf="@+id/registerText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:id="@+id/loginAsVisitorText"
         android:text="Visitante"
         android:textColor="@color/abc_primary_text_material_light"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/registerText"
         android:layout_toEndOf="@+id/editText" />
 
 

@@ -82,6 +82,8 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         this.settingTextTyped();
         this.settingErrorNull();
         this.validateUserInformation();
+        RegisterUserController e = RegisterUserController.getInstance(getContext());
+        e.getUsersExemple();
     }
 
     private void setMessageError(EditText editText, String message) {
