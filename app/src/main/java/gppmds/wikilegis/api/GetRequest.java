@@ -48,7 +48,7 @@ public class GetRequest extends AsyncTask<String, String, String> {
 
 
     @Override
-    protected void onPostExecute(String result) {
+    public void onPostExecute(String result) {
         super.onPostExecute(result);
         //Here you can use the data according to what you want
         Log.d("RESPONSE ------ :",result);
