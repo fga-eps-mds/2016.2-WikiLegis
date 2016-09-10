@@ -26,7 +26,8 @@
         </activity>
 
         <activity
-            android:name=".view.MainActivity">
+            android:name=".view.MainActivity"
+            android:label="">
         </activity>
 
     </application>

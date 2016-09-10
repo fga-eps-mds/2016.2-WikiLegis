@@ -15,6 +15,11 @@
         completions."
     </string>
     <string name="title_activity_register_user">Wikilegis</string>
+    <string name="action_reorder">Reorder</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_exit_account">Exit Account</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
