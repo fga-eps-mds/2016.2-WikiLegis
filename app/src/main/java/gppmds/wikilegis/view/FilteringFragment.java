@@ -3,6 +3,7 @@ package gppmds.wikilegis.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ListView;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
@@ -34,21 +36,20 @@ public class FilteringFragment extends Fragment{
 
 
             ListView listBill = (ListView) view.findViewById(R.id.listBILL);
+            List<Bill> billList = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
 
-            List <Bill> billList = JSONHelper.billListFromJSON(registerUserController.getUsersExemple());
-            ArrayAdapter<Bill> billArrayAdapter = new ArrayAdapter<Bill>(this.getContext() , android.R.layout.simple_list_item_1, billList);
-
+            List<String> descriptions = new ArrayList<>();
+            for(int i=0; i<billList.size(); i++) {
+                descriptions.add(billList.get(i).getDescription());
+            }
+            ArrayAdapter<String> billArrayAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, descriptions);
             listBill.setAdapter(billArrayAdapter);
 
         }catch (BillException b){
-
+            //Nao sabemos o que botar ainda
         }catch (JSONException j){
-
+            //Nao sabemos o que botar ainda
         }
-
-
-
-
 
         return view;
     }
