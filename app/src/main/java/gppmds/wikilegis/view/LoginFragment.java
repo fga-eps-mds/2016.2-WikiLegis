@@ -1,11 +1,8 @@
 package gppmds.wikilegis.view;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +27,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         TextView visitor = (TextView) view.findViewById(R.id.loginAsVisitorText);
         visitor.setOnClickListener(this);
 
+        TextView register = (TextView) view.findViewById(R.id.registerText);
+        register.setOnClickListener(this);
+
         return view;
     }
 
@@ -37,19 +37,34 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         // Create new fragment and transaction
-        Fragment newFragment = new FilteringFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        switch (view.getId()){
+            case R.id.loginAsVisitorText:
+                //Change activity***
+                Fragment filteringFragment = new FilteringFragment();
+                openFragment(filteringFragment);
+            break;
 
-// Replace whatever is in the fragment_container view with this fragment,
-// and add the transaction to the back stack
-        transaction.replace(R.id.container, newFragment);
-        transaction.addToBackStack(null);
-
-// Commit the transaction
-        transaction.commit();
+            case R.id.registerText:
+                Fragment registerUserFragment = new RegisterUserFragment();
+                openFragment(registerUserFragment);
+                break;
+        }
 
     }
 
+    private void openFragment(Fragment fragmentToBeOpen){
+
+        assert fragmentToBeOpen != null;
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getFragmentManager().beginTransaction();
+
+        assert fragmentTransaction != null;
+
+        fragmentTransaction.replace(R.id.content_panel, fragmentToBeOpen);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
 
 
 }

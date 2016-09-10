@@ -86,6 +86,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/registerText"
         android:text="      Cadastre-se"
+        android:clickable="true"
         android:textColor="@color/abc_primary_text_material_light"
         android:layout_alignTop="@+id/editText"
         android:layout_alignEnd="@+id/passwordLoginField" />
