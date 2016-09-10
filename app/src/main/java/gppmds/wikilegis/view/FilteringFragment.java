@@ -31,6 +31,8 @@ public class FilteringFragment extends Fragment{
         RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
 
         try{
+
+
             ListView listBill = (ListView) view.findViewById(R.id.listBILL);
 
             List <Bill> billList = JSONHelper.billListFromJSON(registerUserController.getUsersExemple());
