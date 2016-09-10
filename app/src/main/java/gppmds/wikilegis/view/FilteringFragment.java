@@ -3,8 +3,7 @@ package gppmds.wikilegis.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +19,12 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.model.SegmentTypes;
 
 
-public class FilteringFragment extends Fragment{
+public class FilteringFragment extends Fragment implements View.OnClickListener{
 
 
     @Override
@@ -55,5 +56,23 @@ public class FilteringFragment extends Fragment{
         return view;
     }
 
+    public void showSegments(List<SegmentTypes> segmentTypesList) throws SegmentTypesException,JSONException{
+
+        RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
+        JSONHelper.segmentTypesListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
+
+    }
+    @Override
+    public void onClick(View view)  {
+        RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
+       try{
+          showSegments(JSONHelper.segmentTypesListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/")));
+
+       }catch (SegmentTypesException ex){
+
+       }catch (JSONException ex){
+
+       }
+    }
 
 }

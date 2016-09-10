@@ -36,7 +36,7 @@ public class Segment {
 
     public Segment(Integer id, Integer order, Integer bill, boolean original, Integer replaced,
                     Integer parent, Integer type, Integer number, String content, Integer idAuthor,
-                    Integer idVote, Integer idComment) {
+                    Integer idVote, Integer idComment) throws SegmentException{
         setId(id);
         setOrder(order);
         setBill(bill);
@@ -56,7 +56,7 @@ public class Segment {
         return id;
     }
 
-    private void setId(Integer id) {
+    private void setId(Integer id)throws SegmentException {
         if(validateIntegerNull(id)) {
             this.id = id;
         } else{
@@ -68,7 +68,7 @@ public class Segment {
         return order;
     }
 
-    private void setOrder(Integer order) {
+    private void setOrder(Integer order)throws SegmentException {
         if(validateIntegerNull(order)) {
             this.order = order;
         } else{
@@ -81,7 +81,7 @@ public class Segment {
         return bill;
     }
 
-    private void setBill(Integer bill) {
+    private void setBill(Integer bill) throws SegmentException {
         if(validateIntegerNull(bill)) {
             this.bill = bill;
         } else{
@@ -102,7 +102,7 @@ public class Segment {
         return replaced;
     }
 
-    private void setReplaced(Integer replaced) {
+    private void setReplaced(Integer replaced) throws SegmentException{
         if(validateIntegerNull(replaced)) {
             this.replaced = replaced;
         } else {
@@ -114,7 +114,7 @@ public class Segment {
         return parent;
     }
 
-    private void setParent(Integer parent) {
+    private void setParent(Integer parent) throws SegmentException{
         if(validateIntegerNull(parent)) {
             this.parent = parent;
         } else {
@@ -127,7 +127,7 @@ public class Segment {
         return type;
     }
 
-    private void setType(Integer type) {
+    private void setType(Integer type) throws SegmentException{
         if(validateIntegerNull(type)) {
             this.type = type;
         } else {
@@ -140,7 +140,7 @@ public class Segment {
         return number;
     }
 
-    private void setNumber(Integer number) {
+    private void setNumber(Integer number) throws SegmentException {
         if(validateIntegerNull(number)) {
             this.number = number;
         } else {
@@ -153,7 +153,7 @@ public class Segment {
         return content;
     }
 
-    private void setContent(String content) {
+    private void setContent(String content)throws SegmentException {
         if(validateStringEmpty(content)) {
             this.content = content;
         } else{
@@ -165,7 +165,7 @@ public class Segment {
         return idAuthor;
     }
 
-    private void setIdAuthor(Integer idAuthor) {
+    private void setIdAuthor(Integer idAuthor)throws SegmentException {
         if(validateIntegerNull(idAuthor)) {
             this.idAuthor = idAuthor;
         } else {
@@ -178,7 +178,7 @@ public class Segment {
         return idVote;
     }
 
-    private void setIdVote(Integer idVote) {
+    private void setIdVote(Integer idVote) throws SegmentException{
         if(validateIntegerNull(idVote)) {
             this.idVote = idVote;
         } else {
@@ -191,14 +191,14 @@ public class Segment {
         return idComment;
     }
 
-    private void setIdComment(Integer idComment) {
+    private void setIdComment(Integer idComment)throws SegmentException {
         if(validateIntegerNull(idComment)) {
             this.idComment = idComment;
         } else {
             throw new SegmentException(IDCOMMENT_CANT_BE_NULL);
         }
     }
-}
+
 
 //Validation methods
 
@@ -217,3 +217,4 @@ public class Segment {
             return true;
         }
     }
+}
