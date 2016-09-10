@@ -43,6 +43,9 @@ public class JSONHelper {
                 billListApi.add(billAux);
             }
 
+            /*
+            Teste para o retorno dos projetos de lei vindos da API.
+
             for (int i = 0; i < billListApi.size(); i++) {
                 Log.d("Id:" + i+1, billListApi.get(i).getId().toString());
                 Log.d("Title:" + i+1, billListApi.get(i).getTitle());
@@ -50,11 +53,12 @@ public class JSONHelper {
                 Log.d("Status" + i+1, billListApi.get(i).getStatus());
                 Log.d("Description" + i+1, billListApi.get(i).getDescription());
                 Log.d("Theme" + i+1, billListApi.get(i).getTheme());
-                Log.d("Segments:", " ");
+                Log.d("Segments:", "");
                 for (int j=0; j<billListApi.get(i).getSegments().size(); j++) {
-                    Log.d(" ", billListApi.get(i).getSegments().get(j).toString());
+                    Log.d("", billListApi.get(i).getSegments().get(j).toString());
                 }
             }
+            */
 
             return billListApi;
         }

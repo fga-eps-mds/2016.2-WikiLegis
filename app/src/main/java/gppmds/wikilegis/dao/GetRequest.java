@@ -50,7 +50,7 @@ public class GetRequest extends AsyncTask<String, String, String> {
     public void onPostExecute(String result) {
         super.onPostExecute(result);
         //Here you can use the data according to what you want
-        Log.d("RESPONSE ------ :", result);
+        //Log.d("RESPONSE ------ :", result);
 
     }
 
