@@ -5,6 +5,7 @@ package gppmds.wikilegis.exception;
  */
 public class SegmentException {
     public SegmentException(final String message) {
-        super(message);
+        //super(message);
     }
+
 }
