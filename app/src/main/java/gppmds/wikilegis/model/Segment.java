@@ -1,9 +1,24 @@
 package gppmds.wikilegis.model;
 
+import gppmds.wikilegis.exception.SegmentException;
+
 /**
  * Created by augusto on 10/09/16.
  */
 public class Segment {
+
+    private static final String CONTENT_CANT_BE_EMPTY = "Conteudo não pode ser carregado";
+    private static final String ID_CANT_BE_NULL = "Id não pode ser carregado";
+    private static final String ORDER_CANT_BE_NULL = "Order não pode ser carregado";
+    private static final String BILL_CANT_BE_NULL = "Bill não pode ser carregado";
+    private static final String REPLACED_CANT_BE_NULL = "Replaced não pode ser carregado";
+    private static final String PARENT_CANT_BE_NULL = "Parent não pode ser carregado";
+    private static final String TYPE_CANT_BE_NULL = "Type não pode ser carregado";
+    private static final String NUMBER_CANT_BE_NULL = "Number não pode ser carregado";
+    private static final String IDAUTHOR_CANT_BE_NULL = "Author id não pode ser carregado";
+    private static final String IDVOTE_CANT_BE_NULL = "Vote id não pode ser carregado";
+    private static final String IDCOMMENT_CANT_BE_NULL = "Commend id não pode ser carregado";
+
 
     private Integer id;
     private Integer order;
@@ -42,7 +57,11 @@ public class Segment {
     }
 
     private void setId(Integer id) {
-        this.id = id;
+        if(validateIntegerNull(id)) {
+            this.id = id;
+        } else{
+            throw  new SegmentException(ID_CANT_BE_NULL);
+        }
     }
 
     public Integer getOrder() {
@@ -50,7 +69,12 @@ public class Segment {
     }
 
     private void setOrder(Integer order) {
-        this.order = order;
+        if(validateIntegerNull(order)) {
+            this.order = order;
+        } else{
+            throw  new SegmentException(ORDER_CANT_BE_NULL);
+        }
+
     }
 
     public Integer getBill() {
@@ -58,7 +82,12 @@ public class Segment {
     }
 
     private void setBill(Integer bill) {
-        this.bill = bill;
+        if(validateIntegerNull(bill)) {
+            this.bill = bill;
+        } else{
+            throw  new SegmentException(BILL_CANT_BE_NULL);
+        }
+
     }
 
     public boolean isOriginal() {
@@ -74,7 +103,11 @@ public class Segment {
     }
 
     private void setReplaced(Integer replaced) {
-        this.replaced = replaced;
+        if(validateIntegerNull(replaced)) {
+            this.replaced = replaced;
+        } else {
+            throw new SegmentException(REPLACED_CANT_BE_NULL);
+        }
     }
 
     public Integer getParent() {
@@ -82,7 +115,12 @@ public class Segment {
     }
 
     private void setParent(Integer parent) {
-        this.parent = parent;
+        if(validateIntegerNull(parent)) {
+            this.parent = parent;
+        } else {
+            throw new SegmentException(PARENT_CANT_BE_NULL);
+        }
+
     }
 
     public Integer getType() {
@@ -90,15 +128,25 @@ public class Segment {
     }
 
     private void setType(Integer type) {
-        this.type = type;
+        if(validateIntegerNull(type)) {
+            this.type = type;
+        } else {
+            throw new SegmentException(TYPE_CANT_BE_NULL);
+        }
     }
 
     public Integer getNumber() {
+
         return number;
     }
 
     private void setNumber(Integer number) {
-        this.number = number;
+        if(validateIntegerNull(number)) {
+            this.number = number;
+        } else {
+            throw new SegmentException(NUMBER_CANT_BE_NULL);
+        }
+
     }
 
     public String getContent() {
@@ -106,7 +154,11 @@ public class Segment {
     }
 
     private void setContent(String content) {
-        this.content = content;
+        if(validateStringEmpty(content)) {
+            this.content = content;
+        } else{
+            throw new SegmentException(CONTENT_CANT_BE_EMPTY);
+        }
     }
 
     public Integer getIdAuthor() {
@@ -114,7 +166,12 @@ public class Segment {
     }
 
     private void setIdAuthor(Integer idAuthor) {
-        this.idAuthor = idAuthor;
+        if(validateIntegerNull(idAuthor)) {
+            this.idAuthor = idAuthor;
+        } else {
+            throw new SegmentException(IDAUTHOR_CANT_BE_NULL);
+        }
+
     }
 
     public Integer getIdVote() {
@@ -122,7 +179,12 @@ public class Segment {
     }
 
     private void setIdVote(Integer idVote) {
-        this.idVote = idVote;
+        if(validateIntegerNull(idVote)) {
+            this.idVote = idVote;
+        } else {
+            throw new SegmentException(IDVOTE_CANT_BE_NULL);
+        }
+
     }
 
     public Integer getIdComment() {
@@ -130,6 +192,28 @@ public class Segment {
     }
 
     private void setIdComment(Integer idComment) {
-        this.idComment = idComment;
+        if(validateIntegerNull(idComment)) {
+            this.idComment = idComment;
+        } else {
+            throw new SegmentException(IDCOMMENT_CANT_BE_NULL);
+        }
     }
 }
+
+//Validation methods
+
+    private boolean validateIntegerNull(final Integer integer){
+        if(integer == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean validateStringEmpty(final String string) {
+        if (string == null || string.trim().isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
