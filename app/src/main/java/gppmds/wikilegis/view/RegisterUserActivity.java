@@ -26,12 +26,12 @@ public class RegisterUserActivity extends AppCompatActivity {
         RegisterUserFragment registerUser = new RegisterUserFragment();
         RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
 
-            controller.getUsersExemple();
+        //    controller.getUsersExemple();
+        FilteringFragment filteringFragment = new FilteringFragment();
 
 
 
-
-        openFragment(registerUser);
+        openFragment(filteringFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){
