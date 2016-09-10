@@ -65,6 +65,7 @@ public class JSONHelper {
         return billListApi;
     }
 
+    // Alterar a entrada da função, pois tem que chamar várias vezes pras páginas diferentes.
 
     public static List<SegmentTypes> segmentTypesListFromJSON(String segmentTypesList) throws JSONException, SegmentTypesException {
 

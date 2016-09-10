@@ -26,12 +26,9 @@ public class RegisterUserActivity extends AppCompatActivity {
         RegisterUserFragment registerUser = new RegisterUserFragment();
         RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
 
-            controller.getUrlApi("http://wikilegis.labhackercd.net/api/bills/");
-
-
-
-
-        openFragment(registerUser);
+        controller.getUrlApi("http://wikilegis.labhackercd.net/api/bills/");
+        FilteringFragment filteringFragment = new FilteringFragment();
+        openFragment(filteringFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){

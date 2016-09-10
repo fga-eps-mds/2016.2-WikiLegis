@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.MainActivity">
+
+    <item
+        android:id="@+id/action_reorder"
+        android:title="@string/action_reorder"
+        android:icon="@drawable/reorder"
+        app:showAsAction="always"
+        android:orderInCategory="1">
+    </item>
+
+    <item
+        android:id="@+id/action_filtering"
+        android:title="@string/action_settings"
+        android:icon="@drawable/filtering"
+        app:showAsAction="always"
+        android:orderInCategory="2">
+    </item>
+
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/action_search"
+        android:icon="@drawable/search"
+        app:showAsAction="always"
+        android:orderInCategory="4">
+    </item>
+
+    <item
+        android:id="@+id/action_exit_account"
+        android:title="@string/action_exit_account"
+        android:icon="@drawable/exit_account"
+        app:showAsAction="always"
+        android:orderInCategory="3">
+    </item>
+
+</menu>
