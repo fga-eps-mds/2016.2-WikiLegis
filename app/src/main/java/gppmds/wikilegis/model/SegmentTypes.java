@@ -1,5 +1,7 @@
 package gppmds.wikilegis.model;
 
+import gppmds.wikilegis.exception.SegmentTypesException;
+
 /**
  * Created by marcelo on 9/9/16.
  */
@@ -12,7 +14,7 @@ public class SegmentTypes {
     private Integer id;
     private String name;
 
-    public SegmentTypes(final Integer id, final String name) {
+    public SegmentTypes(final Integer id, final String name) throws SegmentTypesException {
         setId(id);
         setName(name);
     }
@@ -25,19 +27,21 @@ public class SegmentTypes {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Integer id) throws SegmentTypesException {
         if(idIsValid(id) || !idIsNull(id)) {
             this.id=id;
-        } else {
-            //fazer a exceção
+        } else if(!idIsValid(id)) {
+            throw new SegmentTypesException(ID_CANT_BE_LESS_THAN_1);
+        } else if(idIsNull(id)) {
+            throw new SegmentTypesException(ID_CANT_BE_EMPTY);
         }
     }
 
-    public void setName(final String name) {
+    public void setName(final String name) throws SegmentTypesException {
         if(!nameIsNull(name)) {
             this.name=name;
         } else {
-            //fazer a exceção
+            throw new SegmentTypesException(NAME_CANT_BE_EMPTY);
         }
     }
 
@@ -52,5 +56,4 @@ public class SegmentTypes {
     private boolean nameIsNull(final String name) {
         return (name.isEmpty() || name == null) ? true : false;
     }
-
 }
