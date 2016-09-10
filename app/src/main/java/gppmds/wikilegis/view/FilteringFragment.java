@@ -3,18 +3,15 @@ package gppmds.wikilegis.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.JSONHelper;
@@ -24,7 +21,7 @@ import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.SegmentTypes;
 
 
-public class FilteringFragment extends Fragment implements View.OnClickListener{
+public class FilteringFragment extends Fragment {
 
 
     @Override
@@ -47,6 +44,9 @@ public class FilteringFragment extends Fragment implements View.OnClickListener{
             ArrayAdapter<String> billArrayAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, titles);
             listBill.setAdapter(billArrayAdapter);
 
+            listBill.setOnItemClickListener(callActivity());
+
+
         }catch (BillException b){
             //Nao sabemos o que botar ainda
         }catch (JSONException j){
@@ -62,17 +62,14 @@ public class FilteringFragment extends Fragment implements View.OnClickListener{
         JSONHelper.segmentTypesListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
 
     }
-    @Override
-    public void onClick(View view)  {
-        RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
-       try{
-          showSegments(JSONHelper.segmentTypesListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/")));
 
-       }catch (SegmentTypesException ex){
+    public AdapterView.OnItemClickListener callActivity() {
+        return (new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-       }catch (JSONException ex){
 
-       }
+            }
+        });
     }
-
 }
