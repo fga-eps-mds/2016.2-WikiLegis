@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.JarOutputStream;
 
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentTypesException;
@@ -86,4 +87,7 @@ public class JSONHelper {
         return segmentTypesListApi;
     }
 
-}
+
+
+    }
+

@@ -47,9 +47,6 @@ public class RegisterUserController {
     }
 
 
-    /**
-     * Log D the users
-     */
 
     public static String getUrlApi(final String URL) {
         String getApi = null;
