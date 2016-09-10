@@ -90,7 +90,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         RegisterUserController e = RegisterUserController.getInstance(getContext());
 
         try {
-            JSONHelper.billListFromJSON(e.getUsersExemple());
+            JSONHelper.billListFromJSON(e.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
         } catch (JSONException e1) {
             e1.printStackTrace();
         } catch (BillException e1) {
