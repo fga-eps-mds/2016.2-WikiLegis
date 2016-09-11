@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -40,8 +41,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
             case R.id.loginAsVisitorText:
                 //Change activity***
-                Fragment filteringFragment = new FilteringFragment();
-                openFragment(filteringFragment);
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
             break;
 
             case R.id.registerText:
