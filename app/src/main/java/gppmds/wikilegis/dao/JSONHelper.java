@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarOutputStream;
+import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentTypesException;
@@ -46,48 +46,61 @@ public class JSONHelper {
             billListApi.add(billAux);
         }
 
-        /*
-        Teste para o retorno dos projetos de lei vindos da API.
-
-        for (int i = 0; i < billListApi.size(); i++) {
-            Log.d("Id:" + i+1, billListApi.get(i).getId().toString());
-            Log.d("Title:" + i+1, billListApi.get(i).getTitle());
-            Log.d("Epigraph" + i+1, billListApi.get(i).getEpigraph());
-            Log.d("Status" + i+1, billListApi.get(i).getStatus());
-            Log.d("Description" + i+1, billListApi.get(i).getDescription());
-            Log.d("Theme" + i+1, billListApi.get(i).getTheme());
-            Log.d("Segments:", "");
-            for (int j=0; j<billListApi.get(i).getSegments().size(); j++) {
-                Log.d("", billListApi.get(i).getSegments().get(j).toString());
-            }
-        }
-        */
-
         return billListApi;
     }
 
-    // Alterar a entrada da função, pois tem que chamar várias vezes pras páginas diferentes.
+    public static String getJSONObjectApi(final String URL) {
+        String getApi = null;
 
-    public static List<SegmentTypes> segmentTypesListFromJSON(String segmentTypesList) throws JSONException, SegmentTypesException {
+        GetRequest request = new GetRequest();
 
-        List<SegmentTypes> segmentTypesListApi = new ArrayList<>();
+        getApi = request.execute(URL).toString();
 
-        JSONObject segmentTypes = new JSONObject(segmentTypesList);
-        JSONArray results = segmentTypes.getJSONArray("results");
+        try {
+            getApi = request.get().toString();
+        } catch (ExecutionException e){
+            Log.d("ExecutionException", URL);
+            //Não faço ideia do que fazer
+        } catch (InterruptedException e){
+            Log.d("InterruptedException", URL);
+            //Não faço ideia do que fazer
+        }
+        return getApi;
+    }
+    
+    public static List<SegmentTypes> segmentTypesListFromJSON(List<SegmentTypes> segmentTypesListApi)
+                                                              throws JSONException, SegmentTypesException {
 
-        for(int i=0; i<results.length(); i++){
-            JSONObject f = results.getJSONObject(i);
+        //segmentTypesListApi = new ArrayList<>();
 
-            SegmentTypes segmentTypeAux = new SegmentTypes(f.getInt("id"),
-                    f.getString("name"));
+        String url = "http://wikilegis.labhackercd.net/api/segment_types/";
 
-            segmentTypesListApi.add(segmentTypeAux);
+        do {
+            String segmentTypesList = getJSONObjectApi(url);
+
+            JSONObject segmentTypes = new JSONObject(segmentTypesList);
+            JSONArray results = segmentTypes.getJSONArray("results");
+
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject f = results.getJSONObject(i);
+
+                SegmentTypes segmentTypeAux = new SegmentTypes(f.getInt("id"),
+                        f.getString("name"));
+
+                segmentTypesListApi.add(segmentTypeAux);
+            }
+
+            String nextUrl = segmentTypes.getString("next");
+            url = nextUrl;
+
+        } while(!url.equals("null"));
+
+        for (int i = 0; i < segmentTypesListApi.size(); i++) {
+            Log.d("id: ", segmentTypesListApi.get(i).getId().toString());
+            Log.d("name: ", segmentTypesListApi.get(i).getName());
         }
 
         return segmentTypesListApi;
     }
-
-
-
-    }
+}
 

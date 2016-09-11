@@ -35,6 +35,7 @@ public class RegisterUserController {
 
         try {
 
+            //Usuário instaciado e criado que será passado para a base de dados
             User user = new User(firstName, lastName, email, password, passwordConfirmation);
 
             return "SUCESS";
@@ -44,26 +45,5 @@ public class RegisterUserController {
             return exceptionMessage;
 
         }
-    }
-
-
-
-    public static String getUrlApi(final String URL) {
-        String getApi = null;
-
-        GetRequest request = new GetRequest();
-
-        getApi = request.execute(URL).toString();
-
-        try {
-            getApi = request.get().toString();
-        } catch (ExecutionException e){
-            Log.d("ExecutionException", URL);
-            //Não faço ideia do que fazer
-        } catch (InterruptedException e){
-            Log.d("InterruptedException", URL);
-            //Não faço ideia do que fazer
-        }
-        return getApi;
     }
 }

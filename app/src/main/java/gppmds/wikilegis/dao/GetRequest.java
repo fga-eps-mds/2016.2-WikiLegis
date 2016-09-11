@@ -44,8 +44,6 @@ public class GetRequest extends AsyncTask<String, String, String> {
         return text;
     }
 
-
-
     @Override
     public void onPostExecute(String result) {
         super.onPostExecute(result);

@@ -88,8 +88,9 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         this.validateUserInformation();
         RegisterUserController e = RegisterUserController.getInstance(getContext());
 
+        //Tirar isso daqui, é só pra teste
         try {
-            JSONHelper.billListFromJSON(e.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
+            JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
         } catch (JSONException e1) {
             e1.printStackTrace();
         } catch (BillException e1) {

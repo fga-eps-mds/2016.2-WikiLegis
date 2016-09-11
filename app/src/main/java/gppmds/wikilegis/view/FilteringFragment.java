@@ -38,7 +38,7 @@ public class FilteringFragment extends Fragment implements View.OnClickListener{
 
 
             ListView listBill = (ListView) view.findViewById(R.id.listBILL);
-            List<Bill> billList = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
+            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
 
             List<String> titles = new ArrayList<>();
             for(int i=0; i<billList.size(); i++) {
@@ -59,20 +59,20 @@ public class FilteringFragment extends Fragment implements View.OnClickListener{
     public void showSegments(List<SegmentTypes> segmentTypesList) throws SegmentTypesException,JSONException{
 
         RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
-        JSONHelper.segmentTypesListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
+        //JSONHelper.segmentTypesListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
 
     }
     @Override
     public void onClick(View view)  {
         RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
-       try{
+       /*try{
           showSegments(JSONHelper.segmentTypesListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/")));
 
        }catch (SegmentTypesException ex){
 
        }catch (JSONException ex){
 
-       }
+       }*/
     }
 
 }
