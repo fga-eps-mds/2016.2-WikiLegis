@@ -29,8 +29,8 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_register_user);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
 
         RegisterUserFragment registerUser = new RegisterUserFragment();

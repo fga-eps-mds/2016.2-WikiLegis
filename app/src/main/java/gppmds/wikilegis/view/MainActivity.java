@@ -1,5 +1,6 @@
 package gppmds.wikilegis.view;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +20,19 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        FilteringFragment filteringFragment = new FilteringFragment();
+        openFragment(filteringFragment);
+    }
+
+    private void openFragment(Fragment fragmentToBeOpen){
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.main_content, fragmentToBeOpen);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

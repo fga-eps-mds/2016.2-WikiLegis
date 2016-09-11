@@ -48,6 +48,7 @@ public class FilteringFragment extends Fragment {
             //ListView listBill = (ListView) view.findViewById(R.id.listBILL);
             List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
 
+
             List <String> auxList = new ArrayList<>();
             auxList = filterigForStatusPublished();
             /*
@@ -59,9 +60,6 @@ public class FilteringFragment extends Fragment {
 */
             RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
             recycler_view.setAdapter(adapter);
-            //ArrayAdapter<String> billArrayAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, auxList);
-            //listBill.setAdapter(billArrayAdapter);
-            //listBill.setOnItemClickListener(callActivity());
 
         } catch (BillException b) {
             //Nao sabemos o que botar ainda
