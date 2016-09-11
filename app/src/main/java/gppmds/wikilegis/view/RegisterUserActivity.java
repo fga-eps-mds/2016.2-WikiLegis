@@ -14,7 +14,9 @@ import java.util.concurrent.ExecutionException;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
+import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
 
 public class RegisterUserActivity extends AppCompatActivity {
@@ -30,17 +32,6 @@ public class RegisterUserActivity extends AppCompatActivity {
         Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Teste
-
-        List<SegmentTypes> teste = new ArrayList<>();
-
-        try {
-            JSONHelper.segmentTypesListFromJSON(teste);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (SegmentTypesException e) {
-            e.printStackTrace();
-        }
 
         RegisterUserFragment registerUser = new RegisterUserFragment();
         RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
