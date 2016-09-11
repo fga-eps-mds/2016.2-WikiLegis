@@ -5,6 +5,8 @@ package gppmds.wikilegis.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +39,19 @@ public class FilteringFragment extends Fragment {
 
         RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
 
+        RecyclerView recycler_view = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recycler_view.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recycler_view.setLayoutManager(linearLayoutManager);
+
         try {
 
-            ListView listBill = (ListView) view.findViewById(R.id.listBILL);
+            //ListView listBill = (ListView) view.findViewById(R.id.listBILL);
             List<Bill> billList = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
 
             List <String> auxList = new ArrayList<>();
-            auxList = filterigForStatusClosed();
+            auxList = filterigForStatusPublished();
             /*
             List<String> titles = new ArrayList<>();
 
@@ -51,9 +59,11 @@ public class FilteringFragment extends Fragment {
                 titles.add(billList.get(i).getTitle());
             }
 */
-            ArrayAdapter<String> billArrayAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, auxList);
-            listBill.setAdapter(billArrayAdapter);
-            listBill.setOnItemClickListener(callActivity());
+            RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
+            recycler_view.setAdapter(adapter);
+            //ArrayAdapter<String> billArrayAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, auxList);
+            //listBill.setAdapter(billArrayAdapter);
+            //listBill.setOnItemClickListener(callActivity());
 
         } catch (BillException b) {
             //Nao sabemos o que botar ainda
