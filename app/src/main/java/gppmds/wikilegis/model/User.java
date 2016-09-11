@@ -193,7 +193,7 @@ public class User {
 
     private boolean validateNameContainsOnlyLetters(final String name) {
         for (int i = 0; i < name.length(); i++) {
-            if (Character.isLetter(name.charAt(i)) == false) {
+            if ((Character.isLetter(name.charAt(i)) == false) && name.charAt(i) != ' ') {
                 return false;
             }
         }

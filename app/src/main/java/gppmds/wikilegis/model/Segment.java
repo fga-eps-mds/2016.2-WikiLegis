@@ -34,6 +34,8 @@ public class Segment {
     private Integer idComment;
 
 
+    //Rever a parte dos Id's (Do comentário pode ser só o Id, voto tem que ser um array de id's, comentário também!)
+
     public Segment(Integer id, Integer order, Integer bill, boolean original, Integer replaced,
                     Integer parent, Integer type, Integer number, String content, Integer idAuthor,
                     Integer idVote, Integer idComment) throws SegmentException{
@@ -157,7 +159,7 @@ public class Segment {
         if(validateStringEmpty(content)) {
             this.content = content;
         } else{
-            throw new SegmentException(CONTENT_CANT_BE_EMPTY);
+            //throw new SegmentException(CONTENT_CANT_BE_EMPTY);
         }
     }
 

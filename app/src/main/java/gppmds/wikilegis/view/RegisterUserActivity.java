@@ -5,10 +5,19 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.RegisterUserController;
+import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.SegmentTypesException;
+import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.SegmentTypes;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
@@ -23,10 +32,12 @@ public class RegisterUserActivity extends AppCompatActivity {
 //        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
+
         RegisterUserFragment registerUser = new RegisterUserFragment();
         RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
 
-        controller.getUrlApi("http://wikilegis.labhackercd.net/api/bills/");
+        //O que que isso tá fazendo aqui mais uma requisição de?
+        //controller.getUrlApi("http://wikilegis.labhackercd.net/api/bills/");
         FilteringFragment filteringFragment = new FilteringFragment();
 
         LoginFragment loginFragment = new LoginFragment();

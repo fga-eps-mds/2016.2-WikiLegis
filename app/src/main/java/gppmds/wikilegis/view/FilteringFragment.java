@@ -37,8 +37,6 @@ public class FilteringFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filtering, container, false);
 
-        RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
-
         RecyclerView recycler_view = (RecyclerView) view.findViewById(R.id.recycler_view);
         recycler_view.setHasFixedSize(true);
 
@@ -46,8 +44,9 @@ public class FilteringFragment extends Fragment {
         recycler_view.setLayoutManager(linearLayoutManager);
 
         try {
+            //ListView listBill = (ListView) view.findViewById(R.id.listBILL);
+            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
 
-            List<Bill> billList = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
 
             List <String> auxList = new ArrayList<>();
             auxList = filterigForStatusPublished();
@@ -81,12 +80,11 @@ public class FilteringFragment extends Fragment {
     }
 
     public List<String> filterigForStatusPublished(){
-       RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
         List<String> billListWithStatusPublished= new ArrayList<String>();
 
         List<Bill> list = null;
         try {
-           list = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
+           list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (BillException e) {
@@ -99,13 +97,13 @@ public class FilteringFragment extends Fragment {
         }
         return billListWithStatusPublished;
     }
+
     public List<String> filterigForStatusClosed(){
-        RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
         List<String> billListWithStatusClosed= new ArrayList<String>();
 
         List<Bill> list = null;
         try {
-            list = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
+            list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (BillException e) {
