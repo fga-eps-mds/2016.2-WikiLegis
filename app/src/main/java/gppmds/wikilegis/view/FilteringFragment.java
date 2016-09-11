@@ -92,5 +92,5 @@ public class FilteringFragment extends Fragment {
         }
         return billListWithStatusPublished;
     }
-   
+
 }
