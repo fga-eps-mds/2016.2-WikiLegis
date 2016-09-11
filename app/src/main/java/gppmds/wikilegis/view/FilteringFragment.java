@@ -36,7 +36,7 @@ public class FilteringFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_filtering, container, false);
-        
+
         RecyclerView recycler_view = (RecyclerView) view.findViewById(R.id.recycler_view);
         recycler_view.setHasFixedSize(true);
 
