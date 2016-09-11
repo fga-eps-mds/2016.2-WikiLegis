@@ -11,6 +11,7 @@ public abstract class RequestTools {
 
 
     public static String readStream(InputStream is) {
+
         try {
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
             int i = is.read();
