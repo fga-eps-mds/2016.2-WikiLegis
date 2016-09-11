@@ -42,14 +42,15 @@ public class FilteringFragment extends Fragment {
             ListView listBill = (ListView) view.findViewById(R.id.listBILL);
             List<Bill> billList = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
 
-            List <String> auxList = filterigForStatusPublished();
+            List <String> auxList = new ArrayList<>();
+            auxList = filterigForStatusClosed();
             /*
             List<String> titles = new ArrayList<>();
 
             for (int i = 0; i < billList.size(); i++) {
                 titles.add(billList.get(i).getTitle());
             }
-            */
+*/
             ArrayAdapter<String> billArrayAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1, auxList);
             listBill.setAdapter(billArrayAdapter);
             listBill.setOnItemClickListener(callActivity());
@@ -92,5 +93,23 @@ public class FilteringFragment extends Fragment {
         }
         return billListWithStatusPublished;
     }
+    public List<String> filterigForStatusClosed(){
+        RegisterUserController registerUserController = RegisterUserController.getInstance(getContext());
+        List<String> billListWithStatusClosed= new ArrayList<String>();
 
+        List<Bill> list = null;
+        try {
+            list = JSONHelper.billListFromJSON(registerUserController.getUrlApi("http://wikilegis.labhackercd.net/api/bills/"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+        for(int index = 0 ; index<list.size();index++){
+            if(list.get(index).getStatus().equals("closed")){
+                billListWithStatusClosed.add(list.get(index).getTitle());
+            }
+        }
+        return billListWithStatusClosed;
+    }
 }
