@@ -192,11 +192,20 @@ public class User {
     }
 
     private boolean validateNameContainsOnlyLetters(final String name) {
+
+        int countSpaces = 0;
+
         for (int i = 0; i < name.length(); i++) {
             if ((Character.isLetter(name.charAt(i)) == false) && name.charAt(i) != ' ') {
                 return false;
+            } else if (name.charAt(i) == ' ') {
+                countSpaces++;
             }
         }
-        return true;
+        if (countSpaces != name.length()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
