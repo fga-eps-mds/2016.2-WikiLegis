@@ -23,9 +23,10 @@ public class Bill {
     private String description;
     private String theme;
     private List<Integer> segments;
+    private Integer numberOfPrposals;
 
     public Bill(final Integer id, final String title, final String epigraph,
-                final String status, final String description, final String theme) throws BillException {
+                final String status, final String description, final String theme,final Integer numberOfPrposals) throws BillException {
         setId(id);
         setTitle(title);
         setEpigraph(epigraph);
@@ -34,6 +35,7 @@ public class Bill {
         setDescription(description);
         setTheme(theme);
         this.segments = new ArrayList<>();
+        setNumberOfPrposals(numberOfPrposals);
     }
 
     public Integer getId() {
@@ -110,7 +112,19 @@ public class Bill {
     public void setSegments(Integer segment) throws  BillException {
             this.segments.add(segment);
     }
+    public Integer getNumberOfPrposals(){return  numberOfPrposals;}
 
+    private void setNumberOfPrposals(Integer numberOfPrposals){
+        int counter = 0;
+        List<Segment> segmentList= new ArrayList<>();
+        for(int index = 0 ;index<segmentList.size() ;index ++){
+            if(segmentList.get(index).getId().equals(id));
+                if(segmentList.get(index).getReplaced()!=null){
+                    counter++;
+                }
+        }
+        this.numberOfPrposals = counter;
+    }
     //Methods of validation
 
     private boolean validateStringEmpty(final String string) {

@@ -99,10 +99,10 @@ public class JSONHelper {
         return segmentTypesListApi;
     }
 
-    public static List<Segment> segmentListFromJSON(List<Segment> segmentListApi) throws JSONException, SegmentException {
+    public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
 
         String url = "http://wikilegis.labhackercd.net/api/segments/";
-
+        List<Segment> segmentListApi = new ArrayList<>();
         do {
 
             String segmentList = getJSONObjectApi(url);
