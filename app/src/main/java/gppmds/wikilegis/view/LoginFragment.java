@@ -41,8 +41,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         switch (view.getId()){
             case R.id.loginAsVisitorText:
                 //Change activity***
-                Intent intent = new Intent(getContext(), MainActivity.class);
-                startActivity(intent);
+                Fragment filteringFragment = new FilteringFragment();
+                openFragment(filteringFragment);
+                //Intent intent = new Intent(getContext(), MainActivity.class);
+                //startActivity(intent);
             break;
 
             case R.id.registerText:

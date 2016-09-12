@@ -91,15 +91,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         RegisterUserController e = RegisterUserController.getInstance(getContext());
 
         //Tirar isso daqui, é só pra teste
-        try {
-            JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
-        } catch (JSONException e1) {
-            e1.printStackTrace();
-        } catch (BillException e1) {
-            e1.printStackTrace();
-        }catch (SegmentException ex){
 
-        }
     }
 
     private void setMessageError(EditText editText, String message) {

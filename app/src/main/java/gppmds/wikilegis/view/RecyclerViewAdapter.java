@@ -36,6 +36,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Integer imageThemeId;
 
     RecyclerViewAdapter(List<Bill> bills){
+        bills = FilteringFragment.filtringForNumberOfProposals(bills);
         this.bills = bills;
     }
 
@@ -71,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
+        bills = FilteringFragment.filtringForNumberOfProposals(bills);
         personViewHolder.billTitle.setText(bills.get(i).getTitle());
         personViewHolder.billDescription.setText(bills.get(i).getDescription());
         setImageThemeId(bills.get(i));

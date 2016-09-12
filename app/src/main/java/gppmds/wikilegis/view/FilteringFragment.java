@@ -34,6 +34,7 @@ import gppmds.wikilegis.model.SegmentTypes;
 
 public class FilteringFragment extends Fragment {
 
+    public static List<Segment> listSegment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,11 +48,11 @@ public class FilteringFragment extends Fragment {
         recycler_view.setLayoutManager(linearLayoutManager);
 
         try {
-            //ListView listBill = (ListView) view.findViewById(R.id.listBILL);
-            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
+            listSegment = JSONHelper.segmentListFromJSON();
+            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
 
 
-            //filtringForNumberOfProposals(billList);
+            billList = filtringForNumberOfProposals(billList);
          /*
             List<String> titles = new ArrayList<>();
 
@@ -88,7 +89,7 @@ public class FilteringFragment extends Fragment {
 
         List<Bill> list = null;
         try {
-           list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
+           list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (BillException e) {
@@ -109,7 +110,7 @@ public class FilteringFragment extends Fragment {
 
         List<Bill> list = null;
         try {
-            list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
+            list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (BillException e) {
@@ -125,9 +126,10 @@ public class FilteringFragment extends Fragment {
         return billListWithStatusClosed;
     }
 
-    public void filtringForNumberOfProposals(List<Bill> billList) {
+    public static List<Bill> filtringForNumberOfProposals(List<Bill> billList) {
 
-        Collections.sort(billList);
+      Collections.sort(billList);
+        return  billList;
     }
 
 }

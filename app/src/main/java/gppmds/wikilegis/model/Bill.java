@@ -116,16 +116,7 @@ public class Bill implements Comparable<Bill>{
     public int getNumberOfPrposals(){return  numberOfPrposals;}
 
     private void setNumberOfPrposals(Integer numberOfPrposals){
-        //numberOfPrposals =0;
-       /*
-        List<Segment> segmentList= new ArrayList<>();
-        for(int index = 0 ;index<segmentList.size() ;index ++){
-            if(segmentList.get(index).getId().equals(id));
-                if(segmentList.get(index).getReplaced()!=null){
-                    numberOfPrposals++;
-                }
-        }
-        */
+
         this.numberOfPrposals = numberOfPrposals;
     }
     //Methods of validation
@@ -140,10 +131,10 @@ public class Bill implements Comparable<Bill>{
     private int number;
     @Override
     public int compareTo(Bill bill) {
-        if(this.number<bill.getNumberOfPrposals()){
+        if(this.numberOfPrposals<bill.getNumberOfPrposals()){
             return -1;
         }
-        if(this.number>bill.getNumberOfPrposals()){
+        if(this.numberOfPrposals>bill.getNumberOfPrposals()){
             return 1;
         }
         return 0;

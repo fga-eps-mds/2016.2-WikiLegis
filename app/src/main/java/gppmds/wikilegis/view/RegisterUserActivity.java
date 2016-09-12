@@ -34,11 +34,11 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         //O que que isso tá fazendo aqui mais uma requisição de?
         //controller.getUrlApi("http://wikilegis.labhackercd.net/api/bills/");
-        FilteringFragment filteringFragment = new FilteringFragment();
+       // FilteringFragment filteringFragment = new FilteringFragment();
 
-        //LoginFragment loginFragment = new LoginFragment();
+        LoginFragment loginFragment = new LoginFragment();
 
-        openFragment(filteringFragment);
+        openFragment(loginFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){

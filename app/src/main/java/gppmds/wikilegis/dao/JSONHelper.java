@@ -43,27 +43,37 @@ public class JSONHelper {
         return getApi;
     }
 
-    public static List<Bill> billListFromJSON(String billList) throws JSONException, BillException,SegmentException {
+    public static List<Bill> billListFromJSON(String billList ,List<Segment> aux) throws JSONException, BillException,SegmentException {
 
         List<Bill> billListApi = new ArrayList<>();
 
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
         int id;
+        Integer k;
+
+
         for(int i=0; i<results.length(); i++){
             JSONObject f = results.getJSONObject(i);
 
-            Bill billAux = new Bill(id = f.getInt("id"),
+
+            id = f.getInt("id");
+            k=BillController.countedTheNumberOfProposals(aux ,id);
+            Bill billAux = new Bill(f.getInt("id"),
                                     f.getString("title"),
                                     f.getString("epigraph"),
                                     f.getString("status"),
                                     f.getString("description"),
-                                    f.getString("theme"), BillController.countedTheNumberOfProposals(segmentListFromJSON(),id));
+                                    f.getString("theme"), k);
+            Log.d("id qtd : " ,k.toString() );
+            Log.d("id qtd : " ,f.getString("title"));
 
             JSONArray segments = f.getJSONArray("segments");
 
             for(int j = 0; j < segments.length(); j++) {
+
                 billAux.setSegments(segments.getInt(j));
+
             }
 
             billListApi.add(billAux);
@@ -115,24 +125,24 @@ public class JSONHelper {
 
             for (int i = 0; i < results.length(); i++) {
                 JSONObject f = results.getJSONObject(i);
+                        Log.d("huehue", "huheuhue");
 
                 Segment segmentAux = new Segment(f.getInt("id"),
                         f.getInt("order"),
                         f.getInt("bill"),
                         f.getBoolean("original"),
                         //Mesma coisa das outras era replaced
-                        f.getInt("replaced"),
+                        f.getString("replaced").equals("null") ? 0 : f.getInt("replaced"),
                         //Tambem pode vir null, botei id pra testar e parent
-                        f.getInt("parent"),
-                        f.getInt("type"),
+                        f.getInt("id"),
+                        f.getInt("id"),
                         //Pode vir null???? Botei id pra testar again e number
-                        f.getInt("member"),
-                        f.getString("content"),
+                        f.getInt("id"),
+                        f.getString("id"),
                         //A partir desta está errada, botei apenas para testar.
-                        f.getInt("idAuthor"),
-                        f.getInt("idVote"),
-                        f.getInt("idComment"));
-
+                        f.getInt("id"),
+                        f.getInt("id"),
+                        f.getInt("id"));
                 segmentListApi.add(segmentAux);
             }
 

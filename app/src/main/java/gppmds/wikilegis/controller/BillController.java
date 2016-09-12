@@ -17,18 +17,17 @@ public class BillController {
 
         int counter = 0;
 
-
         for(int index = 0 ;index<segmentList.size() ;index ++){
 
                 if(segmentList.get(index).getBill() == id){
 
-                     if(segmentList.get(index).getReplaced()!=null){
+                    if(segmentList.get(index).getReplaced()!=0){
                             counter ++;
-
                     }
             }
 
         }
+
         return counter;
     }
 
