@@ -15,23 +15,24 @@
 
         <FrameLayout
             android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:id="@+id/frameLayoutBox1"
             android:layout_marginTop="100dp"
             android:layout_centerHorizontal="true"
             android:background="#fffefe">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayoutBox1">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/relativeLayoutBox1"
+                android:layout_gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Desmatamento"
-                    android:id="@+id/textViewTitleBox1"
+                    android:text="Sugestão 34/15"
+                    android:id="@+id/textViewTitleBill"
                     android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true" />
 
@@ -40,149 +41,116 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="Trata de desmatamento das florestas nativas do Brasil"
-                    android:id="@+id/textViewBox1"
+                    android:id="@+id/textViewAbstract"
                     android:layout_marginTop="60dp"
                     android:layout_marginLeft="80dp" />
 
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/justice"
-                    android:id="@+id/imageViewBox1"
+                    android:src="@drawable/brasao"
+                    android:id="@+id/imageViewBlazon"
                     android:layout_marginLeft="10dp"
-                    android:layout_alignTop="@+id/textViewBox1" />
-            </RelativeLayout>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:id="@+id/frameLayoutBox2"
-
-            android:background="#fffefe"
-            android:layout_below="@+id/frameLayoutBox1"
-            android:layout_alignStart="@+id/frameLayoutBox1"
-            android:layout_marginTop="49dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayoutBox2">
+                    android:layout_alignTop="@+id/textViewAbstract" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Processo penal"
-                    android:id="@+id/textViewTitleBox2"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Projeto de lei que visa alterar o código do processo penal"
-                    android:id="@+id/textViewBox2"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginLeft="80dp" />
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/justice"
-                    android:id="@+id/imageViewBox2"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignTop="@+id/textViewBox2" />
-            </RelativeLayout>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:id="@+id/frameLayoutBox3"
-
-            android:background="#fffefe"
-            android:layout_below="@+id/frameLayoutBox2"
-            android:layout_alignStart="@+id/frameLayoutBox2"
-            android:layout_marginTop="49dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayoutBox3">
+                    android:text="Relator: "
+                    android:id="@+id/textViewReporter"
+                    android:layout_below="@+id/textViewAbstract"
+                    android:layout_alignStart="@+id/imageViewBlazon"
+                    android:layout_marginTop="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Violencia contra o idoso"
-                    android:id="@+id/textViewTitleBox3"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true" />
-
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Cria mecanismos para coibir a violência contra idosos, incluindo aumento de penas."
-                    android:id="@+id/textViewBox3"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginLeft="80dp" />
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/justice"
-                    android:id="@+id/imageViewBox3"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignTop="@+id/textViewBox3" />
-            </RelativeLayout>
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:id="@+id/frameLayoutBox4"
-
-            android:background="#fffefe"
-            android:layout_below="@+id/frameLayoutBox3"
-            android:layout_alignStart="@+id/frameLayoutBox3"
-            android:layout_marginTop="49dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/relativeLayoutBox4">
+                    android:text="Fábio Ramalho"
+                    android:id="@+id/textViewReporterName"
+                    android:layout_alignBottom="@+id/textViewReporter"
+                    android:layout_alignStart="@+id/textViewAbstract" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Atividades em terrenos de marinha"
-                    android:id="@+id/textViewTitleBox4"
-                    android:layout_above="@+id/imageViewBox4"
-                    android:layout_alignStart="@+id/imageViewBox4" />
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Participantes: "
+                    android:id="@+id/textViewParticipants"
+                    android:layout_below="@+id/textViewParty"
+                    android:layout_alignStart="@+id/textViewParty" />
 
                 <TextView
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Dispõe sobre a transferência de receitas, provenientes de aforamento e ocupação de terrenos de marinha"
-                    android:id="@+id/textViewBox4"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginLeft="80dp" />
+                    android:text="26"
+                    android:id="@+id/textViewNumberParticipants"
+                    android:layout_alignTop="@+id/textViewProposals"
+                    android:layout_toEndOf="@+id/textViewProposals" />
 
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/justice"
-                    android:id="@+id/imageViewBox4"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignTop="@+id/textViewBox4" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Propostas: "
+                    android:id="@+id/textViewProposals"
+                    android:layout_below="@+id/textViewParticipants"
+                    android:layout_alignStart="@+id/textViewParticipants" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="36"
+                    android:id="@+id/textViewNumberProposals"
+                    android:layout_above="@+id/textViewProposals"
+                    android:layout_toEndOf="@+id/textViewParticipants" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Partido: "
+                    android:id="@+id/textViewParty"
+                    android:layout_below="@+id/textViewReporter"
+                    android:layout_alignStart="@+id/textViewReporter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="PMDB-MG"
+                    android:id="@+id/textViewPartyName"
+                    android:layout_above="@+id/textViewParticipants"
+                    android:layout_toEndOf="@+id/textViewParty" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Art. 1º Fica instituído o desmatamento zero no Brasil, com a proibição da supressão de florestas nativas em todo o território nacional. A União, os Estados, os Municípios e o Distrito Federal não mais concederão autorizações de desmatamento de florestas nativas brasileiras."
+                    android:id="@+id/textViewBillArticleOne"
+                    android:layout_marginTop="52dp"
+                    android:layout_below="@+id/textViewNumberParticipants"
+                    android:layout_alignEnd="@+id/textViewBillArticleTwo"
+                    android:layout_alignStart="@+id/textViewProposals" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Art. 2º A proibição de que trata esta lei não se aplica em questões consideradas de segurança nacional, defesa civil, pesquisa, planos de manejo florestal, atividades de interesse social e utilidade pública especificada em resolução do Conselho Nacional do Meio Ambiente (Conama) e atividades de baixo impacto a serem regulamentadas por ato do poder executivo."
+                    android:id="@+id/textViewBillArticleTwo"
+                    android:layout_marginTop="54dp"
+                    android:layout_below="@+id/textViewBillArticleOne"
+                    android:layout_alignStart="@+id/textViewProposals"
+                    android:layout_alignEnd="@+id/textViewAbstract" />
+
             </RelativeLayout>
         </FrameLayout>
+
 
     </RelativeLayout>
 </ScrollView>
