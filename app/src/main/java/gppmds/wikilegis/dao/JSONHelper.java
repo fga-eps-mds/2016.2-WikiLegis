@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
@@ -42,22 +43,22 @@ public class JSONHelper {
         return getApi;
     }
 
-    public static List<Bill> billListFromJSON(String billList) throws JSONException, BillException {
+    public static List<Bill> billListFromJSON(String billList) throws JSONException, BillException,SegmentException {
 
         List<Bill> billListApi = new ArrayList<>();
 
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
-
+        int id;
         for(int i=0; i<results.length(); i++){
             JSONObject f = results.getJSONObject(i);
 
-            Bill billAux = new Bill(f.getInt("id"),
+            Bill billAux = new Bill(id = f.getInt("id"),
                                     f.getString("title"),
                                     f.getString("epigraph"),
                                     f.getString("status"),
                                     f.getString("description"),
-                                    f.getString("theme"));
+                                    f.getString("theme"), BillController.countedTheNumberOfProposals(segmentListFromJSON(),id));
 
             JSONArray segments = f.getJSONArray("segments");
 
@@ -102,7 +103,9 @@ public class JSONHelper {
     public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
 
         String url = "http://wikilegis.labhackercd.net/api/segments/";
+
         List<Segment> segmentListApi = new ArrayList<>();
+
         do {
 
             String segmentList = getJSONObjectApi(url);

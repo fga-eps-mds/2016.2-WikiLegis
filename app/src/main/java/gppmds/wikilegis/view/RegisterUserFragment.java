@@ -16,6 +16,8 @@ import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.GetRequest;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
@@ -95,6 +97,8 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
             e1.printStackTrace();
         } catch (BillException e1) {
             e1.printStackTrace();
+        }catch (SegmentException ex){
+
         }
     }
 

@@ -19,13 +19,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
 
 
@@ -48,9 +51,8 @@ public class FilteringFragment extends Fragment {
             List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
 
 
-            List <String> auxList = new ArrayList<>();
-            auxList = filterigForStatusPublished();
-            /*
+            filtringForNumberOfProposals(billList);
+         /*
             List<String> titles = new ArrayList<>();
 
             for (int i = 0; i < billList.size(); i++) {
@@ -60,10 +62,12 @@ public class FilteringFragment extends Fragment {
             RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
             recycler_view.setAdapter(adapter);
 
-        } catch (BillException b) {
+        } catch (BillException ex) {
             //Nao sabemos o que botar ainda
-        } catch (JSONException j) {
+        } catch (JSONException ex) {
             //Nao sabemos o que botar ainda
+        }catch(SegmentException ex){
+
         }
 
         return view;
@@ -89,6 +93,8 @@ public class FilteringFragment extends Fragment {
             e.printStackTrace();
         } catch (BillException e) {
             e.printStackTrace();
+        }catch(SegmentException ex){
+
         }
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("published")){
@@ -108,6 +114,8 @@ public class FilteringFragment extends Fragment {
             e.printStackTrace();
         } catch (BillException e) {
             e.printStackTrace();
+        }catch (SegmentException ex){
+
         }
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("closed")){
@@ -116,4 +124,10 @@ public class FilteringFragment extends Fragment {
         }
         return billListWithStatusClosed;
     }
+
+    public void filtringForNumberOfProposals(List<Bill> billList) {
+
+        Collections.sort(billList);
+    }
+
 }

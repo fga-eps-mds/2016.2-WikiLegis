@@ -1,6 +1,7 @@
 package gppmds.wikilegis.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import gppmds.wikilegis.exception.BillException;
@@ -8,7 +9,7 @@ import gppmds.wikilegis.exception.BillException;
 /**
  * Created by thiago on 9/6/16.
  */
-public class Bill {
+public class Bill implements Comparable<Bill>{
 
     private static final String TITLE_CANT_BE_EMPTY = "Título não pode ser carregado";
     private static final String EPIGRAPH_CANT_BE_EMPTY = "Epigrafe não pode ser carregado";
@@ -112,18 +113,20 @@ public class Bill {
     public void setSegments(Integer segment) throws  BillException {
             this.segments.add(segment);
     }
-    public Integer getNumberOfPrposals(){return  numberOfPrposals;}
+    public int getNumberOfPrposals(){return  numberOfPrposals;}
 
     private void setNumberOfPrposals(Integer numberOfPrposals){
-        int counter = 0;
+        //numberOfPrposals =0;
+       /*
         List<Segment> segmentList= new ArrayList<>();
         for(int index = 0 ;index<segmentList.size() ;index ++){
             if(segmentList.get(index).getId().equals(id));
                 if(segmentList.get(index).getReplaced()!=null){
-                    counter++;
+                    numberOfPrposals++;
                 }
         }
-        this.numberOfPrposals = counter;
+        */
+        this.numberOfPrposals = numberOfPrposals;
     }
     //Methods of validation
 
@@ -134,4 +137,16 @@ public class Bill {
             return true;
         }
     }
+    private int number;
+    @Override
+    public int compareTo(Bill bill) {
+        if(this.number<bill.getNumberOfPrposals()){
+            return -1;
+        }
+        if(this.number>bill.getNumberOfPrposals()){
+            return 1;
+        }
+        return 0;
+    }
+
 }

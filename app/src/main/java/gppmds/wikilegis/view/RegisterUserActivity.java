@@ -36,9 +36,9 @@ public class RegisterUserActivity extends AppCompatActivity {
         //controller.getUrlApi("http://wikilegis.labhackercd.net/api/bills/");
         FilteringFragment filteringFragment = new FilteringFragment();
 
-        LoginFragment loginFragment = new LoginFragment();
+        //LoginFragment loginFragment = new LoginFragment();
 
-        openFragment(loginFragment);
+        openFragment(filteringFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){
