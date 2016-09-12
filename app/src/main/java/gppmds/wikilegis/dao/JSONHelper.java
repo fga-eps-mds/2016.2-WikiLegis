@@ -121,17 +121,17 @@ public class JSONHelper {
                         f.getInt("bill"),
                         f.getBoolean("original"),
                         //Mesma coisa das outras era replaced
-                        f.getInt("id"),
+                        f.getInt("replaced"),
                         //Tambem pode vir null, botei id pra testar e parent
-                        f.getInt("bill"),
+                        f.getInt("parent"),
                         f.getInt("type"),
                         //Pode vir null???? Botei id pra testar again e number
-                        f.getInt("id"),
+                        f.getInt("member"),
                         f.getString("content"),
                         //A partir desta está errada, botei apenas para testar.
-                        f.getInt("id"),
-                        f.getInt("id"),
-                        f.getInt("id"));
+                        f.getInt("idAuthor"),
+                        f.getInt("idVote"),
+                        f.getInt("idComment"));
 
                 segmentListApi.add(segmentAux);
             }

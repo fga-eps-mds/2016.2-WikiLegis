@@ -51,7 +51,7 @@ public class FilteringFragment extends Fragment {
             List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
 
 
-            filtringForNumberOfProposals(billList);
+            //filtringForNumberOfProposals(billList);
          /*
             List<String> titles = new ArrayList<>();
 
