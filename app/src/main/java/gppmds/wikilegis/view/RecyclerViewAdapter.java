@@ -32,10 +32,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             themePhoto = (ImageView)itemView.findViewById(R.id.theme_photo);
         }
     }
-    List<Bill> bills;
+    private List<Bill> bills;
+    private Integer imageThemeId;
 
     RecyclerViewAdapter(List<Bill> bills){
         this.bills = bills;
+    }
+
+    private void setImageThemeId(Bill bill){
+        switch (bill.getTheme()){
+            case "meio-ambiente": imageThemeId = R.drawable.meio_ambiente;
+                break;
+            case "direito-e-justica": imageThemeId = R.drawable.direito_e_justica;
+                break;
+            case "trabalho": imageThemeId = R.drawable.trabalho;
+                break;
+            case "direitos-humanos": imageThemeId = R.drawable.direitos_humanos;
+                break;
+            case "economia": imageThemeId = R.drawable.economia;
+                break;
+            case "consumidor": imageThemeId = R.drawable.consumidor;
+                break;
+            default: imageThemeId = 0;
+        }
     }
 
     @Override
@@ -54,7 +73,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
         personViewHolder.billTitle.setText(bills.get(i).getTitle());
         personViewHolder.billDescription.setText(bills.get(i).getDescription());
-       // personViewHolder.themePhoto.setImageResource(bills.get(i).getTheme());
+        setImageThemeId(bills.get(i));
+        personViewHolder.themePhoto.setImageResource(imageThemeId);
     }
 
     @Override
