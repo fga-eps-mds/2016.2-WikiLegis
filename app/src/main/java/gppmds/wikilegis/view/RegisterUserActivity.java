@@ -38,7 +38,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         LoginFragment loginFragment = new LoginFragment();
 
-        openFragment(loginFragment);
+        openFragment(filteringFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){

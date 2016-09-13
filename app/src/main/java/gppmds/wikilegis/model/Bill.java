@@ -1,6 +1,7 @@
 package gppmds.wikilegis.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import gppmds.wikilegis.exception.BillException;
@@ -8,7 +9,7 @@ import gppmds.wikilegis.exception.BillException;
 /**
  * Created by thiago on 9/6/16.
  */
-public class Bill {
+public class Bill implements Comparable<Bill>{
 
     private static final String TITLE_CANT_BE_EMPTY = "Título não pode ser carregado";
     private static final String EPIGRAPH_CANT_BE_EMPTY = "Epigrafe não pode ser carregado";
@@ -23,9 +24,10 @@ public class Bill {
     private String description;
     private String theme;
     private List<Integer> segments;
+    private Integer numberOfPrposals;
 
     public Bill(final Integer id, final String title, final String epigraph,
-                final String status, final String description, final String theme) throws BillException {
+                final String status, final String description, final String theme,final Integer numberOfPrposals) throws BillException {
         setId(id);
         setTitle(title);
         setEpigraph(epigraph);
@@ -34,6 +36,7 @@ public class Bill {
         setDescription(description);
         setTheme(theme);
         this.segments = new ArrayList<>();
+        setNumberOfPrposals(numberOfPrposals);
     }
 
     public Integer getId() {
@@ -110,7 +113,12 @@ public class Bill {
     public void setSegments(Integer segment) throws  BillException {
             this.segments.add(segment);
     }
+    public int getNumberOfPrposals(){return  numberOfPrposals;}
 
+    private void setNumberOfPrposals(Integer numberOfPrposals){
+
+        this.numberOfPrposals = numberOfPrposals;
+    }
     //Methods of validation
 
     private boolean validateStringEmpty(final String string) {
@@ -120,4 +128,16 @@ public class Bill {
             return true;
         }
     }
+    private int number;
+    @Override
+    public int compareTo(Bill bill) {
+        if(this.numberOfPrposals>bill.getNumberOfPrposals()){
+            return -1;
+        }
+        if(this.numberOfPrposals<bill.getNumberOfPrposals()){
+            return 1;
+        }
+        return 0;
+    }
+
 }

@@ -19,18 +19,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
 
 
 public class FilteringFragment extends Fragment {
 
+    public static List<Segment> listSegment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,13 +49,12 @@ public class FilteringFragment extends Fragment {
 
         try {
 
-            //ListView listBill = (ListView) view.findViewById(R.id.listBILL);
-            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
+            listSegment = JSONHelper.segmentListFromJSON();
+            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
 
-
-            List <String> auxList = new ArrayList<>();
-            auxList = filterigForStatusPublished();
-            /*
+          // billList = filtringForNumberOfProposals(billList);
+            billList = filterigForStatusPublished();
+         /*
             List<String> titles = new ArrayList<>();
 
             for (int i = 0; i < billList.size(); i++) {
@@ -61,10 +64,12 @@ public class FilteringFragment extends Fragment {
             RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
             recycler_view.setAdapter(adapter);
 
-        } catch (BillException b) {
+        } catch (BillException ex) {
             //Nao sabemos o que botar ainda
-        } catch (JSONException j) {
+        } catch (JSONException ex) {
             //Nao sabemos o que botar ainda
+        } catch (SegmentException ex){
+
         }
 
         return view;
@@ -80,41 +85,52 @@ public class FilteringFragment extends Fragment {
 
     }
 
-    public List<String> filterigForStatusPublished(){
-        List<String> billListWithStatusPublished= new ArrayList<String>();
+    public List<Bill> filterigForStatusPublished(){
+        List<Bill> billListWithStatusPublished= new ArrayList<Bill>();
 
         List<Bill> list = null;
         try {
-           list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
+           list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (BillException e) {
             e.printStackTrace();
+        }catch(SegmentException ex){
+
         }
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("published")){
-                billListWithStatusPublished.add(list.get(index).getTitle());
+                billListWithStatusPublished.add(list.get(index));
             }
         }
         return billListWithStatusPublished;
     }
 
-    public List<String> filterigForStatusClosed(){
-        List<String> billListWithStatusClosed= new ArrayList<String>();
+    public List<Bill> filterigForStatusClosed(){
+        List<Bill> billListWithStatusClosed= new ArrayList<Bill>();
 
         List<Bill> list = null;
         try {
-            list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"));
+            list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (BillException e) {
             e.printStackTrace();
+        }catch (SegmentException ex){
+
         }
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("closed")){
-                billListWithStatusClosed.add(list.get(index).getTitle());
+                billListWithStatusClosed.add(list.get(index));
             }
         }
         return billListWithStatusClosed;
     }
+
+    public static List<Bill> filtringForNumberOfProposals(List<Bill> billList) {
+
+      Collections.sort(billList);
+        return  billList;
+    }
+
 }
