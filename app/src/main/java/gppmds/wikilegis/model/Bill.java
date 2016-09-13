@@ -131,10 +131,10 @@ public class Bill implements Comparable<Bill>{
     private int number;
     @Override
     public int compareTo(Bill bill) {
-        if(this.numberOfPrposals<bill.getNumberOfPrposals()){
+        if(this.numberOfPrposals>bill.getNumberOfPrposals()){
             return -1;
         }
-        if(this.numberOfPrposals>bill.getNumberOfPrposals()){
+        if(this.numberOfPrposals<bill.getNumberOfPrposals()){
             return 1;
         }
         return 0;
