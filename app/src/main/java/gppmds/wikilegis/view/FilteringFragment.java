@@ -52,7 +52,8 @@ public class FilteringFragment extends Fragment {
             List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
 
 
-            billList = filtringForNumberOfProposals(billList);
+          // billList = filtringForNumberOfProposals(billList);
+            billList = filterigForStatusClosed();
          /*
             List<String> titles = new ArrayList<>();
 
@@ -105,8 +106,8 @@ public class FilteringFragment extends Fragment {
         return billListWithStatusPublished;
     }
 
-    public List<String> filterigForStatusClosed(){
-        List<String> billListWithStatusClosed= new ArrayList<String>();
+    public List<Bill> filterigForStatusClosed(){
+        List<Bill> billListWithStatusClosed= new ArrayList<Bill>();
 
         List<Bill> list = null;
         try {
@@ -120,7 +121,7 @@ public class FilteringFragment extends Fragment {
         }
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("closed")){
-                billListWithStatusClosed.add(list.get(index).getTitle());
+                billListWithStatusClosed.add(list.get(index));
             }
         }
         return billListWithStatusClosed;
