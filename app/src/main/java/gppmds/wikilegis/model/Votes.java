@@ -8,8 +8,8 @@ import gppmds.wikilegis.exception.VotesException;
 public class Votes {
 
     private static final String USERID_CANT_BE_NULL = "Id não pode ser carregado";
-    private static final String CONTENT_CANT_BE_NULL = "Id não pode ser carregado";
-    private static final String OBJECTID_CANT_BE_NULL = "Id não pode ser carregado";
+    private static final String CONTENT_CANT_BE_NULL = "Conteudo não pode ser carregado";
+    private static final String OBJECTID_CANT_BE_NULL = "Id do objeto não pode ser carregado";
 
 
     private Integer userId;
