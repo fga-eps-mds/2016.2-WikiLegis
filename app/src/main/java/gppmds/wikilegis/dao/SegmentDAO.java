@@ -88,7 +88,7 @@ public class SegmentDAO extends DaoUtilities{
         return result;
     }
 
-    public boolean insertAllBills(List<Segment> segmentList) {
+    public boolean insertAllSegments(List<Segment> segmentList) {
         Iterator<Segment> index = segmentList.iterator();
 
         boolean result = true;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -31,6 +32,9 @@ public class BillController {
 
             billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
                     SegmentController.getAllSegments());
+
+            billDao.insertAllBills(billList);
+
         } else {
             billList = billDao.getAllBills();
         }

@@ -25,6 +25,7 @@ public class SegmentController {
     public void initControllerSegments() throws SegmentException, JSONException {
         if (segmentDAO.isDatabaseEmpty()) {
             segmentList = JSONHelper.segmentListFromJSON();
+            segmentDAO.insertAllSegments(segmentList);
         } else {
             segmentList = segmentDAO.getAllSegments();
         }
