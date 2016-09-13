@@ -5,6 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 
 /**
@@ -70,7 +75,7 @@ public class BillDAO extends DaoUtilities{
         values.put(tableColumns[3], bill.getDescription());
         values.put(tableColumns[4], bill.getTheme());
         //values.put(tableColumns[5], bill.getAmountParticipants());
-        //values.put(tableColumns[7], bill.getAmountProposals());
+        values.put(tableColumns[6], bill.getNumberOfPrposals());
         values.put(tableColumns[7], bill.getStatus());
 
 
@@ -79,5 +84,53 @@ public class BillDAO extends DaoUtilities{
         return result;
     }
 
+    public boolean insertAllBills(List<Bill> billList) {
+        Iterator<Bill> index = billList.iterator();
+
+        boolean result = true;
+
+        while (index.hasNext()) {
+            result = insertBill(index.next());
+        }
+
+        return result;
+    }
+
+    public long deleteAllBills() {
+        long result;
+
+        result = deleteAndClose(sqliteDatabase, tableName);
+
+        return result;
+    }
+
+    public List<Bill> getAllBills() throws BillException {
+
+        sqliteDatabase = database.getReadableDatabase();
+
+        String query = "SELECT * FROM " + tableName;
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+
+        List<Bill> billList = new ArrayList<Bill>();
+
+        while (cursor.moveToNext()) {
+
+            Bill bill = new Bill(cursor.getColumnIndex(tableColumns[0]),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[1])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[2])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[7])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[3])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[4])),
+                    cursor.getColumnIndex(tableColumns[6])
+            );
+
+            billList.add(bill);
+        }
+
+        //sqliteDatabase.close();
+
+        return billList;
+    }
 
 }
