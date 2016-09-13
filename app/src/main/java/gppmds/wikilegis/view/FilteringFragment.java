@@ -53,7 +53,7 @@ public class FilteringFragment extends Fragment {
 
 
           // billList = filtringForNumberOfProposals(billList);
-            billList = filterigForStatusClosed();
+            billList = filterigForStatusPublished();
          /*
             List<String> titles = new ArrayList<>();
 
@@ -85,8 +85,8 @@ public class FilteringFragment extends Fragment {
 
     }
 
-    public List<String> filterigForStatusPublished(){
-        List<String> billListWithStatusPublished= new ArrayList<String>();
+    public List<Bill> filterigForStatusPublished(){
+        List<Bill> billListWithStatusPublished= new ArrayList<Bill>();
 
         List<Bill> list = null;
         try {
@@ -100,7 +100,7 @@ public class FilteringFragment extends Fragment {
         }
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("published")){
-                billListWithStatusPublished.add(list.get(index).getTitle());
+                billListWithStatusPublished.add(list.get(index));
             }
         }
         return billListWithStatusPublished;
