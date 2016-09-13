@@ -10,11 +10,19 @@ public class Votes {
     private Integer objectId;
     private boolean vote;
 
+    public Votes(Integer userId, Integer contentType, Integer objectId, boolean vote) {
+
+        setContentType(contentType);
+        setUserId(userId);
+        setObjectId(objectId);
+        setVote(vote);
+    }
+
     public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    private void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -22,7 +30,7 @@ public class Votes {
         return contentType;
     }
 
-    public void setContentType(Integer contentType) {
+    private void setContentType(Integer contentType) {
         this.contentType = contentType;
     }
 
@@ -30,7 +38,7 @@ public class Votes {
         return objectId;
     }
 
-    public void setObjectId(Integer objectId) {
+    private void setObjectId(Integer objectId) {
         this.objectId = objectId;
     }
 
@@ -38,7 +46,19 @@ public class Votes {
         return vote;
     }
 
-    public void setVote(boolean vote) {
+    private void setVote(boolean vote) {
         this.vote = vote;
     }
+
+    //Validation methods
+
+    private boolean validateIntegerNull(final Integer integer){
+        if(integer == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
 }
