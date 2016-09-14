@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.BillComparator;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.controller.SegmentController;
@@ -60,7 +61,12 @@ public class FilteringFragment extends Fragment {
 
         List<Bill> billList = billController.getAllBills();
 
-        billList = filtringForNumberOfProposals(billList);
+        billList = filtringForDate(billList);
+
+        for(int i=0; i<billList.size(); i++) {
+            Log.d("Id", billList.get(i).getTitle());
+            Log.d("N", String.valueOf(billList.get(i).getNumberOfPrposals()));
+        }
 
         //billList = filterigForStatusPublished();
         /*
@@ -121,5 +127,9 @@ public class FilteringFragment extends Fragment {
         Collections.sort(billList);
         return  billList;
     }
-
+    public List<Bill> filtringForDate(List<Bill> billList){
+        BillComparator comparator = new BillComparator();
+        Collections.sort(billList,comparator);
+        return billList;
+    }
 }
