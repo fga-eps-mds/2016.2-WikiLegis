@@ -39,6 +39,16 @@ public class RegisterUserActivity extends AppCompatActivity {
         LoginFragment loginFragment = new LoginFragment();
 
 
+        SegmentController segmentController = new SegmentController(getBaseContext());
+
+        try {
+            segmentController.initControllerSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         BillController billController = new BillController(getBaseContext());
 
         try {
@@ -48,16 +58,6 @@ public class RegisterUserActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (SegmentException e) {
-            e.printStackTrace();
-        }
-
-        SegmentController segmentController = new SegmentController(getBaseContext());
-
-        try {
-            segmentController.initControllerSegments();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
             e.printStackTrace();
         }
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,9 +60,9 @@ public class FilteringFragment extends Fragment {
 
         List<Bill> billList = billController.getAllBills();
 
-        //billList = filtringForNumberOfProposals(billList);
+        billList = filtringForNumberOfProposals(billList);
 
-        billList = filterigForStatusPublished();
+        //billList = filterigForStatusPublished();
         /*
         List<String> titles = new ArrayList<>();
 

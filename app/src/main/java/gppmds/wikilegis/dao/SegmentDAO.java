@@ -78,9 +78,9 @@ public class SegmentDAO extends DaoUtilities{
         values.put(tableColumns[6], segment.getType());
         values.put(tableColumns[7], segment.getNumber());
         values.put(tableColumns[8], segment.getContent());
-        //values.put(tableColumns[9], segment.getIdAuthor());
-        //values.put(tableColumns[10], segment.getIdVote());
-        //values.put(tableColumns[11], segment.getIdComment());
+        values.put(tableColumns[9], "FirstName");
+        values.put(tableColumns[10], "SecondName");
+        values.put(tableColumns[11], "Date");
 
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
