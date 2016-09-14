@@ -1,156 +1,159 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@drawable/background">
 
-
-    <RelativeLayout
-        android:id="@+id/container"
-        android:layout_width="fill_parent"
+    <FrameLayout
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/background">
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="false"
+        android:background="@color/cardview_light_background"
+        android:id="@+id/frameLayout"
+        android:layout_alignParentEnd="false">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|bottom">
 
-        <FrameLayout
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/frameLayoutBox1"
-            android:layout_marginTop="100dp"
-            android:layout_centerHorizontal="true"
-            android:background="#fffefe">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/brasao"
+                android:id="@+id/imageViewBrazal"
+                android:layout_marginTop="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp" />
 
-            <RelativeLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/relativeLayoutBox1"
-                android:layout_gravity="center">
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Title Bill"
+                android:id="@+id/textViewTitleBill"
+                android:layout_alignTop="@+id/imageViewBrazal"
+                android:layout_centerHorizontal="true" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Sugestão 34/15"
-                    android:id="@+id/textViewTitleBill"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Abstract"
+                android:id="@+id/textViewAbstractBill"
+                android:layout_below="@+id/textViewTitleBill"
+                android:layout_toEndOf="@+id/imageViewBrazal"
+                android:layout_marginTop="5dp" />
 
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Trata de desmatamento das florestas nativas do Brasil"
-                    android:id="@+id/textViewAbstract"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginLeft="80dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Author: "
+                android:id="@+id/textViewAuthorBill"
+                android:layout_below="@+id/imageViewBrazal"
+                android:layout_alignStart="@+id/imageViewBrazal"
+                android:layout_marginTop="10dp" />
 
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/brasao"
-                    android:id="@+id/imageViewBlazon"
-                    android:layout_marginLeft="10dp"
-                    android:layout_alignTop="@+id/textViewAbstract" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Name Author"
+                android:id="@+id/textViewAuthorName"
+                android:layout_alignTop="@+id/textViewAuthorBill"
+                android:layout_toEndOf="@+id/textViewAuthorBill" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Relator: "
-                    android:id="@+id/textViewReporter"
-                    android:layout_below="@+id/textViewAbstract"
-                    android:layout_alignStart="@+id/imageViewBlazon"
-                    android:layout_marginTop="12dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Reporter: "
+                android:id="@+id/textViewReporterBill"
+                android:layout_below="@+id/textViewAuthorBill"
+                android:layout_alignStart="@+id/textViewAuthorBill" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Fábio Ramalho"
-                    android:id="@+id/textViewReporterName"
-                    android:layout_alignBottom="@+id/textViewReporter"
-                    android:layout_alignStart="@+id/textViewAbstract" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Name Reporter"
+                android:id="@+id/textViewNameReporter"
+                android:layout_below="@+id/textViewAuthorName"
+                android:layout_toEndOf="@+id/textViewReporterBill" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Participantes: "
-                    android:id="@+id/textViewParticipants"
-                    android:layout_below="@+id/textViewParty"
-                    android:layout_alignStart="@+id/textViewParty" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="(PARTY)"
+                android:id="@+id/textViewPartyReporter"
+                android:layout_marginStart="10dp"
+                android:layout_below="@+id/textViewPartyAuthor"
+                android:layout_toEndOf="@+id/textViewNameReporter" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="26"
-                    android:id="@+id/textViewNumberParticipants"
-                    android:layout_alignTop="@+id/textViewProposals"
-                    android:layout_toEndOf="@+id/textViewProposals" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="(PARTY)"
+                android:id="@+id/textViewPartyAuthor"
+                android:layout_marginStart="10dp"
+                android:layout_above="@+id/textViewNameReporter"
+                android:layout_toEndOf="@+id/textViewAuthorName" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Propostas: "
-                    android:id="@+id/textViewProposals"
-                    android:layout_below="@+id/textViewParticipants"
-                    android:layout_alignStart="@+id/textViewParticipants" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Participants: "
+                android:id="@+id/textViewParticipants"
+                android:layout_below="@+id/textViewReporterBill"
+                android:layout_alignStart="@+id/textViewReporterBill" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="36"
-                    android:id="@+id/textViewNumberProposals"
-                    android:layout_above="@+id/textViewProposals"
-                    android:layout_toEndOf="@+id/textViewParticipants" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="12"
+                android:id="@+id/textViewNumberParticipants"
+                android:layout_above="@+id/textViewProposal"
+                android:layout_toEndOf="@+id/textViewParticipants" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Partido: "
-                    android:id="@+id/textViewParty"
-                    android:layout_below="@+id/textViewReporter"
-                    android:layout_alignStart="@+id/textViewReporter" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Proposal: "
+                android:id="@+id/textViewProposal"
+                android:layout_below="@+id/textViewParticipants"
+                android:layout_alignStart="@+id/textViewParticipants" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="PMDB-MG"
-                    android:id="@+id/textViewPartyName"
-                    android:layout_above="@+id/textViewParticipants"
-                    android:layout_toEndOf="@+id/textViewParty" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="20"
+                android:id="@+id/textViewNumberProposal"
+                android:layout_below="@+id/textViewParticipants"
+                android:layout_toEndOf="@+id/textViewProposal" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Art. 1º Fica instituído o desmatamento zero no Brasil, com a proibição da supressão de florestas nativas em todo o território nacional. A União, os Estados, os Municípios e o Distrito Federal não mais concederão autorizações de desmatamento de florestas nativas brasileiras."
-                    android:id="@+id/textViewBillArticleOne"
-                    android:layout_marginTop="52dp"
-                    android:layout_below="@+id/textViewNumberParticipants"
-                    android:layout_alignEnd="@+id/textViewBillArticleTwo"
-                    android:layout_alignStart="@+id/textViewProposals" />
+        </RelativeLayout>
+    </FrameLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Art. 2º A proibição de que trata esta lei não se aplica em questões consideradas de segurança nacional, defesa civil, pesquisa, planos de manejo florestal, atividades de interesse social e utilidade pública especificada em resolução do Conselho Nacional do Meio Ambiente (Conama) e atividades de baixo impacto a serem regulamentadas por ato do poder executivo."
-                    android:id="@+id/textViewBillArticleTwo"
-                    android:layout_marginTop="54dp"
-                    android:layout_below="@+id/textViewBillArticleOne"
-                    android:layout_alignStart="@+id/textViewProposals"
-                    android:layout_alignEnd="@+id/textViewAbstract" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_viewBill"
+        android:layout_below="@+id/frameLayout"
+        android:background="@color/cardview_light_background"
+        android:layout_alignStart="@+id/frameLayout"
+        android:layout_alignEnd="@+id/frameLayout"
+        />
 
-            </RelativeLayout>
-        </FrameLayout>
-
-
-    </RelativeLayout>
-</ScrollView>
+</RelativeLayout>
