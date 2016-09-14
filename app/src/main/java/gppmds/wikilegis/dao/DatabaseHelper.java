@@ -48,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     //Segments
 
     private static final String SEGMENTS_ID = "[id]";
-    private static final String SEGMENTS_ORDER = "[order]";
+    private static final String SEGMENTS_ORDER = "[orderNaoPode]";
     private static final String SEGMENTS_ID_BILL = "[idBill]";
     private static final String SEGMENTS_ORIGINAL = "[original]";
     private static final String SEGMENTS_REPLACED = "[replaced]";

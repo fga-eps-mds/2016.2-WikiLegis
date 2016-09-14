@@ -43,7 +43,7 @@ public class JSONHelper {
         return getApi;
     }
 
-    public static List<Bill> billListFromJSON(String billList ,List<Segment> aux) throws JSONException, BillException,SegmentException {
+    public static List<Bill> billListFromJSON(String billList ,List<Segment> aux) throws JSONException, BillException, SegmentException {
 
         List<Bill> billListApi = new ArrayList<>();
 

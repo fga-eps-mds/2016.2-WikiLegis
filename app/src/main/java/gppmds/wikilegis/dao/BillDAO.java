@@ -37,7 +37,8 @@ public class BillDAO extends DaoUtilities{
         return BillDAO.instance;
     }
 
-    public boolean  isDatabaseEmpty(){
+    public boolean isDatabaseEmpty() {
+
         sqliteDatabase = database.getReadableDatabase();
 
         String query = "SELECT 1 FROM " + tableName;
@@ -74,7 +75,7 @@ public class BillDAO extends DaoUtilities{
         values.put(tableColumns[2], bill.getEpigraph());
         values.put(tableColumns[3], bill.getDescription());
         values.put(tableColumns[4], bill.getTheme());
-        //values.put(tableColumns[5], bill.getAmountParticipants());
+        values.put(tableColumns[5], 0);
         values.put(tableColumns[6], bill.getNumberOfPrposals());
         values.put(tableColumns[7], bill.getStatus());
 

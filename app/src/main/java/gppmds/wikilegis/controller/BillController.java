@@ -1,5 +1,6 @@
 package gppmds.wikilegis.controller;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -14,6 +15,7 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.view.FilteringFragment;
 
 /**
  * Created by josue on 9/11/16.
@@ -21,13 +23,22 @@ import gppmds.wikilegis.model.Segment;
 public class BillController {
 
     private static List<Bill> billList = new ArrayList<Bill>();
-    private static BillDAO billDao;
+    FilteringFragment filteringFragment = new FilteringFragment();
+    private BillDAO billDao;
+    private Context context;
+
+    public BillController(Context context) {
+        this.context = context;
+    }
 
     public List<Bill> getAllBills(){
         return billList;
     }
 
     public void initControllerBills() throws BillException, JSONException, SegmentException {
+
+        billDao = BillDAO.getInstance(context);
+
         if (billDao.isDatabaseEmpty()) {
 
             billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),

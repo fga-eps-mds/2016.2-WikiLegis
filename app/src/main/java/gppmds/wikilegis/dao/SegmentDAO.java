@@ -17,8 +17,8 @@ import gppmds.wikilegis.model.Segment;
  */
 public class SegmentDAO extends DaoUtilities{
 
-    private static String tableColumns[] = {"id", "order", "bill", "original", "replaced",
-            "parent", "type", "number", "content", "idAuthor", "idVote", "idComment"};
+    private static String tableColumns[] = {"id", "orderNaoPode", "idBill", "original", "replaced",
+            "parent", "type", "number", "content", "firstNameAuthor", "secondNameAuthor", "creationDate"};
 
     private static SegmentDAO instance;
 
@@ -78,9 +78,9 @@ public class SegmentDAO extends DaoUtilities{
         values.put(tableColumns[6], segment.getType());
         values.put(tableColumns[7], segment.getNumber());
         values.put(tableColumns[8], segment.getContent());
-        values.put(tableColumns[9], segment.getIdAuthor());
-        values.put(tableColumns[10], segment.getIdVote());
-        values.put(tableColumns[11], segment.getIdComment());
+        //values.put(tableColumns[9], segment.getIdAuthor());
+        //values.put(tableColumns[10], segment.getIdVote());
+        //values.put(tableColumns[11], segment.getIdComment());
 
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
@@ -129,9 +129,9 @@ public class SegmentDAO extends DaoUtilities{
                     cursor.getColumnIndex(tableColumns[6]),
                     cursor.getColumnIndex(tableColumns[7]),
                     cursor.getString(cursor.getColumnIndex(tableColumns[8])),
-                    cursor.getColumnIndex(tableColumns[9]),
-                    cursor.getColumnIndex(tableColumns[10]),
-                    cursor.getColumnIndex(tableColumns[11])
+                    0,
+                    0,
+                    0
             );
 
             segmentList.add(segment);

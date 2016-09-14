@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.RegisterUserController;
+import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
@@ -35,6 +37,8 @@ import gppmds.wikilegis.model.SegmentTypes;
 public class FilteringFragment extends Fragment {
 
     public static List<Segment> listSegment;
+    public static BillController billController;
+    public static SegmentController segmentController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,30 +51,26 @@ public class FilteringFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recycler_view.setLayoutManager(linearLayoutManager);
 
-        try {
+        segmentController = new SegmentController(getContext());
 
-            listSegment = JSONHelper.segmentListFromJSON();
-            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
+        listSegment = segmentController.getAllSegments();
 
-          // billList = filtringForNumberOfProposals(billList);
-            billList = filterigForStatusPublished();
-         /*
-            List<String> titles = new ArrayList<>();
+        billController = new BillController(getContext());
 
-            for (int i = 0; i < billList.size(); i++) {
-                titles.add(billList.get(i).getTitle());
-            }
-*/
-            RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
-            recycler_view.setAdapter(adapter);
+        List<Bill> billList = billController.getAllBills();
 
-        } catch (BillException ex) {
-            //Nao sabemos o que botar ainda
-        } catch (JSONException ex) {
-            //Nao sabemos o que botar ainda
-        } catch (SegmentException ex){
+        //billList = filtringForNumberOfProposals(billList);
 
+        billList = filterigForStatusPublished();
+        /*
+        List<String> titles = new ArrayList<>();
+
+        for (int i = 0; i < billList.size(); i++) {
+            titles.add(billList.get(i).getTitle());
         }
+        */
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
+        recycler_view.setAdapter(adapter);
 
         return view;
     }
@@ -89,15 +89,9 @@ public class FilteringFragment extends Fragment {
         List<Bill> billListWithStatusPublished= new ArrayList<Bill>();
 
         List<Bill> list = null;
-        try {
-           list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        }catch(SegmentException ex){
 
-        }
+        list = billController.getAllBills();
+
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("published")){
                 billListWithStatusPublished.add(list.get(index));
@@ -110,15 +104,9 @@ public class FilteringFragment extends Fragment {
         List<Bill> billListWithStatusClosed= new ArrayList<Bill>();
 
         List<Bill> list = null;
-        try {
-            list = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),listSegment);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        }catch (SegmentException ex){
 
-        }
+        list = billController.getAllBills();
+
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("closed")){
                 billListWithStatusClosed.add(list.get(index));
@@ -129,7 +117,7 @@ public class FilteringFragment extends Fragment {
 
     public static List<Bill> filtringForNumberOfProposals(List<Bill> billList) {
 
-      Collections.sort(billList);
+        Collections.sort(billList);
         return  billList;
     }
 
