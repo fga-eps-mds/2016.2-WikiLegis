@@ -62,6 +62,11 @@ public class FilteringFragment extends Fragment {
 
         billList = filtringForNumberOfProposals(billList);
 
+        for(int i=0; i<billList.size(); i++) {
+            Log.d("Id", billList.get(i).getTitle());
+            Log.d("N", String.valueOf(billList.get(i).getNumberOfPrposals()));
+        }
+
         //billList = filterigForStatusPublished();
         /*
         List<String> titles = new ArrayList<>();
