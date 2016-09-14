@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
@@ -50,7 +51,7 @@ public class JSONHelper {
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
         int id;
-        Integer k;
+        Integer k,o;
 
 
         for(int i=0; i<results.length(); i++){
@@ -59,12 +60,13 @@ public class JSONHelper {
 
             id = f.getInt("id");
             k=BillController.countedTheNumberOfProposals(aux ,id);
+            o= SegmentController.getMinDate(id);
             Bill billAux = new Bill(f.getInt("id"),
                                     f.getString("title"),
                                     f.getString("epigraph"),
                                     f.getString("status"),
                                     f.getString("description"),
-                                    f.getString("theme"), k);
+                                    f.getString("theme"), k,o);
             Log.d("id qtd : " ,k.toString() );
             Log.d("id qtd : " ,f.getString("title"));
 
@@ -138,7 +140,7 @@ public class JSONHelper {
                         f.getInt("id"),
                         //Pode vir null???? Botei id pra testar again e number
                         f.getInt("id"),
-                        f.getString("id"),
+                        f.getString("created"),
                         //A partir desta está errada, botei apenas para testar.
                         f.getInt("id"),
                         f.getInt("id"),

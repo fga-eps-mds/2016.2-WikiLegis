@@ -123,7 +123,8 @@ public class BillDAO extends DaoUtilities{
                     cursor.getString(cursor.getColumnIndex(tableColumns[7])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[3])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[4])),
-                    cursor.getColumnIndex(tableColumns[6])
+                    cursor.getColumnIndex(tableColumns[6]),
+                    cursor.getColumnIndex(tableColumns[7])
             );
 
             billList.add(bill);
