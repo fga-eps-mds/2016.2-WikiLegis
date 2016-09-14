@@ -9,7 +9,7 @@ import gppmds.wikilegis.exception.BillException;
 /**
  * Created by thiago on 9/6/16.
  */
-public class Bill implements Comparable<Bill>{
+public class Bill {
 
     private static final String TITLE_CANT_BE_EMPTY = "Título não pode ser carregado";
     private static final String EPIGRAPH_CANT_BE_EMPTY = "Epigrafe não pode ser carregado";
@@ -135,15 +135,6 @@ public class Bill implements Comparable<Bill>{
             return true;
         }
     }
-    @Override
-    public int compareTo(Bill bill) {
-        if(this.date>bill.getDate()){
-            return -1;
-        }
-        if(this.date<bill.getDate()){
-            return 1;
-        }
-        return 0;
-    }
+
 
 }
