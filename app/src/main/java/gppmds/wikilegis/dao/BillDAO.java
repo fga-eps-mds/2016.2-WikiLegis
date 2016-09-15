@@ -123,7 +123,8 @@ public class BillDAO extends DaoUtilities{
                     cursor.getString(cursor.getColumnIndex(tableColumns[7])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[3])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[4])),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
 
 
             billList.add(bill);
