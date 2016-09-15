@@ -18,11 +18,16 @@ import gppmds.wikilegis.model.Bill;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.BillViewHolder> {
 
+
+    private List<Bill> bills;
+    private Integer imageThemeId;
+
     public static class BillViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView billTitle;
         TextView billDescription;
         ImageView themePhoto;
+
 
         BillViewHolder(View itemView) {
             super(itemView);
@@ -32,8 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             themePhoto = (ImageView)itemView.findViewById(R.id.theme_photo);
         }
     }
-    private List<Bill> bills;
-    private Integer imageThemeId;
+
 
     RecyclerViewAdapter(List<Bill> bills){
         bills = FilteringFragment.filtringForNumberOfProposals(bills);

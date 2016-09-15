@@ -1,5 +1,6 @@
 package gppmds.wikilegis.dao;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.SegmentTypeController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
@@ -20,7 +22,7 @@ import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
 
 /**
- * Created by marcelo on 9/8/16.
+  * Created by marcelo on 9/8/16.
  */
 public class JSONHelper {
 
@@ -45,37 +47,33 @@ public class JSONHelper {
     }
 
     public static List<Bill> billListFromJSON(String billList ,List<Segment> aux) throws JSONException, BillException, SegmentException {
+        int id;
 
         List<Bill> billListApi = new ArrayList<>();
 
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
-        int id;
-        Integer k,o;
+
+        Integer numberOfProposals,date;
 
 
-        for(int i=0; i<results.length(); i++){
-            JSONObject f = results.getJSONObject(i);
+        for(int index=0; index < results.length(); index++){
 
+            JSONObject f = results.getJSONObject(index);
 
             id = f.getInt("id");
-            k=BillController.countedTheNumberOfProposals(aux ,id);
-            o= SegmentController.getMinDate(id);
-            Bill billAux = new Bill(f.getInt("id"),
-                                    f.getString("title"),
-                                    f.getString("epigraph"),
-                                    f.getString("status"),
-                                    f.getString("description"),
-                                    f.getString("theme"), k,o);
-            Log.d("id qtd : " ,k.toString() );
-            Log.d("id qtd : " ,f.getString("title"));
+
+            numberOfProposals=BillController.countedTheNumberOfProposals(aux ,id);
+
+            date= SegmentController.getMinDate(id);
+
+            Bill billAux = BillController.getBill(numberOfProposals, date, f);
 
             JSONArray segments = f.getJSONArray("segments");
 
             for(int j = 0; j < segments.length(); j++) {
 
                 billAux.setSegments(segments.getInt(j));
-
             }
 
             billListApi.add(billAux);
@@ -83,6 +81,9 @@ public class JSONHelper {
 
         return billListApi;
     }
+
+
+
 
     public static List<SegmentTypes> segmentTypesListFromJSON(List<SegmentTypes> segmentTypesListApi)
                                                               throws JSONException, SegmentTypesException {
@@ -98,8 +99,7 @@ public class JSONHelper {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject f = results.getJSONObject(i);
 
-                SegmentTypes segmentTypeAux = new SegmentTypes(f.getInt("id"),
-                        f.getString("name"));
+                SegmentTypes segmentTypeAux = SegmentTypeController.getSegmentTypes(f);
 
                 segmentTypesListApi.add(segmentTypeAux);
             }
@@ -111,6 +111,8 @@ public class JSONHelper {
 
         return segmentTypesListApi;
     }
+
+
 
     public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
 
@@ -127,24 +129,9 @@ public class JSONHelper {
 
             for (int i = 0; i < results.length(); i++) {
                 JSONObject f = results.getJSONObject(i);
-                        Log.d("huehue", "huheuhue");
 
-                Segment segmentAux = new Segment(f.getInt("id"),
-                        f.getInt("order"),
-                        f.getInt("bill"),
-                        f.getBoolean("original"),
-                        //Mesma coisa das outras era replaced
-                        f.getString("replaced").equals("null") ? 0 : f.getInt("replaced"),
-                        //Tambem pode vir null, botei id pra testar e parent
-                        f.getInt("id"),
-                        f.getInt("id"),
-                        //Pode vir null???? Botei id pra testar again e number
-                        f.getInt("id"),
-                        f.getString("created"),
-                        //A partir desta está errada, botei apenas para testar.
-                        f.getInt("id"),
-                        f.getInt("id"),
-                        f.getInt("id"));
+                        Log.d("huehue", "huheuhue");
+                Segment segmentAux = SegmentController.getSegment(f);
                 segmentListApi.add(segmentAux);
             }
 

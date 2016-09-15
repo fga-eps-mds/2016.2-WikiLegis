@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class BillController {
     private BillDAO billDao;
     private Context context;
 
+
     public BillController(Context context) {
         this.context = context;
     }
@@ -34,6 +36,20 @@ public class BillController {
     public List<Bill> getAllBills(){
         return billList;
     }
+
+
+    public static Bill getBill(Integer numberOfProposals, Integer date, JSONObject f) throws BillException, JSONException {
+        Bill billAux = new Bill(f.getInt("id"),
+                f.getString("title"),
+                f.getString("epigraph"),
+                f.getString("status"),
+                f.getString("description"),
+                f.getString("theme"), numberOfProposals,date);
+        return billAux;
+    }
+
+
+
 
     public void initControllerBills() throws BillException, JSONException, SegmentException {
 

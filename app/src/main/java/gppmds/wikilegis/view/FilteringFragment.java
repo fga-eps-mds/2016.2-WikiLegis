@@ -12,30 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillComparator;
 import gppmds.wikilegis.controller.BillComparatorDate;
+import gppmds.wikilegis.controller.BillComparatorProposals;
 import gppmds.wikilegis.controller.BillController;
-import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.exception.BillException;
-import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.SegmentTypes;
 
 
 public class FilteringFragment extends Fragment {
@@ -63,21 +50,13 @@ public class FilteringFragment extends Fragment {
 
         List<Bill> billList = billController.getAllBills();
 
-        billList = filtringForNumberOfProposals(billList);
+        billList = filterigForStatusPublished();
 
         for(int i=0; i<billList.size(); i++) {
             Log.d("Id", billList.get(i).getTitle());
             Log.d("N", String.valueOf(billList.get(i).getNumberOfPrposals()));
         }
 
-        //billList = filterigForStatusPublished();
-        /*
-        List<String> titles = new ArrayList<>();
-
-        for (int i = 0; i < billList.size(); i++) {
-            titles.add(billList.get(i).getTitle());
-        }
-        */
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
         recycler_view.setAdapter(adapter);
 
@@ -125,12 +104,12 @@ public class FilteringFragment extends Fragment {
     }
 
     public static List<Bill> filtringForNumberOfProposals(List<Bill> billList) {
-        BillComparatorDate billComparatorDate = new BillComparatorDate();
-        Collections.sort(billList,billComparatorDate);
+        BillComparatorProposals billComparatorDProposals = new BillComparatorProposals();
+        Collections.sort(billList,billComparatorDProposals);
         return  billList;
     }
     public List<Bill> filtringForDate(List<Bill> billList){
-        BillComparator comparator = new BillComparator();
+        BillComparatorDate comparator = new BillComparatorDate();
         Collections.sort(billList,comparator);
         return billList;
     }

@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             BILL_ID + " INTEGER NOT NULL PRIMARY KEY, " + BILL_TITLE + " VARCHAR(200), " +
             BILL_EPIGRAPH + "  VARCHAR(200), "+ BILL_DESCRIPTION + " VARCHAR(500), " +
             BILL_THEME + " VARCHAR(50), "+ BILL_AMOUNT_PARTICIPANTS + " INTEGER, " +
-            BILL_AMOUNT_PROPOSALS + " INTEGER, " + BILL_STATUS + " VARCHAR(50) " + BILL_DATE + "INTEGER);" ;
+            BILL_AMOUNT_PROPOSALS + " INTEGER, " + BILL_STATUS + " VARCHAR(50), " + BILL_DATE + " INTEGER);" ;
 
 
     //Segments of Bill

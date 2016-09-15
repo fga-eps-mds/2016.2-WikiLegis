@@ -3,6 +3,7 @@ package gppmds.wikilegis.controller;
 import android.content.Context;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -33,6 +34,24 @@ public class SegmentController {
 
     //Inicia todos os segmentos no banco local
 
+    public static Segment getSegment(JSONObject f) throws SegmentException, JSONException {
+        return new Segment(f.getInt("id"),
+                f.getInt("order"),
+                f.getInt("bill"),
+                f.getBoolean("original"),
+                //Mesma coisa das outras era replaced
+                f.getString("replaced").equals("null") ? 0 : f.getInt("replaced"),
+                //Tambem pode vir null, botei id pra testar e parent
+                f.getInt("id"),
+                f.getInt("id"),
+                //Pode vir null???? Botei id pra testar again e number
+                f.getInt("id"),
+                f.getString("created"),
+                //A partir desta está errada, botei apenas para testar.
+                f.getInt("id"),
+                f.getInt("id"),
+                f.getInt("id"));
+    }
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
