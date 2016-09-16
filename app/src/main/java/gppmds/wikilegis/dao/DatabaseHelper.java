@@ -40,10 +40,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final String SEGMENTS_BILL_ID_SEGMENT = "[idSegment]";
     private static final String SEGMENTS_BILL_ID_BILL = "[idBill]";
+    private static final String SEGMENTS_BILL_POSITION = "[position]";
 
     private static final String CREATE_SEGMENTS_BILL = "CREATE TABLE " + SEGMENTS_BILL_TABLE + " ( " +
-            SEGMENTS_BILL_ID_SEGMENT + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_BILL_ID_BILL +
-            " INTEGER );";
+            SEGMENTS_BILL_ID_SEGMENT + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_BILL_POSITION + " INTEGER ," +
+            SEGMENTS_BILL_ID_BILL + " INTEGER );";
 
     //Segments
 
