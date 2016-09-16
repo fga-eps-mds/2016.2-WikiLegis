@@ -3,6 +3,7 @@ package gppmds.wikilegis.controller;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.dao.GetRequest;

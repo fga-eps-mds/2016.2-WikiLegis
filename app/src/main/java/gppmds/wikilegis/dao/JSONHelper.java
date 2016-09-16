@@ -17,6 +17,7 @@ import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
+import gppmds.wikilegis.model.User;
 
 /**
  * Created by marcelo on 9/8/16.
@@ -81,6 +82,33 @@ public class JSONHelper {
 
         return billListApi;
     }
+
+    public static List<String> emailListFromJSON(List<String> emailListApi) throws JSONException {
+
+        String url = "http://wikilegis.labhackercd.net/api/users/?api_key=9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b&page=2";
+
+        do {
+            String emailList = getJSONObjectApi(url);
+
+            JSONObject email = new JSONObject(emailList);
+            JSONArray results = email.getJSONArray("results");
+
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject f = results.getJSONObject(i);
+
+                String emailAux = f.getString("email");
+
+                emailListApi.add(emailAux);
+            }
+
+            String nextUrl = email.getString("next");
+            url = nextUrl;
+
+        } while(!url.equals("null"));
+
+        return emailListApi;
+    }
+
 
     public static List<SegmentTypes> segmentTypesListFromJSON(List<SegmentTypes> segmentTypesListApi)
                                                               throws JSONException, SegmentTypesException {
