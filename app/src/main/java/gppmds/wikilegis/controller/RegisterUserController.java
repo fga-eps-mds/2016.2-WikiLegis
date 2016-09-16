@@ -74,4 +74,14 @@ public class RegisterUserController {
 
         }
     }
+
+    public static boolean validateEmailIsNotRepeated(String email) {
+
+        for (int i=0; i<emailList.size(); i++) {
+            if (email.equals(emailList.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
