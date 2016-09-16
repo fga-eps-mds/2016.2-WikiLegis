@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import org.json.JSONException;
 
@@ -38,6 +39,13 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         LoginFragment loginFragment = new LoginFragment();
 
+        RegisterUserController registerUserController = RegisterUserController.getInstance(getBaseContext());
+
+        try {
+            registerUserController.initControllerEmails();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         SegmentController segmentController = new SegmentController(getBaseContext());
 
@@ -62,8 +70,8 @@ public class RegisterUserActivity extends AppCompatActivity {
         }
 
         openFragment(loginFragment);
-
     }
+
     private void openFragment(Fragment fragmentToBeOpen){
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =

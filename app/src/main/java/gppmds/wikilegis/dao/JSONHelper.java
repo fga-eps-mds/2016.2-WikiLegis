@@ -106,6 +106,9 @@ public class JSONHelper {
 
         } while(!url.equals("null"));
 
+        for(int i=0; i<emailListApi.size(); i++)
+            Log.d("email: ", emailListApi.get(i).toString());
+
         return emailListApi;
     }
 

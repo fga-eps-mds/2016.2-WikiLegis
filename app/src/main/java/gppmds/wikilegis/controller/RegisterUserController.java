@@ -46,7 +46,7 @@ public class RegisterUserController {
 
         if (emailDAO.isDatabaseEmpty()) {
 
-            emailDAO =(EmailDAO) JSONHelper.emailListFromJSON(emailList);
+            emailList = JSONHelper.emailListFromJSON(emailList);
 
             emailDAO.insertAllEmails(emailList);
 
