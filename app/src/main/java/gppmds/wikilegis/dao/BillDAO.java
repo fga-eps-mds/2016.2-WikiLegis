@@ -117,7 +117,7 @@ public class BillDAO extends DaoUtilities{
 
         while (cursor.moveToNext()) {
 
-            Bill bill = new Bill(cursor.getColumnIndex(tableColumns[0]),
+            Bill bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[1])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[7])),

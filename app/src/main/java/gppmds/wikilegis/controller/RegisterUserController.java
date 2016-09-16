@@ -3,17 +3,25 @@ package gppmds.wikilegis.controller;
 import android.content.Context;
 import android.util.Log;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import gppmds.wikilegis.dao.EmailDAO;
 import gppmds.wikilegis.dao.GetRequest;
+import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
 
 public class RegisterUserController {
+
+    private static List<String> emailList = new ArrayList<String>();
     private static RegisterUserController instance = null;
     private final Context context;
+    private EmailDAO emailDAO;
 
     private RegisterUserController(Context context) {
         this.context = context;
@@ -26,6 +34,25 @@ public class RegisterUserController {
 			/* ! Nothing To Do. */
         }
         return instance;
+    }
+
+    public List<String> getAllEmails() {
+        return emailList;
+    }
+
+    public void initControllerEmails() throws JSONException {
+
+        emailDAO = EmailDAO.getInstance(context);
+
+        if (emailDAO.isDatabaseEmpty()) {
+
+            emailDAO =(EmailDAO) JSONHelper.emailListFromJSON(emailList);
+
+            emailDAO.insertAllEmails(emailList);
+
+        } else {
+            emailList = emailDAO.getAllEmails();
+        }
     }
 
     public String registerUser(String firstName,
