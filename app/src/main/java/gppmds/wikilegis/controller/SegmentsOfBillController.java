@@ -35,10 +35,10 @@ public class SegmentsOfBillController {
         return  instance;
     }
 
-    public static List<SegmentsOfBill> getAllSegmentsOfBill(){
-        return segmentsOfBillList;
-    }
+    public static List<SegmentsOfBill> getAllSegmentsOfBill(Integer id){
 
+        return segmentsOfBillDAO.getAllSegmentsOfBill(id);
+    }
 
     public void initControllerSegmentsOfBill() throws BillException, JSONException, SegmentException {
 

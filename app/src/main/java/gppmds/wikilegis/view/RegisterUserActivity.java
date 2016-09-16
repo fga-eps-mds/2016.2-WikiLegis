@@ -81,13 +81,22 @@ public class RegisterUserActivity extends AppCompatActivity {
         //Pegar os segmentos da Bill com ID = 18
 
         List<SegmentsOfBill> segmentsOfBillList = new ArrayList<>();
-        SegmentsOfBillDAO segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(getApplicationContext());
-        segmentsOfBillList = segmentsOfBillDAO.getAllSegmentsOfBill(18);
+
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(38);
 
         for(int i=0; i<segmentsOfBillList.size(); i++) {
             Log.d("idBill", String.valueOf(segmentsOfBillList.get(i).getIdBill()));
-            Log.d("idSeg", String.valueOf(segmentsOfBillList.get(i).getIdSegment()));
-            Log.d("Pos", String.valueOf(segmentsOfBillList.get(i).getPosition()));
+
+            try {
+                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i).getIdSegment());
+                Log.d("idSeg", String.valueOf(segmentsOfBillList.get(i).getIdSegment()));
+                Log.d("Desc:", segmentAux.getContent());
+                Log.d("Pos", String.valueOf(segmentsOfBillList.get(i).getPosition()));
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+
+
         }
 
         openFragment(bill);

@@ -37,6 +37,9 @@ public class SegmentController {
         return segmentList;
     }
 
+    public static Segment getSegmentById(Integer id) throws SegmentException {
+        return segmentDAO.getSegmentById(id);
+    }
     //Inicia todos os segmentos no banco local
 
     public void initControllerSegments() throws SegmentException, JSONException {
