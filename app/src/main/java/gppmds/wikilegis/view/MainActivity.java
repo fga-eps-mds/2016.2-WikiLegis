@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,6 +28,8 @@ import gppmds.wikilegis.controller.BillComparatorDate;
 import gppmds.wikilegis.controller.BillComparatorProposals;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
@@ -52,9 +56,29 @@ public class MainActivity extends AppCompatActivity {
 
         segmentController = new SegmentController(this);
 
-        listSegment = segmentController.getAllSegments();
 
         billController = new BillController(this);
+
+
+        try {
+            segmentController.initControllerSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            billController.initControllerBills();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+        listSegment = segmentController.getAllSegments();
 
         List<Bill> billList = billController.getAllBills();
 
