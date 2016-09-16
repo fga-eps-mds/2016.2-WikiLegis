@@ -51,9 +51,11 @@ dependencies {
     // Intent mocking support
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
 
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
 
     androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
 }

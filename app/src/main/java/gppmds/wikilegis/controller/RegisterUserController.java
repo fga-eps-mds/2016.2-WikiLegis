@@ -4,8 +4,8 @@ import android.content.Context;
 
 import java.io.IOException;
 
-import gppmds.wikilegis.api.GetRequest;
-import gppmds.wikilegis.dao.UtilitiesDAO;
+import gppmds.wikilegis.dao.GetRequest;
+import gppmds.wikilegis.dao.DaoUtilities;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
@@ -46,10 +46,10 @@ public class RegisterUserController {
         }
     }
 
-
+/*
     public static boolean emailIsRepeated(String email) throws IOException {
 
-        UtilitiesDAO utilities = new UtilitiesDAO();
+        DaoUtilities utilities = new DaoUtilities();
 
             if (utilities.findEmail(email) == true) {
                 return true;

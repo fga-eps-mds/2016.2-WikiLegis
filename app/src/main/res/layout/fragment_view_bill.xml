@@ -1,0 +1,159 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/background">
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="false"
+        android:background="@color/cardview_light_background"
+        android:id="@+id/frameLayout"
+        android:layout_alignParentEnd="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|bottom">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/brasao"
+                android:id="@+id/imageViewBrazal"
+                android:layout_marginTop="25dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Title Bill"
+                android:id="@+id/textViewTitleBill"
+                android:layout_alignTop="@+id/imageViewBrazal"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Abstract"
+                android:id="@+id/textViewAbstractBill"
+                android:layout_below="@+id/textViewTitleBill"
+                android:layout_toEndOf="@+id/imageViewBrazal"
+                android:layout_marginTop="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Author: "
+                android:id="@+id/textViewAuthorBill"
+                android:layout_below="@+id/imageViewBrazal"
+                android:layout_alignStart="@+id/imageViewBrazal"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Name Author"
+                android:id="@+id/textViewAuthorName"
+                android:layout_alignTop="@+id/textViewAuthorBill"
+                android:layout_toEndOf="@+id/textViewAuthorBill" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Reporter: "
+                android:id="@+id/textViewReporterBill"
+                android:layout_below="@+id/textViewAuthorBill"
+                android:layout_alignStart="@+id/textViewAuthorBill" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Name Reporter"
+                android:id="@+id/textViewNameReporter"
+                android:layout_below="@+id/textViewAuthorName"
+                android:layout_toEndOf="@+id/textViewReporterBill" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="(PARTY)"
+                android:id="@+id/textViewPartyReporter"
+                android:layout_marginStart="10dp"
+                android:layout_below="@+id/textViewPartyAuthor"
+                android:layout_toEndOf="@+id/textViewNameReporter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="(PARTY)"
+                android:id="@+id/textViewPartyAuthor"
+                android:layout_marginStart="10dp"
+                android:layout_above="@+id/textViewNameReporter"
+                android:layout_toEndOf="@+id/textViewAuthorName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Participants: "
+                android:id="@+id/textViewParticipants"
+                android:layout_below="@+id/textViewReporterBill"
+                android:layout_alignStart="@+id/textViewReporterBill" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="12"
+                android:id="@+id/textViewNumberParticipants"
+                android:layout_above="@+id/textViewProposal"
+                android:layout_toEndOf="@+id/textViewParticipants" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Proposal: "
+                android:id="@+id/textViewProposal"
+                android:layout_below="@+id/textViewParticipants"
+                android:layout_alignStart="@+id/textViewParticipants" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="20"
+                android:id="@+id/textViewNumberProposal"
+                android:layout_below="@+id/textViewParticipants"
+                android:layout_toEndOf="@+id/textViewProposal" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_viewBill"
+        android:layout_below="@+id/frameLayout"
+        android:background="@color/cardview_light_background"
+        android:layout_alignStart="@+id/frameLayout"
+        android:layout_alignEnd="@+id/frameLayout"
+        />
+
+</RelativeLayout>

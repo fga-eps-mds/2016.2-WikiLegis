@@ -11,6 +11,14 @@ import android.widget.Toast;
 
 
 import gppmds.wikilegis.controller.RegisterUserController;
+import org.json.JSONException;
+
+import gppmds.wikilegis.controller.RegisterUserController;
+import gppmds.wikilegis.dao.GetRequest;
+import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
@@ -18,7 +26,7 @@ import gppmds.wikilegis.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RegisterUserFragment extends Fragment implements View.OnClickListener {
+public class RegisterUserFragment extends Fragment implements View.OnClickListener{
 
     private static final String STRING_EMPTY="";
 
@@ -41,7 +49,6 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_register_user, container, false);
 
         Button register=(Button) view.findViewById(R.id.registerButton);
@@ -77,16 +84,21 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View view) {
-
+    public void onClick(View view)  {
+        String aux = null;
         this.settingTextTyped();
         this.settingErrorNull();
         this.validateUserInformation();
+        RegisterUserController e = RegisterUserController.getInstance(getContext());
+
+        //Tirar isso daqui, é só pra teste
+
     }
 
     private void setMessageError(EditText editText, String message) {
         editText.requestFocus();
         editText.setError(message);
+
     }
 
     private void validateUserInformation() {

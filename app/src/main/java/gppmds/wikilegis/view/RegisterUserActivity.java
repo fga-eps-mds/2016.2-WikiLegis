@@ -5,26 +5,65 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.RegisterUserController;
+import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.RegisterUserController;
+import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.dao.DatabaseHelper;
+import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.SegmentTypesException;
+import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.SegmentTypes;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register_user);
-
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         RegisterUserFragment registerUser = new RegisterUserFragment();
         RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
         controller.getUsersExemple();
 
-        openFragment(registerUser);
+
+        LoginFragment loginFragment = new LoginFragment();
+
+
+        SegmentController segmentController = new SegmentController(getBaseContext());
+
+        try {
+            segmentController.initControllerSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        BillController billController = new BillController(getBaseContext());
+
+        try {
+            billController.initControllerBills();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+        openFragment(loginFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){

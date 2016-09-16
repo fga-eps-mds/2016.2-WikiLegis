@@ -40,6 +40,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithEmptyFirstName(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText(""));
         onView(withId(R.id.registerButton)).perform(click());
 
@@ -47,6 +48,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithNumbersFirstName(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
@@ -55,6 +57,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithNumbersLastName(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
@@ -64,6 +67,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithEmptyEmail(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -74,6 +78,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithOverMaxLengthEmail(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -86,6 +91,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithEmptyPassword(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -99,6 +105,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithLesserMinLengthPassword(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -112,6 +119,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithOverMaxLengthPassword(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -125,6 +133,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithConfirmPasswordDifferentPassword(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -140,6 +149,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithOverMaxLengthFirstName(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
@@ -148,6 +158,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithEmptyLastName(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText(""));
         closeSoftKeyboard();
@@ -156,6 +167,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithOverMaxLengthLastName(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         closeSoftKeyboard();
@@ -164,6 +176,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<R
     }
 
     public void testErrorWithInvalidEmail(){
+        onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("Marcelo"));
         onView(withId(R.id.lastNameField)).perform(typeText("Augusto"));
         closeSoftKeyboard();

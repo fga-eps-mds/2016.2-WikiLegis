@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="gppmds.wikilegis.gppmds.wikilegis.view.LoginFragment"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:clickable="false">
 
     <ImageView
         android:layout_width="200px"
@@ -75,16 +76,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText"
         android:text="Não possui cadastro?"
-        android:layout_marginBottom="62dp"
         android:textColor="@color/abc_primary_text_material_dark"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_below="@+id/loginButton"
+        android:layout_toStartOf="@+id/registerText"
+        android:layout_marginTop="91dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
+        android:id="@+id/registerText"
         android:text="      Cadastre-se"
+        android:clickable="true"
         android:textColor="@color/abc_primary_text_material_light"
         android:layout_alignTop="@+id/editText"
         android:layout_alignEnd="@+id/passwordLoginField" />
@@ -95,17 +97,19 @@
         android:id="@+id/textView2"
         android:text="Ou entrar como"
         android:textColor="@color/abc_primary_text_material_dark"
-        android:layout_below="@+id/textView"
-        android:layout_toStartOf="@+id/textView" />
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/editText"
+        android:layout_alignStart="@+id/editText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
+        android:id="@+id/loginAsVisitorText"
         android:text="Visitante"
         android:textColor="@color/abc_primary_text_material_light"
-        android:layout_below="@+id/textView"
-        android:layout_toEndOf="@+id/editText" />
+        android:clickable="true"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toEndOf="@+id/imageViewLogo" />
 
 
 
