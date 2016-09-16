@@ -56,7 +56,6 @@ public class JSONHelper {
         for(int i=0; i<results.length(); i++){
             JSONObject f = results.getJSONObject(i);
 
-
             id = f.getInt("id");
             k=BillController.countedTheNumberOfProposals(aux ,id);
             Bill billAux = new Bill(f.getInt("id"),
@@ -65,15 +64,11 @@ public class JSONHelper {
                                     f.getString("status"),
                                     f.getString("description"),
                                     f.getString("theme"), k);
-            Log.d("id qtd : " ,k.toString() );
-            Log.d("id qtd : " ,f.getString("title"));
 
             JSONArray segments = f.getJSONArray("segments");
 
-            for(int j = 0; j < segments.length(); j++) {
-
-                billAux.setSegments(segments.getInt(j));
-
+            for(int z = 0; z < segments.length(); z++) {
+                billAux.setSegments(segments.getInt(z));
             }
 
             billListApi.add(billAux);
@@ -138,7 +133,7 @@ public class JSONHelper {
                         f.getInt("id"),
                         //Pode vir null???? Botei id pra testar again e number
                         f.getInt("id"),
-                        f.getString("id"),
+                        f.getString("content"),
                         //A partir desta está errada, botei apenas para testar.
                         f.getInt("id"),
                         f.getInt("id"),

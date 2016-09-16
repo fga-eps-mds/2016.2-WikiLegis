@@ -16,13 +16,16 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.SegmentsOfBillController;
 import gppmds.wikilegis.dao.DatabaseHelper;
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.SegmentsOfBillDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
+import gppmds.wikilegis.model.SegmentsOfBill;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
@@ -61,6 +64,30 @@ public class RegisterUserActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (SegmentException e) {
             e.printStackTrace();
+        }
+
+        SegmentsOfBillController segmentsOfBillController = SegmentsOfBillController.getInstance(getApplicationContext());
+
+        try {
+            segmentsOfBillController.initControllerSegmentsOfBill();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        //Pegar os segmentos da Bill com ID = 18
+
+        List<SegmentsOfBill> segmentsOfBillList = new ArrayList<>();
+        SegmentsOfBillDAO segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(getApplicationContext());
+        segmentsOfBillList = segmentsOfBillDAO.getAllSegmentsOfBill(18);
+
+        for(int i=0; i<segmentsOfBillList.size(); i++) {
+            Log.d("idBill", String.valueOf(segmentsOfBillList.get(i).getIdBill()));
+            Log.d("idSeg", String.valueOf(segmentsOfBillList.get(i).getIdSegment()));
+            Log.d("Pos", String.valueOf(segmentsOfBillList.get(i).getPosition()));
         }
 
         openFragment(bill);
