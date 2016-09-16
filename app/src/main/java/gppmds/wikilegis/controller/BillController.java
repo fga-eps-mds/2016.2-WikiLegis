@@ -1,7 +1,6 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,12 +10,10 @@ import java.util.List;
 
 import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.view.FilteringFragment;
 
 /**
  * Created by josue on 9/11/16.
@@ -24,7 +21,6 @@ import gppmds.wikilegis.view.FilteringFragment;
 public class BillController {
 
     private static List<Bill> billList = new ArrayList<Bill>();
-    FilteringFragment filteringFragment = new FilteringFragment();
     private BillDAO billDao;
     private Context context;
 

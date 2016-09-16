@@ -60,8 +60,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         } catch (SegmentException e) {
             e.printStackTrace();
         }
-        FilteringFragment filteringFragment = new FilteringFragment();
-        openFragment(filteringFragment);
+        openFragment(loginFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){
