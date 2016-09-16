@@ -52,7 +52,7 @@ public class FilteringFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recycler_view.setLayoutManager(linearLayoutManager);
 
-        segmentController = new SegmentController(getContext());
+        segmentController = SegmentController.getInstance(getContext());
 
         listSegment = segmentController.getAllSegments();
 

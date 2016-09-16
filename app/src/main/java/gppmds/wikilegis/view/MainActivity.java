@@ -31,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FilteringFragment filteringFragment = new FilteringFragment();
+
         openFragment(filteringFragment);
+
+
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
