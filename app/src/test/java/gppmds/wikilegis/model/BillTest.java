@@ -54,4 +54,31 @@ public class BillTest {
         assertFalse(isValid);
     }
 
+    @Test
+
+    public void testNullEpigraph(){
+        boolean isValid =  true;
+
+        try{
+            Bill bill = new Bill(null,"Title",null,"Status","Description","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testEmptyEpigraph(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(null,"Title","","Status","Description","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
 }
