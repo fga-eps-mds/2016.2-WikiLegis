@@ -139,4 +139,34 @@ public class BillTest {
         assertFalse(isValid);
     }
 
+    @Test
+
+    public void testEmptyTheme(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","Status","Description","",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
+
+    public void testNullTheme(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","Status","Description",null,0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
 }

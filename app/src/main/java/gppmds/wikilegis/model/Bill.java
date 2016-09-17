@@ -35,7 +35,6 @@ public class Bill {
         setEpigraph(epigraph);
         setDescription(description);
         setStatus(status);
-        setDescription(description);
         setTheme(theme);
         this.segments = new ArrayList<>();
         setNumberOfPrposals(numberOfPrposals);
