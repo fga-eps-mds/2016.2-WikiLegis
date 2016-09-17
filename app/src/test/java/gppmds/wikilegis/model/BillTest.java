@@ -47,7 +47,7 @@ public class BillTest {
         boolean isValid = true;
 
         try{
-            Bill bill = new Bill(null,"","Epigraph","Status","Description","Theme",0,12021554);
+            Bill bill = new Bill(22,"","Epigraph","Status","Description","Theme",0,12021554);
         }catch (BillException billException){
             isValid = false;
         }
@@ -60,7 +60,7 @@ public class BillTest {
         boolean isValid =  true;
 
         try{
-            Bill bill = new Bill(null,"Title",null,"Status","Description","Theme",0,12021554);
+            Bill bill = new Bill(22,"Title",null,"Status","Description","Theme",0,12021554);
         }catch (BillException billException){
             isValid = false;
         }
@@ -74,7 +74,7 @@ public class BillTest {
         boolean isValid = true;
 
         try{
-            Bill bill = new Bill(null,"Title","","Status","Description","Theme",0,12021554);
+            Bill bill = new Bill(22,"Title","","Status","Description","Theme",0,12021554);
         }catch (BillException billException){
             isValid = false;
         }
@@ -88,7 +88,7 @@ public class BillTest {
         boolean isValid = true;
 
         try{
-            Bill bill = new Bill(null,"Title","Epigraph","Status","","Theme",0,12021554);
+            Bill bill = new Bill(22,"Title","Epigraph","Status","","Theme",0,12021554);
         }catch (BillException billException){
             isValid = false;
         }
@@ -103,13 +103,40 @@ public class BillTest {
         boolean isValid = true;
 
         try{
-            Bill bill = new Bill(null,"Title","Epigraph","Status",null,"Theme",0,12021554);
+            Bill bill = new Bill(22,"Title","Epigraph","Status",null,"Theme",0,12021554);
         }catch (BillException billException){
             isValid = false;
         }
 
         assertFalse(isValid);
 
+    }
+
+    @Test
+
+    public void testEmptyStatus(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","","Description","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testNullStatus(){
+        boolean isValid = true;
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph",null,"Description","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
     }
 
 }
