@@ -19,12 +19,39 @@ public class BillTest {
         boolean isValid = true;
 
         try{
-            Bill bill = new Bill(null,"Title","Epigraph","Status","Description","Theme",0);
+            Bill bill = new Bill(null,"Title","Epigraph","Status","Description","Theme",0,12021554);
         }catch (BillException billException){
             isValid = false;
         }
 
         assertFalse(isValid);
     }
-    
+
+    @Test
+
+    public void testNullTitle(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,null,"Epigraph","Status","Description","Theme",0,12021554);
+        } catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testEmptyTitle(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(null,"","Epigraph","Status","Description","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+        assertFalse(isValid);
+    }
+
 }

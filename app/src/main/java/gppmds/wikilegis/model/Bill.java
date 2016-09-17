@@ -42,6 +42,8 @@ public class Bill {
         setDate(date);
     }
 
+
+
     public Integer getId() {
         return id;
     }
