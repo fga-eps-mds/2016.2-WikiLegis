@@ -13,10 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import java.util.ArrayList;
 import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.SegmentsOfBillController;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.SegmentsOfBill;
 
 
 public class ViewBill extends Fragment {
@@ -37,7 +41,22 @@ public class ViewBill extends Fragment {
 
         segmentController = SegmentController.getInstance(getContext());
 
-        listSegment = segmentController.getAllSegments();
+        listSegment = new ArrayList<Segment>();
+
+        List<SegmentsOfBill> segmentsOfBillList;
+
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(40);
+
+        for(int i=0; i<segmentsOfBillList.size(); i++) {
+            try {
+                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i).getIdSegment());
+                if(segmentAux.getOrder() != 0)
+                    listSegment.add(segmentAux);
+
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }
 
         RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(listSegment, getContext());
         recycler_view.setAdapter(adapter);

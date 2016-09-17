@@ -54,10 +54,10 @@ public class SegmentController {
                 f.getString("replaced").equals("null") ? 0 : f.getInt("replaced"),
                 //Tambem pode vir null, botei id pra testar e parent
                 f.getInt("id"),
-                f.getInt("id"),
+                f.getInt("type"),
                 //Pode vir null???? Botei id pra testar again e number
                 f.getInt("id"),
-                f.getString("created"),
+                f.getString("content"),
                 //A partir desta está errada, botei apenas para testar.
                 f.getInt("id"),
                 f.getInt("id"),
@@ -82,7 +82,7 @@ public class SegmentController {
 
 
 
-        for(int index = 0 ; index <segmentList.size();index++){
+        /*for(int index = 0 ; index <segmentList.size();index++){
 
             if(segmentList.get(index).getBill()==id){
 
@@ -97,7 +97,7 @@ public class SegmentController {
                     aux = result;
                 }
             }
-        }
+        }*/
         return aux;
     }
 
