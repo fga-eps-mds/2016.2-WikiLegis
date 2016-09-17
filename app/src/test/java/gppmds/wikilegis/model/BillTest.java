@@ -184,4 +184,20 @@ public class BillTest {
 
     }
 
+    @Test
+
+    public void testNullDate(){
+
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","Status","Description","Theme",0,null);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
 }

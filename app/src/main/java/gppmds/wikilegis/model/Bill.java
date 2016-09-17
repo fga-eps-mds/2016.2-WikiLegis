@@ -18,7 +18,7 @@ public class Bill {
     private static final String THEME_CANT_BE_EMPTY = "Tema não pode ser carregado";
     private static final String DESCRIPTION_CANT_BE_EMPTY = "Descrição não pode ser carregado";
     private static final String NUMBEROFPROPOSALS_CANT_BE_EMPTY = "Number of proposals não pode ser carregado";
-
+    private static final String DATE_CANT_BE_EMPTY = "Data não pode ser carregado";
     private Integer id;
     private String title;
     private String epigraph;
@@ -132,8 +132,12 @@ public class Bill {
         }
     }
     public int getDate(){return  date;}
-    private void setDate(Integer date){
-        this.date = date;
+    private void setDate(Integer date) throws BillException {
+        if(validateIntegerNull(date)) {
+            this.date = date;
+        } else{
+            throw new BillException(DATE_CANT_BE_EMPTY);
+        }
     }
 
     //Methods of validation
