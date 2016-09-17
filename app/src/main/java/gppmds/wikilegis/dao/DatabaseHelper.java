@@ -28,12 +28,13 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String BILL_AMOUNT_PARTICIPANTS = "[amountParticipants]";
     private static final String BILL_AMOUNT_PROPOSALS = "[amountProposals]";
     private static final String BILL_STATUS = "[status]";
+    private static final String BILL_DATE = "[date]";
 
     private static final String CREATE_BILL = "CREATE TABLE " + BILL_TABLE + " (" +
             BILL_ID + " INTEGER NOT NULL PRIMARY KEY, " + BILL_TITLE + " VARCHAR(200), " +
             BILL_EPIGRAPH + "  VARCHAR(200), "+ BILL_DESCRIPTION + " VARCHAR(500), " +
             BILL_THEME + " VARCHAR(50), "+ BILL_AMOUNT_PARTICIPANTS + " INTEGER, " +
-            BILL_AMOUNT_PROPOSALS + " INTEGER, " + BILL_STATUS + " VARCHAR(50)); ";
+            BILL_AMOUNT_PROPOSALS + " INTEGER, " + BILL_STATUS + " VARCHAR(50), " + BILL_DATE + " INTEGER);" ;
 
 
     //Segments of Bill

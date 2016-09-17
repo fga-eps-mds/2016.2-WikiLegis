@@ -99,7 +99,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         }
 
-        openFragment(bill);
+        openFragment(loginFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){
