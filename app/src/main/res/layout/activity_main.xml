@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main_content"
-    tools:context=".view.MainActivity">
+    tools:context=".view.MainActivity"
+    android:background="@drawable/background">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/main_toolbar"
@@ -16,5 +17,11 @@
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:layout_alignParentEnd="true">
     </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_view"
+        android:layout_marginTop="70dp" />
 
 </RelativeLayout>

@@ -151,7 +151,7 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_viewBill"
         android:layout_below="@+id/frameLayout"
-        android:background="@color/cardview_light_background"
+        android:background="@android:color/transparent"
         android:layout_alignStart="@+id/frameLayout"
         android:layout_alignEnd="@+id/frameLayout"
         />

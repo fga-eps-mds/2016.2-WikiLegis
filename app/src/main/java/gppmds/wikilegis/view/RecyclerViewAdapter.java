@@ -2,6 +2,7 @@ package gppmds.wikilegis.view;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,16 @@ import gppmds.wikilegis.model.Bill;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.BillViewHolder> {
 
+
+    private List<Bill> bills;
+    private Integer imageThemeId;
+
     public static class BillViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView billTitle;
         TextView billDescription;
         ImageView themePhoto;
+
 
         BillViewHolder(View itemView) {
             super(itemView);
@@ -32,11 +38,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             themePhoto = (ImageView)itemView.findViewById(R.id.theme_photo);
         }
     }
-    private List<Bill> bills;
-    private Integer imageThemeId;
+
 
     RecyclerViewAdapter(List<Bill> bills){
-        bills = FilteringFragment.filtringForNumberOfProposals(bills);
         this.bills = bills;
     }
 
@@ -65,14 +69,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public BillViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_bill, viewGroup, false);
         BillViewHolder billViewHolder = new BillViewHolder(v);
         return billViewHolder;
     }
 
     @Override
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
-        bills = FilteringFragment.filtringForNumberOfProposals(bills);
+        bills = MainActivity.filtringForNumberOfProposals(bills);
         personViewHolder.billTitle.setText(bills.get(i).getTitle());
         personViewHolder.billDescription.setText(bills.get(i).getDescription());
         setImageThemeId(bills.get(i));

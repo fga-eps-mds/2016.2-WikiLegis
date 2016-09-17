@@ -9,7 +9,7 @@ import gppmds.wikilegis.exception.BillException;
 /**
  * Created by thiago on 9/6/16.
  */
-public class Bill implements Comparable<Bill>{
+public class Bill {
 
     private static final String TITLE_CANT_BE_EMPTY = "Título não pode ser carregado";
     private static final String EPIGRAPH_CANT_BE_EMPTY = "Epigrafe não pode ser carregado";
@@ -25,9 +25,10 @@ public class Bill implements Comparable<Bill>{
     private String theme;
     private List<Integer> segments;
     private Integer numberOfPrposals;
+    private Integer date;
 
     public Bill(final Integer id, final String title, final String epigraph,
-                final String status, final String description, final String theme,final Integer numberOfPrposals) throws BillException {
+                final String status, final String description, final String theme,final Integer numberOfPrposals,final Integer date) throws BillException {
         setId(id);
         setTitle(title);
         setEpigraph(epigraph);
@@ -37,6 +38,7 @@ public class Bill implements Comparable<Bill>{
         setTheme(theme);
         this.segments = new ArrayList<>();
         setNumberOfPrposals(numberOfPrposals);
+        setDate(date);
     }
 
     public Integer getId() {
@@ -119,6 +121,11 @@ public class Bill implements Comparable<Bill>{
 
         this.numberOfPrposals = numberOfPrposals;
     }
+    public int getDate(){return  date;}
+    private void setDate(Integer date){
+        this.date = date;
+    }
+
     //Methods of validation
 
     private boolean validateStringEmpty(final String string) {
@@ -128,16 +135,6 @@ public class Bill implements Comparable<Bill>{
             return true;
         }
     }
-    private int number;
-    @Override
-    public int compareTo(Bill bill) {
-        if(this.numberOfPrposals>bill.getNumberOfPrposals()){
-            return -1;
-        }
-        if(this.numberOfPrposals<bill.getNumberOfPrposals()){
-            return 1;
-        }
-        return 0;
-    }
+
 
 }

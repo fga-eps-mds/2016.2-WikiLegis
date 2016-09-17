@@ -37,22 +37,24 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String BILL_AMOUNT_PARTICIPANTS = "[amountParticipants]";
     private static final String BILL_AMOUNT_PROPOSALS = "[amountProposals]";
     private static final String BILL_STATUS = "[status]";
+    private static final String BILL_DATE = "[date]";
 
     private static final String CREATE_BILL = "CREATE TABLE " + BILL_TABLE + " (" +
             BILL_ID + " INTEGER NOT NULL PRIMARY KEY, " + BILL_TITLE + " VARCHAR(200), " +
             BILL_EPIGRAPH + "  VARCHAR(200), "+ BILL_DESCRIPTION + " VARCHAR(500), " +
             BILL_THEME + " VARCHAR(50), "+ BILL_AMOUNT_PARTICIPANTS + " INTEGER, " +
-            BILL_AMOUNT_PROPOSALS + " INTEGER, " + BILL_STATUS + " VARCHAR(50)); ";
+            BILL_AMOUNT_PROPOSALS + " INTEGER, " + BILL_STATUS + " VARCHAR(50), " + BILL_DATE + " INTEGER);" ;
 
 
     //Segments of Bill
 
     private static final String SEGMENTS_BILL_ID_SEGMENT = "[idSegment]";
     private static final String SEGMENTS_BILL_ID_BILL = "[idBill]";
+    private static final String SEGMENTS_BILL_POSITION = "[position]";
 
     private static final String CREATE_SEGMENTS_BILL = "CREATE TABLE " + SEGMENTS_BILL_TABLE + " ( " +
-            SEGMENTS_BILL_ID_SEGMENT + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_BILL_ID_BILL +
-            " INTEGER );";
+            SEGMENTS_BILL_ID_SEGMENT + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_BILL_POSITION + " INTEGER ," +
+            SEGMENTS_BILL_ID_BILL + " INTEGER );";
 
     //Segments
 
