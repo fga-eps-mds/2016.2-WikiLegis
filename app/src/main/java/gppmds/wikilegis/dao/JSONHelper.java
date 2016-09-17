@@ -1,5 +1,6 @@
 package gppmds.wikilegis.dao;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.SegmentTypeController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
@@ -19,10 +22,9 @@ import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
 
 /**
- * Created by marcelo on 9/8/16.
+  * Created by marcelo on 9/8/16.
  */
 public class JSONHelper {
-
 
     public static String getJSONObjectApi(final String URL) {
         String getApi = null;
@@ -44,31 +46,34 @@ public class JSONHelper {
     }
 
     public static List<Bill> billListFromJSON(String billList ,List<Segment> aux) throws JSONException, BillException, SegmentException {
+        int id;
 
         List<Bill> billListApi = new ArrayList<>();
 
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
-        int id;
-        Integer k;
+
+        Integer numberOfProposals,date;
 
 
-        for(int i=0; i<results.length(); i++){
-            JSONObject f = results.getJSONObject(i);
+
+        for(int index=0; index < results.length(); index++){
+
+            JSONObject f = results.getJSONObject(index);
 
             id = f.getInt("id");
-            k=BillController.countedTheNumberOfProposals(aux ,id);
-            Bill billAux = new Bill(f.getInt("id"),
-                                    f.getString("title"),
-                                    f.getString("epigraph"),
-                                    f.getString("status"),
-                                    f.getString("description"),
-                                    f.getString("theme"), k);
+
+            numberOfProposals=BillController.countedTheNumberOfProposals(aux ,id);
+
+            date= SegmentController.getMinDate(id);
+
+            Bill billAux = BillController.getBill(numberOfProposals, date, f);
 
             JSONArray segments = f.getJSONArray("segments");
 
-            for(int z = 0; z < segments.length(); z++) {
-                billAux.setSegments(segments.getInt(z));
+            for(int j = 0; j < segments.length(); j++) {
+
+                billAux.setSegments(segments.getInt(j));
             }
 
             billListApi.add(billAux);
@@ -77,10 +82,13 @@ public class JSONHelper {
         return billListApi;
     }
 
+
+
+
     public static List<SegmentTypes> segmentTypesListFromJSON(List<SegmentTypes> segmentTypesListApi)
                                                               throws JSONException, SegmentTypesException {
 
-        String url = "http://wikilegis.labhackercd.net/api/segment_types/";
+        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segment_types/";
 
         do {
             String segmentTypesList = getJSONObjectApi(url);
@@ -91,23 +99,24 @@ public class JSONHelper {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject f = results.getJSONObject(i);
 
-                SegmentTypes segmentTypeAux = new SegmentTypes(f.getInt("id"),
-                        f.getString("name"));
+                SegmentTypes segmentTypeAux = SegmentTypeController.getSegmentTypes(f);
 
                 segmentTypesListApi.add(segmentTypeAux);
             }
 
             String nextUrl = segmentTypes.getString("next");
-            url = nextUrl;
+            url = updateDomain(nextUrl);
 
         } while(!url.equals("null"));
 
         return segmentTypesListApi;
     }
 
+
+
     public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
 
-        String url = "http://wikilegis.labhackercd.net/api/segments/";
+        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/";
 
         List<Segment> segmentListApi = new ArrayList<>();
 
@@ -120,33 +129,32 @@ public class JSONHelper {
 
             for (int i = 0; i < results.length(); i++) {
                 JSONObject f = results.getJSONObject(i);
-                        Log.d("huehue", "huheuhue");
 
-                Segment segmentAux = new Segment(f.getInt("id"),
-                        f.getInt("order"),
-                        f.getInt("bill"),
-                        f.getBoolean("original"),
-                        //Mesma coisa das outras era replaced
-                        f.getString("replaced").equals("null") ? 0 : f.getInt("replaced"),
-                        //Tambem pode vir null, botei id pra testar e parent
-                        f.getInt("id"),
-                        f.getInt("id"),
-                        //Pode vir null???? Botei id pra testar again e number
-                        f.getInt("id"),
-                        f.getString("content"),
-                        //A partir desta está errada, botei apenas para testar.
-                        f.getInt("id"),
-                        f.getInt("id"),
-                        f.getInt("id"));
+
+                        Log.d("huehue", "huheuhue");
+                Segment segmentAux = SegmentController.getSegment(f);
                 segmentListApi.add(segmentAux);
             }
 
+
             String nextUrl = segment.getString("next");
-            url = nextUrl;
+
+            url = updateDomain(nextUrl);
+
 
         } while(!url.equals("null"));
 
         return segmentListApi;
     }
-}
 
+    public static String updateDomain(String nextUrl){
+
+
+        if(nextUrl.equals("null"))
+            return "null";
+        String correctAdress = nextUrl.substring(22);
+        String correctDomain = "http://beta.edemocracia.camara.leg.br/" + correctAdress;
+        Log.d("Aqui",correctDomain);
+        return correctDomain;
+    };
+}

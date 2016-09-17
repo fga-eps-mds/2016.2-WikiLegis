@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +19,7 @@ import gppmds.wikilegis.model.Bill;
 public class BillDAO extends DaoUtilities{
 
     private static String tableColumns[] = {"id", "title", "epigraph", "description", "theme",
-    "amountParticipants", "amountProposals", "status"};
+    "amountParticipants", "amountProposals", "status","date"};
 
     private static BillDAO instance;
 
@@ -78,7 +79,7 @@ public class BillDAO extends DaoUtilities{
         values.put(tableColumns[5], 0);
         values.put(tableColumns[6], bill.getNumberOfPrposals());
         values.put(tableColumns[7], bill.getStatus());
-
+        values.put(tableColumns[8], 999);
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
@@ -116,15 +117,15 @@ public class BillDAO extends DaoUtilities{
         List<Bill> billList = new ArrayList<Bill>();
 
         while (cursor.moveToNext()) {
-
             Bill bill = new Bill(cursor.getColumnIndex(tableColumns[0]),
                     cursor.getString(cursor.getColumnIndex(tableColumns[1])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[7])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[3])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[4])),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6])))
-            );
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+
 
             billList.add(bill);
         }

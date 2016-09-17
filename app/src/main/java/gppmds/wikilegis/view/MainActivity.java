@@ -5,21 +5,39 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.BillComparatorDate;
+import gppmds.wikilegis.controller.BillComparatorProposals;
+import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.model.Segment;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static List<Segment> listSegment;
+    public static BillController billController;
+    public static SegmentController segmentController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,26 +48,60 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        FilteringFragment filteringFragment = new FilteringFragment();
 
-        openFragment(filteringFragment);
+        RecyclerView recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
+        recycler_view.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getBaseContext());
+        recycler_view.setLayoutManager(linearLayoutManager);
+
+        segmentController = SegmentController.getInstance(getBaseContext());
 
 
+        billController = new BillController(this);
+
+
+        try {
+            segmentController.initControllerSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            billController.initControllerBills();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+        listSegment = segmentController.getAllSegments();
+
+        List<Bill> billList = billController.getAllBills();
+
+        billList = filterigForStatusPublished();
+
+        for(int i=0; i<billList.size(); i++) {
+            Log.d("Id", billList.get(i).getTitle());
+            Log.d("N", String.valueOf(billList.get(i).getNumberOfPrposals()));
+        }
+
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
+        recycler_view.setAdapter(adapter);
     }
 
-    private void openFragment(Fragment fragmentToBeOpen){
+    public AdapterView.OnItemClickListener callActivity() {
+        return (new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        android.support.v4.app.FragmentTransaction fragmentTransaction =
-                getSupportFragmentManager().beginTransaction();
+            }
+        });
 
-        fragmentTransaction.replace(R.id.main_content, fragmentToBeOpen);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
-
-    @Override
-    public void onBackPressed(){
-        finish();
     }
 
     @Override
@@ -62,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
             case R.id.action_search:
-                // User chose the "Search" item, show field of search...
+                // User chose the "Search" card_bill, show field of search...
                 return true;
 
             case R.id.action_profile:
@@ -74,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_filtering:
-                buildAlertDialog();
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -84,48 +135,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void buildAlertDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        String[] options = new String[]{
-                "Relevantes",
-                "Recentes",
-                "Abertos",
-                "Encerrados",
-        };
+    public List<Bill> filterigForStatusClosed(){
+        List<Bill> billListWithStatusClosed= new ArrayList<Bill>();
 
-        final boolean[] checkedOptions = new boolean[]{
-                true, // Relevantes
-                false, // Recentes
-                true, // Abertos
-                false // Fechados
-        };
+        List<Bill> list = null;
 
-        final List<String> optionsList = Arrays.asList(options);
+        list = billController.getAllBills();
 
-        builder.setMultiChoiceItems(options, checkedOptions, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-                // Update the current focused item's checked status
-                checkedOptions[which] = isChecked;
-
-                // Get the current focused item
-                String currentItem = optionsList.get(which);
-
-                // Notify the current action
-                Toast.makeText(getApplicationContext(),
-                        currentItem + " " + isChecked, Toast.LENGTH_SHORT).show();
-
-                // Call method for filtering
-                /* switch (currentItem){
-                    case "Relevantes": filteringFragment.filterigForStatusClosed();
-                        break;
-                } */
+        for(int index = 0 ; index<list.size();index++){
+            if(list.get(index).getStatus().equals("closed")){
+                billListWithStatusClosed.add(list.get(index));
             }
-        });
+        }
+        return billListWithStatusClosed;
+    }
 
-        builder.setCancelable(false);
-        builder.setTitle("Filtrar por:");
-        builder.show();
+    public List<Bill> filterigForStatusPublished(){
+        List<Bill> billListWithStatusPublished= new ArrayList<Bill>();
+
+        List<Bill> list = null;
+
+        list = billController.getAllBills();
+
+        for(int index = 0 ; index<list.size();index++){
+            if(list.get(index).getStatus().equals("published")){
+                billListWithStatusPublished.add(list.get(index));
+            }
+        }
+        return billListWithStatusPublished;
+    }
+
+    public static List<Bill> filtringForNumberOfProposals(List<Bill> billList) {
+        BillComparatorProposals billComparatorDProposals = new BillComparatorProposals();
+        Collections.sort(billList,billComparatorDProposals);
+        return  billList;
+    }
+
+    public List<Bill> filtringForDate(List<Bill> billList){
+        BillComparatorDate comparator = new BillComparatorDate();
+        Collections.sort(billList,comparator);
+        return billList;
     }
 }
