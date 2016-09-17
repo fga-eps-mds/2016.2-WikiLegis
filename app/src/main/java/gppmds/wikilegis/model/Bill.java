@@ -17,6 +17,7 @@ public class Bill {
     private static final String STATUS_CANT_BE_EMPTY = "Status não pode ser carregado";
     private static final String THEME_CANT_BE_EMPTY = "Tema não pode ser carregado";
     private static final String DESCRIPTION_CANT_BE_EMPTY = "Descrição não pode ser carregado";
+    private static final String NUMBEROFPROPOSALS_CANT_BE_EMPTY = "Number of proposals não pode ser carregado";
 
     private Integer id;
     private String title;
@@ -123,9 +124,12 @@ public class Bill {
     }
     public int getNumberOfPrposals(){return  numberOfPrposals;}
 
-    private void setNumberOfPrposals(Integer numberOfPrposals){
-
-        this.numberOfPrposals = numberOfPrposals;
+    private void setNumberOfPrposals(Integer numberOfPrposals) throws BillException {
+        if(validateIntegerNull(numberOfPrposals)) {
+            this.numberOfPrposals = numberOfPrposals;
+        } else{
+            throw new BillException(NUMBEROFPROPOSALS_CANT_BE_EMPTY);
+        }
     }
     public int getDate(){return  date;}
     private void setDate(Integer date){

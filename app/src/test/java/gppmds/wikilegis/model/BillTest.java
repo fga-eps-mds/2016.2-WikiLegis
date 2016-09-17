@@ -169,4 +169,19 @@ public class BillTest {
 
     }
 
+    @Test
+
+    public void testNullNumberOfProposals(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","Status","Description","Theme",null,12021554);
+        } catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
 }
