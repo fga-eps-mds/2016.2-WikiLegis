@@ -81,4 +81,35 @@ public class BillTest {
 
         assertFalse(isValid);
     }
+
+    @Test
+
+    public void testEmptyDescription(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(null,"Title","Epigraph","Status","","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
+    @Test
+
+    public void testNullDescription(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(null,"Title","Epigraph","Status",null,"Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+
+    }
+
 }
