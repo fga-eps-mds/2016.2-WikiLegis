@@ -14,15 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
-
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillComparatorDate;
 import gppmds.wikilegis.controller.BillComparatorProposals;
@@ -38,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static List<Segment> listSegment;
     public static BillController billController;
     public static SegmentController segmentController;
+    public static Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,17 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
         recycler_view.setAdapter(adapter);
-    }
-
-    public AdapterView.OnItemClickListener callActivity() {
-        return (new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -175,5 +165,7 @@ public class MainActivity extends AppCompatActivity {
         BillComparatorDate comparator = new BillComparatorDate();
         Collections.sort(billList,comparator);
         return billList;
+
     }
+
 }

@@ -1,12 +1,15 @@
 package gppmds.wikilegis.view;
 
+
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,10 +33,12 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
         TextView segment;
 
         BillViewHolder(View itemView) {
+
             super(itemView);
 
             cardView = (CardView) itemView.findViewById(R.id.frameCardViewSegment);
             segment = (TextView) itemView.findViewById(R.id.textViewSegment);
+
         }
     }
     private List<Segment> segments = segmentController.getAllSegments();
@@ -43,10 +48,8 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
         this.segments = segments;
     }
 
-
     @Override
-    public int getItemCount() {
-        return segments.size();
+    public int getItemCount() {return segments.size();
     }
 
     @Override
@@ -66,6 +69,5 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
-
 }
 
