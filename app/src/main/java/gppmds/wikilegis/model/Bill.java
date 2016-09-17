@@ -11,6 +11,7 @@ import gppmds.wikilegis.exception.BillException;
  */
 public class Bill implements Comparable<Bill>{
 
+    private static final String ID_CANT_BE_EMPTY = "O id não pode ser carregado";
     private static final String TITLE_CANT_BE_EMPTY = "Título não pode ser carregado";
     private static final String EPIGRAPH_CANT_BE_EMPTY = "Epigrafe não pode ser carregado";
     private static final String STATUS_CANT_BE_EMPTY = "Status não pode ser carregado";
@@ -43,8 +44,12 @@ public class Bill implements Comparable<Bill>{
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
+    private void setId(Integer id) throws BillException {
+        if(validateIntegerNull(id)) {
+            this.id = id;
+        } else{
+            throw new BillException(ID_CANT_BE_EMPTY);
+        }
     }
 
     public String getTitle() {
@@ -120,6 +125,16 @@ public class Bill implements Comparable<Bill>{
         this.numberOfPrposals = numberOfPrposals;
     }
     //Methods of validation
+
+    private boolean validateIntegerNull(final Integer integer){
+        if(integer == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
 
     private boolean validateStringEmpty(final String string) {
         if (string == null || string.trim().isEmpty()) {
