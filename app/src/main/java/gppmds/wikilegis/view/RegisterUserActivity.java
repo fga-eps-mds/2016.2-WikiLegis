@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import org.json.JSONException;
 
@@ -12,12 +13,19 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.RegisterUserController;
+import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.SegmentsOfBillController;
+import gppmds.wikilegis.dao.DatabaseHelper;
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.SegmentsOfBillDAO;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
+import gppmds.wikilegis.model.SegmentsOfBill;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
@@ -32,13 +40,66 @@ public class RegisterUserActivity extends AppCompatActivity {
         RegisterUserFragment registerUser = new RegisterUserFragment();
         RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
 
-        //O que que isso tá fazendo aqui mais uma requisição de?
-        //controller.getUrlApi("http://wikilegis.labhackercd.net/api/bills/");
-        FilteringFragment filteringFragment = new FilteringFragment();
-
         LoginFragment loginFragment = new LoginFragment();
 
-        openFragment(filteringFragment);
+        ViewBill bill = new ViewBill();
+
+        SegmentController segmentController = SegmentController.getInstance(getApplicationContext());
+
+        try {
+            segmentController.initControllerSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        BillController billController = new BillController(getBaseContext());
+
+        try {
+            billController.initControllerBills();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        SegmentsOfBillController segmentsOfBillController = SegmentsOfBillController.getInstance(getApplicationContext());
+
+        try {
+            segmentsOfBillController.initControllerSegmentsOfBill();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        //Pegar os segmentos da Bill com ID = 18
+
+        List<SegmentsOfBill> segmentsOfBillList = new ArrayList<>();
+
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(38);
+
+        for(int i=0; i<segmentsOfBillList.size(); i++) {
+            Log.d("idBill", String.valueOf(segmentsOfBillList.get(i).getIdBill()));
+
+            try {
+                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i).getIdSegment());
+                Log.d("idSeg", String.valueOf(segmentsOfBillList.get(i).getIdSegment()));
+                Log.d("Desc:", segmentAux.getContent());
+                Log.d("Pos", String.valueOf(segmentsOfBillList.get(i).getPosition()));
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        openFragment(bill);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){

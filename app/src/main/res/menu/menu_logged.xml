@@ -5,8 +5,8 @@
     tools:context=".view.MainActivity">
 
     <item
-        android:id="@+id/action_reorder"
-        android:title="@string/action_reorder"
+        android:id="@+id/action_profile"
+        android:title="@string/action_profile"
         android:icon="@drawable/reorder"
         app:showAsAction="always"
         android:orderInCategory="1">

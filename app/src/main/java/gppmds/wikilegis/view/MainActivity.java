@@ -1,14 +1,23 @@
 package gppmds.wikilegis.view;
 
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.model.Bill;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +31,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FilteringFragment filteringFragment = new FilteringFragment();
+
         openFragment(filteringFragment);
+
+
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
@@ -53,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 // User chose the "Search" item, show field of search...
                 return true;
 
-            case R.id.action_reorder:
+            case R.id.action_profile:
                 // User choose first icon.
                 return true;
 
@@ -62,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_filtering:
-                //Show options to filter
+                buildAlertDialog();
                 return true;
             default:
                 // If we got here, the user's action was not recognized.
@@ -70,6 +82,50 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
 
+    private void buildAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        String[] options = new String[]{
+                "Relevantes",
+                "Recentes",
+                "Abertos",
+                "Encerrados",
+        };
+
+        final boolean[] checkedOptions = new boolean[]{
+                true, // Relevantes
+                false, // Recentes
+                true, // Abertos
+                false // Fechados
+        };
+
+        final List<String> optionsList = Arrays.asList(options);
+
+        builder.setMultiChoiceItems(options, checkedOptions, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
+                // Update the current focused item's checked status
+                checkedOptions[which] = isChecked;
+
+                // Get the current focused item
+                String currentItem = optionsList.get(which);
+
+                // Notify the current action
+                Toast.makeText(getApplicationContext(),
+                        currentItem + " " + isChecked, Toast.LENGTH_SHORT).show();
+
+                // Call method for filtering
+                /* switch (currentItem){
+                    case "Relevantes": filteringFragment.filterigForStatusClosed();
+                        break;
+                } */
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.setTitle("Filtrar por:");
+        builder.show();
     }
 }
