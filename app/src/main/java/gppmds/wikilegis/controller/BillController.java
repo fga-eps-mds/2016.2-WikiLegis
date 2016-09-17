@@ -40,7 +40,7 @@ public class BillController {
                 f.getString("epigraph"),
                 f.getString("status"),
                 f.getString("description"),
-                f.getString("theme"), numberOfProposals,date);
+                f.getString("theme"), numberOfProposals, date);
         return billAux;
     }
 
