@@ -47,6 +47,9 @@ public class ViewBillFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        int id;
+//        id=getArguments().getInt("id");
+
         View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
 
         this.settingEditText(view);

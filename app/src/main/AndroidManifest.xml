@@ -16,8 +16,8 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".view.LoginActivity"
-            android:label="@string/title_activity_register_user"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_login"
+             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
