@@ -59,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             ViewBillFragment viewBillFragment = new ViewBillFragment();
             viewBillFragment.setArguments(bundle);
 
-            activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
+            activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_content,
                     viewBillFragment).commit();
 
             Toast.makeText(activity, view.getTag()+"", Toast.LENGTH_LONG).show();
