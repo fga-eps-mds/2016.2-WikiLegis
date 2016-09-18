@@ -52,10 +52,10 @@ public class SegmentTypes {
     }
 
     private boolean idIsValid(final Integer id) {
-        return id < 1 ? false : true;
+        return (id < 1 || id > 11) ? false : true;
     }
 
     private boolean nameIsNull(final String name) {
-        return (name.isEmpty() || name == null) ? true : false;
+        return ( name == null || name.isEmpty()) ? true : false;
     }
 }
