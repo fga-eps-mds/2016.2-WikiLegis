@@ -27,8 +27,10 @@ public class ViewBill extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         int id;
         id=getArguments().getInt("id");
+
         View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
         RecyclerView recycler_view = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
         recycler_view.setHasFixedSize(true);
