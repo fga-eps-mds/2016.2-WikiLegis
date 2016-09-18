@@ -92,7 +92,7 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
     @Override
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
         String segmentsString = segments.get(i).getContent();
-        Log.d("Aqui", segmentsString);
+//        Log.d("Aqui", segmentsString);
         personViewHolder.segment.setText(segmentsString);
     }
 

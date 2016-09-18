@@ -51,7 +51,7 @@ public class ViewBill extends Fragment {
 
         List<SegmentsOfBill> segmentsOfBillList;
 
-        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(25);
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(40);
 
         for(int i=0; i<segmentsOfBillList.size(); i++) {
             try {

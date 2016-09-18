@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
@@ -69,6 +70,10 @@ public class SegmentDAO extends DaoUtilities{
 
         ContentValues values = new ContentValues();
 
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String contentWhitType = segmentController.addingTypeContent(segment);
+
         values.put(tableColumns[0], segment.getId());
         values.put(tableColumns[1], segment.getOrder());
         values.put(tableColumns[2], segment.getBill());
@@ -77,7 +82,7 @@ public class SegmentDAO extends DaoUtilities{
         values.put(tableColumns[5], segment.getParent());
         values.put(tableColumns[6], segment.getType());
         values.put(tableColumns[7], segment.getNumber());
-        values.put(tableColumns[8], segment.getContent());
+        values.put(tableColumns[8], contentWhitType);
         values.put(tableColumns[9], "FirstName");
         values.put(tableColumns[10], "SecondName");
         values.put(tableColumns[11], 1);
