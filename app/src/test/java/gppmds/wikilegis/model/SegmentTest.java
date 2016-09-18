@@ -52,4 +52,32 @@ public class SegmentTest {
 
         assertFalse(isValid);
     }
+
+    @Test
+
+    public void testNullReplaced(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,null,4,5,6,"content",7,8,9);
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testNullParent(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,null,5,6,"content",7,8,9);
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
 }
