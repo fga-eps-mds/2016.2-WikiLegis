@@ -26,7 +26,6 @@ import gppmds.wikilegis.model.SegmentTypes;
  */
 public class JSONHelper {
 
-
     public static String getJSONObjectApi(final String URL) {
         String getApi = null;
 
@@ -55,6 +54,7 @@ public class JSONHelper {
         JSONArray results = bills.getJSONArray("results");
 
         Integer numberOfProposals,date;
+
 
 
         for(int index=0; index < results.length(); index++){
@@ -88,7 +88,7 @@ public class JSONHelper {
     public static List<SegmentTypes> segmentTypesListFromJSON(List<SegmentTypes> segmentTypesListApi)
                                                               throws JSONException, SegmentTypesException {
 
-        String url = "http://wikilegis.labhackercd.net/api/segment_types/";
+        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segment_types/";
 
         do {
             String segmentTypesList = getJSONObjectApi(url);
@@ -105,7 +105,7 @@ public class JSONHelper {
             }
 
             String nextUrl = segmentTypes.getString("next");
-            url = nextUrl;
+            url = updateDomain(nextUrl);
 
         } while(!url.equals("null"));
 
@@ -116,7 +116,7 @@ public class JSONHelper {
 
     public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
 
-        String url = "http://wikilegis.labhackercd.net/api/segments/";
+        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/";
 
         List<Segment> segmentListApi = new ArrayList<>();
 
@@ -130,17 +130,31 @@ public class JSONHelper {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject f = results.getJSONObject(i);
 
+
                         Log.d("huehue", "huheuhue");
                 Segment segmentAux = SegmentController.getSegment(f);
                 segmentListApi.add(segmentAux);
             }
 
+
             String nextUrl = segment.getString("next");
-            url = nextUrl;
+
+            url = updateDomain(nextUrl);
+
 
         } while(!url.equals("null"));
 
         return segmentListApi;
     }
-}
 
+    public static String updateDomain(String nextUrl){
+
+
+        if(nextUrl.equals("null"))
+            return "null";
+        String correctAdress = nextUrl.substring(22);
+        String correctDomain = "http://beta.edemocracia.camara.leg.br/" + correctAdress;
+        Log.d("Aqui",correctDomain);
+        return correctDomain;
+    };
+}

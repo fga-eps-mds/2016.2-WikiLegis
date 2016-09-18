@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
@@ -69,6 +70,10 @@ public class SegmentDAO extends DaoUtilities{
 
         ContentValues values = new ContentValues();
 
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String contentWhitType = segmentController.addingTypeContent(segment);
+
         values.put(tableColumns[0], segment.getId());
         values.put(tableColumns[1], segment.getOrder());
         values.put(tableColumns[2], segment.getBill());
@@ -77,10 +82,10 @@ public class SegmentDAO extends DaoUtilities{
         values.put(tableColumns[5], segment.getParent());
         values.put(tableColumns[6], segment.getType());
         values.put(tableColumns[7], segment.getNumber());
-        values.put(tableColumns[8], segment.getContent());
+        values.put(tableColumns[8], contentWhitType);
         values.put(tableColumns[9], "FirstName");
         values.put(tableColumns[10], "SecondName");
-        values.put(tableColumns[11], "Date");
+        values.put(tableColumns[11], 1);
 
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
@@ -106,6 +111,38 @@ public class SegmentDAO extends DaoUtilities{
         result = deleteAndClose(sqliteDatabase, tableName);
 
         return result;
+    }
+
+    public Segment getSegmentById(Integer id) throws SegmentException {
+        sqliteDatabase = database.getReadableDatabase();
+
+        String query = "SELECT * FROM " + tableName + " WHERE \"id\" = " + id.toString();
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+
+        Segment segment=null;
+
+        while (cursor.moveToNext()) {
+
+            segment = new Segment(
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
+                    Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[8])),
+                    0,
+                    0,
+                    0
+            );
+        }
+        cursor.close();
+        //sqliteDatabase.close();
+
+        return segment;
     }
 
     public List<Segment> getAllSegments() throws SegmentException {
@@ -138,6 +175,7 @@ public class SegmentDAO extends DaoUtilities{
         }
 
         //sqliteDatabase.close();
+        //cursor.close();
 
         return segmentList;
     }

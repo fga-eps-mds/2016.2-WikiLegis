@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,7 +79,7 @@ public class BillDAO extends DaoUtilities{
         values.put(tableColumns[5], 0);
         values.put(tableColumns[6], bill.getNumberOfPrposals());
         values.put(tableColumns[7], bill.getStatus());
-        values.put(tableColumns[8],bill.getDate());
+        values.put(tableColumns[8], 999);
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
@@ -116,8 +117,7 @@ public class BillDAO extends DaoUtilities{
         List<Bill> billList = new ArrayList<Bill>();
 
         while (cursor.moveToNext()) {
-
-            Bill bill = new Bill(cursor.getColumnIndex(tableColumns[0]),
+            Bill bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[1])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[7])),
@@ -133,6 +133,32 @@ public class BillDAO extends DaoUtilities{
         //sqliteDatabase.close();
 
         return billList;
+    }
+
+    public Bill getBillById(Integer id) throws BillException {
+
+        sqliteDatabase = database.getReadableDatabase();
+
+        String query = "SELECT * FROM " + tableName + " WHERE [id] = " + id.toString();
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+
+        Bill bill = null;
+
+        while (cursor.moveToNext()) {
+            bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[1])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[2])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[7])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[3])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[4])),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+        }
+
+        //sqliteDatabase.close();
+
+        return bill;
     }
 
 }
