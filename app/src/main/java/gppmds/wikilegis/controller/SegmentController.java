@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -64,7 +65,8 @@ public class SegmentController {
                 f.getInt("id"));
     }
     public void initControllerSegments() throws SegmentException, JSONException {
-
+        PostRequest postRequest = new PostRequest();
+        postRequest.execute("http://www.google.com/","Lucas@email","Lucas","Brilhante","12345");
         segmentDAO = SegmentDAO.getInstance(context);
 
         if (segmentDAO.isDatabaseEmpty()) {
