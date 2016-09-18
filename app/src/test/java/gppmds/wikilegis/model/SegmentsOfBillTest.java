@@ -14,6 +14,36 @@ public class SegmentsOfBillTest {
 
     @Test
 
+    public void testNullIdBill(){
+        boolean isValid = true;
+
+        try{
+            SegmentsOfBill segmentsOfBill = new SegmentsOfBill(1,null,3);
+        } catch (SegmentsOfBillException segmentsOfBillException) {
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+
+    @Test
+
+    public void testNullPosition(){
+        boolean isValid = true;
+
+        try{
+            SegmentsOfBill segmentsOfBill = new SegmentsOfBill(1,2,null);
+        } catch (SegmentsOfBillException segmentsOfBillException) {
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+
+    @Test
+
     public void testNullIdSegment(){
         boolean isValid = true;
 
@@ -25,8 +55,6 @@ public class SegmentsOfBillTest {
 
         assertFalse(isValid);
     }
-
-
 
 }
 
