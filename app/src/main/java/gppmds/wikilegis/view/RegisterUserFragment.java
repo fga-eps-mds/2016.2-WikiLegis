@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
+import gppmds.wikilegis.controller.RegisterUserController;
 import org.json.JSONException;
 
 import gppmds.wikilegis.controller.RegisterUserController;

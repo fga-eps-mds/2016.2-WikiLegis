@@ -94,4 +94,90 @@ public class SegmentTest {
 
         assertFalse(isValid);
     }
+
+    @Test
+
+    public void testNullNumber(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,null,"content",7,8,9);
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testNullContent(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,null,7,8,9);
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testEmptyContent(){
+
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"",7,8,9);
+        }catch(SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testNullIdAuthor(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Comment",null,8,9);
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testNullIdVote(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Comment",8,null,9);
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testNullIdComment(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Comment",8,9,null);
+        }catch(SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
 }
+

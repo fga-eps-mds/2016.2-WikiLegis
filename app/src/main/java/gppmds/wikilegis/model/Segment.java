@@ -159,7 +159,7 @@ public class Segment {
         if(validateStringEmpty(content)) {
             this.content = content;
         } else{
-            //throw new SegmentException(CONTENT_CANT_BE_EMPTY);
+            throw new SegmentException(CONTENT_CANT_BE_EMPTY);
         }
     }
 

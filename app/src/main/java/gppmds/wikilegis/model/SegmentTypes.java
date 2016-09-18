@@ -28,11 +28,13 @@ public class SegmentTypes {
     }
 
     public void setId(final Integer id) throws SegmentTypesException {
-        if(idIsValid(id) || !idIsNull(id)) {
-            this.id=id;
-        } else if(!idIsValid(id)) {
-            throw new SegmentTypesException(ID_CANT_BE_LESS_THAN_1);
-        } else if(idIsNull(id)) {
+        if( !idIsNull(id) ) {
+            if(idIsValid(id)) {
+                this.id = id;
+            }else{
+                throw new SegmentTypesException(ID_CANT_BE_LESS_THAN_1);
+            }
+        }else {
             throw new SegmentTypesException(ID_CANT_BE_EMPTY);
         }
     }
@@ -50,10 +52,10 @@ public class SegmentTypes {
     }
 
     private boolean idIsValid(final Integer id) {
-        return id < 1 ? false : true;
+        return (id < 1 || id > 11) ? false : true;
     }
 
     private boolean nameIsNull(final String name) {
-        return (name.isEmpty() || name == null) ? true : false;
+        return ( name == null || name.isEmpty()) ? true : false;
     }
 }

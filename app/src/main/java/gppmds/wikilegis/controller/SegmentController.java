@@ -168,14 +168,29 @@ public class SegmentController {
             case 1:
                 bufferAux = "Art. " + segment.getNumber().toString() + "º " + segment.getContent();
                 break;
+            case 2:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tTITULO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
             case 3:
-                bufferAux = convertRoman(segment.getNumber()) + " - " + segment.getContent();
+                bufferAux = "\t\t\t" + convertRoman(segment.getNumber()) + " - " + segment.getContent();
                 break;
             case 4:
                 bufferAux = "§ " + segment.getNumber() + "º " + segment.getContent();
                 break;
             case 5:
-                bufferAux = "    " + alphabet.charAt(segment.getNumber()-1) + ") " + segment.getContent();
+                bufferAux = "\t\t\t\t\t" + alphabet.charAt(segment.getNumber()-1) + ") " + segment.getContent();
+                break;
+            case 7:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCAPITULO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
+            case 8:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLIVRO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
+            case 9:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSEÇAO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
+            case 10:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSUBSEÇAO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
                 break;
             default:
                 bufferAux = segment.getContent();
