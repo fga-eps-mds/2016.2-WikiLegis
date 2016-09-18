@@ -92,4 +92,18 @@ public class CommentsTest {
         assertFalse(isValid);
     }
 
+    @Test
+
+    public void testNullObjectPk(){
+        boolean isValid = true;
+
+        try{
+            Comments comments = new Comments(22,22,"Date","ContentType",null,"Comment");
+        }catch (CommentsException commentsException){
+            isValid  = false;
+        }
+
+        assertFalse(isValid);
+    }
+
 }
