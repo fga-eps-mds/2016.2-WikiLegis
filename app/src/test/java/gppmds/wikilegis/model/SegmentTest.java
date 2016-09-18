@@ -24,4 +24,18 @@ public class SegmentTest {
 
         assertFalse(isValid);
     }
+
+    @Test
+
+    public void testNullOrder(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,null,2,true,3,4,5,6,"content",7,8,9);
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
 }
