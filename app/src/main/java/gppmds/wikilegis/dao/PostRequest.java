@@ -11,6 +11,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,6 +22,8 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import static gppmds.wikilegis.dao.RequestTools.readStream;
 
@@ -42,25 +46,28 @@ public class PostRequest extends AsyncTask<String, Void, String>{
                 URL url = new URL(params[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 try {
-
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setDoOutput(true);
-                    urlConnection.setRequestMethod("POST");
-                    urlConnection.setUseCaches(false);
-                    urlConnection.setConnectTimeout(10000);
-                    urlConnection.setReadTimeout(10000);
-                    urlConnection.setRequestProperty("Content-Type","application/json");
-
-                    //urlConnection.setRequestProperty("Host", "android.schoolportal.gr");
-                    urlConnection.connect();
-
+                    URLConnection urlConn;
+                    DataOutputStream printout;
+                    DataInputStream input;
+                    urlConn = url.openConnection();
+                    urlConn.setDoInput (true);
+                    urlConn.setDoOutput (true);
+                    urlConn.setUseCaches (false);
+                    urlConn.setRequestProperty("Content-Type","application/json");
+                    urlConn.setRequestProperty("Host", "android.schoolportal.gr");
+                    urlConn.connect();
+                    //Create JSONObject here
                     jsonParam.put("email", params[1]);
                     jsonParam.put("first_name", params[2]);
                     jsonParam.put("last_name", params[3]);
                     jsonParam.put("password", params[4]);
-                    OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
-                    out.write(jsonParam.toString());
-                    out.close();
+                    printout = new DataOutputStream(urlConn.getOutputStream ());
+                    printout.writeBytes(URLEncoder.encode(jsonParam.toString(),"UTF-8"));
+                    printout.flush ();
+                    printout.close ();
+//                    OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
+//                    out.write(jsonParam.toString());
+//                    out.close();
 
                     int HttpResult = urlConnection.getResponseCode();
                     if(HttpResult ==HttpURLConnection.HTTP_OK){
