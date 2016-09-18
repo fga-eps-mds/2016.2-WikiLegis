@@ -1,11 +1,11 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
-import android.util.Log;
 
-import java.util.concurrent.ExecutionException;
+import java.io.IOException;
 
 import gppmds.wikilegis.dao.GetRequest;
+import gppmds.wikilegis.dao.DaoUtilities;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
@@ -35,7 +35,6 @@ public class RegisterUserController {
 
         try {
 
-            //Usuário instaciado e criado que será passado para a base de dados
             User user = new User(firstName, lastName, email, password, passwordConfirmation);
 
             return "SUCESS";
@@ -45,5 +44,30 @@ public class RegisterUserController {
             return exceptionMessage;
 
         }
+    }
+
+/*
+    public static boolean emailIsRepeated(String email) throws IOException {
+
+        DaoUtilities utilities = new DaoUtilities();
+
+            if (utilities.findEmail(email) == true) {
+                return true;
+            } else {
+                return false;
+            }
+
+    }
+
+    /**
+     * Log D the users
+     */
+    public void getUsersExemple() {
+        final String URL = "http://wikilegis.labhackercd.net/api/users/?api_key=9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b";
+
+        GetRequest request = new GetRequest();
+
+        request.execute(URL);
+
     }
 }
