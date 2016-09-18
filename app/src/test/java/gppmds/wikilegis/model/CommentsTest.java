@@ -23,4 +23,19 @@ public class CommentsTest {
 
         assertFalse(isValid);
     }
+
+    @Test
+
+    public  void testNullIdUser(){
+        boolean isValid = true;
+
+        try{
+            Comments comments = new Comments(22,null,"Date","ContentType",9,"Comment");
+        }catch (CommentsException commentsException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
 }
