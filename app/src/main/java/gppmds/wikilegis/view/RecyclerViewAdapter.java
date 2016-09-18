@@ -63,7 +63,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     viewBillFragment).commit();
 
             Toast.makeText(activity, view.getTag()+"", Toast.LENGTH_LONG).show();
-
         }
     }
     RecyclerViewAdapter(List < Bill > bills) {

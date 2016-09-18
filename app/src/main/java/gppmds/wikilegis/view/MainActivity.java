@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Switch switchRelevantes = (Switch)findViewById(R.id.switchRelevanteRecente);
-        final Switch switchAbertos = (Switch)findViewById(R.id.switchAbertoFechado);
+        Switch switchAbertos = (Switch)findViewById(R.id.switchAbertoFechado);
 
         RecyclerView recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
         recycler_view.setHasFixedSize(true);
@@ -102,46 +102,58 @@ public class MainActivity extends AppCompatActivity {
         switchRelevantes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    billListRelevantsRecents = filtringForDate(billList);
+                List<Bill>aux = new ArrayList<Bill>() ;
+                for(int i = 0 ;i<billList.size();i++){
+
+                    if(b){
+
+
                     adapter.getData().clear();
                     adapter.getData().addAll(billListRelevantsRecents);
                     adapter.notifyDataSetChanged();
+
                 }else{
-                    billListRelevantsRecents = filtringForNumberOfProposals(billList);
+                        aux.add(billList.get(i));
+                    }
+                    billListRelevantsRecents = filtringForNumberOfProposals(aux);
                     adapter.getData().clear();
                     adapter.getData().addAll(billListRelevantsRecents);
                     adapter.notifyDataSetChanged();
+
                 }
             }
         });
 
         switchAbertos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
+
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    billListOpenedClosed = filterigForStatusClosed(billListRelevantsRecents);
+                List<Bill>aux = new ArrayList<Bill>() ;
+                for(int i = 0 ;i<billList.size();i++){
+                    aux.add(billList.get(i));
+                }
+                if(b) {
+
+
+
+                    billListOpenedClosed = filterigForStatusClosed(aux);
                     adapter.getData().clear();
                     adapter.getData().addAll(billListOpenedClosed);
                     adapter.notifyDataSetChanged();
+
                 }else{
-                    billListOpenedClosed = filterigForStatusPublished(billListRelevantsRecents);
+
+                    billListOpenedClosed = filterigForStatusPublished(aux);
                     adapter.getData().clear();
                     adapter.getData().addAll(billListOpenedClosed);
                     adapter.notifyDataSetChanged();
+
+
                 }
             }
         });
     }
 
-    public AdapterView.OnItemClickListener callActivity() {
-        return (new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            }
-        });
-
-    }
 
 
     @Override
