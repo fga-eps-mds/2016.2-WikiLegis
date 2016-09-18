@@ -3,6 +3,7 @@ package gppmds.wikilegis.view;
 
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.SegmentComparatorOrder;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.SegmentsOfBillController;
 import gppmds.wikilegis.exception.SegmentException;
@@ -45,7 +48,7 @@ public class ViewBill extends Fragment {
 
         List<SegmentsOfBill> segmentsOfBillList;
 
-        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(40);
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(25);
 
         for(int i=0; i<segmentsOfBillList.size(); i++) {
             try {
@@ -57,6 +60,9 @@ public class ViewBill extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        SegmentComparatorOrder segmentComparatorOrder = new SegmentComparatorOrder();
+        Collections.sort(listSegment, segmentComparatorOrder);
 
         RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(listSegment, getContext());
         recycler_view.setAdapter(adapter);
