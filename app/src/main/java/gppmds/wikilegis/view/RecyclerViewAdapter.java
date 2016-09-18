@@ -55,7 +55,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
             if(view==itemView) {
                 ViewBillFragment viewBill = new ViewBillFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
+                activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).
+                        replace(R.id.main_content,
                         viewBill).commit();
 
             }else{
@@ -64,7 +65,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 bundle.putInt("id",idBill);
                 ViewBillFragment viewBill = new ViewBillFragment();
                 viewBill.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
+                activity.getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                        .replace(R.id.main_content,
                         viewBill).commit();
 
 

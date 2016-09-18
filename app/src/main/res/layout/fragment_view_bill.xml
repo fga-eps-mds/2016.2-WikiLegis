@@ -18,7 +18,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginBottom="10dp">
 
@@ -27,28 +27,29 @@
                 android:layout_height="80dp"
                 android:src="@drawable/brasao"
                 android:id="@+id/imageViewBrazal"
-                android:layout_marginTop="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="18dp"
+                android:layout_below="@+id/textViewTitleBill"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/textViewTitleBill"
-                android:layout_alignTop="@+id/imageViewBrazal"
-                android:layout_centerHorizontal="true" />
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textViewAbstractBill"
+                android:id="@+id/textViewTitleAbstract"
+                android:textSize="14dp"
                 android:layout_below="@+id/textViewTitleBill"
-                android:layout_toEndOf="@+id/imageViewBrazal"
-                android:layout_marginTop="5dp"
-                android:textSize="14dp" />
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/imageViewBrazal" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,9 +57,10 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Participantes: "
                 android:id="@+id/textViewParticipants"
-                android:layout_alignTop="@+id/textViewNumberProposal"
-                android:layout_toEndOf="@+id/textViewNumberProposal"
-                android:layout_marginStart="50dp" />
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/textViewTitleAbstract"
+                android:layout_toEndOf="@+id/textViewNumberProposal" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -74,8 +76,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Propostas: "
                 android:id="@+id/textViewProposal"
-                android:layout_marginTop="27dp"
-                android:layout_below="@+id/imageViewBrazal"
+                android:layout_alignTop="@+id/textViewParticipants"
                 android:layout_alignStart="@+id/imageViewBrazal" />
 
             <TextView
