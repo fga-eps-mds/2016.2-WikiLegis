@@ -47,7 +47,7 @@ public class Comments {
     }
 
     private void setIdUser(Integer idUser) throws CommentsException {
-        if(validateIntegerNull(id)) {
+        if(validateIntegerNull(idUser)) {
             this.idUser = idUser;
         } else{
             throw  new CommentsException("IDUSER_CANT_BE_NULL");

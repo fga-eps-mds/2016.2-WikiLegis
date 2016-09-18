@@ -106,4 +106,31 @@ public class CommentsTest {
         assertFalse(isValid);
     }
 
+    @Test
+
+    public void testNullComment(){
+        boolean isValid = true;
+
+        try{
+            Comments comments = new Comments(22,22,"Date","ContentType",9,null);
+        }catch (CommentsException commentsException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
+
+    public void testEmptyComment(){
+        boolean isValid = true;
+
+        try{
+            Comments comments = new Comments(22,22,"Date","ContentType",9,"");
+        }catch (CommentsException commentsException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
 }
