@@ -1,6 +1,7 @@
 package gppmds.wikilegis.model;
 
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.SegmentsOfBillException;
 
 /**
  * Created by marcelo on 9/16/16.
@@ -16,7 +17,7 @@ public class SegmentsOfBill {
     private Integer idBill;
     private Integer position;
 
-    public SegmentsOfBill(Integer idBill, Integer idSegment, Integer position) throws SegmentException {
+    public SegmentsOfBill(Integer idBill, Integer idSegment, Integer position) throws SegmentsOfBillException {
         setIdBill(idBill);
         setIdSegment(idSegment);
         setPosition(position);
@@ -26,12 +27,12 @@ public class SegmentsOfBill {
         return idBill;
     }
 
-    private void setIdBill(Integer idBill) throws SegmentException {
+    private void setIdBill(Integer idBill) throws SegmentsOfBillException {
 
         if(validateIntegerNull(idBill)) {
             this.idBill = idBill;
         } else {
-            throw new SegmentException(IDBILL_CANT_BE_NULL);
+            throw new SegmentsOfBillException(IDBILL_CANT_BE_NULL);
         }
     }
 
@@ -39,12 +40,12 @@ public class SegmentsOfBill {
         return idSegment;
     }
 
-    private void setIdSegment(Integer idSegment) throws SegmentException {
+    private void setIdSegment(Integer idSegment) throws SegmentsOfBillException {
 
         if(validateIntegerNull(idSegment)) {
             this.idSegment = idSegment;
         } else {
-            throw new SegmentException(IDSEGMENT_CANT_BE_NULL);
+            throw new SegmentsOfBillException(IDSEGMENT_CANT_BE_NULL);
         }
     }
 
@@ -52,12 +53,12 @@ public class SegmentsOfBill {
         return position;
     }
 
-    private void setPosition(Integer position) throws SegmentException {
+    private void setPosition(Integer position) throws SegmentsOfBillException {
 
         if(validateIntegerNull(position)) {
             this.position = position;
         } else {
-                throw new SegmentException(POSITION_CANT_BE_NULL);
+                throw new SegmentsOfBillException(POSITION_CANT_BE_NULL);
         }
     }
 

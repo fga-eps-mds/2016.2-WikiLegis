@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.SegmentsOfBillException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
@@ -85,8 +86,13 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
         for(int i = 0; i < billList.size(); i++) {
             for(int j=0; j<billList.get(i).getSegments().size(); j++) {
-                SegmentsOfBill segmentsOfBill = new SegmentsOfBill(billList.get(i).getId(),
-                        billList.get(i).getSegments().get(j), j);
+                SegmentsOfBill segmentsOfBill = null;
+                try {
+                    segmentsOfBill = new SegmentsOfBill(billList.get(i).getId(),
+                            billList.get(i).getSegments().get(j), j);
+                } catch (SegmentsOfBillException e) {
+                    e.printStackTrace();
+                }
                 result = insertSegmentsOfBill(segmentsOfBill);
             }
         }
@@ -113,9 +119,14 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
         while (cursor.moveToNext()) {
 
-            SegmentsOfBill segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))));
+            SegmentsOfBill segmentsOfBill = null;
+            try {
+                segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))));
+            } catch (SegmentsOfBillException e) {
+                e.printStackTrace();
+            }
 
             segmentsOfBillList.add(segmentsOfBill);
         }
@@ -144,7 +155,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
                 segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                         Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                         Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))));
-            } catch (SegmentException e) {
+            } catch (SegmentsOfBillException e) {
                 e.printStackTrace();
             }
 
