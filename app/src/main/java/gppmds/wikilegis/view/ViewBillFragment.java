@@ -26,7 +26,7 @@ import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
 
 
-public class ViewBill extends Fragment {
+public class ViewBillFragment extends Fragment {
 
     public static List<Segment> listSegment;
     public static SegmentController segmentController;

@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".view.RegisterUserActivity"
+            android:name=".view.LoginActivity"
             android:label="@string/title_activity_register_user"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
