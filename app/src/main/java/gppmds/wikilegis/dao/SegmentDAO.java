@@ -175,7 +175,7 @@ public class SegmentDAO extends DaoUtilities{
         }
 
         //sqliteDatabase.close();
-        cursor.close();
+        //cursor.close();
 
         return segmentList;
     }

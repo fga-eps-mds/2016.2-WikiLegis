@@ -113,7 +113,7 @@ public class ViewBillFragment extends Fragment {
 
         this.titleBillTextView.setText(bill.getTitle());
         this.textAbstractTextView.setText(bill.getDescription());
-        this.numberProposalsTextView.setText("20");
+        this.numberProposalsTextView.setText(bill.getNumberOfPrposals() + "");
         this.numberParticipantsTextView.setText("30");
 
     }

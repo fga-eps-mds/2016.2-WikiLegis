@@ -19,6 +19,7 @@ public class Bill {
     private static final String DESCRIPTION_CANT_BE_EMPTY = "Descrição não pode ser carregado";
     private static final String NUMBEROFPROPOSALS_CANT_BE_EMPTY = "Number of proposals não pode ser carregado";
     private static final String DATE_CANT_BE_EMPTY = "Data não pode ser carregado";
+
     private Integer id;
     private String title;
     private String epigraph;
