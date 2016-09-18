@@ -17,11 +17,92 @@
         android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:layout_alignParentEnd="true">
     </android.support.v7.widget.Toolbar>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:id="@+id/relativeLayout">
+
+        <Switch
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/switchRelevanteRecente"
+            android:layout_alignBottom="@+id/textViewRelevantes"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:checked="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Recentes"
+            android:id="@+id/textViewRecentes"
+            android:layout_alignTop="@+id/switchRelevanteRecente"
+            android:layout_toEndOf="@+id/switchRelevanteRecente"
+            android:textColor="@color/background_floating_material_dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Relevantes"
+            android:id="@+id/textViewRelevantes"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/switchRelevanteRecente"
+            android:textColor="@color/background_floating_material_dark" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Abertos"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentStart="true">
+
+        <Switch
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/switchAbertoFechado"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:checked="false"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Encerrados"
+            android:id="@+id/textViewEncerrados"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/switchAbertoFechado"
+            android:textColor="@color/background_floating_material_dark" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Abertos"
+            android:id="@+id/textViewAbertos"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:layout_alignTop="@+id/textViewEncerrados"
+            android:layout_toStartOf="@+id/switchAbertoFechado"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/background_floating_material_dark" />
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
-        android:layout_marginTop="70dp" />
+        android:layout_marginTop="170dp" />
 
 </RelativeLayout>
