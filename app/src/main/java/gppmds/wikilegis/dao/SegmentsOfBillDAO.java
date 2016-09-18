@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
@@ -78,7 +79,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
         return result;
     }
 
-    public boolean insertAllSegmentsOfBills(List<Bill> billList) {
+    public boolean insertAllSegmentsOfBills(List<Bill> billList) throws SegmentException {
 
         boolean result = true;
 
@@ -100,7 +101,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
         return result;
     }
 
-    public List<SegmentsOfBill> getAllSegments() {
+    public List<SegmentsOfBill> getAllSegments() throws SegmentException {
 
         sqliteDatabase = database.getReadableDatabase();
 
@@ -138,9 +139,14 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
         while (cursor.moveToNext()) {
 
-            SegmentsOfBill segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))));
+            SegmentsOfBill segmentsOfBill = null;
+            try {
+                segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))));
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
 
             segmentsOfBillList.add(segmentsOfBill);
         }
