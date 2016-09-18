@@ -20,6 +20,7 @@ public class SegmentsOfBill {
     }
 
     private void setIdBill(Integer idBill) {
+
         this.idBill=idBill;
     }
 
@@ -37,5 +38,16 @@ public class SegmentsOfBill {
 
     private void setPosition(Integer position) {
         this.position=position;
+    }
+
+
+//Validation methods
+
+    private boolean validateIntegerNull(final Integer integer){
+        if(integer == null){
+            return false;
+        } else {
+            return true;
+        }
     }
 }
