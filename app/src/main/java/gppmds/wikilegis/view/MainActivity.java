@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 import org.json.JSONException;
 import java.util.ArrayList;
@@ -34,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
     public static List<Segment> listSegment;
     public static BillController billController;
     public static SegmentController segmentController;
+    public static  List<Bill> billList;
+    public static  List<Bill> billListRelevantsRecents;
+    public static  List<Bill> billListOpenedClosed;
+    private RecyclerViewAdapter adapter;
     public static Bundle bundle;
 
     @Override
@@ -45,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
+        Switch switchRelevantes = (Switch)findViewById(R.id.switchRelevanteRecente);
+        final Switch switchAbertos = (Switch)findViewById(R.id.switchAbertoFechado);
 
         RecyclerView recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
         recycler_view.setHasFixedSize(true);
@@ -78,20 +87,61 @@ public class MainActivity extends AppCompatActivity {
         }
         listSegment = segmentController.getAllSegments();
 
-        List<Bill> billList = billController.getAllBills();
+        billList = billController.getAllBills();
+        billListRelevantsRecents = filtringForNumberOfProposals(billController.getAllBills());
 
-        billList = filterigForStatusPublished();
 
         for(int i=0; i<billList.size(); i++) {
             Log.d("Id", billList.get(i).getTitle());
             Log.d("N", String.valueOf(billList.get(i).getNumberOfPrposals()));
         }
 
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(billList);
+        adapter = new RecyclerViewAdapter(billList);
         recycler_view.setAdapter(adapter);
 
+        switchRelevantes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    billListRelevantsRecents = filtringForDate(billList);
+                    adapter.getData().clear();
+                    adapter.getData().addAll(billListRelevantsRecents);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    billListRelevantsRecents = filtringForNumberOfProposals(billList);
+                    adapter.getData().clear();
+                    adapter.getData().addAll(billListRelevantsRecents);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        switchAbertos.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    billListOpenedClosed = filterigForStatusClosed(billListRelevantsRecents);
+                    adapter.getData().clear();
+                    adapter.getData().addAll(billListOpenedClosed);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    billListOpenedClosed = filterigForStatusPublished(billListRelevantsRecents);
+                    adapter.getData().clear();
+                    adapter.getData().addAll(billListOpenedClosed);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
 
+    public AdapterView.OnItemClickListener callActivity() {
+        return (new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+        });
+
+    }
 
 
     @Override
@@ -125,12 +175,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public List<Bill> filterigForStatusClosed(){
+    public List<Bill> filterigForStatusClosed(List<Bill> list){
         List<Bill> billListWithStatusClosed= new ArrayList<Bill>();
 
-        List<Bill> list = null;
-
-        list = billController.getAllBills();
 
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("closed")){
@@ -140,12 +187,9 @@ public class MainActivity extends AppCompatActivity {
         return billListWithStatusClosed;
     }
 
-    public List<Bill> filterigForStatusPublished(){
+    public List<Bill> filterigForStatusPublished(List<Bill> list){
         List<Bill> billListWithStatusPublished= new ArrayList<Bill>();
 
-        List<Bill> list = null;
-
-        list = billController.getAllBills();
 
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("published")){
@@ -167,5 +211,4 @@ public class MainActivity extends AppCompatActivity {
         return billList;
 
     }
-
 }
