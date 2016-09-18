@@ -1,13 +1,10 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
-import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import gppmds.wikilegis.R;
 
@@ -19,10 +16,10 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<RegisterUserActivity>{
+public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity>{
 
     public RegisterUserFragmentTest(){
-       super(RegisterUserActivity.class);
+       super(LoginActivity.class);
     }
 
     @Before
