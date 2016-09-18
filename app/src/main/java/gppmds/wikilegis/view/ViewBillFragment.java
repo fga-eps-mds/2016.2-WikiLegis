@@ -3,16 +3,14 @@ package gppmds.wikilegis.view;
 
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,11 +23,25 @@ import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
 
-
 public class ViewBillFragment extends Fragment {
 
     public static List<Segment> listSegment;
     public static SegmentController segmentController;
+
+    private static final String STRING_EMPTY="";
+
+    private final int id = 40;
+
+    private TextView titleBillTextView = null;
+    private TextView textAbstractTextView = null;
+    private TextView numberProposalsTextView = null;
+    private TextView numberParticipantsTextView = null;
+
+    private String titleBill = STRING_EMPTY;
+    private String textAbstract = STRING_EMPTY;
+    private String numberProposals = STRING_EMPTY;
+    private String numberParticipants = STRING_EMPTY;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,6 +51,10 @@ public class ViewBillFragment extends Fragment {
         idBill = getArguments().getInt("id");
 
         View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
+
+        this.settingEditText(view);
+        this.settingTypeText(view);
+
         RecyclerView recycler_view = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
         recycler_view.setHasFixedSize(true);
 
@@ -73,4 +89,17 @@ public class ViewBillFragment extends Fragment {
         return view;
     }
 
+    private void settingEditText(View view) {
+        this.titleBillTextView = (TextView) view.findViewById(R.id.textViewTitleBill);;
+        this.textAbstractTextView = (TextView) view.findViewById(R.id.textViewAbstractBill);
+        this.numberProposalsTextView = (TextView) view.findViewById(R.id.textViewNumberProposal);
+        this.numberParticipantsTextView = (TextView) view.findViewById(R.id.textViewNumberParticipants);
+    }
+
+    private void settingTypeText(View view) {
+        this.titleBillTextView.setText("Titulo da lei");
+        this.textAbstractTextView.setText("resumo");
+        this.numberProposalsTextView.setText("20");
+        this.numberParticipantsTextView.setText("30");
+    }
 }
