@@ -66,7 +66,7 @@ public class SegmentController {
     }
     public void initControllerSegments() throws SegmentException, JSONException {
         PostRequest postRequest = new PostRequest();
-        postRequest.execute("http://www.google.com/","Lucas@email","123456");
+        postRequest.execute("http://www.google.com/","Lucas@email","Lucas","Brilhante","12345");
         segmentDAO = SegmentDAO.getInstance(context);
 
         if (segmentDAO.isDatabaseEmpty()) {
