@@ -116,7 +116,7 @@ public class SegmentDAO extends DaoUtilities{
     public Segment getSegmentById(Integer id) throws SegmentException {
         sqliteDatabase = database.getReadableDatabase();
 
-        String query = "SELECT * FROM " + tableName + " WHERE [id] = " + id.toString();
+        String query = "SELECT * FROM " + tableName + " WHERE \"id\" = " + id.toString();
 
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
 
@@ -139,7 +139,7 @@ public class SegmentDAO extends DaoUtilities{
                     0
             );
         }
-
+        cursor.close();
         //sqliteDatabase.close();
 
         return segment;
@@ -175,6 +175,7 @@ public class SegmentDAO extends DaoUtilities{
         }
 
         //sqliteDatabase.close();
+        cursor.close();
 
         return segmentList;
     }
