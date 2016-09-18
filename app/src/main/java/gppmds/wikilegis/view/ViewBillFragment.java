@@ -30,8 +30,6 @@ public class ViewBillFragment extends Fragment {
 
     private static final String STRING_EMPTY="";
 
-    private final int id = 40;
-
     private TextView titleBillTextView = null;
     private TextView textAbstractTextView = null;
     private TextView numberProposalsTextView = null;
@@ -91,7 +89,7 @@ public class ViewBillFragment extends Fragment {
 
     private void settingEditText(View view) {
         this.titleBillTextView = (TextView) view.findViewById(R.id.textViewTitleBill);;
-        this.textAbstractTextView = (TextView) view.findViewById(R.id.textViewAbstractBill);
+        this.textAbstractTextView = (TextView) view.findViewById(R.id.textViewTitleAbstract);
         this.numberProposalsTextView = (TextView) view.findViewById(R.id.textViewNumberProposal);
         this.numberParticipantsTextView = (TextView) view.findViewById(R.id.textViewNumberParticipants);
     }
