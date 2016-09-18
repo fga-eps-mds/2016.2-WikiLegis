@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.controller.SegmentController;
