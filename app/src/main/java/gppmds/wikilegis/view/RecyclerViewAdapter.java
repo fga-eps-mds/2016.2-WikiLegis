@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -37,7 +38,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView billDescription;
         TextView billNumberProposal;
         ImageView themePhoto;
-//        List<Bill> bills;
 
         BillViewHolder(View itemView) {
             super(itemView);
@@ -47,34 +47,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             billNumberProposal = (TextView) itemView.findViewById(R.id.bill_number_proposal);
             themePhoto = (ImageView) itemView.findViewById(R.id.theme_photo);
             cardView.setOnClickListener(this);
-            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
             AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
-            if(view==itemView) {
-                ViewBillFragment viewBill = new ViewBillFragment();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
-                        viewBill).commit();
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", Integer.parseInt(view.getTag().toString()));
 
-            }else{
-                int idBill = bills.get(getAdapterPosition()).getId();
-                Bundle bundle = new Bundle();
-                bundle.putInt("id",idBill);
-                ViewBillFragment viewBill = new ViewBillFragment();
-                viewBill.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
-                        viewBill).commit();
+            ViewBillFragment viewBillFragment = new ViewBillFragment();
+            viewBillFragment.setArguments(bundle);
 
+            activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
+                    viewBillFragment).commit();
 
-            }
+            Toast.makeText(activity, view.getTag()+"", Toast.LENGTH_LONG).show();
+
         }
     }
     RecyclerViewAdapter(List < Bill > bills) {
         this.bills = bills;
    }
-    //public List<Bill> getBillOnViewHolder(){return bills;}
 
     private void setImageThemeId(Bill bill){
         switch (bill.getTheme()){
@@ -115,6 +108,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         personViewHolder.billNumberProposal.setText(Integer.toString(bills.get(i).getNumberOfPrposals()));
         setImageThemeId(bills.get(i));
         personViewHolder.themePhoto.setImageResource(imageThemeId);
+        personViewHolder.cardView.setTag(bills.get(i).getId());
 
     }
 
