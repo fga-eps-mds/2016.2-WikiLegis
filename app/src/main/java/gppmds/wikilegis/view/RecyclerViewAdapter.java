@@ -35,6 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         CardView cardView;
         TextView billTitle;
         TextView billDescription;
+        TextView billNumberProposal;
         ImageView themePhoto;
 //        List<Bill> bills;
 
@@ -43,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             billTitle = (TextView) itemView.findViewById(R.id.bill_title);
             billDescription = (TextView) itemView.findViewById(R.id.bill_description);
+            billNumberProposal = (TextView) itemView.findViewById(R.id.bill_number_proposal);
             themePhoto = (ImageView) itemView.findViewById(R.id.theme_photo);
             cardView.setOnClickListener(this);
             itemView.setOnClickListener(this);
@@ -110,6 +112,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         bills = MainActivity.filtringForNumberOfProposals(bills);
         personViewHolder.billTitle.setText(bills.get(i).getTitle());
         personViewHolder.billDescription.setText(bills.get(i).getDescription());
+        personViewHolder.billNumberProposal.setText(Integer.toString(bills.get(i).getNumberOfPrposals()));
         setImageThemeId(bills.get(i));
         personViewHolder.themePhoto.setImageResource(imageThemeId);
 
