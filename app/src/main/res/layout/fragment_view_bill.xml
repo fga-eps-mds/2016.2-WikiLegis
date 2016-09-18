@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_alignParentStart="false"
@@ -18,129 +18,73 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal|bottom">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="10dp">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/brasao"
                 android:id="@+id/imageViewBrazal"
-                android:layout_marginTop="25dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="20dp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="18dp"
+                android:layout_below="@+id/textViewTitleBill"
+                android:layout_alignParentStart="true" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Title Bill"
                 android:id="@+id/textViewTitleBill"
-                android:layout_alignTop="@+id/imageViewBrazal"
-                android:layout_centerHorizontal="true" />
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Abstract"
-                android:id="@+id/textViewAbstractBill"
+                android:id="@+id/textViewTitleAbstract"
+                android:textSize="14dp"
                 android:layout_below="@+id/textViewTitleBill"
-                android:layout_toEndOf="@+id/imageViewBrazal"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/imageViewBrazal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Author: "
-                android:id="@+id/textViewAuthorBill"
-                android:layout_below="@+id/imageViewBrazal"
-                android:layout_alignStart="@+id/imageViewBrazal"
-                android:layout_marginTop="10dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Name Author"
-                android:id="@+id/textViewAuthorName"
-                android:layout_alignTop="@+id/textViewAuthorBill"
-                android:layout_toEndOf="@+id/textViewAuthorBill" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Reporter: "
-                android:id="@+id/textViewReporterBill"
-                android:layout_below="@+id/textViewAuthorBill"
-                android:layout_alignStart="@+id/textViewAuthorBill" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Name Reporter"
-                android:id="@+id/textViewNameReporter"
-                android:layout_below="@+id/textViewAuthorName"
-                android:layout_toEndOf="@+id/textViewReporterBill" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="(PARTY)"
-                android:id="@+id/textViewPartyReporter"
-                android:layout_marginStart="10dp"
-                android:layout_below="@+id/textViewPartyAuthor"
-                android:layout_toEndOf="@+id/textViewNameReporter" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="(PARTY)"
-                android:id="@+id/textViewPartyAuthor"
-                android:layout_marginStart="10dp"
-                android:layout_above="@+id/textViewNameReporter"
-                android:layout_toEndOf="@+id/textViewAuthorName" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Participants: "
+                android:text="Participantes: "
                 android:id="@+id/textViewParticipants"
-                android:layout_below="@+id/textViewReporterBill"
-                android:layout_alignStart="@+id/textViewReporterBill" />
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/textViewTitleAbstract"
+                android:layout_toEndOf="@+id/textViewNumberProposal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="12"
                 android:id="@+id/textViewNumberParticipants"
-                android:layout_above="@+id/textViewProposal"
+                android:layout_alignTop="@+id/textViewParticipants"
                 android:layout_toEndOf="@+id/textViewParticipants" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Proposal: "
+                android:text="Propostas: "
                 android:id="@+id/textViewProposal"
-                android:layout_below="@+id/textViewParticipants"
-                android:layout_alignStart="@+id/textViewParticipants" />
+                android:layout_alignTop="@+id/textViewParticipants"
+                android:layout_alignStart="@+id/imageViewBrazal" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="20"
                 android:id="@+id/textViewNumberProposal"
-                android:layout_below="@+id/textViewParticipants"
+                android:layout_alignTop="@+id/textViewProposal"
                 android:layout_toEndOf="@+id/textViewProposal" />
 
         </RelativeLayout>

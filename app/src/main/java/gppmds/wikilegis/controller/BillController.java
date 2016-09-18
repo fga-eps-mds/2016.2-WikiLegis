@@ -21,8 +21,8 @@ import gppmds.wikilegis.model.Segment;
 public class BillController {
 
     private static List<Bill> billList = new ArrayList<Bill>();
-    private BillDAO billDao;
-    private Context context;
+    private static BillDAO billDao;
+    private static Context context;
 
 
     public BillController(Context context) {
@@ -44,9 +44,6 @@ public class BillController {
         return billAux;
     }
 
-
-
-
     public void initControllerBills() throws BillException, JSONException, SegmentException {
 
         billDao = BillDAO.getInstance(context);
@@ -63,13 +60,13 @@ public class BillController {
         }
     }
 
-    public static int countedTheNumberOfProposals(List<Segment> segmentList, int id){
+    public static int countedTheNumberOfProposals(List<Segment> segmentList, int idBill){
 
         int counter = 0;
 
         for (int index = 0; index < segmentList.size(); index++) {
 
-            if (segmentList.get(index).getBill() == id) {
+            if (segmentList.get(index).getBill() == idBill) {
                 if (segmentList.get(index).getReplaced() != 0) {
                         counter++;
                 }
@@ -78,5 +75,22 @@ public class BillController {
         return counter;
     }
 
+    public static int countedNumberOfParticipants(List<Segment> segmentList, int idBill) {
+
+        int counter = 0;
+
+        for(int index = 0; index < segmentList.size(); index++) {
+            if(segmentList.get(index).getBill() == idBill) {
+
+            }
+        }
+        return counter;
+    }
+
+    public static Bill getBillById(int id) throws BillException {
+        billDao = BillDAO.getInstance(context);
+
+        return billDao.getBillById(id);
+    }
 
 }

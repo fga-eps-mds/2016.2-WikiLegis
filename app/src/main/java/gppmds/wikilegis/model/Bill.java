@@ -11,11 +11,14 @@ import gppmds.wikilegis.exception.BillException;
  */
 public class Bill {
 
+    private static final String ID_CANT_BE_EMPTY = "O id não pode ser carregado";
     private static final String TITLE_CANT_BE_EMPTY = "Título não pode ser carregado";
     private static final String EPIGRAPH_CANT_BE_EMPTY = "Epigrafe não pode ser carregado";
     private static final String STATUS_CANT_BE_EMPTY = "Status não pode ser carregado";
     private static final String THEME_CANT_BE_EMPTY = "Tema não pode ser carregado";
     private static final String DESCRIPTION_CANT_BE_EMPTY = "Descrição não pode ser carregado";
+    private static final String NUMBEROFPROPOSALS_CANT_BE_EMPTY = "Number of proposals não pode ser carregado";
+    private static final String DATE_CANT_BE_EMPTY = "Data não pode ser carregado";
 
     private Integer id;
     private String title;
@@ -34,19 +37,24 @@ public class Bill {
         setEpigraph(epigraph);
         setDescription(description);
         setStatus(status);
-        setDescription(description);
         setTheme(theme);
         this.segments = new ArrayList<>();
         setNumberOfPrposals(numberOfPrposals);
         setDate(date);
     }
 
+
+
     public Integer getId() {
         return id;
     }
 
-    private void setId(Integer id) {
-        this.id = id;
+    private void setId(Integer id) throws BillException {
+        if(validateIntegerNull(id)) {
+            this.id = id;
+        } else{
+            throw new BillException(ID_CANT_BE_EMPTY);
+        }
     }
 
     public String getTitle() {
@@ -117,16 +125,33 @@ public class Bill {
     }
     public int getNumberOfPrposals(){return  numberOfPrposals;}
 
-    private void setNumberOfPrposals(Integer numberOfPrposals){
-
-        this.numberOfPrposals = numberOfPrposals;
+    private void setNumberOfPrposals(Integer numberOfPrposals) throws BillException {
+        if(validateIntegerNull(numberOfPrposals)) {
+            this.numberOfPrposals = numberOfPrposals;
+        } else{
+            throw new BillException(NUMBEROFPROPOSALS_CANT_BE_EMPTY);
+        }
     }
     public int getDate(){return  date;}
-    private void setDate(Integer date){
-        this.date = date;
+    private void setDate(Integer date) throws BillException {
+        if(validateIntegerNull(date)) {
+            this.date = date;
+        } else{
+            throw new BillException(DATE_CANT_BE_EMPTY);
+        }
     }
 
     //Methods of validation
+
+    private boolean validateIntegerNull(final Integer integer){
+        if(integer == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
 
     private boolean validateStringEmpty(final String string) {
         if (string == null || string.trim().isEmpty()) {
