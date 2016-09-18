@@ -110,7 +110,7 @@ public class SegmentTypesTest {
             isValid = false;
         }
 
-        assertTrue(isValid);
+        assertTrue(!isValid);
     }
 
 
