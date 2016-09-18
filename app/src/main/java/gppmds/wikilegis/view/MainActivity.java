@@ -17,15 +17,11 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
-
-
 import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillComparatorDate;
 import gppmds.wikilegis.controller.BillComparatorProposals;
@@ -45,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static  List<Bill> billListRelevantsRecents;
     public static  List<Bill> billListOpenedClosed;
     private RecyclerViewAdapter adapter;
+    public static Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_deslogged, menu);
@@ -211,13 +209,6 @@ public class MainActivity extends AppCompatActivity {
         BillComparatorDate comparator = new BillComparatorDate();
         Collections.sort(billList,comparator);
         return billList;
-    }
 
-    @Override
-    public void onRestart(){
-        super.onRestart();
-        Intent i = new Intent(MainActivity.this, MainActivity.class);
-        startActivity(i);
-        finish();
     }
 }

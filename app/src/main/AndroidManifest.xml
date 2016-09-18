@@ -17,7 +17,7 @@
         <activity
             android:name=".view.MainActivity"
             android:label="@string/title_activity_register_user"
-            android:theme="@style/AppTheme.NoActionBar">
+             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
