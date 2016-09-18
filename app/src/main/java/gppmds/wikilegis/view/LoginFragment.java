@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import gppmds.wikilegis.R;
@@ -30,27 +31,36 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
 
         TextView register = (TextView) view.findViewById(R.id.registerText);
         register.setOnClickListener(this);
+        Button button = (Button)view.findViewById(R.id.loginButton);
+
+        button.setOnClickListener(this);
 
         return view;
+
     }
 
 
     @Override
     public void onClick(View view) {
         // Create new fragment and transaction
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.loginAsVisitorText:
                 //Change activity***
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
-            break;
+                break;
 
             case R.id.registerText:
                 Fragment registerUserFragment = new RegisterUserFragment();
                 openFragment(registerUserFragment);
                 break;
-        }
+            case R.id.loginButton :
 
+                Intent intent1 = new Intent(getContext(), MainActivity.class);
+                startActivity(intent1);
+                break;
+
+        }
     }
 
     private void openFragment(Fragment fragmentToBeOpen){
