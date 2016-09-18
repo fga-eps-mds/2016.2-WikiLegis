@@ -47,8 +47,8 @@ public class ViewBillFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        int id;
-//        id=getArguments().getInt("id");
+        int idBill;
+        idBill = getArguments().getInt("id");
 
         View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
 
@@ -67,7 +67,7 @@ public class ViewBillFragment extends Fragment {
 
         List<SegmentsOfBill> segmentsOfBillList;
 
-        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(40);
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(idBill);
 
         for(int i=0; i<segmentsOfBillList.size(); i++) {
             try {
