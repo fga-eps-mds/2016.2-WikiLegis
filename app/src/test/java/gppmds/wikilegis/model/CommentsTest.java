@@ -62,7 +62,7 @@ public class CommentsTest {
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class CommentsTest {
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test
@@ -131,6 +131,6 @@ public class CommentsTest {
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 }

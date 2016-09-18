@@ -154,7 +154,7 @@ public class Bill {
 
 
     private boolean validateStringEmpty(final String string) {
-        if (string == null || string.trim().isEmpty()) {
+        if (string == null ) {
             return false;
         } else {
             return true;

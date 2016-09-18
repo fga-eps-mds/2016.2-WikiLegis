@@ -51,7 +51,7 @@ public class BillTest {
         }catch (BillException billException){
             isValid = false;
         }
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class BillTest {
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test
@@ -93,7 +93,7 @@ public class BillTest {
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
 
     }
 
@@ -123,7 +123,7 @@ public class BillTest {
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test
@@ -150,7 +150,7 @@ public class BillTest {
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
 
     }
 
@@ -185,7 +185,7 @@ public class BillTest {
     }
 
     @Test
-
+    
     public void testNullDate(){
 
         boolean isValid = true;
