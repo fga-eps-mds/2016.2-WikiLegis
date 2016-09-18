@@ -165,5 +165,19 @@ public class SegmentTest {
 
         assertFalse(isValid);
     }
+
+    @Test
+
+    public void testNullIdComment(){
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Comment",8,9,null);
+        }catch(SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
 }
 
