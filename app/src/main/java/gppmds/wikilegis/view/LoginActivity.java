@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
         recyclerViewAdapterBill.initiSegm();
 
-        openFragment(bill);
+        openFragment(loginFragment);
 
     }
     private void openFragment(Fragment fragmentToBeOpen){

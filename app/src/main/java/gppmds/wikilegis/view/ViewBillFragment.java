@@ -36,7 +36,7 @@ public class ViewBillFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         int id;
-        id=getArguments().getInt("id");
+//        id=getArguments().getInt("id");
 
         View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
         RecyclerView recycler_view = (RecyclerView) view.findViewById(R.id.recycler_viewBill);

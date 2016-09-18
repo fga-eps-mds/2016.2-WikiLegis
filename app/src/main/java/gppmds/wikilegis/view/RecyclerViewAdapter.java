@@ -54,7 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void onClick(View view) {
             AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
             if(view==itemView) {
-                ViewBill viewBill = new ViewBill();
+                ViewBillFragment viewBill = new ViewBillFragment();
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
                         viewBill).commit();
 
@@ -62,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 int idBill = bills.get(getAdapterPosition()).getId();
                 Bundle bundle = new Bundle();
                 bundle.putInt("id",idBill);
-                ViewBill viewBill = new ViewBill();
+                ViewBillFragment viewBill = new ViewBillFragment();
                 viewBill.setArguments(bundle);
                 activity.getSupportFragmentManager().beginTransaction().replace(R.id.main_content,
                         viewBill).commit();
