@@ -21,7 +21,7 @@ public class SegmentsOfBillController {
 
     private static List<SegmentsOfBill> segmentsOfBillList = new ArrayList<SegmentsOfBill>();
     private static SegmentsOfBillDAO segmentsOfBillDAO;
-    private Context context;
+    private static Context context;
     private static SegmentsOfBillController instance = null;
 
     private SegmentsOfBillController(Context context) {
@@ -36,7 +36,7 @@ public class SegmentsOfBillController {
     }
 
     public static List<SegmentsOfBill> getAllSegmentsOfBill(Integer id){
-
+        segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
         return segmentsOfBillDAO.getAllSegmentsOfBill(id);
     }
 

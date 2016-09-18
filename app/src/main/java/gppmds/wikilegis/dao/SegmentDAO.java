@@ -124,7 +124,8 @@ public class SegmentDAO extends DaoUtilities{
 
         while (cursor.moveToNext()) {
 
-            segment = new Segment(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+            segment = new Segment(
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
                     Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),

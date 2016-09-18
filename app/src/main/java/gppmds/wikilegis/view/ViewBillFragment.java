@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentComparatorOrder;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.SegmentsOfBillController;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
 
@@ -27,6 +31,7 @@ public class ViewBillFragment extends Fragment {
 
     public static List<Segment> listSegment;
     public static SegmentController segmentController;
+    public static BillController billController;
 
     private static final String STRING_EMPTY="";
 
@@ -48,10 +53,12 @@ public class ViewBillFragment extends Fragment {
         int idBill;
         idBill = getArguments().getInt("id");
 
+        Log.d("idBill", idBill+"");
+
         View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
 
         this.settingEditText(view);
-        this.settingTypeText(view);
+        this.settingTypeText(view, idBill);
 
         RecyclerView recycler_view = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
         recycler_view.setHasFixedSize(true);
@@ -94,10 +101,20 @@ public class ViewBillFragment extends Fragment {
         this.numberParticipantsTextView = (TextView) view.findViewById(R.id.textViewNumberParticipants);
     }
 
-    private void settingTypeText(View view) {
-        this.titleBillTextView.setText("Titulo da lei");
-        this.textAbstractTextView.setText("resumo");
+    private void settingTypeText(View view, int id) {
+
+        Bill bill =null;
+
+        try {
+            bill = BillController.getBillById(id);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        this.titleBillTextView.setText(bill.getTitle());
+        this.textAbstractTextView.setText(bill.getDescription());
         this.numberProposalsTextView.setText("20");
         this.numberParticipantsTextView.setText("30");
+
     }
 }
