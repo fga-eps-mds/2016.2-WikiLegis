@@ -135,4 +135,30 @@ public class BillDAO extends DaoUtilities{
         return billList;
     }
 
+    public Bill getBillById(Integer id) throws BillException {
+
+        sqliteDatabase = database.getReadableDatabase();
+
+        String query = "SELECT * FROM " + tableName + " WHERE [id] = " + id.toString();
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+
+        Bill bill = null;
+
+        while (cursor.moveToNext()) {
+            bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[1])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[2])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[7])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[3])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[4])),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+        }
+
+        //sqliteDatabase.close();
+
+        return bill;
+    }
+
 }

@@ -21,8 +21,8 @@ import gppmds.wikilegis.model.Segment;
 public class BillController {
 
     private static List<Bill> billList = new ArrayList<Bill>();
-    private BillDAO billDao;
-    private Context context;
+    private static BillDAO billDao;
+    private static Context context;
 
 
     public BillController(Context context) {
@@ -43,9 +43,6 @@ public class BillController {
                 f.getString("theme"), numberOfProposals, date);
         return billAux;
     }
-
-
-
 
     public void initControllerBills() throws BillException, JSONException, SegmentException {
 
@@ -78,5 +75,10 @@ public class BillController {
         return counter;
     }
 
+    public static Bill getBillById(int id) throws BillException {
+        billDao = BillDAO.getInstance(context);
+
+        return billDao.getBillById(id);
+    }
 
 }

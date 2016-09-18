@@ -69,12 +69,6 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //Pegar os segmentos da Bill com ID = 18
-
-        List<SegmentsOfBill> segmentsOfBillList = new ArrayList<>();
-
-        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(38);
-
         RecyclerViewAdapterBill recyclerViewAdapterBill = new RecyclerViewAdapterBill(getBaseContext());
 
         recyclerViewAdapterBill.initiSegm();
