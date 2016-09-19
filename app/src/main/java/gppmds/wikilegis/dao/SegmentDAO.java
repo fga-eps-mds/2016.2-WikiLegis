@@ -19,7 +19,7 @@ import gppmds.wikilegis.model.Segment;
 public class SegmentDAO extends DaoUtilities{
 
     private static String tableColumns[] = {"id", "orderNaoPode", "idBill", "original", "replaced",
-            "parent", "type", "number", "content", "firstNameAuthor", "secondNameAuthor", "creationDate"};
+            "parent", "type", "number", "content", "firstNameAuthor", "secondNameAuthor", "creationDate", "creationSegment"};
 
     private static SegmentDAO instance;
 
@@ -86,6 +86,7 @@ public class SegmentDAO extends DaoUtilities{
         values.put(tableColumns[9], "FirstName");
         values.put(tableColumns[10], "SecondName");
         values.put(tableColumns[11], 1);
+        values.put(tableColumns[12], segment.getDate());
 
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
@@ -136,7 +137,7 @@ public class SegmentDAO extends DaoUtilities{
                     cursor.getString(cursor.getColumnIndex(tableColumns[8])),
                     0,
                     0,
-                    0
+                    0,cursor.getString(cursor.getColumnIndex(tableColumns[12]))
             );
         }
         cursor.close();
@@ -168,7 +169,7 @@ public class SegmentDAO extends DaoUtilities{
                     cursor.getString(cursor.getColumnIndex(tableColumns[8])),
                     0,
                     0,
-                    0
+                    0,cursor.getString(cursor.getColumnIndex(tableColumns[12]))
             );
 
             segmentList.add(segment);

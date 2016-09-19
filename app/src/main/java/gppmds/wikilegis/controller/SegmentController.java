@@ -1,6 +1,7 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +62,8 @@ public class SegmentController {
                 //A partir desta está errada, botei apenas para testar.
                 f.getInt("id"),
                 f.getInt("id"),
-                f.getInt("id"));
+                f.getInt("id"),
+                f.getString("created"));
     }
     public void initControllerSegments() throws SegmentException, JSONException {
 
@@ -76,17 +78,17 @@ public class SegmentController {
     }
     public static int getMinDate(int id){
        Integer day , month, year;
-        int aux = 20170000 , result;
+        Integer aux = 20170000 , result;
         String array[] = new String[2];
         String arrayDate[] = new String[3];
 
 
 
-        /*for(int index = 0 ; index <segmentList.size();index++){
+        for(int index = 0 ; index <segmentList.size();index++){
 
             if(segmentList.get(index).getBill()==id){
 
-                array = segmentList.get(index).getContent().split("T");
+                array = segmentList.get(index).getDate().split("T");
                 arrayDate = array[0].split("-");
                 day = Integer.parseInt(arrayDate[2]);
                 month = Integer.parseInt(arrayDate[1]);
@@ -95,9 +97,10 @@ public class SegmentController {
 
                 if(result<aux){
                     aux = result;
+                    Log.d("data" , aux.toString());
                 }
             }
-        }*/
+        }
         return aux;
     }
 
