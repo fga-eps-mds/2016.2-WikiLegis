@@ -75,25 +75,6 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
 
     public static List<Segment> segments = new ArrayList<Segment>();
 
-    public static void initiSegm() {
-        List<SegmentsOfBill> segmentsOfBillList;
-
-        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(38);
-
-        for(int i=0; i<segmentsOfBillList.size(); i++) {
-            try {
-                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i).getIdSegment());
-                segments.add(segmentAux);
-
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            }
-        }
-        for(int i=0; i<segments.size(); i++)
-            Log.d("IdSegment:", String.valueOf(segments.get(i).getId()));
-
-    }
-
     RecyclerViewAdapterBill(List<Segment> segments, Context context){
         segmentController = SegmentController.getInstance(context);
         this.segments = segments;

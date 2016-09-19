@@ -24,57 +24,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        LoginFragment loginFragment = new LoginFragment();
+
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register_user);
-
-        RegisterUserFragment registerUser = new RegisterUserFragment();
-        RegisterUserController controller = RegisterUserController.getInstance(getApplicationContext());
-        controller.getUsersExemple();
-
-
-        LoginFragment loginFragment = new LoginFragment();
-
-        ViewBillFragment bill = new ViewBillFragment();
-
-        SegmentController segmentController = SegmentController.getInstance(getApplicationContext());
-
-        try {
-            segmentController.initControllerSegments();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        BillController billController = new BillController(getBaseContext());
-
-        try {
-            billController.initControllerBills();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        }
-
-        SegmentsOfBillController segmentsOfBillController = SegmentsOfBillController.getInstance(getApplicationContext());
-
-        try {
-            segmentsOfBillController.initControllerSegmentsOfBill();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        }
-
-        RecyclerViewAdapterBill recyclerViewAdapterBill = new RecyclerViewAdapterBill(getBaseContext());
-
-        recyclerViewAdapterBill.initiSegm();
 
         openFragment(loginFragment);
 

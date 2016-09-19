@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="200px"
         android:layout_height="200px"
-        android:src="@drawable/logo_black"
+        android:src="@drawable/logo_white"
         android:id="@+id/imageViewLogo"
         android:layout_marginTop="39dp"
         android:layout_alignParentTop="true"
@@ -21,26 +21,25 @@
         android:layout_height="wrap_content"
         android:text="Entrar"
         android:id="@+id/loginButton"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="95dp"
         android:singleLine="false"
         android:nestedScrollingEnabled="true"
         android:focusable="false"
         android:clickable="false"
-        android:background="#009688"
-        android:textColor="#ffffff"
+        android:background="#b6b6b6"
+        android:textColor="#414040"
         android:textSize="14dp"
         android:layout_below="@+id/passwordLoginField"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_marginBottom="-40dp" />
 
     <ImageView
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/password_user"
+        android:src="@drawable/password_user1"
         android:id="@+id/imageViewPasswordUser"
         android:layout_alignTop="@+id/passwordLoginField"
-        android:layout_toStartOf="@+id/passwordLoginField"
-        android:layout_alignBottom="@+id/passwordLoginField" />
+        android:layout_alignStart="@+id/imageViewUserName" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -51,16 +50,20 @@
         android:hint="E-mail"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/imageViewLogo"/>
+        android:layout_below="@+id/imageViewLogo"
+        android:layout_marginBottom="-11dp"
+        android:textColor="#fafafa"
+        android:backgroundTint="#FFFFFF"
+        android:textColorHighlight="#FAFAFA"
+        android:textColorHint="#FAFAFA" />
 
     <ImageView
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/user_name"
+        android:src="@drawable/user_name1"
         android:id="@+id/imageViewUserName"
         android:layout_alignTop="@+id/emailLoginField"
-        android:layout_toStartOf="@+id/emailLoginField"
-        android:layout_alignBottom="@+id/emailLoginField" />
+        android:layout_toStartOf="@+id/editText" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -70,7 +73,13 @@
         android:id="@+id/passwordLoginField"
         android:layout_below="@+id/emailLoginField"
         android:layout_centerHorizontal="true"
-        android:hint="Senha"/>
+        android:hint="Senha"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="-40dp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:textColorHint="#FAFAFA"
+        android:textColorHighlight="#FAFAFA" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -88,7 +97,7 @@
         android:id="@+id/registerText"
         android:text="      Cadastre-se"
         android:clickable="true"
-        android:textColor="@color/abc_primary_text_material_light"
+        android:textColor="#77C777"
         android:layout_alignTop="@+id/editText"
         android:layout_alignEnd="@+id/passwordLoginField" />
 
@@ -98,19 +107,19 @@
         android:id="@+id/textView2"
         android:text="Ou entrar como"
         android:textColor="@color/abc_primary_text_material_dark"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="39dp"
         android:layout_below="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
+        android:layout_toStartOf="@+id/registerText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/loginAsVisitorText"
         android:text="Visitante"
-        android:textColor="@color/abc_primary_text_material_light"
+        android:textColor="#77C777"
         android:clickable="true"
         android:layout_alignTop="@+id/textView2"
-        android:layout_toEndOf="@+id/imageViewLogo" />
+        android:layout_alignEnd="@+id/loginButton" />
 
 
 

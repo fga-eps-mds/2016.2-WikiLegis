@@ -32,13 +32,13 @@ public class Segment {
     private Integer idAuthor;
     private Integer idVote;
     private Integer idComment;
-
+    private String date;
 
     //Rever a parte dos Id's (Do comentário pode ser só o Id, voto tem que ser um array de id's, comentário também!)
 
     public Segment(Integer id, Integer order, Integer bill, boolean original, Integer replaced,
                     Integer parent, Integer type, Integer number, String content, Integer idAuthor,
-                    Integer idVote, Integer idComment) throws SegmentException{
+                    Integer idVote, Integer idComment,String date) throws SegmentException{
         setId(id);
         setOrder(order);
         setBill(bill);
@@ -51,7 +51,7 @@ public class Segment {
         setIdComment(idComment);
         setIdAuthor(idAuthor);
         setIdVote(idVote);
-
+        setDate(date);
     }
 
     public Integer getId() {
@@ -200,8 +200,11 @@ public class Segment {
             throw new SegmentException(IDCOMMENT_CANT_BE_NULL);
         }
     }
+    public String getDate()  {return date ;}
 
-
+    private void setDate(String date ){
+        this.date = date;
+    }
 //Validation methods
 
     private boolean validateIntegerNull(final Integer integer){
@@ -213,7 +216,7 @@ public class Segment {
     }
 
     private boolean validateStringEmpty(final String string) {
-        if (string == null || string.trim().isEmpty()) {
+        if (string == null) {
             return false;
         } else {
             return true;

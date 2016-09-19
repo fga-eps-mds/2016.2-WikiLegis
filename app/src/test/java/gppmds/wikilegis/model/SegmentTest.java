@@ -1,10 +1,12 @@
 package gppmds.wikilegis.model;
 
+import android.util.Log;
+
 import org.junit.Test;
 
 import gppmds.wikilegis.exception.SegmentException;
 
-import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.*;
 
 /**
  * Created by augusto on 18/09/16.
@@ -132,10 +134,11 @@ public class SegmentTest {
         try{
             Segment segment = new Segment(1,2,3,true,4,5,6,10,"",7,8,9);
         }catch(SegmentException segmentException){
+            Log.d("test", segmentException.getMessage());
             isValid = false;
         }
 
-        assertFalse(isValid);
+        assertTrue(isValid);
     }
 
     @Test

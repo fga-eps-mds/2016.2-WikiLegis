@@ -61,6 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String SEGMENTS_FIRST_NAME_AUTHOR = "[firstNameAuthor]";
     private static final String SEGMENTS_SECOND_NAME_AUTHOR = "[secondNameAuthor]";
     private static final String SEGMENTS_CREATION_DATE = "[creationDate]";
+    private static final String SEGMENTS_CREATION = "[creationSegment]";
 
     private static final String CREATE_SEGMENTS = "CREATE TABLE " + SEGMENTS_TABLE + " ( " +
             SEGMENTS_ID + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_ORDER + " INTEGER, " +
@@ -68,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             " INTEGER, " + SEGMENTS_PARENT + " INTEGER, " + SEGMENTS_TYPE + " INTEGER, " +
             SEGMENTS_NUMBER + " INTEGER, " + SEGMENTS_CONTENT + " VARCHAR(500), " +
             SEGMENTS_FIRST_NAME_AUTHOR + " VARCHAR(30), " + SEGMENTS_SECOND_NAME_AUTHOR + " VARCHAR(30), " +
-            SEGMENTS_CREATION_DATE + " DATE );";
+            SEGMENTS_CREATION_DATE + " DATE, " + SEGMENTS_CREATION + "VARCHAR(50));";
 
     //Comments of Segment
 

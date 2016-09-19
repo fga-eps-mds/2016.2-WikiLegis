@@ -45,29 +45,4 @@ public class RegisterUserController {
 
         }
     }
-
-/*
-    public static boolean emailIsRepeated(String email) throws IOException {
-
-        DaoUtilities utilities = new DaoUtilities();
-
-            if (utilities.findEmail(email) == true) {
-                return true;
-            } else {
-                return false;
-            }
-
-    }
-
-    /**
-     * Log D the users
-     */
-    public void getUsersExemple() {
-        final String URL = "http://wikilegis.labhackercd.net/api/users/?api_key=9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b";
-
-        GetRequest request = new GetRequest();
-
-        request.execute(URL);
-
-    }
 }
