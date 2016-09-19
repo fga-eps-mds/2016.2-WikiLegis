@@ -2,7 +2,9 @@ package gppmds.wikilegis.view;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
 
     SegmentController segmentController;
     private Context context;
+    private static String segmentContent;
 
     public RecyclerViewAdapterBill(Context context) {
         this.context = context;
@@ -48,6 +52,23 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
 
             cardView = (CardView) itemView.findViewById(R.id.frameCardViewSegment);
             segment = (TextView) itemView.findViewById(R.id.textViewSegment);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    Log.d("TESTE", String.valueOf(segmentContent));
+                    Bundle bundle = new Bundle();
+                    bundle.putString("content", segmentContent);
+
+                    ViewSegmentFragment viewSegmentFragment = new ViewSegmentFragment();
+                    viewSegmentFragment.setArguments(bundle);
+
+                    activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_content,
+                            viewSegmentFragment).commit();
+
+                    Toast.makeText(activity, view.getTag()+"", Toast.LENGTH_LONG).show();
+                }
+            });
 
         }
     }
@@ -94,6 +115,7 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
         String segmentsString = segments.get(i).getContent();
 //        Log.d("Aqui", segmentsString);
         personViewHolder.segment.setText(segmentsString);
+        segmentContent = segments.get(i).getContent();
     }
 
     @Override
