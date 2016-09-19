@@ -24,7 +24,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/textViewSegment"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:layout_below="@+id/frameLayout"
             android:layout_alignStart="@+id/frameCardViewSegment"
             android:layout_marginStart="20dp" />

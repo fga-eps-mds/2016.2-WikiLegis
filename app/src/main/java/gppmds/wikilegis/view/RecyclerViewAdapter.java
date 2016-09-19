@@ -103,7 +103,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
-        bills = MainActivity.filtringForNumberOfProposals(bills);
+        bills = MainActivity.filteringForNumberOfProposals(bills);
         personViewHolder.billTitle.setText(bills.get(i).getTitle());
         personViewHolder.billDescription.setText(bills.get(i).getDescription());
         personViewHolder.billNumberProposal.setText(Integer.toString(bills.get(i).getNumberOfPrposals()));
