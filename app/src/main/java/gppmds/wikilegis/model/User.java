@@ -43,7 +43,6 @@ public class User {
     public static final String NAME_CONTAINS_SPECIAL_CHARACTERS = "O nome deve ter apenas letras.";
     public static final String LAST_NAME_CONTAINS_SPECIAL_CHARACTERS = "O sobrenome"
             + " deve ter apenas letras.";
-    public static final String EMAIL_CANT_BE_EQUALS = "Inválido, este email já foi registrado.";
 
     private String firstName;
     private String lastName;
@@ -111,11 +110,7 @@ public class User {
         if (stringIsNull(email)) {
             if (validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)) {
                 if (validateEmailFormat(email)) {
-                    if (RegisterUserController.validateEmailIsNotRepeated(email)) {
                         this.email=email;
-                    } else {
-                        throw new UserException(EMAIL_CANT_BE_EQUALS);
-                    }
                 } else {
                     throw new UserException(INVALID_EMAIL);
                 }
