@@ -2,83 +2,61 @@ package gppmds.wikilegis.view;
 
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.SegmentsOfBillController;
-import gppmds.wikilegis.dao.SegmentDAO;
-import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.SegmentsOfBill;
 
-/**
- * Created by thiago on 9/1/16.
- */
 public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAdapterBill.BillViewHolder> {
 
-    SegmentController segmentController;
-    private Context context;
-
-    public RecyclerViewAdapterBill(Context context) {
-        this.context = context;
-    }
-
-
     public static class BillViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        TextView segment;
+        private CardView cardView;
+        private TextView segment;
 
-        BillViewHolder(View itemView) {
+        BillViewHolder(final View itemView) {
 
             super(itemView);
 
             cardView = (CardView) itemView.findViewById(R.id.frameCardViewSegment);
             segment = (TextView) itemView.findViewById(R.id.textViewSegment);
-
         }
     }
 
-    public static List<Segment> segments = new ArrayList<Segment>();
+    private static List<Segment> segments = new ArrayList<Segment>();
 
-    RecyclerViewAdapterBill(List<Segment> segments, Context context){
-        segmentController = SegmentController.getInstance(context);
+    RecyclerViewAdapterBill(final List<Segment> segments, final Context context) {
         this.segments = segments;
     }
 
     @Override
-    public int getItemCount() {return segments.size();
+    public int getItemCount() {
+        return segments.size();
     }
 
     @Override
-    public BillViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_view_bill, viewGroup, false);
-        BillViewHolder billViewHolder = new BillViewHolder(v);
+    public BillViewHolder onCreateViewHolder(final ViewGroup viewGroup, final int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_view_bill,
+                viewGroup, false);
+        BillViewHolder billViewHolder = new BillViewHolder(view);
         return billViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
+    public void onBindViewHolder(final BillViewHolder personViewHolder, final int i) {
         String segmentsString = segments.get(i).getContent();
-//        Log.d("Aqui", segmentsString);
         personViewHolder.segment.setText(segmentsString);
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 }
