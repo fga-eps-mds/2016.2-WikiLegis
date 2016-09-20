@@ -19,7 +19,7 @@ import gppmds.wikilegis.model.Bill;
 public class BillDAO extends DaoUtilities{
 
     private static String tableColumns[] = {"id", "title", "epigraph", "description", "theme",
-    "amountParticipants", "amountProposals", "status","date"};
+    "amountParticipants", "amountProposals", "status", "date"};
 
     private static BillDAO instance;
 
@@ -79,7 +79,7 @@ public class BillDAO extends DaoUtilities{
         values.put(tableColumns[5], 0);
         values.put(tableColumns[6], bill.getNumberOfPrposals());
         values.put(tableColumns[7], bill.getStatus());
-        values.put(tableColumns[8], 999);
+        values.put(tableColumns[8], bill.getDate());
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
