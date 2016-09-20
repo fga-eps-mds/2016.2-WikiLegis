@@ -22,8 +22,8 @@ public class SegmentComparatorOrderTest {
 
 
         try {
-            Segment segment = new Segment(1,3, 3, true, 4, 5, 6, 10, "Comment", 8, 10, 9, "Date");
-            Segment segment2 = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment", 8, 10, 9, "Date");
+            Segment segment = new Segment(1,3, 3, true, 4, 5, 6, 10, "Comment", "Date");
+            Segment segment2 = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment", "Date");
 
             count = segmentComparatorOrder.compare(segment, segment2);
 
@@ -44,8 +44,8 @@ public class SegmentComparatorOrderTest {
 
 
         try {
-            Segment segment = new Segment(1,1, 3, true, 4, 5, 6, 10, "Comment", 8, 10, 9, "Date");
-            Segment segment2 = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment", 8, 10, 9, "Date");
+            Segment segment = new Segment(1,1, 3, true, 4, 5, 6, 10, "Comment","Date");
+            Segment segment2 = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment","Date");
 
             count = segmentComparatorOrder.compare(segment, segment2);
 
@@ -66,8 +66,8 @@ public class SegmentComparatorOrderTest {
 
 
         try {
-            Segment segment = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment", 8, 10, 9, "Date");
-            Segment segment2 = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment", 8, 10, 9, "Date");
+            Segment segment = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment", "Date");
+            Segment segment2 = new Segment(1,2, 3, true, 4, 5, 6, 10, "Comment", "Date");
 
             count = segmentComparatorOrder.compare(segment, segment2);
 

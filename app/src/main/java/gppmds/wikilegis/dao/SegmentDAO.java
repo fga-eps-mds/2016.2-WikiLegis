@@ -135,9 +135,7 @@ public class SegmentDAO extends DaoUtilities{
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[8])),
-                    0,
-                    0,
-                    0,cursor.getString(cursor.getColumnIndex(tableColumns[12]))
+                    cursor.getString(cursor.getColumnIndex(tableColumns[12]))
             );
         }
         cursor.close();
@@ -167,9 +165,7 @@ public class SegmentDAO extends DaoUtilities{
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[8])),
-                    0,
-                    0,
-                    0,cursor.getString(cursor.getColumnIndex(tableColumns[12]))
+                    cursor.getString(cursor.getColumnIndex(tableColumns[12]))
             );
 
             segmentList.add(segment);

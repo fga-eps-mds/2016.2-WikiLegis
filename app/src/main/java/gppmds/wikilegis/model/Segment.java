@@ -15,9 +15,7 @@ public class Segment {
     private static final String PARENT_CANT_BE_NULL = "Parent não pode ser carregado";
     private static final String TYPE_CANT_BE_NULL = "Type não pode ser carregado";
     private static final String NUMBER_CANT_BE_NULL = "Number não pode ser carregado";
-    private static final String IDAUTHOR_CANT_BE_NULL = "Author id não pode ser carregado";
-    private static final String IDVOTE_CANT_BE_NULL = "Vote id não pode ser carregado";
-    private static final String IDCOMMENT_CANT_BE_NULL = "Commend id não pode ser carregado";
+
 
 
     private Integer id;
@@ -29,16 +27,12 @@ public class Segment {
     private Integer type;
     private Integer number;
     private String content;
-    private Integer idAuthor;
-    private Integer idVote;
-    private Integer idComment;
     private String date;
 
     //Rever a parte dos Id's (Do comentário pode ser só o Id, voto tem que ser um array de id's, comentário também!)
 
     public Segment(Integer id, Integer order, Integer bill, boolean original, Integer replaced,
-                    Integer parent, Integer type, Integer number, String content, Integer idAuthor,
-                    Integer idVote, Integer idComment,String date) throws SegmentException{
+                    Integer parent, Integer type, Integer number, String content,String date) throws SegmentException{
         setId(id);
         setOrder(order);
         setBill(bill);
@@ -48,9 +42,6 @@ public class Segment {
         setType(type);
         setNumber(number);
         setContent(content);
-        setIdComment(idComment);
-        setIdAuthor(idAuthor);
-        setIdVote(idVote);
         setDate(date);
     }
 
@@ -163,49 +154,11 @@ public class Segment {
         }
     }
 
-    public Integer getIdAuthor() {
-        return idAuthor;
-    }
-
-    private void setIdAuthor(Integer idAuthor)throws SegmentException {
-        if(validateIntegerNull(idAuthor)) {
-            this.idAuthor = idAuthor;
-        } else {
-            throw new SegmentException(IDAUTHOR_CANT_BE_NULL);
-        }
-
-    }
-
-    public Integer getIdVote() {
-        return idVote;
-    }
-
-    private void setIdVote(Integer idVote) throws SegmentException{
-        if(validateIntegerNull(idVote)) {
-            this.idVote = idVote;
-        } else {
-            throw new SegmentException(IDVOTE_CANT_BE_NULL);
-        }
-
-    }
-
-    public Integer getIdComment() {
-        return idComment;
-    }
-
-    private void setIdComment(Integer idComment)throws SegmentException {
-        if(validateIntegerNull(idComment)) {
-            this.idComment = idComment;
-        } else {
-            throw new SegmentException(IDCOMMENT_CANT_BE_NULL);
-        }
-    }
     public String getDate()  {return date ;}
 
     private void setDate(String date ){
         this.date = date;
     }
-//Validation methods
 
     private boolean validateIntegerNull(final Integer integer){
         if(integer == null){
