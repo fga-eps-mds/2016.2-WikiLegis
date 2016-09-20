@@ -30,46 +30,57 @@ import static gppmds.wikilegis.dao.RequestTools.readStream;
 //Ainda não funciona
 public class PostRequest extends AsyncTask<String, Void, String>{
 
-        private Exception exception;
-        StringBuilder sb = new StringBuilder();
+    private Exception exception;
+    StringBuilder sb = new StringBuilder();
 
-        protected void onPreExecute() {
-            //progressBar.setVisibility(View.VISIBLE);
-            //responseView.setText("");
-        }
+    protected void onPreExecute() {
+        //progressBar.setVisibility(View.VISIBLE);
+        //responseView.setText("");
+    }
 
-        protected String doInBackground(String... params) {
-            JSONObject jsonParam = new JSONObject();
+    protected String doInBackground(String... params) {
+        //JSONObject jsonParam = new JSONObject();
 
-            try {
-                Log.d("OLAR"," TO AQUIIII");
+        try {
+                /*Log.d("OLAR"," TO AQUIIII");
                 URL url = new URL(params[0]);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                try {
+                //HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+
+                    Log.d("OLAR"," TO AQUIIII2");
                     URLConnection urlConn;
                     DataOutputStream printout;
                     DataInputStream input;
+
                     urlConn = url.openConnection();
+
                     urlConn.setDoInput (true);
-                    urlConn.setDoOutput (true);
                     urlConn.setUseCaches (false);
-                    urlConn.setRequestProperty("Content-Type","application/json");
-                    urlConn.setRequestProperty("Host", "android.schoolportal.gr");
-                    urlConn.connect();
-                    //Create JSONObject here
+                    urlConn.setRequestProperty("Content-Type", "application/json");
+                    urlConn.setRequestProperty("Accept", "application/json");
+                    urlConn.setRequestMethod("POST");
+                    Log.d("OLAR"," TO AQUIIII3");
                     jsonParam.put("email", params[1]);
                     jsonParam.put("first_name", params[2]);
                     jsonParam.put("last_name", params[3]);
                     jsonParam.put("password", params[4]);
-                    printout = new DataOutputStream(urlConn.getOutputStream ());
+                    Log.d("OLAR"," TO AQUIIII4");
+                    printout = new DataOutputStream(urlConn.getOutputStream());
                     printout.writeBytes(URLEncoder.encode(jsonParam.toString(),"UTF-8"));
                     printout.flush ();
                     printout.close ();
+
+                    Log.d("OLAR"," TO AQUIIII5");
+                    urlConn.connect();
+
+                    //Create JSONObject here
+
+
 //                    OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
 //                    out.write(jsonParam.toString());
 //                    out.close();
 
-                    int HttpResult = urlConnection.getResponseCode();
+                    /*int HttpResult = urlConnection.getResponseCode();
                     if(HttpResult ==HttpURLConnection.HTTP_OK){
                         BufferedReader br = new BufferedReader(new InputStreamReader(
                                 urlConnection.getInputStream(),"utf-8"));
@@ -92,26 +103,86 @@ public class PostRequest extends AsyncTask<String, Void, String>{
                     }
                     bufferedReader.close();
                     return stringBuilder.toString();*/
-                }
-                finally{
-                    urlConnection.disconnect();
-                }
-            }
-            catch(Exception e) {
-                Log.e("ERROR", e.getMessage(), e);
-                return null;
-            }
-            return "";
-        }
 
-        protected void onPostExecute(String response) {
-            if(response == null) {
-                response = "THERE WAS AN ERROR";
+            StringBuilder sb = new StringBuilder();
+            Log.d("OLAR"," TO AQUIIII");
+            String http = params[0];
+
+
+            HttpURLConnection urlConnection=null;
+            Log.d("OLAR"," TO AQUIIII1");
+            try {
+                URL url = new URL(http);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setUseCaches(false);
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setRequestProperty("Content-Type","application/json");
+                Log.d("OLAR"," TO AQUIIII2");
+                urlConnection.setRequestProperty("Host", "http://127.0.0.1:8000/api/user/create/");
+                urlConnection.connect();
+                Log.d("OLAR"," TO AQUIIII3");
+                //Create JSONObject here
+                JSONObject jsonParam = new JSONObject();
+                jsonParam.put("email", params[1]);
+                jsonParam.put("first_name", params[2]);
+                jsonParam.put("last_name", params[3]);
+                jsonParam.put("password", params[4]);
+                Log.d("JSON",jsonParam.toString());
+                OutputStreamWriter out = new   OutputStreamWriter(urlConnection.getOutputStream());
+                out.write(jsonParam.toString());
+                out.close();
+                Log.d("OLAR"," TO AQUIIII4");
+                int HttpResult =urlConnection.getResponseCode();
+                Log.d("OLAR", "RESULT: " +HttpResult);
+                if(HttpResult == HttpURLConnection.HTTP_OK){
+                    Log.d("OLAR"," TO AQUIIII5");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(
+                            urlConnection.getInputStream(),"utf-8"));
+                    String line = null;
+                    while ((line = br.readLine()) != null) {
+                        Log.d("OLAR"," TO AQUIIII6");
+                        sb.append(line + "\n");
+                    }
+                    br.close();
+                    Log.d("OLAR"," TO AQUIIII7");
+                    System.out.println(""+sb.toString());
+
+                }else{
+                    Log.d("OLAR"," TO AQUIIII8");
+                    System.out.println(urlConnection.getResponseMessage());
+                }
+            } catch (MalformedURLException e) {
+
+                e.printStackTrace();
             }
-            //progressBar.setVisibility(View.GONE);
-            Log.i("INFO", response);
-            //responseView.setText(response);
+            catch (IOException e) {
+
+                e.printStackTrace();
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }finally{
+                if(urlConnection!=null)
+                    urlConnection.disconnect();
+            }
+
         }
+        catch(Exception e) {
+            Log.e("ERROR", e.getMessage(), e);
+            return null;
+        }
+        return "";
     }
 
-
+    protected void onPostExecute(String response) {
+        if(response == null) {
+            response = "THERE WAS AN ERROR";
+        }
+        //progressBar.setVisibility(View.GONE);
+        Log.i("INFO", response);
+        //responseView.setText(response);
+    }
+}

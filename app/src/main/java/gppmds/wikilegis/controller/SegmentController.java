@@ -1,6 +1,7 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,10 +66,11 @@ public class SegmentController {
                 f.getInt("id"));
     }
     public void initControllerSegments() throws SegmentException, JSONException {
-        PostRequest postRequest = new PostRequest();
-        postRequest.execute("http://www.google.com/","Lucas@email","Lucas","Brilhante","12345");
-        segmentDAO = SegmentDAO.getInstance(context);
 
+        segmentDAO = SegmentDAO.getInstance(context);
+        Log.d("Passou"," Aquui");
+        PostRequest postRequest = new PostRequest();
+        postRequest.execute("http://127.0.0.1:8000/api/user/create/", "thiagoteste@gmail.com", "ThiagoTeste", "Teste", "111222");
         if (segmentDAO.isDatabaseEmpty()) {
             segmentList = JSONHelper.segmentListFromJSON();
             segmentDAO.insertAllSegments(segmentList);
@@ -77,7 +79,7 @@ public class SegmentController {
         }
     }
     public static int getMinDate(int id){
-       Integer day , month, year;
+        Integer day , month, year;
         int aux = 20170000 , result;
         String array[] = new String[2];
         String arrayDate[] = new String[3];
@@ -170,14 +172,29 @@ public class SegmentController {
             case 1:
                 bufferAux = "Art. " + segment.getNumber().toString() + "º " + segment.getContent();
                 break;
+            case 2:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tTITULO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
             case 3:
-                bufferAux = convertRoman(segment.getNumber()) + " - " + segment.getContent();
+                bufferAux = "\t\t\t" + convertRoman(segment.getNumber()) + " - " + segment.getContent();
                 break;
             case 4:
                 bufferAux = "§ " + segment.getNumber() + "º " + segment.getContent();
                 break;
             case 5:
-                bufferAux = "    " + alphabet.charAt(segment.getNumber()-1) + ") " + segment.getContent();
+                bufferAux = "\t\t\t\t\t" + alphabet.charAt(segment.getNumber()-1) + ") " + segment.getContent();
+                break;
+            case 7:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCAPITULO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
+            case 8:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLIVRO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
+            case 9:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSEÇAO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                break;
+            case 10:
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSUBSEÇAO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
                 break;
             default:
                 bufferAux = segment.getContent();
