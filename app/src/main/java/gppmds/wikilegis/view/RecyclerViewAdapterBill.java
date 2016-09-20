@@ -35,7 +35,6 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
 
     SegmentController segmentController;
     private Context context;
-    private static String segmentContent;
 
     public RecyclerViewAdapterBill(Context context) {
         this.context = context;
@@ -56,12 +55,15 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
                 @Override
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    Log.d("TESTE", String.valueOf(segmentContent));
-                    Bundle bundle = new Bundle();
-                    bundle.putString("content", segmentContent);
+
+                    Bundle bundleSegment = new Bundle();
+                    bundleSegment.putInt("segmentId", Integer.parseInt(view.getTag(R.id.idSegment).toString()));
+
+                    Bundle bundleBill = new Bundle();
+                    bundleBill.putInt("billId", Integer.parseInt(view.getTag(R.id.idBill).toString()));
 
                     ViewSegmentFragment viewSegmentFragment = new ViewSegmentFragment();
-                    viewSegmentFragment.setArguments(bundle);
+                    viewSegmentFragment.setArguments(bundleSegment);
 
                     activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_content,
                             viewSegmentFragment).commit();
@@ -88,6 +90,7 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
     public BillViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_view_bill, viewGroup, false);
         BillViewHolder billViewHolder = new BillViewHolder(v);
+        v.setTag(i);
         return billViewHolder;
     }
 
@@ -95,8 +98,9 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
         String segmentsString = segments.get(i).getContent();
 //        Log.d("Aqui", segmentsString);
+       personViewHolder.cardView.setTag(R.id.idSegment, segments.get(i).getId());
+        personViewHolder.cardView.setTag(R.id.idBill, segments.get(i).getBill());
         personViewHolder.segment.setText(segmentsString);
-        segmentContent = segments.get(i).getContent();
     }
 
     @Override

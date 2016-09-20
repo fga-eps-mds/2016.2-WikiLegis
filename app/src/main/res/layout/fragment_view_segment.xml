@@ -1,80 +1,47 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:layout_marginTop="80dp">
 
-        <FrameLayout
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentStart="false"
-            android:background="@color/cardview_light_background"
-            android:id="@+id/frameLayout"
-            android:layout_alignParentEnd="false">
-
-             <RelativeLayout
-                 android:layout_width="match_parent"
-                 android:layout_height="375dp"
-                 android:layout_gravity="center_horizontal|bottom">
-
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:textAppearance="?android:attr/textAppearanceLarge"
-                     android:text="Title Bill"
-                     android:textSize="30sp"
-                     android:id="@+id/textViewTitleBillInSegment"
-                     android:layout_alignTop="@+id/imageViewBrazal"
-                     android:layout_centerHorizontal="true" />
-
-                 <TextView
-                     android:layout_width="300dp"
-                     android:layout_height="100dp"
-                     android:textAppearance="?android:attr/textAppearanceLarge"
-                     android:text="Texto Original"
-                     android:id="@+id/originalText"
-                     android:layout_marginTop="49dp"
-                     android:layout_alignParentTop="true"
-                     android:layout_alignStart="@+id/textViewTitleBillInSegment" />
-                 <TextView
-                     android:layout_width="300dp"
-                     android:layout_height="100dp"
-                     android:textAppearance="?android:attr/textAppearanceLarge"
-                     android:text="Art. 5º Esta Lei entra em vigor na data de sua publicação, revogadas as disposições em contrário."
-                     android:id="@+id/segmentText"
-                     android:layout_below="@+id/originalText"
-                     android:layout_centerHorizontal="true"
-                     android:layout_marginTop="53dp" />
-                 <ImageButton
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:id="@+id/imageButton"
-                     android:layout_alignParentStart="true"
-                     android:layout_alignTop="@+id/originalText"
-                     android:layout_alignBottom="@+id/originalText"
-                     android:layout_toStartOf="@+id/textViewTitleBillInSegment" />
-                 <TextView
-                     android:layout_width="300dp"
-                     android:layout_height="100dp"
-                     android:textAppearance="?android:attr/textAppearanceLarge"
-                     android:text="Propostas :"
-                     android:id="@+id/ProposalsText"
-                     android:layout_below="@+id/originalText"
-                     android:layout_centerHorizontal="true"
-                     android:layout_marginTop="170dp" />
-             </RelativeLayout>
-        </FrameLayout>
-    <android.support.v7.widget.RecyclerView
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bill_title"
+        android:textSize="25sp"
+        android:textStyle="bold"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recycler_viewBill"
-        android:layout_below="@+id/frameLayout"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:background="@color/cardview_light_background">
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/folhas"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Texto original"/>
+        
+    </LinearLayout>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/segment_content"
+        android:textSize="20sp"
         android:background="@color/cardview_light_background"
-        android:layout_alignStart="@+id/frameLayout"
-        android:layout_alignEnd="@+id/frameLayout"
-        />
-</RelativeLayout>
+        android:padding="10dp"
+        android:layout_margin="10dp"/>
+
+</LinearLayout>
