@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
@@ -152,6 +153,26 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
             if (switchRelevantsOrRecents.isChecked()) {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRecentsAndOpened);
+                adapter.notifyDataSetChanged();
+            } else {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRelevantsAndOpened);
+                adapter.notifyDataSetChanged();
+            }
+        } else if(buttonView.getId() == switchRelevantsOrRecents.getId() && switchRelevantsOrRecents.isChecked()) {
+            if (switchOpenOrClosed.isChecked()) {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRecentsAndClosed);
+                adapter.notifyDataSetChanged();
+            } else {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRecentsAndOpened);
+                adapter.notifyDataSetChanged();
+            }
+        } else if(buttonView.getId() == switchRelevantsOrRecents.getId() && !switchRelevantsOrRecents.isChecked()) {
+            if (switchOpenOrClosed.isChecked()) {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRelevantsAndClosed);
                 adapter.notifyDataSetChanged();
             } else {
                 adapter.getData().clear();
