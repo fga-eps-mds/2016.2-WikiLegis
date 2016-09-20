@@ -20,6 +20,7 @@
     <string name="action_search">Search</string>
     <string name="action_exit_account">Exit Account</string>
     <string name="action_filtering">Filtrar</string>
+    <string name="sucessfull_registration_message">Cadastro efetuado com sucesso!</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -14,13 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
-import gppmds.wikilegis.controller.FilteringController;
 import gppmds.wikilegis.model.Bill;
 
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private BillController billController;
-    private FilteringController filteringController;
 
     private  List<Bill> billListInitial;
     private  List<Bill> billListRelevantsAndClosed;
@@ -51,11 +49,10 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     private void initBillList() {
-        billController = new BillController(this);
+        billController = BillController.getInstance(this);
         billListInitial = billController.getAllBills();
-        filteringController = FilteringController.getInstance(getBaseContext());
-        billListInitial = filteringController.filteringForNumberOfProposals(billListInitial);
-        billListInitial = filteringController.filterigForStatusPublished(billListInitial);
+        billListInitial = billController.filteringForNumberOfProposals(billListInitial);
+        billListInitial = billController.filterigForStatusPublished(billListInitial);
     }
 
     private void initRecycleView() {
@@ -117,17 +114,17 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         billListInitial = billController.getAllBills();
 
-        billListRelevantsAndClosed = filteringController.filteringForNumberOfProposals(billListInitial);
-        billListRelevantsAndClosed = filteringController.filterigForStatusClosed(billListRelevantsAndClosed);
+        billListRelevantsAndClosed = billController.filteringForNumberOfProposals(billListInitial);
+        billListRelevantsAndClosed = billController.filterigForStatusClosed(billListRelevantsAndClosed);
 
-        billListRelevantsAndOpened = filteringController.filteringForNumberOfProposals(billListInitial);
-        billListRelevantsAndOpened = filteringController.filterigForStatusPublished(billListRelevantsAndOpened);
+        billListRelevantsAndOpened = billController.filteringForNumberOfProposals(billListInitial);
+        billListRelevantsAndOpened = billController.filterigForStatusPublished(billListRelevantsAndOpened);
 
-        billListRecentsAndOpened = filteringController.filteringForDate(billListInitial);
-        billListRecentsAndOpened = filteringController.filterigForStatusPublished(billListRecentsAndOpened);
+        billListRecentsAndOpened = billController.filteringForDate(billListInitial);
+        billListRecentsAndOpened = billController.filterigForStatusPublished(billListRecentsAndOpened);
 
-        billListRecentsAndClosed = filteringController.filteringForDate(billListInitial);
-        billListRecentsAndClosed = filteringController.filterigForStatusClosed(billListRecentsAndClosed);
+        billListRecentsAndClosed = billController.filteringForDate(billListInitial);
+        billListRecentsAndClosed = billController.filterigForStatusClosed(billListRecentsAndClosed);
 
     }
 

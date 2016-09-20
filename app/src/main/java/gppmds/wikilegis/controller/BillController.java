@@ -22,9 +22,18 @@ public class BillController {
     private static List<Bill> billList = new ArrayList<Bill>();
     private static BillDAO billDao;
     private static Context context;
+    private static BillController instance = null;
 
-    public BillController(final Context context) {
+
+    private BillController(final Context context) {
         this.context = context;
+    }
+
+    public static BillController getInstance(final Context context) {
+        if (instance == null) {
+            instance = new BillController(context);
+        }
+        return  instance;
     }
 
     public List<Bill> getAllBills(){
@@ -105,4 +114,53 @@ public class BillController {
         return billDao.getBillById(id);
     }
 
+    public List<Bill> filterigForStatusClosed(final List<Bill> listToFiltering) {
+        List<Bill> billListWithStatusClosed = new ArrayList<Bill>();
+
+        for (int index = 0; index < listToFiltering.size(); index++) {
+            if (listToFiltering.get(index).getStatus().equals("closed")) {
+                billListWithStatusClosed.add(listToFiltering.get(index));
+            }
+        }
+        return billListWithStatusClosed;
+    }
+
+    public List<Bill> filterigForStatusPublished(final List<Bill> listToFiltering) {
+        List<Bill> billListWithStatusPublished = new ArrayList<Bill>();
+
+
+        for (int index = 0; index < listToFiltering.size(); index++) {
+            if (listToFiltering.get(index).getStatus().equals("published")) {
+                billListWithStatusPublished.add(listToFiltering.get(index));
+            }
+        }
+        return billListWithStatusPublished;
+    }
+
+    public static List<Bill> filteringForNumberOfProposals(final List<Bill> listToFiltering) {
+        List<Bill> billListAux = new ArrayList<>();
+
+        BillComparatorProposals billComparatorDProposals = new BillComparatorProposals();
+        Collections.sort(listToFiltering, billComparatorDProposals);
+
+        for (int i = 0; i < listToFiltering.size(); i++) {
+            billListAux.add(listToFiltering.get(i));
+        }
+
+        return billListAux;
+
+    }
+
+    public List<Bill> filteringForDate(final List<Bill> listToFiltering) {
+        List<Bill> billListAux = new ArrayList<>();
+
+        BillComparatorDate comparator = new BillComparatorDate();
+        Collections.sort(listToFiltering, comparator);
+
+        for (int i = 0; i < listToFiltering.size(); i++) {
+            billListAux.add(listToFiltering.get(i));
+        }
+
+        return billListAux;
+    }
 }

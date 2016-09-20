@@ -30,7 +30,7 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
             } else {
                 SegmentController.getInstance(getApplicationContext()).initControllerSegments();
 
-                BillController billController = new BillController(getApplicationContext());
+                BillController billController = BillController.getInstance(getBaseContext());
                 billController.initControllerBills();
 
                 SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
@@ -53,7 +53,7 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
         try {
             SegmentController.getInstance(getApplicationContext()).initControllerSegments();
 
-            BillController billController = new BillController(getApplicationContext());
+            BillController billController = BillController.getInstance(getBaseContext());
             billController.initControllerBills();
 
             SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
