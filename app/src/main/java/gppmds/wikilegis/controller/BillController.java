@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.dao.BillDAO;
@@ -14,6 +15,7 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.SegmentsOfBill;
 
 /**
  * Created by josue on 9/11/16.
@@ -58,6 +60,30 @@ public class BillController {
         } else {
             billList = billDao.getAllBills();
         }
+    }
+
+    public static List<Segment> getSegmentsFromIdOfBill(final int idBill) {
+        List<Segment> listSegment;
+        List<SegmentsOfBill> segmentsOfBillList;
+
+        listSegment = new ArrayList<Segment>();
+
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(idBill);
+
+        for (int i = 0; i < segmentsOfBillList.size(); i++) {
+            try {
+                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i).getIdSegment());
+                if (segmentAux.getOrder() != 0)
+                    listSegment.add(segmentAux);
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }
+
+        SegmentComparatorOrder segmentComparatorOrder = new SegmentComparatorOrder();
+        Collections.sort(listSegment, segmentComparatorOrder);
+
+        return listSegment;
     }
 
     public static int countedTheNumberOfProposals(List<Segment> segmentList, int idBill){
