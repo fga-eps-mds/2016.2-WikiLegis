@@ -14,9 +14,6 @@ import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.SegmentsOfBill;
 
-/**
- * Created by marcelo on 9/16/16.
- */
 public class SegmentsOfBillController {
 
     private static List<SegmentsOfBill> segmentsOfBillList = new ArrayList<SegmentsOfBill>();
@@ -24,28 +21,30 @@ public class SegmentsOfBillController {
     private static Context context;
     private static SegmentsOfBillController instance = null;
 
-    private SegmentsOfBillController(Context context) {
-        this.context = context;
+    private SegmentsOfBillController(final Context contextParamter) {
+        this.context = contextParamter;
     }
 
-    public static SegmentsOfBillController getInstance(Context context){
-        if(instance == null){
-            instance = new SegmentsOfBillController(context);
+    public static SegmentsOfBillController getInstance(final Context contextParamter) {
+        if (instance == null) {
+            instance = new SegmentsOfBillController(contextParamter);
         }
         return  instance;
     }
 
-    public static List<SegmentsOfBill> getAllSegmentsOfBill(Integer id){
+    public static List<SegmentsOfBill> getAllSegmentsOfBill(final  Integer id) {
         segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
         return segmentsOfBillDAO.getAllSegmentsOfBill(id);
     }
 
-    public void initControllerSegmentsOfBill() throws BillException, JSONException, SegmentException {
+    public void initControllerSegmentsOfBill() throws BillException,
+                                                      JSONException, SegmentException {
 
         segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
 
         if (segmentsOfBillDAO.isDatabaseEmpty()) {
-            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
+            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.
+                    getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
                     SegmentController.getAllSegments());
             segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
         } else {
