@@ -26,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
 
         LoginFragment loginFragment = new LoginFragment();
 
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_register_user);

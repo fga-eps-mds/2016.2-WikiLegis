@@ -16,6 +16,10 @@ import gppmds.wikilegis.R;
 
 public class LoginFragment extends Fragment implements View.OnClickListener{
 
+    private TextView visitor;
+    private TextView register;
+    private Button button;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -24,21 +28,26 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        TextView visitor = (TextView) view.findViewById(R.id.loginAsVisitorText);
-        visitor.setOnClickListener(this);
-
-        TextView register = (TextView) view.findViewById(R.id.registerText);
-        register.setOnClickListener(this);
-        Button button = (Button)view.findViewById(R.id.loginButton);
-
-        button.setOnClickListener(this);
+        settingView(view);
+        settingClickLitenersView();
 
         return view;
 
     }
 
+    private void settingView(View view) {
+        this.visitor = (TextView) view.findViewById(R.id.loginAsVisitorText);
+        this.register = (TextView) view.findViewById(R.id.registerText);
+        this.button = (Button)view.findViewById(R.id.loginButton);
+    }
+
+    private void settingClickLitenersView() {
+        visitor.setOnClickListener(this);
+        register.setOnClickListener(this);
+        button.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View view) {
@@ -76,8 +85,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
-
 }
 
 
