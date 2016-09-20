@@ -17,6 +17,15 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String SEGMENTS_TABLE = "[Segments]";
     private static final String COMMENTS_TABLE = "[Comments]";
     private static final String VOTES_TABLE = "[votes]";
+    private static final String EMAIL_TABLE = "[email]";
+
+
+    //Emails
+
+    private static final String EMAIL_EMAIL = "[email]";
+
+    private static final String CREATE_EMAIL = "CREATE TABLE " + EMAIL_TABLE + " (" +
+            EMAIL_EMAIL + " );";
 
     //Bill
 
@@ -111,6 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_SEGMENTS);
         db.execSQL(CREATE_COMMENT);
         db.execSQL(CREATE_VOTE);
+        db.execSQL(CREATE_EMAIL);
     }
 
     @Override

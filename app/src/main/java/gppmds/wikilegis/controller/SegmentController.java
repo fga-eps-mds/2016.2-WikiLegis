@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -68,7 +69,9 @@ public class SegmentController {
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
-
+        Log.d("Passou"," Aquui");
+        PostRequest postRequest = new PostRequest();
+        postRequest.execute("http://127.0.0.1:8000/api/user/create/", "thiagoteste@gmail.com", "ThiagoTeste", "Teste", "111222");
         if (segmentDAO.isDatabaseEmpty()) {
             segmentList = JSONHelper.segmentListFromJSON();
             segmentDAO.insertAllSegments(segmentList);
@@ -77,8 +80,9 @@ public class SegmentController {
         }
     }
     public static int getMinDate(int id){
-       Integer day , month, year;
+        Integer day , month, year;
         Integer aux = 20170000 , result;
+
         String array[] = new String[2];
         String arrayDate[] = new String[3];
 

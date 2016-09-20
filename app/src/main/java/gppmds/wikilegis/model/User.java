@@ -1,9 +1,13 @@
 
 package gppmds.wikilegis.model;
 
+import android.util.Log;
+
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.exception.UserException;
 
 /**
@@ -39,6 +43,7 @@ public class User {
     public static final String NAME_CONTAINS_SPECIAL_CHARACTERS = "O nome deve ter apenas letras.";
     public static final String LAST_NAME_CONTAINS_SPECIAL_CHARACTERS = "O sobrenome"
             + " deve ter apenas letras.";
+    public static final String EMAIL_CANT_BE_EQUALS = "Inválido, este email já foi registrado.";
 
     private String firstName;
     private String lastName;
@@ -102,18 +107,23 @@ public class User {
     }
 
     private void setEmail(String email) throws UserException {
+
         if (stringIsNull(email)) {
             if (validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)) {
                 if (validateEmailFormat(email)) {
-                        this.email = email;
+                    if (RegisterUserController.validateEmailIsNotRepeated(email)) {
+                        this.email=email;
+                    } else {
+                        throw new UserException(EMAIL_CANT_BE_EQUALS);
+                    }
                 } else {
                     throw new UserException(INVALID_EMAIL);
                 }
             } else {
-                throw  new UserException(EMAIL_CANT_BE_HIGHER_THAN_150);
+                throw new UserException(EMAIL_CANT_BE_HIGHER_THAN_150);
             }
         } else {
-            throw  new UserException(EMAIL_CANT_BE_EMPTY_EMAIL);
+            throw new UserException(EMAIL_CANT_BE_EMPTY_EMAIL);
         }
     }
 

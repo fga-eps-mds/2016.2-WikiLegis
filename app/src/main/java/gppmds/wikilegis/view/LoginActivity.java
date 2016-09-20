@@ -31,8 +31,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register_user);
 
         openFragment(loginFragment);
-
     }
+
     private void openFragment(Fragment fragmentToBeOpen){
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =
