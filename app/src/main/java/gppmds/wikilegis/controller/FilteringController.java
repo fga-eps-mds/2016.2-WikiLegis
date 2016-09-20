@@ -31,7 +31,6 @@ public class FilteringController {
     public List<Bill> filterigForStatusClosed(List<Bill> list){
         List<Bill> billListWithStatusClosed= new ArrayList<Bill>();
 
-
         for(int index = 0 ; index<list.size();index++){
             if(list.get(index).getStatus().equals("closed")){
                 billListWithStatusClosed.add(list.get(index));

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.FilteringController;
 import gppmds.wikilegis.model.Bill;
 
 /**
@@ -103,7 +104,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
-        bills = MainActivity.filteringForNumberOfProposals(bills);
+        bills = FilteringController.filteringForNumberOfProposals(bills);
         personViewHolder.billTitle.setText(bills.get(i).getTitle());
         personViewHolder.billDescription.setText(bills.get(i).getDescription());
         personViewHolder.billNumberProposal.setText(Integer.toString(bills.get(i).getNumberOfPrposals()));

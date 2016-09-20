@@ -25,7 +25,6 @@ import gppmds.wikilegis.model.Segment;
 public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
 
     private BillController billController;
-    private SegmentController segmentController;
     private FilteringController filteringController;
 
     private  List<Bill> billListInitial;
@@ -37,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     private RecyclerViewAdapter adapter;
     private Switch switchRelevantsOrRecents;
     private Switch switchOpenOrClosed;
+    private Toolbar toolbar;
+    private RecyclerView recycler_view;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,38 +46,45 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        switchRelevantsOrRecents= (Switch)findViewById(R.id.switchRelevanteRecente);
-        switchOpenOrClosed= (Switch)findViewById(R.id.switchAbertoFechado);
-
-        switchOpenOrClosed.setOnCheckedChangeListener(this);
-        switchRelevantsOrRecents.setOnCheckedChangeListener(this);
-
-        RecyclerView recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
-        recycler_view.setHasFixedSize(true);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getBaseContext());
-        recycler_view.setLayoutManager(linearLayoutManager);
-
-        segmentController = SegmentController.getInstance(getBaseContext());
-        billController = new BillController(this);
-        filteringController = FilteringController.getInstance(getBaseContext());
-
-        billListInitial= billController.getAllBills();
-
+        settingView();
+        settingListenersOnView();
+        initBillList();
+        initRecycleView();
         initListsInOrder();
+    }
 
-        billListInitial= filteringController.filteringForNumberOfProposals(billListInitial);
-        billListInitial= filteringController.filterigForStatusPublished(billListInitial);
+    private void initBillList() {
+        billController = new BillController(this);
+        billListInitial = billController.getAllBills();
+        filteringController = FilteringController.getInstance(getBaseContext());
+        billListInitial = filteringController.filteringForNumberOfProposals(billListInitial);
+        billListInitial = filteringController.filterigForStatusPublished(billListInitial);
+    }
 
+    private void initRecycleView() {
+        recycler_view.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getBaseContext());
+        recycler_view.setLayoutManager(linearLayoutManager);
         adapter = new RecyclerViewAdapter(billListInitial);
         recycler_view.setAdapter(adapter);
     }
 
+    private void settingListenersOnView() {
+        switchOpenOrClosed.setOnCheckedChangeListener(this);
+        switchRelevantsOrRecents.setOnCheckedChangeListener(this);
+    }
+
+    private void settingView() {
+        toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
+        switchRelevantsOrRecents= (Switch)findViewById(R.id.switchRelevanteRecente);
+        switchOpenOrClosed= (Switch)findViewById(R.id.switchAbertoFechado);
+        recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_deslogged, menu);
 
         return true;
@@ -110,6 +119,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         billListRecentsAndOpened = new ArrayList<>();
         billListRelevantsAndClosed = new ArrayList<>();
         billListRelevantsAndOpened = new ArrayList<>();
+
+        billListInitial = billController.getAllBills();
 
         billListRelevantsAndClosed = filteringController.filteringForNumberOfProposals(billListInitial);
         billListRelevantsAndClosed = filteringController.filterigForStatusClosed(billListRelevantsAndClosed);
