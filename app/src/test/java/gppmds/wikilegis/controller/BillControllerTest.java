@@ -30,10 +30,10 @@ public class BillControllerTest {
 
 
         try {
-            Segment segment = new Segment(1,10,2,true,3,4,5,6,"content",7,8,9);
-            Segment segment2 = new Segment(2,10,2,true,11,4,5,6,"content",7,8,9);
-            Segment segment3 = new Segment(3,10,1,true,23,4,5,6,"content",7,8,9);
-            Segment segment4 = new Segment(4,10,3,true,48,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,10,2,true,3,4,5,6,"content",7,8,9,"Date");
+            Segment segment2 = new Segment(2,10,2,true,11,4,5,6,"content",7,8,9,"Date");
+            Segment segment3 = new Segment(3,10,1,true,23,4,5,6,"content",7,8,9,"Date");
+            Segment segment4 = new Segment(4,10,3,true,48,4,5,6,"content",7,8,9,"Date");
 
             segmentList.add(segment);
             segmentList.add(segment2);
@@ -58,10 +58,10 @@ public class BillControllerTest {
         List<Segment> segmentList = new ArrayList<>();
 
         try {
-            Segment segment = new Segment(1,10,2,true,0,4,5,6,"content",7,8,9);
-            Segment segment2 = new Segment(2,10,2,true,11,4,5,6,"content",7,8,9);
-            Segment segment3 = new Segment(3,10,2,true,0,4,5,6,"content",7,8,9);
-            Segment segment4 = new Segment(4,10,2,true,48,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,10,2,true,0,4,5,6,"content",7,8,9,"Date");
+            Segment segment2 = new Segment(2,10,2,true,11,4,5,6,"content",7,8,9,"Date");
+            Segment segment3 = new Segment(3,10,2,true,0,4,5,6,"content",7,8,9,"Date");
+            Segment segment4 = new Segment(4,10,2,true,48,4,5,6,"content",7,8,9,"Date");
 
             segmentList.add(segment);
             segmentList.add(segment2);
@@ -85,10 +85,10 @@ public class BillControllerTest {
         List<Segment> segmentList = new ArrayList<>();
 
         try {
-            Segment segment = new Segment(1,10,2,true,0,4,5,6,"content",7,8,9);
-            Segment segment2 = new Segment(2,10,2,true,0,4,5,6,"content",7,8,9);
-            Segment segment3 = new Segment(3,10,2,true,0,4,5,6,"content",7,8,9);
-            Segment segment4 = new Segment(4,10,2,true,0,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,10,2,true,0,4,5,6,"content",7,8,9,"Date");
+            Segment segment2 = new Segment(2,10,2,true,0,4,5,6,"content",7,8,9,"Date");
+            Segment segment3 = new Segment(3,10,2,true,0,4,5,6,"content",7,8,9,"Date");
+            Segment segment4 = new Segment(4,10,2,true,0,4,5,6,"content",7,8,9,"Date");
 
             segmentList.add(segment);
             segmentList.add(segment2);
@@ -114,10 +114,10 @@ public class BillControllerTest {
         List<Segment> segmentList = new ArrayList<>();
 
         try {
-            Segment segment = new Segment(1,10,2,true,15,4,5,6,"content",7,8,9);
-            Segment segment2 = new Segment(2,10,2,true,16,4,5,6,"content",7,8,9);
-            Segment segment3 = new Segment(3,10,2,true,17,4,5,6,"content",7,8,9);
-            Segment segment4 = new Segment(4,10,2,true,18,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,10,2,true,15,4,5,6,"content",7,8,9,"Date");
+            Segment segment2 = new Segment(2,10,2,true,16,4,5,6,"content",7,8,9,"Date");
+            Segment segment3 = new Segment(3,10,2,true,17,4,5,6,"content",7,8,9,"Date");
+            Segment segment4 = new Segment(4,10,2,true,18,4,5,6,"content",7,8,9,"Date");
 
             segmentList.add(segment);
             segmentList.add(segment2);
