@@ -1,18 +1,11 @@
 
 package gppmds.wikilegis.model;
 
-import android.util.Log;
-
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.exception.UserException;
 
-/**
- * Created by thiago on 9/1/16.
- */
 public class User {
     private static final int MAX_LENGTH_FIRST_NAME = 30;
     private static final int MAX_LENGTH_LAST_NAME = 30;
@@ -49,8 +42,8 @@ public class User {
     private String email;
     private String password;
 
-    public User(String firstName, String lastName, String email, String password,
-                String passwordConfimation) throws UserException {
+    public User(final String firstName, final String lastName, final String email,
+                final String password, final String passwordConfimation) throws UserException {
         setFirstName(firstName);
         setLastName(lastName);
         setEmail(email);
@@ -61,15 +54,11 @@ public class User {
         return firstName;
     }
 
-    private void setFirstName(String firstName) throws UserException {
+    private void setFirstName(final String firstName) throws UserException {
         if (stringIsNull(firstName)) {
-
             if (validateNameContainsOnlyLetters(firstName)) {
-
                 if (validateStringLengthLessThanMax(firstName, MAX_LENGTH_FIRST_NAME)) {
-
                     this.firstName = firstName;
-
                 } else {
                     throw new UserException(FIRST_NAME_CANT_BE_HIGHER_THAN_30);
                 }
@@ -85,7 +74,7 @@ public class User {
         return lastName;
     }
 
-    private void setLastName(String lastName) throws UserException {
+    private void setLastName(final String lastName) throws UserException {
         if (stringIsNull(lastName)) {
             if (validateNameContainsOnlyLetters(lastName)) {
                 if (validateStringLengthLessThanMax(lastName, MAX_LENGTH_LAST_NAME)) {
@@ -105,12 +94,11 @@ public class User {
         return email;
     }
 
-    private void setEmail(String email) throws UserException {
-
+    private void setEmail(final String email) throws UserException {
         if (stringIsNull(email)) {
             if (validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)) {
                 if (validateEmailFormat(email)) {
-                        this.email=email;
+                        this.email = email;
                 } else {
                     throw new UserException(INVALID_EMAIL);
                 }
@@ -126,7 +114,8 @@ public class User {
         return password;
     }
 
-    private void setPassword(String password, String passwordConfirmation) throws UserException {
+    private void setPassword(final String password,
+                             final String passwordConfirmation) throws UserException {
         if (stringIsNull(password)) {
             if (validateStringLengthLessThanMax(password, MAX_LENGTH_PASSWORD)) {
                 if (validateStringLengthMoreThanMin(password, MIN_LENGTH_PASSWORD)) {
@@ -151,26 +140,23 @@ public class User {
     private boolean stringIsNull(final String string) {
         if (string == null || string.isEmpty()) {
             return false;
-        } else {
-            return  true;
         }
+        return  true;
     }
 
 
     private boolean validateStringLengthLessThanMax(final String string, final int MAX) {
         if (string.length() > MAX) {
             return false;
-        } else {
-            return  true;
         }
+        return  true;
     }
 
     private boolean validateStringLengthMoreThanMin(final String string, final int MIN) {
         if (string.length() < MIN) {
             return false;
-        } else {
-            return  true;
         }
+        return  true;
     }
 
 
@@ -178,12 +164,10 @@ public class User {
 
         if (password.equals(passwordConfimation)) {
             return true;
-        } else {
-            return  false;
         }
+        return  false;
     }
 
-    //Validar tipo de email
     private boolean validateEmailFormat(final String email) {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         CharSequence inputStr = email;
@@ -191,9 +175,8 @@ public class User {
         Matcher matcher = pattern.matcher(inputStr);
         if (matcher.matches()) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     private boolean validateNameContainsOnlyLetters(final String name) {
@@ -201,7 +184,7 @@ public class User {
         int countSpaces = 0;
 
         for (int i = 0; i < name.length(); i++) {
-            if ((Character.isLetter(name.charAt(i)) == false) && name.charAt(i) != ' ') {
+            if (!Character.isLetter(name.charAt(i)) && name.charAt(i) != ' ') {
                 return false;
             } else if (name.charAt(i) == ' ') {
                 countSpaces++;
@@ -209,8 +192,7 @@ public class User {
         }
         if (countSpaces != name.length()) {
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 }
