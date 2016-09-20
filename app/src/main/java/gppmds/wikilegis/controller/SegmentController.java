@@ -7,19 +7,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
-/**
- * Created by marcelo on 9/13/16.
- */
 public class SegmentController {
 
     private static List<Segment> segmentList = new ArrayList<Segment>();
@@ -27,51 +22,47 @@ public class SegmentController {
     private Context context;
     private static SegmentController instance = null;
 
-    private SegmentController(Context context) {
+    private SegmentController(final Context context) {
         this.context = context;
     }
 
-    public static SegmentController getInstance(Context context){
-        if(instance == null){
+    public static SegmentController getInstance(final Context context) {
+        if (instance == null) {
             instance = new SegmentController(context);
         }
         return  instance;
     }
 
-    public static List<Segment> getAllSegments(){
+    public static List<Segment> getAllSegments() {
         return segmentList;
     }
 
-    public static Segment getSegmentById(Integer id) throws SegmentException {
+    public static Segment getSegmentById(final Integer id) throws SegmentException {
         return segmentDAO.getSegmentById(id);
     }
     //Inicia todos os segmentos no banco local
 
-    public static Segment getSegment(JSONObject f) throws SegmentException, JSONException {
-        return new Segment(f.getInt("id"),
-                f.getInt("order"),
-                f.getInt("bill"),
-                f.getBoolean("original"),
-                //Mesma coisa das outras era replaced
-                f.getString("replaced").equals("null") ? 0 : f.getInt("replaced"),
-                //Tambem pode vir null, botei id pra testar e parent
-                f.getInt("id"),
-                f.getInt("type"),
-                //Pode vir null???? Botei id pra testar again e number
-                f.getString("number").equals("null") ? 0 : f.getInt("number"),
-                f.getString("content"),
-                //A partir desta está errada, botei apenas para testar.
-                f.getInt("id"),
-                f.getInt("id"),
-                f.getInt("id"),
-                f.getString("created"));
+    public static Segment getSegment(final JSONObject jsonObject) throws SegmentException,
+            JSONException {
+        return new Segment(jsonObject.getInt("id"),
+                jsonObject.getInt("order"),
+                jsonObject.getInt("bill"),
+                jsonObject.getBoolean("original"),
+                jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
+                jsonObject.getInt("id"),
+                jsonObject.getInt("type"),
+                jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
+                jsonObject.getString("content"),
+                jsonObject.getString("created"));
     }
+
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
-        Log.d("Passou"," Aquui");
         PostRequest postRequest = new PostRequest();
-        postRequest.execute("http://127.0.0.1:8000/api/user/create/", "thiagoteste@gmail.com", "ThiagoTeste", "Teste", "111222");
+        postRequest.execute("http://127.0.0.1:8000/api/user/create/", "thiagoteste@gmail.com",
+                "ThiagoTeste", "Teste", "111222");
+
         if (segmentDAO.isDatabaseEmpty()) {
             segmentList = JSONHelper.segmentListFromJSON();
             segmentDAO.insertAllSegments(segmentList);
@@ -79,29 +70,27 @@ public class SegmentController {
             segmentList = segmentDAO.getAllSegments();
         }
     }
-    public static int getMinDate(int id){
-        Integer day , month, year;
-        Integer aux = 20170000 , result;
+
+    public static int getMinDate(final int id) {
+        Integer day, month, year;
+        Integer aux = 20170000, result;
 
         String array[] = new String[2];
         String arrayDate[] = new String[3];
 
+        for (int index = 0; index < segmentList.size(); index++) {
 
-
-        for(int index = 0 ; index <segmentList.size();index++){
-
-            if(segmentList.get(index).getBill()==id){
+            if (segmentList.get(index).getBill() == id) {
 
                 array = segmentList.get(index).getDate().split("T");
                 arrayDate = array[0].split("-");
                 day = Integer.parseInt(arrayDate[2]);
                 month = Integer.parseInt(arrayDate[1]);
                 year = Integer.parseInt(arrayDate[0]);
-                result = year*10000+month*1000+day;
+                result = year * 10000 + month * 1000 + day;
 
-                if(result<aux){
+                if (result < aux) {
                     aux = result;
-                    Log.d("data" , aux.toString());
                 }
             }
         }
@@ -171,7 +160,7 @@ public class SegmentController {
         return SegmentDAO.getInstance(context).isDatabaseEmpty();
     }
 
-    public static String addingTypeContent(Segment segment) {
+    public static String addingTypeContent(final Segment segment) {
         String alphabet = "abcdefghijklmnopqrstwxyz";
         String bufferAux = "";
 
@@ -180,28 +169,35 @@ public class SegmentController {
                 bufferAux = "Art. " + segment.getNumber().toString() + "º " + segment.getContent();
                 break;
             case 2:
-                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tTITULO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tTITULO "
+                        + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
                 break;
             case 3:
-                bufferAux = "\t\t\t" + convertRoman(segment.getNumber()) + " - " + segment.getContent();
+                bufferAux = "\t\t\t" + convertRoman(segment.getNumber()) + " - "
+                        + segment.getContent();
                 break;
             case 4:
                 bufferAux = "§ " + segment.getNumber() + "º " + segment.getContent();
                 break;
             case 5:
-                bufferAux = "\t\t\t\t\t" + alphabet.charAt(segment.getNumber()-1) + ") " + segment.getContent();
+                bufferAux = "\t\t\t\t\t" + alphabet.charAt(segment.getNumber() - 1)
+                        + ") " + segment.getContent();
                 break;
             case 7:
-                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCAPITULO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCAPITULO "
+                        + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
                 break;
             case 8:
-                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLIVRO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tLIVRO "
+                        + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
                 break;
             case 9:
-                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSEÇAO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSEÇAO "
+                        + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
                 break;
             case 10:
-                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSUBSEÇAO " + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
+                bufferAux = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tSUBSEÇAO "
+                        + convertRoman(segment.getNumber()) + "\n" + segment.getContent();
                 break;
             default:
                 bufferAux = segment.getContent();
