@@ -31,6 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static  List<Bill> bills;
     private Integer imageThemeId;
+    private static Bill bill;
 
     public static class BillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         CardView cardView;
@@ -56,13 +57,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Bundle bundle = new Bundle();
             bundle.putInt("id", Integer.parseInt(view.getTag().toString()));
 
+            Bundle bundleBill = new Bundle();
+            bundleBill.putString("billTitle", bill.getTitle());
+
             ViewBillFragment viewBillFragment = new ViewBillFragment();
             viewBillFragment.setArguments(bundle);
 
             activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_content,
                     viewBillFragment).commit();
 
-            Toast.makeText(activity, view.getTag()+"", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, view.getTag()+"id", Toast.LENGTH_LONG).show();
         }
     }
     RecyclerViewAdapter(List < Bill > bills) {
@@ -109,6 +113,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         setImageThemeId(bills.get(i));
         personViewHolder.themePhoto.setImageResource(imageThemeId);
         personViewHolder.cardView.setTag(bills.get(i).getId());
+        bill = bills.get(i);
 
     }
 

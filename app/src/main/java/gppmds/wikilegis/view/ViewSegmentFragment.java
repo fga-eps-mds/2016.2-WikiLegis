@@ -12,8 +12,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.SegmentsOfBillController;
+import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
 
@@ -32,20 +34,25 @@ public class ViewSegmentFragment extends Fragment {
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
 
-        segmentController = SegmentController.getInstance(getContext());
+        Log.d("idBilauhsuahusahul", billId.toString());
+        Log.d("segmentISHAIUSGAUIG", segmentId.toString());
 
+        segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
 
 
         View view = inflater.inflate(R.layout.fragment_view_segment, container, false);
 
-        Log.d("idBill", Integer.toString(billId));
+
 
         segmentText = (TextView)view.findViewById(R.id.segment_content);
+
         billText = (TextView)view.findViewById(R.id.bill_title);
         try{
             Segment segment = SegmentController.getSegmentById(segmentId);
             segmentText.setText(segment.getContent());
+            Bill bill = BillController.getBillById(billId);
+            billText.setText(bill.getTitle());
             //billText.setText();
         }catch (Exception e){
             Log.d("LIXO", e.getMessage());

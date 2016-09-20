@@ -56,14 +56,14 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
-                    Bundle bundleSegment = new Bundle();
-                    bundleSegment.putInt("segmentId", Integer.parseInt(view.getTag(R.id.idSegment).toString()));
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("segmentId", Integer.parseInt(view.getTag(R.id.idSegment).toString()));
+                    bundle.putInt("billId", Integer.parseInt(view.getTag(R.id.idBill).toString()));
 
-                    Bundle bundleBill = new Bundle();
-                    bundleBill.putInt("billId", Integer.parseInt(view.getTag(R.id.idBill).toString()));
+                    //Log.d("LOLOLO", Integer.parseInt(view.getTag(R.id.idBill).toString())+"");
 
                     ViewSegmentFragment viewSegmentFragment = new ViewSegmentFragment();
-                    viewSegmentFragment.setArguments(bundleSegment);
+                    viewSegmentFragment.setArguments(bundle);
 
                     activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_content,
                             viewSegmentFragment).commit();
