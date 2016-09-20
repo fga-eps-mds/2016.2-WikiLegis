@@ -20,11 +20,11 @@ public class EmailDAO extends DaoUtilities{
 
     private static String tableName = "Email";
 
-    private EmailDAO(Context context) {
+    private EmailDAO(final Context context) {
         EmailDAO.database = new DatabaseHelper(context);
     }
 
-    public static EmailDAO getInstance(Context context) {
+    public static EmailDAO getInstance(final Context context) {
         if (EmailDAO.instance != null) {
             //nothing to do
         } else {
@@ -60,7 +60,7 @@ public class EmailDAO extends DaoUtilities{
         return isEmpty;
     }
 
-    public boolean insertEmail(String email) {
+    public boolean insertEmail(final String email) {
 
         SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
 
@@ -73,7 +73,7 @@ public class EmailDAO extends DaoUtilities{
         return result;
     }
 
-    public boolean insertAllEmails(List<String> emailList) {
+    public boolean insertAllEmails(final List<String> emailList) {
         Iterator<String> index = emailList.iterator();
 
         boolean result = true;

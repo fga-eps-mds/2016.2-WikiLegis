@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by marcelo on 9/13/16.
- */
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "wikilegisManager";
@@ -34,7 +31,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String BILL_EPIGRAPH = "[epigraph]";
     private static final String BILL_DESCRIPTION = "[description]";
     private static final String BILL_THEME = "[theme]";
-    private static final String BILL_AMOUNT_PARTICIPANTS = "[amountParticipants]";
     private static final String BILL_AMOUNT_PROPOSALS = "[amountProposals]";
     private static final String BILL_STATUS = "[status]";
     private static final String BILL_DATE = "[date]";
@@ -42,9 +38,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String CREATE_BILL = "CREATE TABLE " + BILL_TABLE + " (" +
             BILL_ID + " INTEGER NOT NULL PRIMARY KEY, " + BILL_TITLE + " VARCHAR(200), " +
             BILL_EPIGRAPH + "  VARCHAR(200), "+ BILL_DESCRIPTION + " VARCHAR(500), " +
-            BILL_THEME + " VARCHAR(50), "+ BILL_AMOUNT_PARTICIPANTS + " INTEGER, " +
-            BILL_AMOUNT_PROPOSALS + " INTEGER, " + BILL_STATUS + " VARCHAR(50), " + BILL_DATE + " INTEGER);" ;
-
+            BILL_THEME + " VARCHAR(50), "+ BILL_AMOUNT_PROPOSALS + " INTEGER, " +
+            BILL_STATUS + " VARCHAR(50), " + BILL_DATE + " INTEGER);";
 
     //Segments of Bill
 
@@ -109,12 +104,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             VOTE_VOTE + " BIT, " + VOTE_USER_ID + " INTEGER, " + VOTE_SEGMENT_ID + " INTEGER );";
 
 
-    public DatabaseHelper(Context context) {
+    public DatabaseHelper(final Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(final SQLiteDatabase db) {
         db.execSQL(CREATE_BILL);
         db.execSQL(CREATE_SEGMENTS_BILL);
         db.execSQL(CREATE_SEGMENTS);
@@ -124,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
 
     }
 }
