@@ -16,21 +16,21 @@ public class ViewSegmentFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
 
 
 
         return inflater.inflate(R.layout.fragment_view_segment, container, false);
     }
 
-    public Segment findSegment(List<Segment> segmentList, int idSegment , int billIndex){
-        Segment segment =null;
-        for(int index = 0 ; index <segmentList.size(); index++) {
-            if(segmentList.get(index).getBill()==billIndex && segmentList.get(index).getId()==idSegment){
-
+    public Segment findSegment(final List<Segment> segmentList,
+                               final int idSegment, final int billIndex){
+        Segment segment = null;
+        for (int index = 0; index < segmentList.size(); index++) {
+            if (segmentList.get(index).getBill() == billIndex
+                    && segmentList.get(index).getId() == idSegment) {
                 segment = segmentList.get(index);
-
             }
         }
         return segment;
