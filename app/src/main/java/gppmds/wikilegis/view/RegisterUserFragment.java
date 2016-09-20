@@ -9,49 +9,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import gppmds.wikilegis.controller.RegisterUserController;
-import org.json.JSONException;
 
-import gppmds.wikilegis.controller.RegisterUserController;
-import gppmds.wikilegis.dao.GetRequest;
-import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.exception.BillException;
-import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class RegisterUserFragment extends Fragment implements View.OnClickListener{
+public class RegisterUserFragment extends Fragment implements View.OnClickListener {
 
-    private static final String STRING_EMPTY="";
+    private static final String STRING_EMPTY = "";
 
-    private EditText firstNameField=null;
-    private EditText lastNameField=null;
-    private EditText emailField=null;
-    private EditText passwordField=null;
-    private EditText passwordConfirmationField=null;
+    private EditText firstNameField = null;
+    private EditText lastNameField = null;
+    private EditText emailField = null;
+    private EditText passwordField = null;
+    private EditText passwordConfirmationField = null;
 
-    private String firstName=STRING_EMPTY;
-    private String lastName=STRING_EMPTY;
-    private String email=STRING_EMPTY;
-    private String password=STRING_EMPTY;
-    private String passwordConfirmation=STRING_EMPTY;
+    private String firstName = STRING_EMPTY;
+    private String lastName = STRING_EMPTY;
+    private String email = STRING_EMPTY;
+    private String password = STRING_EMPTY;
+    private String passwordConfirmation = STRING_EMPTY;
 
     public RegisterUserFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_register_user, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_register_user, container, false);
 
-        Button register=(Button) view.findViewById(R.id.registerButton);
+        Button register = (Button) view.findViewById(R.id.registerButton);
 
         register.setOnClickListener(this);
         this.settingEditText(view);
@@ -59,23 +48,23 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         return view;
     }
 
-    private void settingEditText(View view) {
-        this.firstNameField=(EditText) view.findViewById(R.id.firstNameField);
-        this.lastNameField=(EditText) view.findViewById(R.id.lastNameField);
-        this.emailField=(EditText) view.findViewById(R.id.emailField);
-        this.passwordField=(EditText) view.findViewById(R.id.passwordField);
-        this.passwordConfirmationField=(EditText) view.findViewById(R.id.passwordConfirmationField);
+    private void settingEditText(final View view) {
+        this.firstNameField = (EditText) view.findViewById(R.id.firstNameField);
+        this.lastNameField = (EditText) view.findViewById(R.id.lastNameField);
+        this.emailField = (EditText) view.findViewById(R.id.emailField);
+        this.passwordField = (EditText) view.findViewById(R.id.passwordField);
+        this.passwordConfirmationField = (EditText) view.findViewById(R.id.passwordConfirmationField);
     }
 
     private void settingTextTyped() {
-        this.firstName=firstNameField.getText().toString();
-        this.lastName=lastNameField.getText().toString();
-        this.email=emailField.getText().toString();
-        this.password=passwordField.getText().toString();
-        this.passwordConfirmation=passwordConfirmationField.getText().toString();
+        this.firstName = firstNameField.getText().toString();
+        this.lastName = lastNameField.getText().toString();
+        this.email = emailField.getText().toString();
+        this.password = passwordField.getText().toString();
+        this.passwordConfirmation = passwordConfirmationField.getText().toString();
     }
 
-    private void settingErrorNull(){
+    private void settingErrorNull() {
         this.firstNameField.setError(null);
         this.lastNameField.setError(null);
         this.emailField.setError(null);
@@ -84,28 +73,24 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(View view)  {
-        String aux = null;
+    public void onClick(final View view)  {
         this.settingTextTyped();
         this.settingErrorNull();
         this.validateUserInformation();
         RegisterUserController e = RegisterUserController.getInstance(getContext());
-
-        //Tirar isso daqui, é só pra teste
-
     }
 
-    private void setMessageError(EditText editText, String message) {
+    private void setMessageError(final EditText editText, final String message) {
         editText.requestFocus();
         editText.setError(message);
-
     }
 
     private void validateUserInformation() {
 
         RegisterUserController registerUser = RegisterUserController.getInstance(getContext());
 
-        String feedbackRegisterMessage = registerUser.registerUser(firstName, lastName, email, password, passwordConfirmation);
+        String feedbackRegisterMessage = registerUser.registerUser(firstName,
+                lastName, email, password, passwordConfirmation);
 
         switch (feedbackRegisterMessage) {
             case User.FIRST_NAME_CANT_BE_EMPTY:
@@ -154,7 +139,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
                 break;
 
             case "SUCESS":
-                String SUCCESSFUL_REGISTRATION_MESSAGE="Cadastro efetuado com sucesso!";
+                String SUCCESSFUL_REGISTRATION_MESSAGE = "Cadastro efetuado com sucesso!";
                 Toast.makeText(getActivity().getBaseContext(),
                         SUCCESSFUL_REGISTRATION_MESSAGE, Toast.LENGTH_LONG).show();
                 break;
