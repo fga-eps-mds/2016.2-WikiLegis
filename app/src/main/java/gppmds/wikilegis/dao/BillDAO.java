@@ -113,11 +113,11 @@ public class BillDAO extends DaoUtilities{
             Bill bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[1])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[7])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[6])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[3])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[4])),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))));
 
 
             billList.add(bill);
@@ -140,11 +140,11 @@ public class BillDAO extends DaoUtilities{
             bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[1])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[7])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[6])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[3])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[4])),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))));
         }
 
         return bill;
