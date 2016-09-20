@@ -4,19 +4,16 @@ import java.util.Comparator;
 
 import gppmds.wikilegis.model.Bill;
 
-/**
- * Created by josue on 9/14/16.
- */
 public class BillComparatorDate implements Comparator<Bill> {
 
-
     @Override
-    public int compare(Bill bill, Bill t1) {
-       if(bill.getDate()>t1.getDate()){
+    public int compare(final Bill bill, final Bill billToCompair) {
+       if (bill.getDate() > billToCompair.getDate()){
            return -1;
-       }if(bill.getDate()<t1.getDate()){
+       } else if (bill.getDate() < billToCompair.getDate()) {
             return 1;
-        }
-        return 0;
+       } else {
+           return 0;
+       }
     }
 }
