@@ -111,11 +111,7 @@ public class User {
         if (stringIsNull(email)) {
             if (validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)) {
                 if (validateEmailFormat(email)) {
-                    if (RegisterUserController.validateEmailIsNotRepeated(email)) {
                         this.email=email;
-                    } else {
-                        throw new UserException(EMAIL_CANT_BE_EQUALS);
-                    }
                 } else {
                     throw new UserException(INVALID_EMAIL);
                 }

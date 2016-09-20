@@ -13,6 +13,7 @@ import gppmds.wikilegis.dao.EmailDAO;
 import gppmds.wikilegis.dao.GetRequest;
 import gppmds.wikilegis.dao.DaoUtilities;
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
@@ -65,23 +66,13 @@ public class RegisterUserController {
         try {
 
             User user = new User(firstName, lastName, email, password, passwordConfirmation);
-
+            PostRequest postRequest = new PostRequest(user, context);
+            postRequest.execute();
             return "SUCESS";
 
         } catch (UserException e) {
             String exceptionMessage = e.getMessage();
             return exceptionMessage;
-
         }
-    }
-
-    public static boolean validateEmailIsNotRepeated(String email) {
-
-        for (int i=0; i<emailList.size(); i++) {
-            if (email.equals(emailList.get(i))) {
-                return false;
-            }
-        }
-        return true;
     }
 }
