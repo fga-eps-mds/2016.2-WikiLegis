@@ -75,18 +75,6 @@ public class BillController {
         return counter;
     }
 
-    public static int countedNumberOfParticipants(List<Segment> segmentList, int idBill) {
-
-        int counter = 0;
-
-        for(int index = 0; index < segmentList.size(); index++) {
-            if(segmentList.get(index).getBill() == idBill) {
-
-            }
-        }
-        return counter;
-    }
-
     public static Bill getBillById(int id) throws BillException {
         billDao = BillDAO.getInstance(context);
 
