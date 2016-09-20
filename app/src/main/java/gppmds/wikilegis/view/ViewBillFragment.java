@@ -98,7 +98,6 @@ public class ViewBillFragment extends Fragment {
         this.titleBillTextView = (TextView) view.findViewById(R.id.textViewTitleBill);;
         this.textAbstractTextView = (TextView) view.findViewById(R.id.textViewTitleAbstract);
         this.numberProposalsTextView = (TextView) view.findViewById(R.id.textViewNumberProposal);
-        this.numberParticipantsTextView = (TextView) view.findViewById(R.id.textViewNumberParticipants);
     }
 
     private void settingTypeText(View view, int id) {
@@ -114,7 +113,5 @@ public class ViewBillFragment extends Fragment {
         this.titleBillTextView.setText(bill.getTitle());
         this.textAbstractTextView.setText(bill.getDescription());
         this.numberProposalsTextView.setText(bill.getNumberOfPrposals() + "");
-        this.numberParticipantsTextView.setText("30");
-
     }
 }
