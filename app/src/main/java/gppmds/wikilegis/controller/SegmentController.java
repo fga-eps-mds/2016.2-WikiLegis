@@ -167,6 +167,10 @@ public class SegmentController {
         return numberRoman;
     }
 
+    public boolean isSegmentDatabaseIsEmpty() {
+        return SegmentDAO.getInstance(context).isDatabaseEmpty();
+    }
+
     public static String addingTypeContent(Segment segment) {
         String alphabet = "abcdefghijklmnopqrstwxyz";
         String bufferAux = "";
