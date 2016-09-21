@@ -25,11 +25,11 @@ public class SegmentDAO extends DaoUtilities{
 
     private static String tableName = "Segments";
 
-    private SegmentDAO(Context context) {
+    private SegmentDAO(final Context context) {
         SegmentDAO.database = new DatabaseHelper(context);
     }
 
-    public static SegmentDAO getInstance(Context context) {
+    public static SegmentDAO getInstance(final Context context) {
         if (SegmentDAO.instance != null) {
             //nothing to do
         } else {
@@ -64,7 +64,7 @@ public class SegmentDAO extends DaoUtilities{
         return isEmpty;
     }
 
-    public boolean insertSegment(Segment segment) {
+    public boolean insertSegment(final Segment segment) {
 
         SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
 
@@ -94,7 +94,7 @@ public class SegmentDAO extends DaoUtilities{
         return result;
     }
 
-    public boolean insertAllSegments(List<Segment> segmentList) {
+    public boolean insertAllSegments(final List<Segment> segmentList) {
         Iterator<Segment> index = segmentList.iterator();
 
         boolean result = true;
@@ -114,14 +114,14 @@ public class SegmentDAO extends DaoUtilities{
         return result;
     }
 
-    public Segment getSegmentById(Integer id) throws SegmentException {
+    public Segment getSegmentById(final Integer id) throws SegmentException {
         sqliteDatabase = database.getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName + " WHERE \"id\" = " + id.toString();
 
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
 
-        Segment segment=null;
+        Segment segment = null;
 
         while (cursor.moveToNext()) {
 
@@ -135,13 +135,10 @@ public class SegmentDAO extends DaoUtilities{
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[8])),
-                    0,
-                    0,
-                    0,cursor.getString(cursor.getColumnIndex(tableColumns[12]))
+                    cursor.getString(cursor.getColumnIndex(tableColumns[12]))
             );
         }
         cursor.close();
-        //sqliteDatabase.close();
 
         return segment;
     }
@@ -167,18 +164,11 @@ public class SegmentDAO extends DaoUtilities{
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[8])),
-                    0,
-                    0,
-                    0,cursor.getString(cursor.getColumnIndex(tableColumns[12]))
+                    cursor.getString(cursor.getColumnIndex(tableColumns[12]))
             );
 
             segmentList.add(segment);
         }
-
-        //sqliteDatabase.close();
-        //cursor.close();
-
         return segmentList;
     }
-
 }

@@ -2,23 +2,29 @@ package gppmds.wikilegis.controller;
 
 import android.content.Context;
 
-import java.io.IOException;
+import org.json.JSONException;
 
-import gppmds.wikilegis.dao.GetRequest;
-import gppmds.wikilegis.dao.DaoUtilities;
+import java.util.ArrayList;
+import java.util.List;
+
+import gppmds.wikilegis.dao.EmailDAO;
+import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
 
 public class RegisterUserController {
+
+    private static List<String> emailList = new ArrayList<String>();
     private static RegisterUserController instance = null;
     private final Context context;
+    private EmailDAO emailDAO;
 
-    private RegisterUserController(Context context) {
-        this.context = context;
+    private RegisterUserController(final Context contextParameter) {
+        this.context = contextParameter;
     }
 
-    public static RegisterUserController getInstance(Context context) {
+    public static RegisterUserController getInstance(final Context context) {
         if (instance == null) {
             instance = new RegisterUserController(context);
         } else {
@@ -27,11 +33,30 @@ public class RegisterUserController {
         return instance;
     }
 
-    public String registerUser(String firstName,
-                               String lastName,
-                               String email,
-                               String password,
-                               String passwordConfirmation) {
+    public List<String> getAllEmails() {
+        return emailList;
+    }
+
+    public void initControllerEmails() throws JSONException {
+
+        emailDAO = EmailDAO.getInstance(context);
+
+        if (emailDAO.isDatabaseEmpty()) {
+
+            emailList = JSONHelper.emailListFromJSON(emailList);
+
+            emailDAO.insertAllEmails(emailList);
+
+        } else {
+            emailList = emailDAO.getAllEmails();
+        }
+    }
+
+    public String registerUser(final String firstName,
+                               final String lastName,
+                               final String email,
+                               final String password,
+                               final String passwordConfirmation) {
 
         try {
 

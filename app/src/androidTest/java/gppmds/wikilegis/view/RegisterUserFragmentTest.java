@@ -13,8 +13,13 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity>{
 
@@ -182,6 +187,22 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.registerButton)).perform(click());
         onView((withId(R.id.emailField))).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
     }
+
+    public void testValidFields(){
+        onView(withId(R.id.registerText)).perform(click());
+        onView(withId(R.id.firstNameField)).perform(typeText("Augusto"));
+        onView(withId(R.id.lastNameField)).perform(typeText("Moreno"));
+        closeSoftKeyboard();
+        onView(withId(R.id.emailField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView((withId(R.id.passwordField))).perform(typeText("12345678"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordConfirmationField)).perform(typeText("12345678"));
+        closeSoftKeyboard();
+        onView(withId(R.id.registerButton)).perform(click());
+        onView(withText(R.string.sucessfull_registration_message)).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+    }
+
 
 
 }

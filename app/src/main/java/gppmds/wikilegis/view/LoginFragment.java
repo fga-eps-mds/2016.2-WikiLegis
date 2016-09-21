@@ -9,39 +9,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import gppmds.wikilegis.R;
 
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener{
+public class LoginFragment extends Fragment implements View.OnClickListener {
+
+    private TextView visitor;
+    private TextView register;
+    private Button button;
 
     public LoginFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        TextView visitor = (TextView) view.findViewById(R.id.loginAsVisitorText);
-        visitor.setOnClickListener(this);
+        settingView(view);
 
-        TextView register = (TextView) view.findViewById(R.id.registerText);
-        register.setOnClickListener(this);
-        Button button = (Button)view.findViewById(R.id.loginButton);
-
-        button.setOnClickListener(this);
+        settingClickLitenersView();
 
         return view;
-
     }
 
+    private void settingView(final View view) {
+        this.visitor = (TextView) view.findViewById(R.id.loginAsVisitorText);
+        this.register = (TextView) view.findViewById(R.id.registerText);
+        this.button = (Button) view.findViewById(R.id.loginButton);
+    }
+
+    private void settingClickLitenersView() {
+        visitor.setOnClickListener(this);
+        register.setOnClickListener(this);
+        button.setOnClickListener(this);
+    }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(final View view) {
         // Create new fragment and transaction
         switch (view.getId()) {
             case R.id.loginAsVisitorText:
@@ -59,11 +67,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
                 Intent intent1 = new Intent(getContext(), MainActivity.class);
                 startActivity(intent1);
                 break;
-
+            default:
+                //nothing to do
         }
     }
 
-    private void openFragment(Fragment fragmentToBeOpen){
+    private void openFragment(final Fragment fragmentToBeOpen) {
 
         assert fragmentToBeOpen != null;
 
@@ -76,9 +85,4 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
-
 }
-
-
-
