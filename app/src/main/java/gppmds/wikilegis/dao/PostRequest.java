@@ -21,6 +21,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -108,36 +109,25 @@ public class PostRequest extends AsyncTask<String, Void, String>{
             Log.d("OLAR"," TO AQUIIII");
             String http = params[0];
 
-
             HttpURLConnection urlConnection=null;
             Log.d("OLAR"," TO AQUIIII1");
             try {
                 URL url = new URL(http);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setDoOutput(true);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setUseCaches(false);
-                urlConnection.setConnectTimeout(10000);
-                urlConnection.setReadTimeout(10000);
-                urlConnection.setRequestProperty("Content-Type","application/json");
-                Log.d("OLAR"," TO AQUIIII2");
-                urlConnection.setRequestProperty("Host", "http://127.0.0.1:8000/api/user/create/");
-                urlConnection.connect();
+                urlOperations(urlConnection, url);
                 Log.d("OLAR"," TO AQUIIII3");
+
                 //Create JSONObject here
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("email", params[1]);
-                jsonParam.put("first_name", params[2]);
-                jsonParam.put("last_name", params[3]);
-                jsonParam.put("password", params[4]);
+                createJsonObjectWithParams(jsonParam, http);
                 Log.d("JSON",jsonParam.toString());
-                OutputStreamWriter out = new   OutputStreamWriter(urlConnection.getOutputStream());
+
+                OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());
                 out.write(jsonParam.toString());
                 out.close();
                 Log.d("OLAR"," TO AQUIIII4");
                 int HttpResult =urlConnection.getResponseCode();
                 Log.d("OLAR", "RESULT: " +HttpResult);
-                if(HttpResult == HttpURLConnection.HTTP_OK){
+                if (HttpResult == HttpURLConnection.HTTP_OK) {
                     Log.d("OLAR"," TO AQUIIII5");
                     BufferedReader br = new BufferedReader(new InputStreamReader(
                             urlConnection.getInputStream(),"utf-8"));
@@ -161,10 +151,7 @@ public class PostRequest extends AsyncTask<String, Void, String>{
             catch (IOException e) {
 
                 e.printStackTrace();
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }finally{
+            } finally{
                 if(urlConnection!=null)
                     urlConnection.disconnect();
             }
@@ -175,6 +162,31 @@ public class PostRequest extends AsyncTask<String, Void, String>{
             return null;
         }
         return "";
+    }
+
+    private void createJsonObjectWithParams(JSONObject jsonParam, String... params) throws JSONException {
+        jsonParam.put("email", params[1]);
+        jsonParam.put("first_name", params[2]);
+        jsonParam.put("last_name", params[3]);
+        jsonParam.put("password", params[4]);
+    }
+
+    private void urlOperations(HttpURLConnection urlConnection, URL url) throws IOException {
+        urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setDoOutput(true);
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setUseCaches(false);
+        urlConnection.setConnectTimeout(10000);
+        urlConnection.setReadTimeout(10000);
+        urlConnection.setRequestProperty("Content-Type","application/json");
+
+        Log.d("OLAR"," TO AQUIIII2");
+        urlConnection.setRequestProperty("Host", "http://127.0.0.1:8000/api/user/create/");
+        try {
+            urlConnection.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void onPostExecute(String response) {
