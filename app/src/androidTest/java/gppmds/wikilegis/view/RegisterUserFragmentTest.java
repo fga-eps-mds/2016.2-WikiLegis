@@ -41,6 +41,18 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
+    public void testLogoIsDisplayed() {
+        onView(withId(R.id.imageViewLogo)).check(matches(isDisplayed()));
+    }
+
+    public void testIconUserNameIsDisplayed() {
+        onView(withId(R.id.imageViewUserName)).check(matches(isDisplayed()));
+    }
+
+    public void testIconPasswordUserIsDisplayed() {
+        onView(withId(R.id.imageViewPasswordUser)).check(matches(isDisplayed()));
+    }
+
     public void testErrorWithEmptyFirstName(){
         onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText(""));
@@ -202,7 +214,4 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.registerButton)).perform(click());
         onView(withText(R.string.sucessfull_registration_message)).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
-
-
-
 }

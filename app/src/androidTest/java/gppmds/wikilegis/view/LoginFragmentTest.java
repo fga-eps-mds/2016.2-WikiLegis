@@ -81,4 +81,9 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
     public void testButtonLoginAsVisitorTextIsDisplayed() {
         onView(withId(R.id.loginAsVisitorText)).check(matches(isDisplayed()));
     }
+
+    public void testRedirectionByClickingInLoginAsVisitant() {
+        onView(withId(R.id.loginAsVisitorText)).perform(click());
+        onView(withId(R.id.textViewRelevantes)).check(matches(isDisplayed()));
+    }
 }
