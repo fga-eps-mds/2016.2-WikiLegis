@@ -45,9 +45,9 @@ public class ViewSegmentFragment extends Fragment {
         segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
 
-        segmentText = (TextView)view.findViewById(R.id.segment_content);
+        segmentText = (TextView)view.findViewById(R.id.contentSegment);
 
-        billText = (TextView)view.findViewById(R.id.bill_title);
+        billText = (TextView)view.findViewById(R.id.titleBill);
 
         try{
             Segment segment = SegmentController.getSegmentById(segmentId);
