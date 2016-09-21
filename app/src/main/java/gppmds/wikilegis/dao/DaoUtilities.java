@@ -4,10 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-
-/**
- * Created by marcelo on 9/13/16.
- */
 public class DaoUtilities {
 
     protected static DatabaseHelper database;

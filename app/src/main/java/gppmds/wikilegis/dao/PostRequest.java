@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import gppmds.wikilegis.model.User;
+
 public class PostRequest extends AsyncTask<Void, Void, Integer>{
     private final static String url = "http://wikilegis-staging.labhackercd.net/api/user/create/";
     private Exception exception;
