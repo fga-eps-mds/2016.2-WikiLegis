@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +46,6 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
 
                     activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_content,
                             viewSegmentFragment).commit();
-
-                    Toast.makeText(activity, view.getTag()+"", Toast.LENGTH_LONG).show();
                 }
             });
         }
