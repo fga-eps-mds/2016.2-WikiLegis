@@ -1,0 +1,84 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/background">
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="false"
+        android:background="@color/cardview_light_background"
+        android:id="@+id/frameLayout"
+        android:layout_alignParentEnd="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/brasao"
+                android:id="@+id/imageViewBrazal"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="18dp"
+                android:layout_below="@+id/textViewTitleBill"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/textViewTitleBill"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textViewTitleAbstract"
+                android:textSize="14dp"
+                android:layout_below="@+id/textViewTitleBill"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/imageViewBrazal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Propostas: "
+                android:id="@+id/textViewProposal"
+                android:layout_below="@+id/textViewTitleAbstract"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textViewNumberProposal"
+                android:layout_alignTop="@+id/textViewProposal"
+                android:layout_toEndOf="@+id/textViewProposal" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recycler_viewBill"
+        android:layout_below="@+id/frameLayout"
+        android:background="@android:color/transparent"
+        android:layout_alignStart="@+id/frameLayout"
+        android:layout_alignEnd="@+id/frameLayout"
+        />
+
+</RelativeLayout>

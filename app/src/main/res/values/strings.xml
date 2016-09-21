@@ -14,4 +14,15 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_register_user">Wikilegis</string>
+    <string name="action_profile">Profile</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_exit_account">Exit Account</string>
+    <string name="action_filtering">Filtrar</string>
+    <string name="sucessfull_registration_message">Cadastro efetuado com sucesso!</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
