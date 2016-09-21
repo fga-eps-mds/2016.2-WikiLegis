@@ -46,8 +46,8 @@
                 android:layout_marginBottom="20dp"/>
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:id="@+id/imageViewLike"
                 android:src="@drawable/like"
                 android:layout_marginStart="50dp"
@@ -55,8 +55,8 @@
                 android:layout_alignParentStart="true" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:id="@+id/imageViewDislike"
                 android:src="@drawable/dislike"
                 android:layout_marginStart="130dp"
@@ -68,12 +68,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginStart="5dp"
                 android:text="10"
                 android:id="@+id/textViewNumberLike"
-                android:layout_alignTop="@+id/imageViewLike"
-                android:layout_toEndOf="@+id/imageViewLike"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp" />
+                android:layout_alignBottom="@+id/imageViewLike"
+                android:layout_toEndOf="@+id/imageViewLike" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -81,7 +80,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="30"
                 android:id="@+id/textViewNumberDislike"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_alignTop="@+id/textViewNumberLike"
                 android:layout_toEndOf="@+id/imageViewDislike" />
 
@@ -89,13 +88,48 @@
 
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayoutProposal"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignStart="@+id/frameLayout"
+        android:layout_marginTop="1dp"
+        android:background="#ffffff">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Propostas"
+                android:id="@+id/textView"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewProposal"
+                android:src="@drawable/chat"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_toStartOf="@+id/textView"
+                android:layout_marginEnd="30dp" />
+        </RelativeLayout>
+    </FrameLayout>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler_viewSegment"
         android:background="@android:color/transparent"
-        android:layout_alignStart="@+id/frameLayout"
-        android:layout_alignEnd="@+id/frameLayout"
-        android:layout_below="@+id/frameLayout"/>
+        android:layout_alignStart="@+id/frameLayoutProposal"
+        android:layout_alignEnd="@+id/frameLayoutProposal"
+        android:layout_below="@+id/frameLayoutProposal"/>
+
+
 </RelativeLayout>
