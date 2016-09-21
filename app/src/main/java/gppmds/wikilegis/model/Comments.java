@@ -20,7 +20,9 @@ public class Comments {
     private Integer objectPk;
     private String comment;
 
-    public Comments(Integer id, Integer idUser, String date, String contentType, Integer objectPk, String comment) throws CommentsException {
+    public Comments(final Integer id, final Integer idUser, final String date,
+                    final String contentType, final Integer objectPk, final String comment)
+            throws CommentsException {
         setId(id);
         setIdUser(idUser);
         setDate(date);
@@ -34,10 +36,10 @@ public class Comments {
         return id;
     }
 
-    private void setId(Integer id) throws CommentsException {
-        if(validateIntegerNull(id)) {
+    private void setId(final Integer id) throws CommentsException {
+        if (validateIntegerNull(id)) {
             this.id = id;
-        } else{
+        } else {
             throw  new CommentsException("ID_CANT_BE_NULL");
         }
     }
@@ -46,10 +48,10 @@ public class Comments {
         return idUser;
     }
 
-    private void setIdUser(Integer idUser) throws CommentsException {
-        if(validateIntegerNull(idUser)) {
+    private void setIdUser(final Integer idUser) throws CommentsException {
+        if (validateIntegerNull(idUser)) {
             this.idUser = idUser;
-        } else{
+        } else {
             throw  new CommentsException("IDUSER_CANT_BE_NULL");
         }
     }
@@ -58,10 +60,10 @@ public class Comments {
         return date;
     }
 
-    private void setDate(String date) throws CommentsException {
-        if(validateStringEmpty(date)) {
+    private void setDate(final String date) throws CommentsException {
+        if (validateStringEmpty(date)) {
             this.date = date;
-        } else{
+        } else {
             throw  new CommentsException("DATE_CANT_BE_NULL");
         }
     }
@@ -70,10 +72,10 @@ public class Comments {
         return contentType;
     }
 
-    private void setContentType(String contentType) throws CommentsException {
-        if(validateStringEmpty(contentType)) {
+    private void setContentType(final String contentType) throws CommentsException {
+        if (validateStringEmpty(contentType)) {
             this.contentType = contentType;
-        } else{
+        } else {
             throw  new CommentsException("CONTENT_CANT_BE_NULL");
         }
     }
@@ -82,10 +84,10 @@ public class Comments {
         return objectPk;
     }
 
-    private void setObjectPk(Integer objectPk) throws CommentsException {
-        if(validateIntegerNull(objectPk)) {
+    private void setObjectPk(final Integer objectPk) throws CommentsException {
+        if (validateIntegerNull(objectPk)) {
             this.objectPk = objectPk;
-        } else{
+        } else {
             throw  new CommentsException("OBJECT_CANT_BE_NULL");
         }
     }
@@ -94,29 +96,27 @@ public class Comments {
         return comment;
     }
 
-    private void setComment(String comment) throws CommentsException {
-        if(validateStringEmpty(comment)) {
+    private void setComment(final String comment) throws CommentsException {
+        if (validateStringEmpty(comment)) {
             this.comment = comment;
-        } else{
+        } else {
             throw  new CommentsException("COMMENT_CANT_BE_NULL");
         }
     }
 
     //Validation methods
 
-    private boolean validateIntegerNull(final Integer integer){
-        if(integer == null){
+    private boolean validateIntegerNull(final Integer integer) {
+        if (integer == null) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     private boolean validateStringEmpty(final String string) {
         if (string == null || string.trim().isEmpty()) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 }

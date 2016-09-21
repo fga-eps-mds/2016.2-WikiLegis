@@ -8,7 +8,7 @@
     <FrameLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="60dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_alignParentStart="false"
@@ -55,29 +55,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Participantes: "
-                android:id="@+id/textViewParticipants"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/textViewTitleAbstract"
-                android:layout_toEndOf="@+id/textViewNumberProposal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/textViewNumberParticipants"
-                android:layout_alignTop="@+id/textViewParticipants"
-                android:layout_toEndOf="@+id/textViewParticipants" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Propostas: "
                 android:id="@+id/textViewProposal"
-                android:layout_alignTop="@+id/textViewParticipants"
-                android:layout_alignStart="@+id/imageViewBrazal" />
+                android:layout_below="@+id/textViewTitleAbstract"
+                android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:layout_width="wrap_content"

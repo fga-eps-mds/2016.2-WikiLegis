@@ -43,49 +43,6 @@ public class SegmentTypesTest {
 
     @Test
 
-    public void testMinMinusOneId(){
-        boolean isValid = true;
-
-        try{
-            SegmentTypes segmentTypes = new SegmentTypes(0,"name");
-        }catch (SegmentTypesException e){
-            isValid = false;
-        }
-
-        assertFalse(isValid);
-    }
-
-    @Test
-
-    public void testMaxId(){
-        boolean isValid = true;
-
-        try{
-            SegmentTypes segmentTypes = new SegmentTypes(11,"name");
-        }catch (SegmentTypesException e){
-            isValid = false;
-        }
-
-        assertTrue(isValid);
-    }
-
-
-    @Test
-
-    public void TestMaxMoreOneId(){
-        boolean isValid = true;
-
-        try{
-            SegmentTypes segmentTypes = new SegmentTypes(12,"name");
-        }catch (SegmentTypesException e){
-            isValid = false;
-        }
-
-        assertFalse(isValid);
-    }
-
-    @Test
-
     public void testNullName(){
         boolean isValid = true;
 

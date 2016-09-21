@@ -15,7 +15,8 @@ public class DaoUtilities {
     protected static Context context;
 
     //Método para inserir no banco local
-    protected long insertAndClose(SQLiteDatabase sqLiteDatabase, String table, ContentValues values ) {
+    protected long insertAndClose(final SQLiteDatabase sqLiteDatabase, final String table,
+                                  final ContentValues values) {
 
         sqLiteDatabase.insert(table, null, values);
         long resultInsert = 1;
@@ -26,7 +27,7 @@ public class DaoUtilities {
     }
 
     //Metodo para deletar do banco local
-    protected long deleteAndClose(SQLiteDatabase sqLiteDatabase, String table) {
+    protected long deleteAndClose(final SQLiteDatabase sqLiteDatabase, final String table) {
         int delete;
 
         delete = sqLiteDatabase.delete(table, null, null);

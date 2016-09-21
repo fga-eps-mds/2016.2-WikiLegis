@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.dao.BillDAO;
@@ -14,33 +15,41 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.SegmentsOfBill;
 
-/**
- * Created by josue on 9/11/16.
- */
 public class BillController {
 
     private static List<Bill> billList = new ArrayList<Bill>();
     private static BillDAO billDao;
     private static Context context;
+    private static BillController instance = null;
 
 
-    public BillController(Context context) {
+    private BillController(final Context context) {
         this.context = context;
+    }
+
+    public static BillController getInstance(final Context context) {
+        if (instance == null) {
+            instance = new BillController(context);
+        }
+        return  instance;
     }
 
     public List<Bill> getAllBills(){
         return billList;
     }
 
-
-    public static Bill getBill(Integer numberOfProposals, Integer date, JSONObject f) throws BillException, JSONException {
-        Bill billAux = new Bill(f.getInt("id"),
-                f.getString("title"),
-                f.getString("epigraph"),
-                f.getString("status"),
-                f.getString("description"),
-                f.getString("theme"), numberOfProposals, date);
+    public static Bill getBill(final Integer numberOfProposals, final Integer date,
+                               final JSONObject jsonObject) throws BillException, JSONException {
+        Bill billAux = new Bill(jsonObject.getInt("id"),
+                jsonObject.getString("title"),
+                jsonObject.getString("epigraph"),
+                jsonObject.getString("status"),
+                jsonObject.getString("description"),
+                jsonObject.getString("theme"),
+                numberOfProposals,
+                date);
         return billAux;
     }
 
@@ -60,37 +69,98 @@ public class BillController {
         }
     }
 
-    public static int countedTheNumberOfProposals(List<Segment> segmentList, int idBill){
+    public static List<Segment> getSegmentsFromIdOfBill(final int idBill) {
+        List<Segment> listSegment;
+        List<SegmentsOfBill> segmentsOfBillList;
 
-        int counter = 0;
+        listSegment = new ArrayList<Segment>();
+
+        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(idBill);
+
+        for (int i = 0; i < segmentsOfBillList.size(); i++) {
+            try {
+                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i).getIdSegment());
+                if (segmentAux.getOrder() != 0)
+                    listSegment.add(segmentAux);
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }
+
+        SegmentComparatorOrder segmentComparatorOrder = new SegmentComparatorOrder();
+        Collections.sort(listSegment, segmentComparatorOrder);
+
+        return listSegment;
+    }
+
+    public static int countedTheNumberOfProposals(final List<Segment> segmentList,
+                                                  final int idBill) {
+
+        int numberOfProposals = 0;
 
         for (int index = 0; index < segmentList.size(); index++) {
-
             if (segmentList.get(index).getBill() == idBill) {
                 if (segmentList.get(index).getReplaced() != 0) {
-                        counter++;
+                        numberOfProposals++;
                 }
             }
         }
-        return counter;
+        return numberOfProposals;
     }
 
-    public static int countedNumberOfParticipants(List<Segment> segmentList, int idBill) {
-
-        int counter = 0;
-
-        for(int index = 0; index < segmentList.size(); index++) {
-            if(segmentList.get(index).getBill() == idBill) {
-
-            }
-        }
-        return counter;
-    }
-
-    public static Bill getBillById(int id) throws BillException {
+    public static Bill getBillById(final int id) throws BillException {
         billDao = BillDAO.getInstance(context);
 
         return billDao.getBillById(id);
     }
 
+    public List<Bill> filterigForStatusClosed(final List<Bill> listToFiltering) {
+        List<Bill> billListWithStatusClosed = new ArrayList<Bill>();
+
+        for (int index = 0; index < listToFiltering.size(); index++) {
+            if (listToFiltering.get(index).getStatus().equals("closed")) {
+                billListWithStatusClosed.add(listToFiltering.get(index));
+            }
+        }
+        return billListWithStatusClosed;
+    }
+
+    public List<Bill> filterigForStatusPublished(final List<Bill> listToFiltering) {
+        List<Bill> billListWithStatusPublished = new ArrayList<Bill>();
+
+
+        for (int index = 0; index < listToFiltering.size(); index++) {
+            if (listToFiltering.get(index).getStatus().equals("published")) {
+                billListWithStatusPublished.add(listToFiltering.get(index));
+            }
+        }
+        return billListWithStatusPublished;
+    }
+
+    public static List<Bill> filteringForNumberOfProposals(final List<Bill> listToFiltering) {
+        List<Bill> billListAux = new ArrayList<>();
+
+        BillComparatorProposals billComparatorDProposals = new BillComparatorProposals();
+        Collections.sort(listToFiltering, billComparatorDProposals);
+
+        for (int i = 0; i < listToFiltering.size(); i++) {
+            billListAux.add(listToFiltering.get(i));
+        }
+
+        return billListAux;
+
+    }
+
+    public List<Bill> filteringForDate(final List<Bill> listToFiltering) {
+        List<Bill> billListAux = new ArrayList<>();
+
+        BillComparatorDate comparator = new BillComparatorDate();
+        Collections.sort(listToFiltering, comparator);
+
+        for (int i = 0; i < listToFiltering.size(); i++) {
+            billListAux.add(listToFiltering.get(i));
+        }
+
+        return billListAux;
+    }
 }

@@ -19,7 +19,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(null,1,2,true,3,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(null,1,2,true,3,4,5,6,"content","Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -33,7 +33,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,null,2,true,3,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,null,2,true,3,4,5,6,"content","Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -47,7 +47,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,2,null,true,3,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,2,null,true,3,4,5,6,"content","Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -61,7 +61,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,2,3,true,null,4,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,2,3,true,null,4,5,6,"content","Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -75,7 +75,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,2,3,true,4,null,5,6,"content",7,8,9);
+            Segment segment = new Segment(1,2,3,true,4,null,5,6,"content","Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -89,7 +89,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,2,3,true,4,5,null,6,"content",7,8,9);
+            Segment segment = new Segment(1,2,3,true,4,5,null,6,"content","Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -103,7 +103,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,2,3,true,4,5,6,null,"content",7,8,9);
+            Segment segment = new Segment(1,2,3,true,4,5,6,null,"content","Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -117,7 +117,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,2,3,true,4,5,6,10,null,7,8,9);
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,null,"Date");
         }catch (SegmentException segmentException){
             isValid = false;
         }
@@ -132,7 +132,7 @@ public class SegmentTest {
         boolean isValid = true;
 
         try{
-            Segment segment = new Segment(1,2,3,true,4,5,6,10,"",7,8,9);
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"","Date");
         }catch(SegmentException segmentException){
             Log.d("test", segmentException.getMessage());
             isValid = false;
@@ -141,46 +141,5 @@ public class SegmentTest {
         assertTrue(isValid);
     }
 
-    @Test
-
-    public void testNullIdAuthor(){
-        boolean isValid = true;
-
-        try{
-            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Comment",null,8,9);
-        }catch (SegmentException segmentException){
-            isValid = false;
-        }
-
-        assertFalse(isValid);
-    }
-
-    @Test
-
-    public void testNullIdVote(){
-        boolean isValid = true;
-
-        try{
-            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Comment",8,null,9);
-        }catch (SegmentException segmentException){
-            isValid = false;
-        }
-
-        assertFalse(isValid);
-    }
-
-    @Test
-
-    public void testNullIdComment(){
-        boolean isValid = true;
-
-        try{
-            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Comment",8,9,null);
-        }catch(SegmentException segmentException){
-            isValid = false;
-        }
-
-        assertFalse(isValid);
-    }
 }
 

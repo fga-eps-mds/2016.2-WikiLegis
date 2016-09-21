@@ -31,8 +31,8 @@ public class ViewSegmentFragment extends Fragment {
     private SegmentController segmentController;
     private List<Segment> aux = new ArrayList<>();
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
 
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
@@ -58,6 +58,7 @@ public class ViewSegmentFragment extends Fragment {
             //billText.setText();
         }catch (Exception e){
             Log.d("LIXO", e.getMessage());
+
         }
         aux = SegmentController.getProposalsOfSegment(segmentList,segmentId);
         RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(aux);

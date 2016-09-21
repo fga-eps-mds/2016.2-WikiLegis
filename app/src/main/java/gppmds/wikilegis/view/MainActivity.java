@@ -5,86 +5,84 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillComparatorDate;
-import gppmds.wikilegis.controller.BillComparatorProposals;
 import gppmds.wikilegis.controller.BillController;
-import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.model.Bill;
-import gppmds.wikilegis.model.Segment;
 
-public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
-    public static List<Segment> listSegment;
-    public static BillController billController;
-    public static SegmentController segmentController;
-    public static  List<Bill> billListInitial;
-    public static  List<Bill> billListRelevantsAndClosed;
-    public static  List<Bill> billListRelevantsAndOpened;
-    public static  List<Bill> billListRecentsAndClosed;
-    public static  List<Bill> billListRecentsAndOpened;
+    private BillController billController;
+
+    private  List<Bill> billListInitial;
+    private  List<Bill> billListRelevantsAndClosed;
+    private  List<Bill> billListRelevantsAndOpened;
+    private  List<Bill> billListRecentsAndClosed;
+    private  List<Bill> billListRecentsAndOpened;
+
     private RecyclerViewAdapter adapter;
-
-    private Switch switchRelevantes;
-    private Switch switchAbertos;
+    private Switch switchRelevantsOrRecents;
+    private Switch switchOpenOrClosed;
+    private Toolbar toolbar;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
+        settingView();
+        settingListenersOnView();
+        initBillList();
+        initRecycleView();
+        initListsInOrder();
+    }
 
-        switchRelevantes = (Switch)findViewById(R.id.switchRelevanteRecente);
-        switchAbertos = (Switch)findViewById(R.id.switchAbertoFechado);
+    private void initBillList() {
+        billController = BillController.getInstance(this);
+        billListInitial = billController.getAllBills();
+        billListInitial = billController.filteringForNumberOfProposals(billListInitial);
+        billListInitial = billController.filterigForStatusPublished(billListInitial);
+    }
 
-        switchAbertos.setOnCheckedChangeListener(this);
-        switchRelevantes.setOnCheckedChangeListener(this);
-
-        RecyclerView recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
-        recycler_view.setHasFixedSize(true);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getBaseContext());
-        recycler_view.setLayoutManager(linearLayoutManager);
-
-        segmentController = SegmentController.getInstance(getBaseContext());
-        billController = new BillController(this);
-
-        listSegment = segmentController.getAllSegments();
-
-        billListInitial= billController.getAllBills();
-
-        initListsInOrdenation();
-
-        billListInitial= filteringForNumberOfProposals(billListInitial);
-        billListInitial= filterigForStatusPublished(billListInitial);
-
+    private void initRecycleView() {
+        recyclerView.setHasFixedSize(true);
+        linearLayoutManager = new LinearLayoutManager(getBaseContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new RecyclerViewAdapter(billListInitial);
-        recycler_view.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
+    }
 
+    private void settingListenersOnView() {
+        switchOpenOrClosed.setOnCheckedChangeListener(this);
+        switchRelevantsOrRecents.setOnCheckedChangeListener(this);
+    }
+
+    private void settingView() {
+        toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
+        switchRelevantsOrRecents = (Switch) findViewById(R.id.switchRelevanteRecente);
+        switchOpenOrClosed = (Switch) findViewById(R.id.switchAbertoFechado);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_deslogged, menu);
 
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
                 // User chose the "Search" card_bill, show field of search...
@@ -108,95 +106,69 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         }
     }
 
-    public List<Bill> filterigForStatusClosed(List<Bill> list){
-        List<Bill> billListWithStatusClosed= new ArrayList<Bill>();
-
-
-        for(int index = 0 ; index<list.size();index++){
-            if(list.get(index).getStatus().equals("closed")){
-                billListWithStatusClosed.add(list.get(index));
-            }
-        }
-        return billListWithStatusClosed;
-    }
-
-    public List<Bill> filterigForStatusPublished(List<Bill> list){
-        List<Bill> billListWithStatusPublished= new ArrayList<Bill>();
-
-
-        for(int index = 0 ; index<list.size();index++){
-            if(list.get(index).getStatus().equals("published")){
-                billListWithStatusPublished.add(list.get(index));
-            }
-        }
-        return billListWithStatusPublished;
-    }
-
-    public static List<Bill> filteringForNumberOfProposals(List<Bill> billList) {
-        List<Bill> billListAux = new ArrayList<>();
-
-        BillComparatorProposals billComparatorDProposals = new BillComparatorProposals();
-        Collections.sort(billList, billComparatorDProposals);
-
-        for(int i=0; i<billList.size(); i++) {
-            billListAux.add(billList.get(i));
-        }
-
-        return billListAux;
-
-    }
-
-    public List<Bill> filteringForDate(List<Bill> billList){
-        List<Bill> billListAux = new ArrayList<>();
-
-        BillComparatorDate comparator = new BillComparatorDate();
-        Collections.sort(billList,comparator);
-
-        for(int i=0; i<billList.size(); i++) {
-            billListAux.add(billList.get(i));
-        }
-
-        return billListAux;
-    }
-
-    public void initListsInOrdenation() {
+    public void initListsInOrder() {
         billListRecentsAndClosed = new ArrayList<>();
         billListRecentsAndOpened = new ArrayList<>();
         billListRelevantsAndClosed = new ArrayList<>();
         billListRelevantsAndOpened = new ArrayList<>();
 
-        billListRelevantsAndClosed = filteringForNumberOfProposals(billListInitial);
-        billListRelevantsAndClosed = filterigForStatusClosed(billListRelevantsAndClosed);
+        billListInitial = billController.getAllBills();
 
-        billListRelevantsAndOpened = filteringForNumberOfProposals(billListInitial);
-        billListRelevantsAndOpened = filterigForStatusPublished(billListRelevantsAndOpened);
+        billListRelevantsAndClosed = billController.filteringForNumberOfProposals(billListInitial);
+        billListRelevantsAndClosed = billController.filterigForStatusClosed(billListRelevantsAndClosed);
 
-        billListRecentsAndOpened = filteringForDate(billListInitial);
-        billListRecentsAndOpened = filterigForStatusPublished(billListRecentsAndOpened);
+        billListRelevantsAndOpened = billController.filteringForNumberOfProposals(billListInitial);
+        billListRelevantsAndOpened = billController.filterigForStatusPublished(billListRelevantsAndOpened);
 
-        billListRecentsAndClosed = filteringForDate(billListInitial);
-        billListRecentsAndClosed = filterigForStatusClosed(billListRecentsAndClosed);
+        billListRecentsAndOpened = billController.filteringForDate(billListInitial);
+        billListRecentsAndOpened = billController.filterigForStatusPublished(billListRecentsAndOpened);
+
+        billListRecentsAndClosed = billController.filteringForDate(billListInitial);
+        billListRecentsAndClosed = billController.filterigForStatusClosed(billListRecentsAndClosed);
 
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(buttonView.getId() == switchAbertos.getId() && switchAbertos.isChecked()) {
-            if (switchRelevantes.isChecked()) { //recentes e encerrados
+    public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+        if (buttonView.getId() == switchOpenOrClosed.getId() && switchOpenOrClosed.isChecked()) {
+            if (switchRelevantsOrRecents.isChecked()) {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRecentsAndClosed);
                 adapter.notifyDataSetChanged();
-            } else { //relevantes e encerrados
+            } else {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRelevantsAndClosed);
                 adapter.notifyDataSetChanged();
             }
-        } else if(buttonView.getId() == switchAbertos.getId() && !switchAbertos.isChecked()){
-            if (switchRelevantes.isChecked()) { //recentes e abertos
+        } else if (buttonView.getId() == switchOpenOrClosed.getId()
+                && !switchOpenOrClosed.isChecked()) {
+            if (switchRelevantsOrRecents.isChecked()) {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRecentsAndOpened);
                 adapter.notifyDataSetChanged();
-            } else { //relevantes e encerrados
+            } else {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRelevantsAndOpened);
+                adapter.notifyDataSetChanged();
+            }
+        } else if (buttonView.getId() == switchRelevantsOrRecents.getId()
+                && switchRelevantsOrRecents.isChecked()) {
+            if (switchOpenOrClosed.isChecked()) {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRecentsAndClosed);
+                adapter.notifyDataSetChanged();
+            } else {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRecentsAndOpened);
+                adapter.notifyDataSetChanged();
+            }
+        } else if (buttonView.getId() == switchRelevantsOrRecents.getId()
+                && !switchRelevantsOrRecents.isChecked()) {
+            if (switchOpenOrClosed.isChecked()) {
+                adapter.getData().clear();
+                adapter.getData().addAll(billListRelevantsAndClosed);
+                adapter.notifyDataSetChanged();
+            } else {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRelevantsAndOpened);
                 adapter.notifyDataSetChanged();

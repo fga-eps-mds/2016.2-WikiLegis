@@ -39,7 +39,7 @@
         android:src="@drawable/password_user1"
         android:id="@+id/imageViewPasswordUser"
         android:layout_alignTop="@+id/passwordLoginField"
-        android:layout_alignStart="@+id/imageViewUserName" />
+        android:layout_alignStart="@+id/imageViewUserName"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -62,8 +62,8 @@
         android:layout_height="60px"
         android:src="@drawable/user_name1"
         android:id="@+id/imageViewUserName"
-        android:layout_alignTop="@+id/emailLoginField"
-        android:layout_toStartOf="@+id/editText" />
+        android:layout_above="@+id/passwordLoginField"
+        android:layout_toStartOf="@+id/editText"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -119,11 +119,7 @@
         android:textColor="#77C777"
         android:clickable="true"
         android:layout_alignTop="@+id/textView2"
-        android:layout_alignEnd="@+id/loginButton" />
-
-
-
-
+        android:layout_toEndOf="@+id/imageViewLogo"/>
     />
 
 </RelativeLayout>

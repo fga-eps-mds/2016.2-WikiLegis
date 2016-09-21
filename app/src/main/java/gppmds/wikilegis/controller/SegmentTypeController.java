@@ -6,14 +6,12 @@ import org.json.JSONObject;
 import gppmds.wikilegis.exception.SegmentTypesException;
 import gppmds.wikilegis.model.SegmentTypes;
 
-/**
- * Created by josue on 9/15/16.
- */
 public class SegmentTypeController {
 
-    public static SegmentTypes getSegmentTypes(JSONObject f) throws SegmentTypesException, JSONException {
+    public static SegmentTypes getSegmentTypes(final JSONObject jsonObject)
+            throws SegmentTypesException, JSONException {
 
-        return new SegmentTypes(f.getInt("id"),
-                f.getString("name"));
+        return new SegmentTypes(jsonObject.getInt("id"),
+                jsonObject.getString("name"));
     }
 }

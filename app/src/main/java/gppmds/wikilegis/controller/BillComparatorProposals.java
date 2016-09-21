@@ -9,13 +9,14 @@ import gppmds.wikilegis.model.Bill;
  */
 public class BillComparatorProposals implements Comparator<Bill> {
     @Override
-    public int compare(Bill bill, Bill t1) {
-        if(bill.getNumberOfPrposals()>t1.getNumberOfPrposals()){
+    public int compare(final Bill bill, final Bill billToCompare) {
+        if (bill.getNumberOfPrposals() > billToCompare.getNumberOfPrposals()) {
             return -1;
-        }if(bill.getNumberOfPrposals()<t1.getNumberOfPrposals()){
+        } else if (bill.getNumberOfPrposals() < billToCompare.getNumberOfPrposals()) {
             return 1;
+        } else {
+            return 0;
         }
-        return 0;
     }
 
 }
