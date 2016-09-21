@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,10 @@ import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.SegmentsOfBillController;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.SegmentsOfBill;
 
 public class ViewSegmentFragment extends Fragment {
     private static Integer segmentId;
@@ -29,41 +28,52 @@ public class ViewSegmentFragment extends Fragment {
     private TextView billText;
     private List<Segment> segmentList;
     private SegmentController segmentController;
-    private List<Segment> aux = new ArrayList<>();
+    private List<Segment> segmentListAux= new ArrayList<>();
+    private View view;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
 
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
-        View view = inflater.inflate(R.layout.fragment_view_segment, container, false);
 
-        RecyclerView recycler_view = (RecyclerView) view.findViewById (R.id.recycler_viewSegment);
-        recycler_view.setHasFixedSize(true);
+        setView(inflater, container);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-        recycler_view.setLayoutManager(linearLayoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
 
-        segmentText = (TextView)view.findViewById(R.id.contentSegment);
+        settingText();
 
-        billText = (TextView)view.findViewById(R.id.titleBill);
+        segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
+        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
+        recyclerView.setAdapter(content);
+        return view;
+    }
 
-        try{
+    private void setView(final LayoutInflater inflater, final ViewGroup container) {
+        view = inflater.inflate(R.layout.fragment_view_segment, container, false);
+        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
+        segmentText = (TextView) view.findViewById(R.id.contentSegment);
+        billText = (TextView) view.findViewById(R.id.titleBill);
+    }
+
+    private void settingText() {
+        try {
             Segment segment = SegmentController.getSegmentById(segmentId);
             segmentText.setText(segment.getContent());
             Bill bill = BillController.getBillById(billId);
             billText.setText(bill.getTitle());
-            //billText.setText();
-        }catch (Exception e){
-            Log.d("LIXO", e.getMessage());
-
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
         }
-        aux = SegmentController.getProposalsOfSegment(segmentList,segmentId);
-        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(aux);
-        recycler_view.setAdapter(content);
-        return view;
     }
-
 }
