@@ -23,8 +23,7 @@ import static org.hamcrest.Matchers.not;
 
 public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity>{
 
-    public RegisterUserFragmentTest(){
-       super(LoginActivity.class);
+    public RegisterUserFragmentTest(){super(LoginActivity.class);
     }
 
     @Before
@@ -54,7 +53,6 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.firstNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
-
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("O nome deve ter apenas letras.")));
     }
 
