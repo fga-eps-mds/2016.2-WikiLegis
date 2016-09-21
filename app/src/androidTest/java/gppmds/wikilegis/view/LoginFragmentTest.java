@@ -56,10 +56,6 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         onView(withId(R.id.passwordLoginField)).check(matches(isDisplayed()));
     }
 
-    public void testButtonLoginIsDisplayed() {
-        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
-    }
-
     public void testNotHaveCadastreIsDisplayed() {
         onView(withId(R.id.editText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
@@ -85,8 +81,7 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
     }
 
     public void testRedirectionByClickingInLoginAsVisitant() {
-        onView(withId(R.id.loginAsVisitorText)).perform(scrollTo());
-        onView(withId(R.id.loginAsVisitorText)).perform(click());
+        onView(withId(R.id.loginAsVisitorText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.textViewRelevantes)).check(matches(isDisplayed()));
     }
 }

@@ -11,6 +11,8 @@ import gppmds.wikilegis.R;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -33,8 +35,16 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainA
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
+    public void testSwitchRelevantRecentIsDisplayed(){
+        onView(withId(R.id.switchRelevanteRecente)).check(matches(isDisplayed()));
+    }
+
     public void testSwitchRelevantRecent(){
         onView(withId(R.id.switchRelevanteRecente)).perform(click());
+    }
+
+    public void testSwitchOpenClosedIsDisplayed(){
+        onView(withId(R.id.switchAbertoFechado)).check(matches(isDisplayed()));
     }
     public void testSwitchOpenClosed(){
         onView(withId(R.id.switchAbertoFechado)).perform(click());
