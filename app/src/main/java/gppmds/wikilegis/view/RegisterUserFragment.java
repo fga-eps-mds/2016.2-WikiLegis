@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import gppmds.wikilegis.controller.RegisterUserController;
-
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
@@ -53,7 +52,10 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         this.lastNameField = (EditText) view.findViewById(R.id.lastNameField);
         this.emailField = (EditText) view.findViewById(R.id.emailField);
         this.passwordField = (EditText) view.findViewById(R.id.passwordField);
-        this.passwordConfirmationField = (EditText) view.findViewById(R.id.passwordConfirmationField);
+
+        this.passwordConfirmationField = (EditText) view.
+                findViewById(R.id.passwordConfirmationField);
+
     }
 
     private void settingTextTyped() {
@@ -73,6 +75,7 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
+
     public void onClick(final View view)  {
         this.settingTextTyped();
         this.settingErrorNull();
@@ -129,20 +132,27 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
             case User.PASSWORD_CANT_BE_HIGHER_THAN_10:
                 setMessageError(passwordField, feedbackRegisterMessage);
                 break;
-
             case User.PASSWORD_ISNT_EQUALS:
                 setMessageError(passwordConfirmationField, feedbackRegisterMessage);
                 break;
-
             case "SUCESS":
-                String SUCCESSFUL_REGISTRATION_MESSAGE = "Cadastro efetuado com sucesso!";
-                Toast.makeText(getActivity().getBaseContext(),
-                        SUCCESSFUL_REGISTRATION_MESSAGE, Toast.LENGTH_LONG).show();
+                LoginFragment loginFragment = new LoginFragment();
+                openFragment(loginFragment);
                 break;
             default:
                 //nothing to do
                 break;
         }
+    }
+
+    private void openFragment(final Fragment fragmentToBeOpen){
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.content_panel, fragmentToBeOpen);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
 

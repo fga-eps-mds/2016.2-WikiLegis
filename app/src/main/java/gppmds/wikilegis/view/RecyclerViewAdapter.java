@@ -20,6 +20,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static  List<Bill> bills;
     private Integer imageThemeId;
+    private static Bill bill;
+
     public static class BillViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
         private CardView cardView;
@@ -44,6 +46,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             Bundle bundle = new Bundle();
             bundle.putInt("id", Integer.parseInt(view.getTag().toString()));
+
+            Bundle bundleBill = new Bundle();
+            bundleBill.putString("billTitle", bill.getTitle());
 
             ViewBillFragment viewBillFragment = new ViewBillFragment();
             viewBillFragment.setArguments(bundle);
@@ -97,6 +102,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         setImageThemeId(bills.get(i));
         personViewHolder.themePhoto.setImageResource(imageThemeId);
         personViewHolder.cardView.setTag(bills.get(i).getId());
+        bill = bills.get(i);
 
     }
 
@@ -108,4 +114,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public List<Bill> getData() {
         return bills;
     }
+
+
+
 }

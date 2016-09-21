@@ -13,9 +13,6 @@ import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
-/**
- * Created by marcelo on 9/13/16.
- */
 public class SegmentDAO extends DaoUtilities{
 
     private static String tableColumns[] = {"id", "orderNaoPode", "idBill", "original", "replaced",
@@ -87,7 +84,6 @@ public class SegmentDAO extends DaoUtilities{
         values.put(tableColumns[10], "SecondName");
         values.put(tableColumns[11], 1);
         values.put(tableColumns[12], segment.getDate());
-
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 

@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
@@ -23,8 +24,7 @@ import static org.hamcrest.Matchers.not;
 
 public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity>{
 
-    public RegisterUserFragmentTest(){
-       super(LoginActivity.class);
+    public RegisterUserFragmentTest(){super(LoginActivity.class);
     }
 
     @Before
@@ -41,8 +41,51 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
+    public void testIButtonRegisterIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.registerButton)).check(matches(isDisplayed()));
+    }
+
+    public void testIconConfirmationPasswordIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewConfirmationPasswotd)).check(matches(isDisplayed()));
+    }
+
+    public void testIconEmailIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewEmailUser)).check(matches(isDisplayed()));
+    }
+
+    public void testIconLastNameIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewLastName)).check(matches(isDisplayed()));
+    }
+
+    public void testLogoIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewLogo)).check(matches(isDisplayed()));
+    }
+
+    public void testIconUserNameIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewUserName)).check(matches(isDisplayed()));
+    }
+
+    public void testIconPasswordUserIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewPasswordUser)).check(matches(isDisplayed()));
+    }
+
     public void testErrorWithEmptyFirstName(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText(""));
         onView(withId(R.id.registerButton)).perform(click());
 
@@ -50,16 +93,17 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithNumbersFirstName(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
-
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("O nome deve ter apenas letras.")));
     }
 
     public void testErrorWithNumbersLastName(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
@@ -69,7 +113,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithEmptyEmail(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -80,7 +125,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithOverMaxLengthEmail(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -93,7 +139,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithEmptyPassword(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -107,7 +154,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithLesserMinLengthPassword(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -121,7 +169,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithOverMaxLengthPassword(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -135,7 +184,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithConfirmPasswordDifferentPassword(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
@@ -151,7 +201,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithOverMaxLengthFirstName(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
@@ -160,7 +211,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithEmptyLastName(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText(""));
         closeSoftKeyboard();
@@ -169,7 +221,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithOverMaxLengthLastName(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         closeSoftKeyboard();
@@ -178,7 +231,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     public void testErrorWithInvalidEmail(){
-        onView(withId(R.id.registerText)).perform(click());
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("Marcelo"));
         onView(withId(R.id.lastNameField)).perform(typeText("Augusto"));
         closeSoftKeyboard();
@@ -188,8 +242,9 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView((withId(R.id.emailField))).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
     }
 
-    public void testValidFields(){
-        onView(withId(R.id.registerText)).perform(click());
+    public void testEmailRepeatFields(){
+        closeSoftKeyboard();
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("Augusto"));
         onView(withId(R.id.lastNameField)).perform(typeText("Moreno"));
         closeSoftKeyboard();
@@ -200,9 +255,6 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.passwordConfirmationField)).perform(typeText("12345678"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withText(R.string.sucessfull_registration_message)).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+        onView(withText("Email já cadastrado!")).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
-
-
-
 }
