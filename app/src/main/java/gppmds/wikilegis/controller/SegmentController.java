@@ -39,21 +39,6 @@ public class SegmentController {
     public static Segment getSegmentById(final Integer id) throws SegmentException {
         return segmentDAO.getSegmentById(id);
     }
-    //Inicia todos os segmentos no banco local
-
-    public static Segment getSegment(final JSONObject jsonObject) throws SegmentException,
-            JSONException {
-        return new Segment(jsonObject.getInt("id"),
-                jsonObject.getInt("order"),
-                jsonObject.getInt("bill"),
-                jsonObject.getBoolean("original"),
-                jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
-                jsonObject.getInt("id"),
-                jsonObject.getInt("type"),
-                jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
-                jsonObject.getString("content"),
-                jsonObject.getString("created"));
-    }
 
     public void initControllerSegments() throws SegmentException, JSONException {
 
@@ -199,6 +184,7 @@ public class SegmentController {
         }
         return bufferAux;
     }
+
     public static List<Segment> getProposalsOfSegment(List<Segment> segmentList , int id){
         List<Segment> aux = new ArrayList<>();
             for(int i = 0 ; i<segmentList.size();i++){

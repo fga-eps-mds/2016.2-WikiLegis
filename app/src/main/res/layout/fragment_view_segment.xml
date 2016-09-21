@@ -13,9 +13,10 @@
         android:layout_marginTop="10dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:clickable="true"
         android:layout_alignParentStart="false"
         android:background="@color/cardview_light_background"
-        android:id="@+id/frameLayout"
+        android:id="@+id/frameLayoutSegment"
         android:layout_alignParentEnd="false">
 
         <RelativeLayout
@@ -51,6 +52,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:id="@+id/imageViewLike"
+                android:clickable="false"
                 android:src="@drawable/like"
                 android:layout_marginStart="50dp"
                 android:layout_below="@+id/contentSegment"
@@ -62,6 +64,7 @@
                 android:id="@+id/imageViewDislike"
                 android:src="@drawable/dislike"
                 android:layout_marginStart="130dp"
+                android:clickable="false"
                 android:layout_alignTop="@+id/imageViewLike"
                 android:layout_toEndOf="@+id/imageViewLike"
                 android:layout_marginBottom="15dp"/>
@@ -71,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginStart="5dp"
+                android:clickable="false"
                 android:text="10"
                 android:id="@+id/textViewNumberLike"
                 android:layout_alignBottom="@+id/imageViewLike"
@@ -81,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="30"
+                android:clickable="false"
                 android:id="@+id/textViewNumberDislike"
                 android:layout_marginStart="5dp"
                 android:layout_alignTop="@+id/textViewNumberLike"
@@ -94,20 +99,24 @@
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:id="@+id/frameLayoutProposal"
-        android:layout_below="@+id/frameLayout"
-        android:layout_alignStart="@+id/frameLayout"
+        android:layout_below="@+id/frameLayoutSegment"
+        android:layout_alignStart="@+id/frameLayoutSegment"
         android:layout_marginTop="1dp"
+        android:clickable="true"
+
         android:background="#ffffff">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clickable="false" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Propostas"
+                android:clickable="false"
                 android:id="@+id/textView"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
@@ -119,6 +128,7 @@
                 android:layout_height="30dp"
                 android:id="@+id/imageViewProposal"
                 android:src="@drawable/chat"
+                android:clickable="false"
                 android:layout_alignBottom="@+id/textView"
                 android:layout_toStartOf="@+id/textView"
                 android:layout_marginEnd="30dp" />
