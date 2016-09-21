@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.VotesController;
+import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
 
@@ -20,12 +22,15 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
         TextView proposals;
+        TextView likes;
+        TextView dislikes;
 
         ContentViewHolder(final View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             proposals = (TextView) itemView.findViewById(R.id.textViewSegment);
-
+            likes = (TextView) itemView.findViewById(R.id.textViewNumberLikeCard);
+            dislikes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCard);
         }
     }
 
@@ -44,6 +49,12 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(final ContentViewHolder holder, final int position) {
         holder.proposals.setText(listSegment.get(position).getContent());
+        try {
+            holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position).getId()).toString());
+            holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment.get(position).getId()).toString());
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

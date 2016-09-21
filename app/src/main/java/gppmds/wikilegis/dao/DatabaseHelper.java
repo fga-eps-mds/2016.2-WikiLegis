@@ -13,7 +13,18 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String SEGMENTS_BILL_TABLE = "[SegmentsBill]";
     private static final String SEGMENTS_TABLE = "[Segments]";
     private static final String EMAIL_TABLE = "[email]";
+    private static final String VOTES_TABLE = "[votes]";
 
+
+    private static final String VOTE_ID = "[id]";
+    private static final String VOTE_CONTENT_TYPE = "[contentType]";
+    private static final String VOTE_VOTE = "[vote]";
+    private static final String VOTE_USER_ID = "[userId]";
+    private static final String VOTE_SEGMENT_ID = "[segmentId]";
+
+    private static final String CREATE_VOTE = "CREATE TABLE " + VOTES_TABLE + " ( " +
+            VOTE_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " + VOTE_CONTENT_TYPE + " INTEGER, " +
+            VOTE_VOTE + " VARCHAR(6), " + VOTE_USER_ID + " INTEGER, " + VOTE_SEGMENT_ID + " INTEGER );";
 
     //Emails
 
@@ -83,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
         db.execSQL(CREATE_SEGMENTS_BILL);
         db.execSQL(CREATE_SEGMENTS);
         db.execSQL(CREATE_EMAIL);
+        db.execSQL(CREATE_VOTE);
     }
 
     @Override

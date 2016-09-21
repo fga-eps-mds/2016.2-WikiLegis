@@ -16,9 +16,11 @@ import gppmds.wikilegis.controller.SegmentTypeController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentTypesException;
+import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentTypes;
+import gppmds.wikilegis.model.Votes;
 
 public class JSONHelper {
 
@@ -135,6 +137,35 @@ public class JSONHelper {
         return segmentTypesListApi;
     }
 
+
+    public static List<Votes> votesListFromJSON() throws JSONException, VotesException {
+
+        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/votes/?page=1";
+        List<Votes> votesListApi = new ArrayList<>();
+
+        do {
+            String votesList = getJSONObjectApi(url);
+
+            JSONObject votes = new JSONObject(votesList);
+            JSONArray results = votes.getJSONArray("results");
+
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject jsonObject = results.getJSONObject(i);
+
+                Votes voteAux = new Votes(jsonObject.getInt("user"),
+                        jsonObject.getInt("content_type"),
+                        jsonObject.getInt("object_id"),
+                        jsonObject.getString("vote").equals("false") ? false : true);
+
+                votesListApi.add(voteAux);
+            }
+            String nextUrl = votes.getString("next");
+            url = updateDomain(nextUrl);
+
+        } while (!url.equals("null"));
+
+        return votesListApi;
+    }
 
 
     public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {

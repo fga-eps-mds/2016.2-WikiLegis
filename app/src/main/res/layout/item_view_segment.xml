@@ -28,6 +28,8 @@ android:layout_marginTop="1dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
             android:id="@+id/textViewSegment"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="29dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
@@ -61,6 +63,28 @@ android:layout_marginTop="1dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="30dp"
             android:layout_marginBottom="15dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewNumberLikeCard"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignBottom="@+id/imageView"
+            android:textSize="27dp"
+            android:textIsSelectable="false"
+            />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_marginStart="190dp"
+            android:id="@+id/textViewNumberDislikeCard"
+            android:textSize="27dp" />
+
 
     </RelativeLayout>
 
