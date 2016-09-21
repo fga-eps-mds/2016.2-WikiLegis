@@ -13,7 +13,7 @@ public class LoginActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_register_user);
+        setContentView(R.layout.activity_login);
 
         openFragment(loginFragment);
     }
@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction();
 
         fragmentTransaction.replace(R.id.content_panel, fragmentToBeOpen);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }
