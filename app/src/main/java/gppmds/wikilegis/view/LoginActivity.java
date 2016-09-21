@@ -10,14 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.RegisterUserController;
-import gppmds.wikilegis.controller.BillController;
-import gppmds.wikilegis.controller.RegisterUserController;
-import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.SegmentsOfBillController;
-import gppmds.wikilegis.exception.BillException;
-import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.model.SegmentsOfBill;
+
 
 public class LoginActivity extends AppCompatActivity {
 
