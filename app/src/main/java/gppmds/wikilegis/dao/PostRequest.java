@@ -94,9 +94,8 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
     protected void onPostExecute(final Integer response) {
         if (response == 201) {
             Toast.makeText(context, "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
-
         } else {
-            Toast.makeText(context, "Falha na conexão", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Email já cadastrado!", Toast.LENGTH_SHORT).show();
         }
         Log.i("INFO", ""+ response);
     }

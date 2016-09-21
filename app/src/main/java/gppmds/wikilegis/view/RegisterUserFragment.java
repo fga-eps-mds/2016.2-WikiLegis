@@ -136,9 +136,6 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
                 setMessageError(passwordConfirmationField, feedbackRegisterMessage);
                 break;
             case "SUCESS":
-                String SUCCESSFUL_REGISTRATION_MESSAGE = "Cadastro efetuado com sucesso!";
-                Toast.makeText(getActivity().getBaseContext(),
-                        SUCCESSFUL_REGISTRATION_MESSAGE, Toast.LENGTH_LONG).show();
                 LoginFragment loginFragment = new LoginFragment();
                 openFragment(loginFragment);
                 break;
