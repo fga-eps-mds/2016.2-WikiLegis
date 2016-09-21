@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
@@ -28,7 +29,7 @@ public class ViewSegmentFragment extends Fragment {
     private TextView billText;
     private List<Segment> segmentList;
     private SegmentController segmentController;
-
+    private List<Segment> aux = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,7 +59,8 @@ public class ViewSegmentFragment extends Fragment {
         }catch (Exception e){
             Log.d("LIXO", e.getMessage());
         }
-        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentList);
+        aux = SegmentController.getProposalsOfSegment(segmentList,segmentId);
+        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(aux);
         recycler_view.setAdapter(content);
         return view;
     }
