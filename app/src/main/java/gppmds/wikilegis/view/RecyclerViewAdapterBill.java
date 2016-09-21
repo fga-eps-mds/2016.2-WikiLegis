@@ -96,7 +96,7 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
     public void onBindViewHolder(BillViewHolder personViewHolder, int i) {
         String segmentsString = segments.get(i).getContent();
 //        Log.d("Aqui", segmentsString);
-       personViewHolder.cardView.setTag(R.id.idSegment, segments.get(i).getId());
+        personViewHolder.cardView.setTag(R.id.idSegment, segments.get(i).getId());
         personViewHolder.cardView.setTag(R.id.idBill, segments.get(i).getBill());
         personViewHolder.segment.setText(segmentsString);
     }

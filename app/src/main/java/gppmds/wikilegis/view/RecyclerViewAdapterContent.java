@@ -3,6 +3,7 @@ package gppmds.wikilegis.view;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,20 +23,23 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
-       TextView proposals;
+        TextView proposals;
 
-         ContentViewHolder(View itemView) {
+        ContentViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
+            proposals = (TextView) itemView.findViewById(R.id.textViewSegment);
 
         }
     }
+
     RecyclerViewAdapterContent(List<Segment> listSegment){
-        this.listSegment=listSegment;
+        this.listSegment = listSegment;
     }
+
     @Override
     public ContentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_view_segment, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_segment, parent, false);
         ContentViewHolder contentViewHolder = new ContentViewHolder(v);
         return contentViewHolder;
     }
@@ -43,7 +47,6 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(ContentViewHolder holder, int position) {
         holder.proposals.setText(listSegment.get(position).getContent());
-
     }
 
     @Override
