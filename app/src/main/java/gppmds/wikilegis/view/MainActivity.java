@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         adapter = new RecyclerViewAdapter(billListInitial);
         recycler_view.setAdapter(adapter);
 
-
     }
 
     @Override

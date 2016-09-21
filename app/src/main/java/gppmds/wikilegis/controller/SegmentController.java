@@ -200,4 +200,13 @@ public class SegmentController {
         }
         return bufferAux;
     }
+    public static List<Segment> getProposalsOfSegment(List<Segment> segmentList , int id){
+        List<Segment> aux = new ArrayList<>();
+            for(int i = 0 ; i<segmentList.size();i++){
+                if(segmentList.get(i).getReplaced()!=0 && segmentList.get(i).getReplaced()==id){
+                    aux.add(segmentList.get(i));
+                }
+            }
+        return aux;
+    }
 }

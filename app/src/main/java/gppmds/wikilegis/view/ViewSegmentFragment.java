@@ -3,6 +3,8 @@ package gppmds.wikilegis.view;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,21 +35,22 @@ public class ViewSegmentFragment extends Fragment {
 
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
+        View view = inflater.inflate(R.layout.fragment_view_segment, container, false);
 
-        Log.d("idBilauhsuahusahul", billId.toString());
-        Log.d("segmentISHAIUSGAUIG", segmentId.toString());
+        RecyclerView recycler_view = (RecyclerView) view.findViewById (R.id.recycler_viewSegment);
+        recycler_view.setHasFixedSize(true);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recycler_view.setLayoutManager(linearLayoutManager);
         segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
-
-
-        View view = inflater.inflate(R.layout.fragment_view_segment, container, false);
 
 
 
         segmentText = (TextView)view.findViewById(R.id.segment_content);
 
         billText = (TextView)view.findViewById(R.id.bill_title);
+
         try{
             Segment segment = SegmentController.getSegmentById(segmentId);
             segmentText.setText(segment.getContent());
@@ -57,20 +60,9 @@ public class ViewSegmentFragment extends Fragment {
         }catch (Exception e){
             Log.d("LIXO", e.getMessage());
         }
-
-
+        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentList);
+        recycler_view.setAdapter(content);
         return view;
     }
 
-    public Segment findSegment(List<Segment> segmentList, int idSegment , int billIndex){
-        Segment segment =null;
-        for(int index = 0 ; index <segmentList.size(); index++) {
-            if(segmentList.get(index).getId()==idSegment){
-
-                return segment;
-
-            }
-        }
-        return segment;
-    }
 }

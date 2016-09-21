@@ -60,8 +60,6 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
                     bundle.putInt("segmentId", Integer.parseInt(view.getTag(R.id.idSegment).toString()));
                     bundle.putInt("billId", Integer.parseInt(view.getTag(R.id.idBill).toString()));
 
-                    //Log.d("LOLOLO", Integer.parseInt(view.getTag(R.id.idBill).toString())+"");
-
                     ViewSegmentFragment viewSegmentFragment = new ViewSegmentFragment();
                     viewSegmentFragment.setArguments(bundle);
 
