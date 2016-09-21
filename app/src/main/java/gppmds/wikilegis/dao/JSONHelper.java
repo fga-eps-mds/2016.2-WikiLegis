@@ -12,13 +12,12 @@ import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.SegmentTypeController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.SegmentTypesException;
+import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.SegmentTypes;
+import gppmds.wikilegis.model.Votes;
 
 public class JSONHelper {
 
@@ -77,64 +76,34 @@ public class JSONHelper {
         return billListApi;
     }
 
-    public static List<String> emailListFromJSON(final List<String> emailListApi)
-            throws JSONException {
+    public static List<Votes> votesListFromJSON() throws JSONException, VotesException {
 
-        String url = "http://wikilegis.labhackercd.net/api/users/?api_key=9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b&page=2";
-
-        do {
-            String emailList = getJSONObjectApi(url);
-            JSONObject email = new JSONObject(emailList);
-            JSONArray results = email.getJSONArray("results");
-
-            for (int i = 0; i < results.length(); i++) {
-                JSONObject f = results.getJSONObject(i);
-
-                String emailAux = f.getString("email");
-
-                emailListApi.add(emailAux);
-            }
-
-            String nextUrl = email.getString("next");
-            url = nextUrl;
-
-        } while (!url.equals("null"));
-
-        for (int i = 0; i < emailListApi.size(); i++)
-            Log.d("email: ", emailListApi.get(i).toString());
-
-        return emailListApi;
-    }
-
-
-
-    public static List<SegmentTypes> segmentTypesListFromJSON(final List<SegmentTypes> segmentTypesListApi)
-                                                              throws JSONException, SegmentTypesException {
-
-        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segment_types/";
+        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/votes/?page=1";
+        List<Votes> votesListApi = new ArrayList<>();
 
         do {
-            String segmentTypesList = getJSONObjectApi(url);
+            String votesList = getJSONObjectApi(url);
 
-            JSONObject segmentTypes = new JSONObject(segmentTypesList);
-            JSONArray results = segmentTypes.getJSONArray("results");
+            JSONObject votes = new JSONObject(votesList);
+            JSONArray results = votes.getJSONArray("results");
 
             for (int i = 0; i < results.length(); i++) {
                 JSONObject jsonObject = results.getJSONObject(i);
 
-                SegmentTypes segmentTypeAux = SegmentTypeController.getSegmentTypes(jsonObject);
+                Votes voteAux = new Votes(jsonObject.getInt("user"),
+                        jsonObject.getInt("content_type"),
+                        jsonObject.getInt("object_id"),
+                        jsonObject.getString("vote").equals("false") ? false : true);
 
-                segmentTypesListApi.add(segmentTypeAux);
+                votesListApi.add(voteAux);
             }
-
-            String nextUrl = segmentTypes.getString("next");
+            String nextUrl = votes.getString("next");
             url = updateDomain(nextUrl);
 
         } while (!url.equals("null"));
 
-        return segmentTypesListApi;
+        return votesListApi;
     }
-
 
 
     public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
@@ -152,7 +121,18 @@ public class JSONHelper {
 
             for (int i = 0; i < results.length(); i++) {
                 JSONObject jsonObject = results.getJSONObject(i);
-                Segment segmentAux = SegmentController.getSegment(jsonObject);
+
+                    Segment segmentAux = new Segment(jsonObject.getInt("id"),
+                            jsonObject.getInt("order"),
+                            jsonObject.getInt("bill"),
+                            jsonObject.getBoolean("original"),
+                            jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
+                            jsonObject.getInt("id"),
+                            jsonObject.getInt("type"),
+                            jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
+                            jsonObject.getString("content"),
+                            jsonObject.getString("created"));
+
                 segmentListApi.add(segmentAux);
             }
             String nextUrl = segment.getString("next");

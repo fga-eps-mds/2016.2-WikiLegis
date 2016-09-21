@@ -98,7 +98,7 @@ public class User {
         if (stringIsNull(email)) {
             if (validateStringLengthLessThanMax(email, MAX_LENGTH_EMAIL)) {
                 if (validateEmailFormat(email)) {
-                        this.email = email;
+                        this.email=email;
                 } else {
                     throw new UserException(INVALID_EMAIL);
                 }
