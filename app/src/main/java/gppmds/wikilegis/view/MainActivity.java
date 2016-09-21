@@ -5,28 +5,20 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillComparatorDate;
-import gppmds.wikilegis.controller.BillComparatorProposals;
 import gppmds.wikilegis.controller.BillController;
-import gppmds.wikilegis.controller.FilteringController;
-import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.model.Bill;
-import gppmds.wikilegis.model.Segment;
 
-public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private BillController billController;
-    private FilteringController filteringController;
 
     private  List<Bill> billListInitial;
     private  List<Bill> billListRelevantsAndClosed;
@@ -38,11 +30,11 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     private Switch switchRelevantsOrRecents;
     private Switch switchOpenOrClosed;
     private Toolbar toolbar;
-    private RecyclerView recycler_view;
+    private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -57,19 +49,18 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     }
 
     private void initBillList() {
-        billController = new BillController(this);
+        billController = BillController.getInstance(this);
         billListInitial = billController.getAllBills();
-        filteringController = FilteringController.getInstance(getBaseContext());
-        billListInitial = filteringController.filteringForNumberOfProposals(billListInitial);
-        billListInitial = filteringController.filterigForStatusPublished(billListInitial);
+        billListInitial = billController.filteringForNumberOfProposals(billListInitial);
+        billListInitial = billController.filterigForStatusPublished(billListInitial);
     }
 
     private void initRecycleView() {
-        recycler_view.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         linearLayoutManager = new LinearLayoutManager(getBaseContext());
-        recycler_view.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new RecyclerViewAdapter(billListInitial);
-        recycler_view.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     private void settingListenersOnView() {
@@ -79,19 +70,19 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     private void settingView() {
         toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
-        switchRelevantsOrRecents= (Switch)findViewById(R.id.switchRelevanteRecente);
-        switchOpenOrClosed= (Switch)findViewById(R.id.switchAbertoFechado);
-        recycler_view = (RecyclerView)findViewById(R.id.recycler_view);
+        switchRelevantsOrRecents = (Switch) findViewById(R.id.switchRelevanteRecente);
+        switchOpenOrClosed = (Switch) findViewById(R.id.switchAbertoFechado);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_deslogged, menu);
 
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
                 // User chose the "Search" card_bill, show field of search...
@@ -123,23 +114,23 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         billListInitial = billController.getAllBills();
 
-        billListRelevantsAndClosed = filteringController.filteringForNumberOfProposals(billListInitial);
-        billListRelevantsAndClosed = filteringController.filterigForStatusClosed(billListRelevantsAndClosed);
+        billListRelevantsAndClosed = billController.filteringForNumberOfProposals(billListInitial);
+        billListRelevantsAndClosed = billController.filterigForStatusClosed(billListRelevantsAndClosed);
 
-        billListRelevantsAndOpened = filteringController.filteringForNumberOfProposals(billListInitial);
-        billListRelevantsAndOpened = filteringController.filterigForStatusPublished(billListRelevantsAndOpened);
+        billListRelevantsAndOpened = billController.filteringForNumberOfProposals(billListInitial);
+        billListRelevantsAndOpened = billController.filterigForStatusPublished(billListRelevantsAndOpened);
 
-        billListRecentsAndOpened = filteringController.filteringForDate(billListInitial);
-        billListRecentsAndOpened = filteringController.filterigForStatusPublished(billListRecentsAndOpened);
+        billListRecentsAndOpened = billController.filteringForDate(billListInitial);
+        billListRecentsAndOpened = billController.filterigForStatusPublished(billListRecentsAndOpened);
 
-        billListRecentsAndClosed = filteringController.filteringForDate(billListInitial);
-        billListRecentsAndClosed = filteringController.filterigForStatusClosed(billListRecentsAndClosed);
+        billListRecentsAndClosed = billController.filteringForDate(billListInitial);
+        billListRecentsAndClosed = billController.filterigForStatusClosed(billListRecentsAndClosed);
 
     }
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(buttonView.getId() == switchOpenOrClosed.getId() && switchOpenOrClosed.isChecked()) {
+    public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+        if (buttonView.getId() == switchOpenOrClosed.getId() && switchOpenOrClosed.isChecked()) {
             if (switchRelevantsOrRecents.isChecked()) {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRecentsAndClosed);
@@ -149,7 +140,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 adapter.getData().addAll(billListRelevantsAndClosed);
                 adapter.notifyDataSetChanged();
             }
-        } else if(buttonView.getId() == switchOpenOrClosed.getId() && !switchOpenOrClosed.isChecked()){
+        } else if (buttonView.getId() == switchOpenOrClosed.getId()
+                && !switchOpenOrClosed.isChecked()) {
             if (switchRelevantsOrRecents.isChecked()) {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRecentsAndOpened);
@@ -159,7 +151,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 adapter.getData().addAll(billListRelevantsAndOpened);
                 adapter.notifyDataSetChanged();
             }
-        } else if(buttonView.getId() == switchRelevantsOrRecents.getId() && switchRelevantsOrRecents.isChecked()) {
+        } else if (buttonView.getId() == switchRelevantsOrRecents.getId()
+                && switchRelevantsOrRecents.isChecked()) {
             if (switchOpenOrClosed.isChecked()) {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRecentsAndClosed);
@@ -169,7 +162,8 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 adapter.getData().addAll(billListRecentsAndOpened);
                 adapter.notifyDataSetChanged();
             }
-        } else if(buttonView.getId() == switchRelevantsOrRecents.getId() && !switchRelevantsOrRecents.isChecked()) {
+        } else if (buttonView.getId() == switchRelevantsOrRecents.getId()
+                && !switchRelevantsOrRecents.isChecked()) {
             if (switchOpenOrClosed.isChecked()) {
                 adapter.getData().clear();
                 adapter.getData().addAll(billListRelevantsAndClosed);

@@ -2,16 +2,12 @@ package gppmds.wikilegis.controller;
 
 import android.content.Context;
 
-import java.io.IOException;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.dao.EmailDAO;
-import gppmds.wikilegis.dao.GetRequest;
-import gppmds.wikilegis.dao.DaoUtilities;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.exception.UserException;
@@ -25,11 +21,11 @@ public class RegisterUserController {
     private final Context context;
     private EmailDAO emailDAO;
 
-    private RegisterUserController(Context context) {
-        this.context = context;
+    private RegisterUserController(final Context contextParameter) {
+        this.context = contextParameter;
     }
 
-    public static RegisterUserController getInstance(Context context) {
+    public static RegisterUserController getInstance(final Context context) {
         if (instance == null) {
             instance = new RegisterUserController(context);
         } else {
@@ -57,11 +53,11 @@ public class RegisterUserController {
         }
     }
 
-    public String registerUser(String firstName,
-                               String lastName,
-                               String email,
-                               String password,
-                               String passwordConfirmation) {
+    public String registerUser(final String firstName,
+                               final String lastName,
+                               final String email,
+                               final String password,
+                               final String passwordConfirmation) {
 
         try {
 

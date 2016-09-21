@@ -9,15 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-
 import gppmds.wikilegis.controller.RegisterUserController;
 import gppmds.wikilegis.model.User;
 
 import gppmds.wikilegis.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class RegisterUserFragment extends Fragment implements View.OnClickListener {
 
     private static final String STRING_EMPTY = "";
@@ -56,8 +52,10 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
         this.lastNameField = (EditText) view.findViewById(R.id.lastNameField);
         this.emailField = (EditText) view.findViewById(R.id.emailField);
         this.passwordField = (EditText) view.findViewById(R.id.passwordField);
+
         this.passwordConfirmationField = (EditText) view.
                 findViewById(R.id.passwordConfirmationField);
+
     }
 
     private void settingTextTyped() {
@@ -77,19 +75,17 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(final View view) {
-        String aux = null;
+
+    public void onClick(final View view)  {
         this.settingTextTyped();
         this.settingErrorNull();
         this.validateUserInformation();
         RegisterUserController e = RegisterUserController.getInstance(getContext());
-
     }
 
     private void setMessageError(final EditText editText, final String message) {
         editText.requestFocus();
         editText.setError(message);
-
     }
 
     private void validateUserInformation() {
@@ -138,9 +134,6 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
                 break;
             case User.PASSWORD_ISNT_EQUALS:
                 setMessageError(passwordConfirmationField, feedbackRegisterMessage);
-                break;
-            case User.EMAIL_CANT_BE_EQUALS:
-                setMessageError(emailField, feedbackRegisterMessage);
                 break;
             case "SUCESS":
                 String SUCCESSFUL_REGISTRATION_MESSAGE = "Cadastro efetuado com sucesso!";

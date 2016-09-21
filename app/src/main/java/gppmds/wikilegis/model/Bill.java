@@ -1,14 +1,10 @@
 package gppmds.wikilegis.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import gppmds.wikilegis.exception.BillException;
 
-/**
- * Created by thiago on 9/6/16.
- */
 public class Bill {
 
     private static final String ID_CANT_BE_EMPTY = "O id não pode ser carregado";
@@ -17,7 +13,8 @@ public class Bill {
     private static final String STATUS_CANT_BE_EMPTY = "Status não pode ser carregado";
     private static final String THEME_CANT_BE_EMPTY = "Tema não pode ser carregado";
     private static final String DESCRIPTION_CANT_BE_EMPTY = "Descrição não pode ser carregado";
-    private static final String NUMBEROFPROPOSALS_CANT_BE_EMPTY = "Number of proposals não pode ser carregado";
+    private static final String NUMBEROFPROPOSALS_CANT_BE_EMPTY = "Number of proposals não "
+            + "pode ser carregado";
     private static final String DATE_CANT_BE_EMPTY = "Data não pode ser carregado";
 
     private Integer id;
@@ -31,7 +28,8 @@ public class Bill {
     private Integer date;
 
     public Bill(final Integer id, final String title, final String epigraph,
-                final String status, final String description, final String theme,final Integer numberOfPrposals,final Integer date) throws BillException {
+                final String status, final String description, final String theme,
+                final Integer numberOfPrposals, final Integer date) throws BillException {
         setId(id);
         setTitle(title);
         setEpigraph(epigraph);
@@ -49,10 +47,10 @@ public class Bill {
         return id;
     }
 
-    private void setId(Integer id) throws BillException {
-        if(validateIntegerNull(id)) {
+    private void setId(final Integer id) throws BillException {
+        if (validateIntegerNull(id)) {
             this.id = id;
-        } else{
+        } else {
             throw new BillException(ID_CANT_BE_EMPTY);
         }
     }
@@ -61,7 +59,7 @@ public class Bill {
         return title;
     }
 
-    private void setTitle(String title) throws  BillException {
+    private void setTitle(final String title) throws  BillException {
         if (validateStringEmpty(title)) {
             this.title = title;
         } else {
@@ -70,10 +68,11 @@ public class Bill {
 
     }
 
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description; }
 
-    private void setDescription(String description) throws BillException {
-        if(validateStringEmpty(description)){
+    private void setDescription(final String description) throws BillException {
+        if (validateStringEmpty(description)) {
             this.description = description;
         } else {
             throw  new BillException(DESCRIPTION_CANT_BE_EMPTY);
@@ -84,7 +83,7 @@ public class Bill {
         return epigraph;
     }
 
-    private void setEpigraph(String epigraph) throws  BillException {
+    private void setEpigraph(final String epigraph) throws  BillException {
         if (validateStringEmpty(epigraph)) {
             this.epigraph = epigraph;
         } else {
@@ -96,7 +95,7 @@ public class Bill {
         return status;
     }
 
-    private void setStatus(String status) throws  BillException {
+    private void setStatus(final String status) throws  BillException {
         if (validateStringEmpty(status)) {
             this.status = status;
         } else {
@@ -108,7 +107,7 @@ public class Bill {
         return theme;
     }
 
-    private void setTheme(String theme) throws  BillException {
+    private void setTheme(final String theme) throws  BillException {
         if (validateStringEmpty(theme)) {
             this.theme = theme;
         } else {
@@ -120,45 +119,47 @@ public class Bill {
         return segments;
     }
 
-    public void setSegments(Integer segment) throws  BillException {
+    public void setSegments(final Integer segment) throws  BillException {
             this.segments.add(segment);
     }
-    public int getNumberOfPrposals(){return  numberOfPrposals;}
+    public int getNumberOfPrposals() {
+        return  numberOfPrposals;
+    }
 
-    private void setNumberOfPrposals(Integer numberOfPrposals) throws BillException {
-        if(validateIntegerNull(numberOfPrposals)) {
+    private void setNumberOfPrposals(final Integer numberOfPrposals) throws BillException {
+        if (validateIntegerNull(numberOfPrposals)) {
             this.numberOfPrposals = numberOfPrposals;
-        } else{
+        } else {
             throw new BillException(NUMBEROFPROPOSALS_CANT_BE_EMPTY);
         }
     }
-    public int getDate(){return  date;}
-    private void setDate(Integer date) throws BillException {
-        if(validateIntegerNull(date)) {
+    public int getDate() {
+        return  date;
+    }
+    private void setDate(final Integer date) throws BillException {
+        if (validateIntegerNull(date)) {
             this.date = date;
-        } else{
+        } else {
             throw new BillException(DATE_CANT_BE_EMPTY);
         }
     }
 
     //Methods of validation
 
-    private boolean validateIntegerNull(final Integer integer){
-        if(integer == null){
+    private boolean validateIntegerNull(final Integer integer) {
+        if (integer == null) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
 
 
     private boolean validateStringEmpty(final String string) {
-        if (string == null ) {
+        if (string == null) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
 

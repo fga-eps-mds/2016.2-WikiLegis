@@ -20,7 +20,6 @@ import gppmds.wikilegis.model.User;
 public class PostRequest extends AsyncTask<Void, Void, Integer>{
     private final static String url = "http://wikilegis-staging.labhackercd.net/api/user/create/";
     private Exception exception;
-    //StringBuilder sb = new StringBuilder();
     private User user;
     private Context context;
 
@@ -30,8 +29,7 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
     }
 
     protected void onPreExecute() {
-        //progressBar.setVisibility(View.VISIBLE);
-        //responseView.setText("");
+        //Empty constructor;
     }
 
     protected Integer doInBackground(final Void... params) {
@@ -39,13 +37,11 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
         try {
 
             StringBuilder sb = new StringBuilder();
-            Log.d("OLAR", "TO AQUIIII");
             String http = url;
 
 
 
             HttpURLConnection urlConnection = null;
-            Log.d("OLAR", "TO AQUIIII1");
             try {
                 URL url = new URL(http);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -61,18 +57,12 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
                 jsonParam.put("first_name", user.getFirstName());
                 jsonParam.put("last_name", user.getLastName());
                 jsonParam.put("password", user.getPassword());
-                Log.d("JSON", jsonParam.toString());
 
                 OutputStream out = urlConnection.getOutputStream();
-                Log.d("OLAR", "TO AQUIIII1a");
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                Log.d("OLAR", "TO AQUIIII1b");
                 writer.write(jsonParam.toString());
-                Log.d("OLAR", "TO AQUIIII1c");
                 writer.flush();
-                Log.d("OLAR", "TO AQUIIII1t");
                 writer.close();
-                Log.d("OLAR", "TO AQUIIII1g");
                 urlConnection.connect();
                 Log.d("Info", "Connection sucess");
 
@@ -108,8 +98,6 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
         } else {
             Toast.makeText(context, "Falha na conexão", Toast.LENGTH_SHORT).show();
         }
-        //progressBar.setVisibility(View.GONE);
         Log.i("INFO", ""+ response);
-        //responseView.setText(response);
     }
 }

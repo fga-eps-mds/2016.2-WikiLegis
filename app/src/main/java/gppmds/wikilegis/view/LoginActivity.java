@@ -3,19 +3,11 @@ package gppmds.wikilegis.view;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-
-import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import gppmds.wikilegis.R;
-
-
 public class LoginActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 
         LoginFragment loginFragment = new LoginFragment();
 
@@ -26,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
         openFragment(loginFragment);
     }
 
-    private void openFragment(Fragment fragmentToBeOpen){
+    private void openFragment(final Fragment fragmentToBeOpen) {
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();

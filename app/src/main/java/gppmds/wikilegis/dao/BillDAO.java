@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,23 +12,20 @@ import java.util.List;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 
-/**
- * Created by marcelo on 9/13/16.
- */
 public class BillDAO extends DaoUtilities{
 
     private static String tableColumns[] = {"id", "title", "epigraph", "description", "theme",
-    "amountParticipants", "amountProposals", "status", "date"};
+    "amountProposals", "status", "date"};
 
     private static BillDAO instance;
 
     private static String tableName = "Bill";
 
-    private BillDAO(Context context) {
+    private BillDAO(final Context context) {
         BillDAO.database = new DatabaseHelper(context);
     }
 
-    public static BillDAO getInstance(Context context) {
+    public static BillDAO getInstance(final Context context) {
         if (BillDAO.instance != null) {
             //nothing to do
         } else {
@@ -52,20 +48,17 @@ public class BillDAO extends DaoUtilities{
             if (cursor.getCount() <= 0) {
                 cursor.moveToFirst();
                 isEmpty = true;
-
             } else {
                 //nothing to do
             }
-
         } else {
-
             isEmpty = true;
         }
 
         return isEmpty;
     }
 
-    public boolean insertBill(Bill bill) {
+    public boolean insertBill(final Bill bill) {
 
         SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
 
@@ -76,17 +69,16 @@ public class BillDAO extends DaoUtilities{
         values.put(tableColumns[2], bill.getEpigraph());
         values.put(tableColumns[3], bill.getDescription());
         values.put(tableColumns[4], bill.getTheme());
-        values.put(tableColumns[5], 0);
-        values.put(tableColumns[6], bill.getNumberOfPrposals());
-        values.put(tableColumns[7], bill.getStatus());
-        values.put(tableColumns[8], bill.getDate());
+        values.put(tableColumns[5], bill.getNumberOfPrposals());
+        values.put(tableColumns[6], bill.getStatus());
+        values.put(tableColumns[7], bill.getDate());
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
         return result;
     }
 
-    public boolean insertAllBills(List<Bill> billList) {
+    public boolean insertAllBills(final List<Bill> billList) {
         Iterator<Bill> index = billList.iterator();
 
         boolean result = true;
@@ -121,22 +113,20 @@ public class BillDAO extends DaoUtilities{
             Bill bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[1])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[7])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[6])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[3])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[4])),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))));
 
 
             billList.add(bill);
         }
 
-        //sqliteDatabase.close();
-
         return billList;
     }
 
-    public Bill getBillById(Integer id) throws BillException {
+    public Bill getBillById(final Integer id) throws BillException {
 
         sqliteDatabase = database.getReadableDatabase();
 
@@ -150,14 +140,12 @@ public class BillDAO extends DaoUtilities{
             bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[1])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[7])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[6])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[3])),
                     cursor.getString(cursor.getColumnIndex(tableColumns[4])),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[8]))));
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))));
         }
-
-        //sqliteDatabase.close();
 
         return bill;
     }
