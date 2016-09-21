@@ -222,7 +222,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView((withId(R.id.emailField))).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
     }
 
-    public void testValidFields(){
+    public void testEmailRepeatFields(){
         onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("Augusto"));
         onView(withId(R.id.lastNameField)).perform(typeText("Moreno"));
@@ -234,6 +234,6 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.passwordConfirmationField)).perform(typeText("12345678"));
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(click());
-        onView(withText(R.string.sucessfull_registration_message)).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+        onView(withText("Email já cadastrado!")).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 }
