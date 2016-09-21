@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
@@ -10,6 +11,7 @@ import gppmds.wikilegis.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasImeAction;
@@ -55,15 +57,15 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
     }
 
     public void testButtonLoginIsDisplayed() {
-        onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testNotHaveCadastreIsDisplayed() {
-        onView(withId(R.id.editText)).check(matches(isDisplayed()));
+        onView(withId(R.id.editText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testTextLoginAsVisitantIsDisplayed() {
-        onView(withId(R.id.textView2)).check(matches(isDisplayed()));
+        onView(withId(R.id.textView2)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testIconUserIsDisplayed() {
@@ -71,18 +73,19 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
     }
 
     public void testIconPasswordIsDisplayed() {
-        onView(withId(R.id.imageViewPasswordUser)).check(matches(isDisplayed()));
+        onView(withId(R.id.imageViewPasswordUser)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testButtonRegisterTextIsDisplayed() {
-        onView(withId(R.id.registerText)).check(matches(isDisplayed()));
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testButtonLoginAsVisitorTextIsDisplayed() {
-        onView(withId(R.id.loginAsVisitorText)).check(matches(isDisplayed()));
+        onView(withId(R.id.loginAsVisitorText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testRedirectionByClickingInLoginAsVisitant() {
+        onView(withId(R.id.loginAsVisitorText)).perform(scrollTo());
         onView(withId(R.id.loginAsVisitorText)).perform(click());
         onView(withId(R.id.textViewRelevantes)).check(matches(isDisplayed()));
     }

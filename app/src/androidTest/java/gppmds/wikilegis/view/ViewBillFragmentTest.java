@@ -13,9 +13,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-/**
- * Created by josue on 9/21/16.
- */
 public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
 
