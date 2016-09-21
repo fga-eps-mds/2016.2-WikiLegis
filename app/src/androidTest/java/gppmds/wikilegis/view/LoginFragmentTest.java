@@ -9,6 +9,7 @@ import org.junit.Before;
 
 import gppmds.wikilegis.R;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -39,47 +40,58 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
     public void testRedirectionByClickingRegister() {
+        closeSoftKeyboard();
         onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.imageViewLogo)).check(matches(isDisplayed()));
     }
 
     public void testLogoIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.imageViewLogo)).check(matches(isDisplayed()));
     }
 
     public void testEmailLoginFieldIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.emailLoginField)).check(matches(isDisplayed()));
     }
 
     public void testPasswordLoginFieldIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.passwordLoginField)).check(matches(isDisplayed()));
     }
 
     public void testNotHaveCadastreIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.editText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testTextLoginAsVisitantIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.textView2)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testIconUserIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.imageViewUserName)).check(matches(isDisplayed()));
     }
 
     public void testIconPasswordIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.imageViewPasswordUser)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testButtonRegisterTextIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testButtonLoginAsVisitorTextIsDisplayed() {
+        closeSoftKeyboard();
         onView(withId(R.id.loginAsVisitorText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testRedirectionByClickingInLoginAsVisitant() {
+        closeSoftKeyboard();
         onView(withId(R.id.loginAsVisitorText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.textViewRelevantes)).check(matches(isDisplayed()));
     }
