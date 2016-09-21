@@ -1,27 +1,88 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 23
     buildToolsVersion "24.0.0"
-
     defaultConfig {
         applicationId "gppmds.wikilegis"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+    lintOptions {
+        abortOnError false
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+            testCoverageEnabled = true
+        }
     }
 }
-
+apply plugin: 'jacoco'
+jacoco {
+    version "0.7.1.201405082137"
+}
+task jacocoTestReportAndroidTest(type: JacocoReport, dependsOn: "connectedAndroidTest") {
+    def coverageSourceDirs = [
+            'src/main/java'
+    ]
+    group = "Reporting"
+    description = "Generates Jacoco coverage reports"
+    reports {
+        csv.enabled false
+        xml{
+            enabled = true
+            destination "${buildDir}/reports/jacoco/jacoco.xml"
+        }
+        html{
+            enabled true
+            destination "${buildDir}/jacocoHtml"
+        }
+    }
+    classDirectories = fileTree(
+            dir: 'build/intermediates/classes'
+    )
+    sourceDirectories = files(coverageSourceDirs)
+    additionalSourceDirs = files(coverageSourceDirs)
+    if (project.hasProperty('coverageFiles')) {
+        // convert the comma separated string to an array to create an aggregate report from
+        // multiple coverage.ec files
+        def coverageFilesArray = coverageFiles.split(',')
+        executionData = files(coverageFilesArray)
+    }
+    else {
+        executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+    }
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    // Android runner and rules support
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    // Espresso support
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    // Intent mocking support
+    androidTestCompile ('com.android.support.test.espresso:espresso-intents:2.2.2'){
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
 }
