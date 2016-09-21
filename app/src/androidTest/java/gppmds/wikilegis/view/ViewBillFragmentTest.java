@@ -49,4 +49,20 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainA
     public void testSwitchOpenClosed(){
         onView(withId(R.id.switchAbertoFechado)).perform(click());
     }
+
+    public void testTextEncerradosIsDisplayed(){
+        onView(withId(R.id.textViewEncerrados)).check(matches(isDisplayed()));
+    }
+
+    public void testTextRecentesIsDisplayed(){
+        onView(withId(R.id.textViewRecentes)).check(matches(isDisplayed()));
+    }
+
+    public void testTextAbertosIsDisplayed(){
+        onView(withId(R.id.textViewAbertos)).check(matches(isDisplayed()));
+    }
+
+    public void testTextRelevantesIsDisplayed(){
+        onView(withId(R.id.textViewRelevantes)).check(matches(isDisplayed()));
+    }
 }

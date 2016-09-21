@@ -38,7 +38,6 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         };
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
-
     public void testRedirectionByClickingRegister() {
         onView(withId(R.id.registerText)).perform(click());
         onView(withId(R.id.imageViewLogo)).check(matches(isDisplayed()));

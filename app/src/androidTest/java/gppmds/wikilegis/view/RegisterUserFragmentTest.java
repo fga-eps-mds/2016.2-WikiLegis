@@ -41,6 +41,26 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
+    public void testIButtonRegisterIsDisplayed() {
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.registerButton)).check(matches(isDisplayed()));
+    }
+
+    public void testIconConfirmationPasswordIsDisplayed() {
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewConfirmationPasswotd)).check(matches(isDisplayed()));
+    }
+
+    public void testIconEmailIsDisplayed() {
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewEmailUser)).check(matches(isDisplayed()));
+    }
+
+    public void testIconLastNameIsDisplayed() {
+        onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.imageViewLastName)).check(matches(isDisplayed()));
+    }
+
     public void testLogoIsDisplayed() {
         onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.imageViewLogo)).check(matches(isDisplayed()));
