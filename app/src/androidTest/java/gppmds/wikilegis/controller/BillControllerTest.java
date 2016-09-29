@@ -190,6 +190,7 @@ public class BillControllerTest {
         assertFalse(isValid);
     }
 
+    @Test
     public void testGetBillWithNullProposalValue() {
         JSONObject jsonObject = null;
         Bill bill;
@@ -207,6 +208,7 @@ public class BillControllerTest {
         assertFalse(isValid);
     }
 
+    @Test
     public void testGetBillWithNullDateValue() {
         JSONObject jsonObject = null;
         Bill bill;
@@ -224,4 +226,33 @@ public class BillControllerTest {
         assertFalse(isValid);
     }
 
+    @Test
+    public void testFilteringForNumberOfProposals(){
+        List<Bill> billList = new ArrayList<>();
+        List<Bill> filteredBillList;
+
+        try{
+            Bill bill1 = new Bill(1, "Teste1", "teste1", "closed", "teste1", "teste1", 10, 1);
+            Bill bill2 = new Bill(2, "Teste2", "teste2", "published", "teste2", "teste2", 2, 1);
+            Bill bill3 = new Bill(3, "Teste3", "teste3", "closed", "teste3", "teste3", 5, 1);
+            Bill bill4 = new Bill(4, "Teste4", "teste4", "published", "teste4", "teste4", 3, 1);
+            Bill bill5 = new Bill(5, "Teste5", "teste5", "closed", "teste5", "teste5", 2, 1);
+
+            billList.add(bill1);
+            billList.add(bill2);
+            billList.add(bill3);
+            billList.add(bill4);
+            billList.add(bill5);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        filteredBillList = BillController.filteringForNumberOfProposals(billList);
+
+        assertEquals(filteredBillList.get(0).getNumberOfPrposals(),10);
+        assertEquals(filteredBillList.get(1).getNumberOfPrposals(), 5);
+        assertEquals(filteredBillList.get(2).getNumberOfPrposals(),3);
+        assertEquals(filteredBillList.get(3).getNumberOfPrposals(),2);
+        assertEquals(filteredBillList.get(4).getNumberOfPrposals(),2);
+    }
 }
