@@ -1,11 +1,14 @@
 package gppmds.wikilegis.controller;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
 import gppmds.wikilegis.controller.BillController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,15 +22,49 @@ import gppmds.wikilegis.model.Segment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by freemanpivo on 8/28/16.
  */
 public class BillControllerTest {
 
+    Context context;
+
+    @Before
+    public void setup() {
+        context = InstrumentationRegistry.getTargetContext();
+    }
 
     @Test
+    public void testGetBillByValidId() throws BillException, SegmentException, JSONException{
+        BillController billController = BillController.getInstance(context);
+        billController.initControllerBills();
 
+        Bill bill = billController.getBillById(53);
+        assertEquals(bill.getId()+"", "53");
+    }
+
+    @Test
+    public void testGetBillByInvalidId() throws BillException, SegmentException, JSONException{
+        BillController billController = BillController.getInstance(context);
+        billController.initControllerBills();
+
+        Bill bill = billController.getBillById(7);
+
+        assertNull(bill);
+    }
+
+    @Test
+    public void testGetAllBills() throws BillException, JSONException, SegmentException{
+        BillController billController = BillController.getInstance(context);
+        billController.initControllerBills();
+
+        assertTrue(billController.getAllBills().size() > 0);
+    }
+
+    @Test
     public void testCountedNumberOfProposalsWithDifferentBills() {
 
         List<Segment> segmentList = new ArrayList<>();
@@ -57,7 +94,6 @@ public class BillControllerTest {
     }
 
     @Test
-
     public void testCountedNumberOfProposalsWithSegmentsWithoutProposals() {
 
         int count;
@@ -113,7 +149,6 @@ public class BillControllerTest {
 
 
     @Test
-
     public void testCountedNumberOfProposalsFulltProposals() {
 
         int count;
@@ -141,7 +176,6 @@ public class BillControllerTest {
     }
 
     @Test
-
     public void testGetBill(){
         JSONObject jsonObject = new JSONObject();
         Bill bill;
