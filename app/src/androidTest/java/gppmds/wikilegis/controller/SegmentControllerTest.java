@@ -30,6 +30,16 @@ public class SegmentControllerTest {
     }
 
     @Test
+    public void testGetMinDate() throws SegmentException, JSONException {
+        SegmentController segmentController = SegmentController.getInstance(context);
+        segmentController.initControllerSegments();
+
+        int minDateOfBill = SegmentController.getMinDate(53);
+
+        assert 20168018 == minDateOfBill;
+    }
+
+    @Test
     public void testGetAllSegments(){
         SegmentController segmentController = SegmentController.getInstance(context);
         try {
@@ -49,7 +59,7 @@ public class SegmentControllerTest {
         segmentController.initControllerSegments();
 
         Segment segment = segmentController.getSegmentById(3927);
-        assertEquals(segment.getId()+"", "3927");
+        assertTrue(segment.getId() == 3927);
     }
 
     @Test
@@ -64,9 +74,24 @@ public class SegmentControllerTest {
     @Test
     public void testConvertRoman(){
         String roman;
-        roman = SegmentController.convertRoman(1251);
 
-        assertEquals(roman, "MCCLI");
+        roman = SegmentController.convertRoman(1999);
+        assertEquals(roman, "MCMXCIX");
+
+        roman = SegmentController.convertRoman(555);
+        assertEquals(roman, "DLV");
+
+        roman = SegmentController.convertRoman(944);
+        assertEquals(roman, "CMXLIV");
+
+        roman = SegmentController.convertRoman(401);
+        assertEquals(roman, "CDI");
+
+        roman = SegmentController.convertRoman(10);
+        assertEquals(roman, "X");
+
+        roman = SegmentController.convertRoman(100);
+        assertEquals(roman, "C");
     }
 
     @Test
