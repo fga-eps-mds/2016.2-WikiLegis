@@ -15,6 +15,7 @@ import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
@@ -182,6 +183,15 @@ public class SegmentControllerTest {
     }
 
     @Test
+    public void testIsSegmentDatabaseIsEmptyWithDatabaseIsNotEmpty() throws SegmentException,
+            JSONException {
+        SegmentController segmentController = SegmentController.getInstance(context);
+        segmentController.initControllerSegments();
+
+        assertFalse(segmentController.isSegmentDatabaseIsEmpty());
+    }
+
+    @Test
     public void testAddingTypeContentWithAnotherValue() {
         final Integer TYPE = 11;
         final Integer NUMBER = 1;
@@ -229,23 +239,46 @@ public class SegmentControllerTest {
     }
 
     @Test
-    public void testConvertRoman(){
+    public void testConvertRomanWith1999() {
         String roman;
 
-        roman = SegmentController.convertRoman(1999);
+        roman=SegmentController.convertRoman(1999);
         assertEquals(roman, "MCMXCIX");
+    }
+    @Test
+    public void testConvertRomanWith555() {
+        String roman;
 
-        roman = SegmentController.convertRoman(555);
+        roman=SegmentController.convertRoman(555);
         assertEquals(roman, "DLV");
+    }
+    @Test
+    public void testConvertRomanWith944() {
+        String roman;
 
-        roman = SegmentController.convertRoman(944);
+        roman=SegmentController.convertRoman(944);
         assertEquals(roman, "CMXLIV");
+    }
 
-        roman = SegmentController.convertRoman(401);
+    @Test
+    public void testConvertRomanWith401() {
+        String roman;
+
+        roman=SegmentController.convertRoman(401);
         assertEquals(roman, "CDI");
+    }
 
-        roman = SegmentController.convertRoman(10);
+    @Test
+    public void testConvertRomanWith10() {
+        String roman;
+
+        roman=SegmentController.convertRoman(10);
         assertEquals(roman, "X");
+    }
+
+    @Test
+    public void testConvertRomanWith100() {
+        String roman;
 
         roman = SegmentController.convertRoman(100);
         assertEquals(roman, "C");
