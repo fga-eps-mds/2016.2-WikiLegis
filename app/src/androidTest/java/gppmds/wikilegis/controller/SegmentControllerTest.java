@@ -80,8 +80,9 @@ public class SegmentControllerTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(), 292);
+        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(),
+                3946);
 
-        assertTrue(proposalList.size() == 3);
+        assertTrue(proposalList.size() == 4);
     }
 }
