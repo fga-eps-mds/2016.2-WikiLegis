@@ -76,6 +76,7 @@ public class VotesControllerTest {
         assertTrue(likes == 18);
     }
 
+    @Test
     public void testGetDislikesOfSegment(){
         VotesController votesController = VotesController.getInstance(context);
         try {
@@ -91,11 +92,11 @@ public class VotesControllerTest {
         Integer dislikes = null;
 
         try{
-            dislikes = VotesController.getLikesOfSegment(3927);
+            dislikes = VotesController.getDislikesOfSegment(3944);
 
         }catch(VotesException e){
             e.printStackTrace();
         }
-        assertTrue(dislikes == 0);
+        assertTrue(dislikes == 1);
     }
 }

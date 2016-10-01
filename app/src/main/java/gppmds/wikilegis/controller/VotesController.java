@@ -36,10 +36,6 @@ public class VotesController {
         return votesDAO.getVotesByIdOfSegment(idOfSegment);
     }
 
-    public static List<Votes> getAllVotes() throws VotesException {
-        return votesList;
-    }
-
     public static Integer getLikesOfSegment(final Integer idOfSegment) throws VotesException {
         List<Votes> votesListAux = getVotesByIdOfSegment(idOfSegment);
 
