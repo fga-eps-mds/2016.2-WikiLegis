@@ -226,30 +226,42 @@ public class BillControllerTest {
 
     @Test
     public void testGetBillWithNullProposalValue() {
-        JSONObject jsonObject = null;
+        JSONObject jsonObject = new JSONObject();
         Bill bill;
         boolean isValid = true;
         try{
-            bill = BillController.getBill(null, 330, jsonObject);
+            jsonObject.put("id", 2);
+            jsonObject.put("title", "Alou");
+            jsonObject.put("epigraph", "Iup");
+            jsonObject.put("status", "closed");
+            jsonObject.put("description", "blablablabla");
+            jsonObject.put("theme", "Meio Ambiente");
 
+            bill = BillController.getBill(null, 330, jsonObject);
 
         }catch (JSONException e){
             e.printStackTrace();
         } catch (BillException e) {
             isValid = false;
-            e.printStackTrace();
         }
+
         assertFalse(isValid);
     }
 
     @Test
     public void testGetBillWithNullDateValue() {
-        JSONObject jsonObject = null;
+        JSONObject jsonObject = new JSONObject();
         Bill bill;
         boolean isValid = true;
         try{
-            bill = BillController.getBill(666, null, jsonObject);
+            jsonObject.put("id", 2);
+            jsonObject.put("title", "Alou");
+            jsonObject.put("epigraph", "Iup");
+            jsonObject.put("status", "closed");
+            jsonObject.put("description", "blablablabla");
+            jsonObject.put("theme", "Meio Ambiente");
 
+            bill = BillController.getBill(666, null, jsonObject);
 
         }catch (JSONException e){
             e.printStackTrace();
@@ -257,6 +269,7 @@ public class BillControllerTest {
             isValid = false;
             e.printStackTrace();
         }
+
         assertFalse(isValid);
     }
 
