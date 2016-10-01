@@ -68,8 +68,7 @@ public class Bill {
 
     }
 
-    public String getDescription() {
-        return description; }
+    public String getDescription() {return description; }
 
     private void setDescription(final String description) throws BillException {
         if (validateStringEmpty(description)) {
@@ -153,14 +152,10 @@ public class Bill {
         return true;
     }
 
-
-
     private boolean validateStringEmpty(final String string) {
         if (string == null) {
             return false;
         }
         return true;
     }
-
-
 }

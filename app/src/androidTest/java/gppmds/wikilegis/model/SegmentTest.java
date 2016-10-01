@@ -141,5 +141,34 @@ public class SegmentTest {
         assertTrue(isValid);
     }
 
+    @Test
+    public void testNullDate(){
+
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Content",null);
+        }catch(SegmentException segmentException){
+            Log.d("test", segmentException.getMessage());
+            isValid = false;
+        }
+        assertTrue(isValid);
+
+    }
+
+    @Test
+    public void testEmptyDate(){
+
+        boolean isValid = true;
+
+        try{
+            Segment segment = new Segment(1,2,3,true,4,5,6,10,"Content","");
+        }catch(SegmentException segmentException){
+            Log.d("test", segmentException.getMessage());
+            isValid = false;
+        }
+        assertTrue(isValid);
+
+    }
 }
 

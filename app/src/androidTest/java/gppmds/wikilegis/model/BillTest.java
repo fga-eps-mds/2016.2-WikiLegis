@@ -14,18 +14,19 @@ public class BillTest {
 
     @Test
 
-    public void testNullId(){
+    public void testNullId() {
 
         boolean isValid = true;
 
-        try{
-            Bill bill = new Bill(null,"Title","Epigraph","Status","Description","Theme",0,12021554);
-        }catch (BillException billException){
+        try {
+            Bill bill = new Bill(null, "Title", "Epigraph", "Status", "Description", "Theme", 0, 12021554);
+        } catch (BillException billException) {
             isValid = false;
         }
 
         assertFalse(isValid);
     }
+
 
     @Test
 
@@ -201,3 +202,4 @@ public class BillTest {
     }
 
 }
+
