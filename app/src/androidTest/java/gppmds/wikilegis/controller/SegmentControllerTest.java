@@ -40,6 +40,163 @@ public class SegmentControllerTest {
     }
 
     @Test
+    public void testAddingTypeContentWithTypeContentOne() {
+        final Integer TYPE = 1;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content do artigo.";
+        Segment segment = null;
+        try {
+             segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("Art. 1º Content do artigo."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentTwo() {
+        final Integer TYPE = 2;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content do titulo.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("\t\t\t\t\t\t\t" +
+                "\t\t\t\t\t\t\t\t\tTITULO I\nContent do titulo."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentThree() {
+        final Integer TYPE = 3;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content do inciso.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("\t\t\t" +
+                "I - Content do inciso."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentFour() {
+        final Integer TYPE = 4;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content do paragrafo.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("§ 1º Content do paragrafo."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentFive() {
+        final Integer TYPE = 5;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da alinea.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("\t\t\t\t\t" +
+                "a) Content da alinea."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentSeven() {
+        final Integer TYPE = 7;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content do paragrafo.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("\t\t\t\t\t\t\t\t\t\t" +
+                "\t\t\t\t\tCAPITULO I\nContent do paragrafo."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentEight() {
+        final Integer TYPE = 8;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content do livro.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("\t\t\t\t\t\t\t\t\t\t\t" +
+                "\t\t\t\t\tLIVRO I\nContent do livro."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentNine() {
+        final Integer TYPE = 9;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da secao.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("\t\t\t\t\t\t\t\t\t\t\t" +
+                "\t\t\t\t\tSEÇAO I\nContent da secao."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithTypeContentTen() {
+        final Integer TYPE = 10;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da subsecao.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("\t\t\t\t\t\t\t\t\t\t\t" +
+                "\t\t\t\t\tSUBSEÇAO I\nContent da subsecao."));
+    }
+
+    @Test
+    public void testAddingTypeContentWithAnotherValue() {
+        final Integer TYPE = 11;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da subsecao.";
+        Segment segment = null;
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(SegmentController.addingTypeContent(segment).equals("Content da subsecao."));
+    }
+
+    @Test
     public void testGetAllSegments(){
         SegmentController segmentController = SegmentController.getInstance(context);
         try {
