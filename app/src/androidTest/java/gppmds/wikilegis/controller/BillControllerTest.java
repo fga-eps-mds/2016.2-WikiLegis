@@ -54,7 +54,7 @@ public class BillControllerTest {
         List<Segment> foundSegments = billController.getSegmentsFromIdOfBill(BILL_ID);
 
         final Integer NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25 = 3;
-        assertFalse(foundSegments.isEmpty());
+
         assertTrue(foundSegments.size() == NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25);
     }
 
