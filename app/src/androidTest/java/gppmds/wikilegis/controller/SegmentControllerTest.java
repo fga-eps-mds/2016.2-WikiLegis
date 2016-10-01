@@ -61,5 +61,27 @@ public class SegmentControllerTest {
         assertNull(segment);
     }
 
-   
+    @Test
+    public void testConvertRoman(){
+        String roman;
+        roman = SegmentController.convertRoman(1251);
+
+        assertEquals(roman, "MCCLI");
+    }
+
+    @Test
+    public void testGetProposalsOfSegment(){
+        SegmentController segmentController = SegmentController.getInstance(context);
+        List<Segment> proposalList = new ArrayList<>();
+        try {
+            segmentController.initControllerSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(), 292);
+
+        assertTrue(proposalList.size() == 3);
+    }
 }
