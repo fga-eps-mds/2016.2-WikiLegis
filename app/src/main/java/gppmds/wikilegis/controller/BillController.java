@@ -79,7 +79,8 @@ public class BillController {
 
         for (int i = 0; i < segmentsOfBillList.size(); i++) {
             try {
-                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i).getIdSegment());
+                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i)
+                        .getIdSegment());
                 if (segmentAux.getOrder() != 0)
                     listSegment.add(segmentAux);
             } catch (SegmentException e) {
