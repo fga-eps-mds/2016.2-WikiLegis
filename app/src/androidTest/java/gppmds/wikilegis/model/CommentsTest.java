@@ -93,7 +93,7 @@ public class CommentsTest {
 
     @Test
 
-    public void testEmptuContentType(){
+    public void testEmptyContentType(){
         boolean isValid = true;
 
         try{
@@ -104,7 +104,18 @@ public class CommentsTest {
 
         assertFalse(isValid);
     }
+    @Test
+    public void testCommentTypeOnlyWithSpace(){
+        boolean isValid = true;
 
+        try{
+            Comments comments = new Comments(22,22,"Date","   ",9,"Comment");
+        }catch (CommentsException commentsException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
     @Test
 
     public void testNullObjectPk(){
@@ -140,6 +151,18 @@ public class CommentsTest {
 
         try{
             Comments comments = new Comments(22,22,"Date","ContentType",9,"");
+        }catch (CommentsException commentsException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+    @Test
+    public void testCommentOnlyWithSpace(){
+        boolean isValid = true;
+
+        try{
+            Comments comments = new Comments(22,22,"Date","ContentType",9,"   ");
         }catch (CommentsException commentsException){
             isValid = false;
         }
