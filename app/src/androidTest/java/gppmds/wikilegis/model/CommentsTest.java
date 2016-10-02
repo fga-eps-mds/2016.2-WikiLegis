@@ -66,6 +66,19 @@ public class CommentsTest {
     }
 
     @Test
+    public void testDateOnlyWithSpace(){
+        boolean isValid = true;
+
+        try{
+            Comments comments = new Comments(22,22,"   ","ContentType",9,"Comment");
+        }catch (CommentsException commentsException){
+            isValid = false;
+        }
+
+        assertFalse(isValid);
+    }
+
+    @Test
 
     public void testNullContentType(){
         boolean isValid = true;
