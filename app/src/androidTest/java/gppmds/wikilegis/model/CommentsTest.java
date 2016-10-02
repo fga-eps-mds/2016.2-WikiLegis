@@ -5,11 +5,26 @@ import org.junit.Test;
 import gppmds.wikilegis.exception.CommentsException;
 
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by augusto on 17/09/16.
  */
+
 public class CommentsTest {
+
+    @Test
+    public void testCreateCommentsTest(){
+        boolean isValid = true;
+
+        try{
+            Comments comments = new Comments(22,22,"Date","ContentType",9,"Comment");
+        }catch (CommentsException commentsException){
+            isValid = false;
+        }
+        assertTrue(isValid);
+    }
+
     @Test
 
     public void testNullId(){

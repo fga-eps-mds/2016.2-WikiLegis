@@ -8,11 +8,26 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.UserException;
 
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by augusto on 17/09/16.
  */
 public class BillTest {
+
+
+    @Test
+    public void testCreatedBill(){
+
+        boolean isValid = true;
+        try {
+            Bill bill = new Bill(22, "Title", "Epigraph", "Status", "Description", "Theme", 0, 12021554);
+        } catch (BillException billException) {
+            isValid = false;
+        }
+
+        assertTrue(isValid);
+    }
 
     @Test
 

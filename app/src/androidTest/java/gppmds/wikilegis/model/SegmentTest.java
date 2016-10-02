@@ -14,6 +14,19 @@ import static junit.framework.Assert.*;
 public class SegmentTest {
 
     @Test
+    public void testeCreateSegment(){
+        boolean isValid = true;
+        try{
+            Segment segment = new Segment(13612,1,2,true,3,4,5,6,"content","Date");
+        }catch (SegmentException segmentException){
+            isValid = false;
+        }
+
+        assertTrue(isValid);
+    }
+
+
+    @Test
 
     public void testNullId(){
         boolean isValid = true;
