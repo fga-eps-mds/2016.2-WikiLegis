@@ -1,5 +1,7 @@
 package gppmds.wikilegis.model;
 
+import android.util.Log;
+
 import org.junit.Test;
 
 import gppmds.wikilegis.exception.BillException;
@@ -41,7 +43,18 @@ public class BillTest {
 
         assertFalse(isValid);
     }
+    @Test
 
+    public void testTitleOnlyWithSpace(){
+        Boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,"   ","Epigraph","Status","Description","Theme",0,12021554);
+        } catch (BillException billException){
+            isValid = false;
+        }
+        assertFalse(!isValid);
+    }
     @Test
 
     public void testEmptyTitle(){
@@ -68,7 +81,18 @@ public class BillTest {
 
         assertFalse(isValid);
     }
+    @Test
+    public void testEpigraphOnlyWithSpace(){
+        boolean isValid =  true;
 
+        try{
+            Bill bill = new Bill(22,"Title","  ","Status","Description","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(!isValid);
+    }
     @Test
 
     public void testEmptyEpigraph(){
@@ -97,7 +121,20 @@ public class BillTest {
         assertFalse(!isValid);
 
     }
+    @Test
 
+    public void testDescriptionWithOnlySpace(){
+        boolean isValid = true;
+
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","Status","   ","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(!isValid);
+
+    }
     @Test
 
     public void testNullDescription(){
@@ -139,7 +176,18 @@ public class BillTest {
 
         assertFalse(isValid);
     }
+    @Test
 
+    public void testStatusOnlyWithSpace(){
+        boolean isValid = true;
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","   ","Description","Theme",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(!isValid);
+    }
     @Test
 
     public void testEmptyTheme(){
@@ -154,7 +202,19 @@ public class BillTest {
         assertFalse(!isValid);
 
     }
+    @Test
+    public void testThemeOnlyWithSpace(){
+        boolean isValid = true;
 
+        try{
+            Bill bill = new Bill(22,"Title","Epigraph","Status","Description","  ",0,12021554);
+        }catch (BillException billException){
+            isValid = false;
+        }
+
+        assertFalse(!isValid);
+
+    }
     @Test
 
     public void testNullTheme(){
