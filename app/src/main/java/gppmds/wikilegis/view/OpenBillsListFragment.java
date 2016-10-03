@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,10 +104,6 @@ public class OpenBillsListFragment extends Fragment implements AdapterView.OnIte
         // Initialize list if the tab is visible
         if (this.isVisible()) {
             initBillList();
-            // If it becoming invisible, nothing to do
-            if (!isVisibleToUser) {
-               //Nothing to do
-            }
         }
     }
 }

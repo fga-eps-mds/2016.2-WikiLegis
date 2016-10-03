@@ -83,13 +83,11 @@ public class ClosedBillsListFragment extends Fragment implements AdapterView.OnI
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
         if(parent.getItemAtPosition(position).toString().equals("Relevantes")){
-            Toast.makeText(getContext(), "Relevantes", Toast.LENGTH_SHORT).show();
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRelevantsAndClosed);
             recyclerViewAdapter.notifyDataSetChanged();
         }
         else{
-            Toast.makeText(getContext(), "Recentes", Toast.LENGTH_SHORT).show();
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRecentsAndClosed);
             recyclerViewAdapter.notifyDataSetChanged();
@@ -104,16 +102,11 @@ public class ClosedBillsListFragment extends Fragment implements AdapterView.OnI
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        // Make sure that we are currently visible
+        // Clear and reinitialize list if the tab is visible
         if (this.isVisible()) {
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRelevantsAndClosed);
             recyclerViewAdapter.notifyDataSetChanged();
-            // If we are becoming invisible, then...
-            if (!isVisibleToUser) {
-                Log.d("MyFragment", "Not visible anymore.  Stopping audio.");
-                // TODO stop audio playback
-            }
         }
     }
 }

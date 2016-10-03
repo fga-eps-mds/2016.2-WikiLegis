@@ -42,8 +42,8 @@ public class ViewBillFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(BillController.getSegmentsFromIdOfBill(idBill),
-                getContext());
+        RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(BillController
+                .getSegmentsFromIdOfBill(idBill), getContext());
         recyclerView.setAdapter(adapter);
 
         return view;

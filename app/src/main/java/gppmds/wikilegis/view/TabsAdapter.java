@@ -3,16 +3,11 @@ package gppmds.wikilegis.view;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.util.Log;
-import android.widget.TabHost;
-import android.widget.Toast;
-
-import gppmds.wikilegis.R;
 
 /**
  * Created by izabela on 02/10/16.
  */
-public class TabsAdapter extends FragmentPagerAdapter implements TabHost.OnTabChangeListener{
+public class TabsAdapter extends FragmentPagerAdapter {
 
 
     public TabsAdapter(FragmentManager fm){
@@ -47,12 +42,4 @@ public class TabsAdapter extends FragmentPagerAdapter implements TabHost.OnTabCh
         return null;
     }
 
-
-    @Override
-    public void onTabChanged(String tabId){
-        if(tabId.equals("ABERTOS")){
-            Log.d("a", "aberts");
-        } else if(tabId.equals("FECHADOS")) {
-            Log.d("b", "fecas");
-        }
-    }}
+    }
