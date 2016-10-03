@@ -39,7 +39,7 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
 
                 VotesController.getInstance(getBaseContext()).initControllerVotes();
 
-                Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
+                Intent intent = new Intent(LoadingActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
