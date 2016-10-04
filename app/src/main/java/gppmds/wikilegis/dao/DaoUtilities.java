@@ -6,9 +6,28 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class DaoUtilities {
 
-    protected static DatabaseHelper database;
-    protected static SQLiteDatabase sqliteDatabase;
-    protected static Context context;
+    private static DatabaseHelper database;
+    private static Context context;
+
+
+    public DaoUtilities(){}
+
+    public static DatabaseHelper getDatabase() {
+        return database;
+    }
+
+    protected static void setDatabase(DatabaseHelper database) {
+        DaoUtilities.database = database;
+    }
+
+    public static Context getContext() {
+        return context;
+    }
+
+    private static void setContext(Context context) {
+        DaoUtilities.context = context;
+    }
+
 
     //Método para inserir no banco local
     protected long insertAndClose(final SQLiteDatabase sqLiteDatabase, final String table,

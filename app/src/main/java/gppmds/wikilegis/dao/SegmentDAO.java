@@ -22,8 +22,13 @@ public class SegmentDAO extends DaoUtilities{
 
     private static String tableName = "Segments";
 
+    private static Context context;
+
     private SegmentDAO(final Context context) {
-        SegmentDAO.database = new DatabaseHelper(context);
+        this.context = context;
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        DaoUtilities.setDatabase(databaseHelper);
     }
 
     public static SegmentDAO getInstance(final Context context) {
@@ -36,7 +41,7 @@ public class SegmentDAO extends DaoUtilities{
     }
 
     public boolean  isDatabaseEmpty(){
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT 1 FROM " + tableName;
 
@@ -63,7 +68,7 @@ public class SegmentDAO extends DaoUtilities{
 
     public boolean insertSegment(final Segment segment) {
 
-        SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         ContentValues values = new ContentValues();
 
@@ -105,13 +110,15 @@ public class SegmentDAO extends DaoUtilities{
     public long deleteAllSegments() {
         long result;
 
-        result = deleteAndClose(sqliteDatabase, tableName);
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
+        result = deleteAndClose(sqLiteDatabase, tableName);
 
         return result;
     }
 
     public Segment getSegmentById(final Integer id) throws SegmentException {
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName + " WHERE \"id\" = " + id.toString();
 
@@ -141,7 +148,7 @@ public class SegmentDAO extends DaoUtilities{
 
     public List<Segment> getAllSegments() throws SegmentException {
 
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName;
 
