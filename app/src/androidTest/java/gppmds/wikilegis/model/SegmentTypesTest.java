@@ -12,7 +12,17 @@ import static junit.framework.Assert.assertTrue;
  */
 public class SegmentTypesTest {
 
+    @Test
+        public void testCreateSegmentTypes(){
+        boolean isValid = true;
+        try{
+            SegmentTypes segmentTypes = new SegmentTypes(10,"name");
+        }catch (SegmentTypesException segmentTypesException){
+            isValid = false;
+        }
 
+        assertTrue(isValid);
+    }
     @Test
 
     public void testNullId(){

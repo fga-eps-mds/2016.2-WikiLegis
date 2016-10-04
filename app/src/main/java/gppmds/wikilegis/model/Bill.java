@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 
 public class Bill {
 
@@ -68,8 +69,7 @@ public class Bill {
 
     }
 
-    public String getDescription() {
-        return description; }
+    public String getDescription() {return description; }
 
     private void setDescription(final String description) throws BillException {
         if (validateStringEmpty(description)) {
@@ -119,8 +119,11 @@ public class Bill {
         return segments;
     }
 
-    public void setSegments(final Integer segment) throws  BillException {
-            this.segments.add(segment);
+    public void setSegments(final Integer segment) {
+        assert (segment >= 0);
+
+        this.segments.add(segment);
+
     }
     public int getNumberOfPrposals() {
         return  numberOfPrposals;
@@ -153,14 +156,10 @@ public class Bill {
         return true;
     }
 
-
-
     private boolean validateStringEmpty(final String string) {
         if (string == null) {
             return false;
         }
         return true;
     }
-
-
 }

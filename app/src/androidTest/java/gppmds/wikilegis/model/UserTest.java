@@ -15,6 +15,20 @@ import static junit.framework.Assert.assertTrue;
  */
 public class UserTest {
 
+
+    @Test
+    public void testCreateUser() {
+        boolean isValid = true;
+
+        try {
+            User user = new User("Nara", "Cardoso", "a@a.com", "123456", "123456");
+        } catch (UserException userException) {
+            isValid = false;
+        }
+
+        assertTrue(isValid);
+
+    }
     @Test
     public void testEmptyFirstName() {
         boolean isValid = true;
