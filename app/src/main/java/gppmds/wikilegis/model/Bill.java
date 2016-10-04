@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 
 public class Bill {
 
@@ -118,8 +119,11 @@ public class Bill {
         return segments;
     }
 
-    public void setSegments(final Integer segment) throws  BillException {
-            this.segments.add(segment);
+    public void setSegments(final Integer segment) {
+        assert (segment >= 0);
+
+        this.segments.add(segment);
+
     }
     public int getNumberOfPrposals() {
         return  numberOfPrposals;

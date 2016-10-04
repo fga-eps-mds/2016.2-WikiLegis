@@ -5,6 +5,7 @@ import android.util.Log;
 import org.junit.Test;
 
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.UserException;
 
 import static junit.framework.Assert.assertFalse;
@@ -273,6 +274,18 @@ public class BillTest {
         }
 
         assertFalse(isValid);
+
+    }
+
+    @Test
+
+    public void testSetSegments() throws BillException, SegmentException {
+
+        Bill bill = new Bill(22,"Title","Epigraph","Status","Description","Theme",0,12021554);
+
+        bill.setSegments(1);
+
+        assertTrue(bill.getSegments().get(0) == 1);
 
     }
 
