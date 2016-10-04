@@ -69,4 +69,12 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testImageDislikeIsDisplayed(){
         onView(withId(R.id.imageViewDislike)).check(matches(isDisplayed()));
     }
+
+    public void testProposalIsDisplayed(){
+        onView(withId(R.id.textViewProposal)).check(matches(isDisplayed()));
+    }
+
+    public void testImageProposalIsDisplayed(){
+        onView(withId(R.id.imageViewProposal)).check(matches(isDisplayed()));
+    }
 }

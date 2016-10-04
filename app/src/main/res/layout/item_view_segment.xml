@@ -38,7 +38,7 @@ android:layout_marginTop="1dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/chat"
-            android:id="@+id/imageViewProposal"
+            android:id="@+id/imageViewProposalCard"
             android:layout_below="@+id/textViewSegment"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="30dp"
@@ -51,8 +51,8 @@ android:layout_marginTop="1dp"
             android:src="@drawable/dislike"
             android:id="@+id/imageViewDislikeCard"
             android:layout_marginEnd="100dp"
-            android:layout_alignBottom="@+id/imageViewProposal"
-            android:layout_toStartOf="@+id/imageViewProposal" />
+            android:layout_alignBottom="@+id/imageViewProposalCard"
+            android:layout_toStartOf="@+id/imageViewProposalCard" />
 
         <ImageView
             android:layout_width="30dp"
