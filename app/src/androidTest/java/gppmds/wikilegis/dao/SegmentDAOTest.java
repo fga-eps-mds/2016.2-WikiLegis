@@ -2,6 +2,7 @@ package gppmds.wikilegis.dao;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +26,33 @@ public class SegmentDAOTest {
     @Before
     public void setup() {
         context = InstrumentationRegistry.getTargetContext();
+    }
+
+    @Test
+    public void deleteAllSegmentsTest(){
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        List<Segment> segmentList = new ArrayList<>();
+
+        try {
+            Segment segment1 = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+            Segment segment2 = new Segment(2, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+            Segment segment3 = new Segment(3, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+            Segment segment4 = new Segment(4, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+            Segment segment5 = new Segment(5, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+
+            segmentList.add(segment1);
+            segmentList.add(segment2);
+            segmentList.add(segment3);
+            segmentList.add(segment4);
+            segmentList.add(segment5);
+
+            segmentDAO.insertAllSegments(segmentList);
+
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+        //Log.d("AQUII", segmentDAO.deleteAllSegments()+"");
+        assertTrue(segmentDAO.deleteAllSegments() == 5);
     }
 
     @Test
