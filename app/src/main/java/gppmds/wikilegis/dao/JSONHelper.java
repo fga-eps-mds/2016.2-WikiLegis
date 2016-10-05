@@ -90,12 +90,7 @@ public class JSONHelper {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject jsonObject = results.getJSONObject(i);
 
-                Votes voteAux = new Votes(jsonObject.getInt("user"),
-                        jsonObject.getInt("content_type"),
-                        jsonObject.getInt("object_id"),
-                        jsonObject.getString("vote").equals("false") ? false : true);
-
-                votesListApi.add(voteAux);
+                votesListApi.add(setVotesAttributes(jsonObject));
             }
             String nextUrl = votes.getString("next");
             url = updateDomain(nextUrl);
@@ -122,18 +117,7 @@ public class JSONHelper {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject jsonObject = results.getJSONObject(i);
 
-                    Segment segmentAux = new Segment(jsonObject.getInt("id"),
-                            jsonObject.getInt("order"),
-                            jsonObject.getInt("bill"),
-                            jsonObject.getBoolean("original"),
-                            jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
-                            jsonObject.getInt("id"),
-                            jsonObject.getInt("type"),
-                            jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
-                            jsonObject.getString("content"),
-                            jsonObject.getString("created"));
-
-                segmentListApi.add(segmentAux);
+                segmentListApi.add(setSegmentAttributes(jsonObject));
             }
             String nextUrl = segment.getString("next");
             url = updateDomain(nextUrl);
@@ -153,4 +137,26 @@ public class JSONHelper {
         Log.d("Aqui", correctDomain);
         return correctDomain;
     };
+
+    private static Votes setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
+        Votes voteAux = new Votes(jsonObject.getInt("user"),
+                jsonObject.getInt("content_type"),
+                jsonObject.getInt("object_id"),
+                jsonObject.getString("vote").equals("false") ? false : true);
+        return voteAux;
+    }
+
+    private static Segment setSegmentAttributes(JSONObject jsonObject) throws JSONException, SegmentException {
+        Segment segmentAux = new Segment(jsonObject.getInt("id"),
+                jsonObject.getInt("order"),
+                jsonObject.getInt("bill"),
+                jsonObject.getBoolean("original"),
+                jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
+                jsonObject.getInt("id"),
+                jsonObject.getInt("type"),
+                jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
+                jsonObject.getString("content"),
+                jsonObject.getString("created"));
+        return segmentAux;
+    }
 }

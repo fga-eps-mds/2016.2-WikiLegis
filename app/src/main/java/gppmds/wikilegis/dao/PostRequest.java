@@ -37,36 +37,18 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
     protected Integer doInBackground(final Void... params) {
         int httpResult = 400;
         try {
-
-            StringBuilder sb = new StringBuilder();
             String http = url;
 
             HttpURLConnection urlConnection = null;
             try {
-                URL url = new URL(http);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setDoOutput(true);
-                urlConnection.setDoInput(true);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection = setBody(http);
 
                 Log.d("Info", "Connenction body set");
 
-                JSONObject jsonParam = new JSONObject();
-                jsonParam.put("email", user.getEmail());
-                jsonParam.put("first_name", user.getFirstName());
-                jsonParam.put("last_name", user.getLastName());
-                jsonParam.put("password", user.getPassword());
+                JSONObject jsonParam;
+                jsonParam = setJSON();
 
-                OutputStream out = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                writer.write(jsonParam.toString());
-                writer.flush();
-                writer.close();
-                urlConnection.connect();
-                Log.d("Info", "Connection sucess");
-
-                httpResult = urlConnection.getResponseCode();
+                httpResult = makeResult(urlConnection, jsonParam);
                 Log.d("Info", "RESULT: " + httpResult);
             }
             catch (MalformedURLException e) {
@@ -98,5 +80,36 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
             Toast.makeText(context, "Email já cadastrado!", Toast.LENGTH_SHORT).show();
         }
         Log.i("INFO", ""+ response);
+    }
+
+    private HttpURLConnection setBody(String http) throws IOException {
+        URL url = new URL(http);
+        HttpURLConnection urlConnection;
+        urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setDoOutput(true);
+        urlConnection.setDoInput(true);
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setRequestProperty("Content-Type", "application/json");
+        return urlConnection;
+    }
+
+    private JSONObject setJSON() throws JSONException {
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put("email", user.getEmail());
+        jsonParam.put("first_name", user.getFirstName());
+        jsonParam.put("last_name", user.getLastName());
+        jsonParam.put("password", user.getPassword());
+        return jsonParam;
+    }
+
+    private int makeResult(HttpURLConnection urlConnection, JSONObject jsonParam) throws IOException {
+        OutputStream out = urlConnection.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+        writer.write(jsonParam.toString());
+        writer.flush();
+        writer.close();
+        urlConnection.connect();
+        Log.d("Info", "Connection sucess");
+        return urlConnection.getResponseCode();
     }
 }
