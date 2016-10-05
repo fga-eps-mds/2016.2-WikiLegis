@@ -88,4 +88,18 @@ public class VotesDAOTest {
 
         assertTrue(votesList.get(0).getUserId() == 1);
     }
+
+    @Test
+    public void getVotesByIdOfSegmentTest(){
+        VotesDAO votesDAO = VotesDAO.getInstance(context);
+        List<Votes> votesList = null;
+
+        try {
+            votesList = votesDAO.getVotesByIdOfSegment(13172);
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(votesList.size() == 0);
+    }
 }
