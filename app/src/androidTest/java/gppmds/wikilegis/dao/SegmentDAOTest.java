@@ -80,4 +80,40 @@ public class SegmentDAOTest {
         }
         assertEquals(segment2.getDate(), "13/12/2006");
     }
+
+    @Test
+    public void getAllSegmentsTest(){
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        List<Segment> segmentList2 = null;
+        List<Segment> segmentList = new ArrayList<>();
+        try {
+            Segment segment1 = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+            Segment segment2 = new Segment(2, 2, 8, true, 55, 10, 1, 6, "blablabla", "14/12/2006");
+            Segment segment3 = new Segment(3, 2, 8, true, 55, 10, 1, 6, "blablabla", "15/12/2006");
+            Segment segment4 = new Segment(4, 2, 8, true, 55, 10, 1, 6, "blablabla", "16/12/2006");
+            Segment segment5 = new Segment(5, 2, 8, true, 55, 10, 1, 6, "blablabla", "17/12/2006");
+
+            segmentList.add(segment1);
+            segmentList.add(segment2);
+            segmentList.add(segment3);
+            segmentList.add(segment4);
+            segmentList.add(segment5);
+
+            segmentDAO.insertAllSegments(segmentList);
+
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+        try {
+            segmentList2 = segmentDAO.getAllSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(segmentList2.get(0).getId() == 1);
+        assertTrue(segmentList2.get(1).getId()== 2);
+        assertTrue(segmentList2.get(2).getId()== 3);
+        assertTrue(segmentList2.get(3).getId()== 4);
+        assertTrue(segmentList2.get(4).getId()== 5);
+    }
 }
