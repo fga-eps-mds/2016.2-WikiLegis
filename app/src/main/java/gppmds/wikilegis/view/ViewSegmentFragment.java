@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,7 +26,8 @@ import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
-public class ViewSegmentFragment extends Fragment {
+public class ViewSegmentFragment extends Fragment implements View.OnClickListener{
+
     private static Integer segmentId;
     private static Integer billId;
     private TextView likes;
@@ -37,6 +40,7 @@ public class ViewSegmentFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private Button proposalButon;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -63,12 +67,16 @@ public class ViewSegmentFragment extends Fragment {
     }
 
     private void setView(final LayoutInflater inflater, final ViewGroup container) {
+
         view = inflater.inflate(R.layout.fragment_view_segment, container, false);
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
         segmentText = (TextView) view.findViewById(R.id.contentSegment);
         billText = (TextView) view.findViewById(R.id.titleBill);
         likes = (TextView) view.findViewById(R.id.textViewNumberLike);
         dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
+        proposalButon = (Button)view.findViewById(R.id.buttonGreen);
+        proposalButon.setOnClickListener(this);
+
     }
 
     private void settingText() {
@@ -84,5 +92,13 @@ public class ViewSegmentFragment extends Fragment {
         } catch (VotesException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        final Dialog dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.fragment_proposal);
+        dialog.show();
+
     }
 }

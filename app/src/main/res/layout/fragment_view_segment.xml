@@ -94,12 +94,19 @@
         </RelativeLayout>
 
     </FrameLayout>
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@drawable/button_green"
+        android:text="Sugerir alteração"
+        android:id="@+id/buttonGreen"
+        android:layout_below="@id/frameLayoutSegment"/>
 
     <FrameLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:id="@+id/frameLayoutProposal"
-        android:layout_below="@+id/frameLayoutSegment"
+        android:layout_below="@+id/buttonGreen"
         android:layout_alignStart="@+id/frameLayoutSegment"
         android:layout_marginTop="1dp"
         android:clickable="true"
@@ -133,7 +140,11 @@
                 android:layout_toStartOf="@+id/textView"
                 android:layout_marginEnd="30dp" />
         </RelativeLayout>
+
+
+
     </FrameLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
