@@ -29,6 +29,37 @@ public class BillDAOTest {
     }
 
     @Test
+    public void deleteAllBillsTest(){
+        BillDAO billDAO = BillDAO.getInstance(context);
+        List<Bill> billList = new ArrayList<>();
+
+        Bill bill1 = null;
+        Bill bill2 = null;
+        Bill bill3 = null;
+        Bill bill4 = null;
+        Bill bill5 = null;
+        try {
+            bill1 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill2 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill3 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill4 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill5 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        billList.add(bill1);
+        billList.add(bill2);
+        billList.add(bill3);
+        billList.add(bill4);
+        billList.add(bill5);
+
+        billDAO.insertAllBills(billList);
+
+        assertTrue(billDAO.deleteAllBills() == 5);
+    }
+
+    @Test
     public void insertBillTest(){
         BillDAO billDAO = BillDAO.getInstance(context);
         Bill bill = null;
@@ -68,5 +99,48 @@ public class BillDAOTest {
         billList.add(bill5);
 
         assertTrue(billDAO.insertAllBills(billList));
+    }
+
+    @Test
+    public void getAllBillsTest(){
+        BillDAO billDAO = BillDAO.getInstance(context);
+        List<Bill> billList = new ArrayList<>();
+        List<Bill> billList2 = new ArrayList<>();
+
+
+        Bill bill1 = null;
+        Bill bill2 = null;
+        Bill bill3 = null;
+        Bill bill4 = null;
+        Bill bill5 = null;
+        try {
+            bill1 = new Bill(1, "Teste1", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill2 = new Bill(2, "Teste2", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill3 = new Bill(3, "Teste3", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill4 = new Bill(4, "Teste4", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill5 = new Bill(5, "Teste5", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        billList.add(bill1);
+        billList.add(bill2);
+        billList.add(bill3);
+        billList.add(bill4);
+        billList.add(bill5);
+
+        billDAO.insertAllBills(billList);
+
+        try {
+            billList2 = billDAO.getAllBills();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(billList2.get(0).getTheme(), "Meio Ambiente");
+        assertEquals(billList2.get(1).getTheme(), "Meio Ambiente");
+        assertEquals(billList2.get(2).getTheme(), "Meio Ambiente");
+        assertEquals(billList2.get(3).getTheme(), "Meio Ambiente");
+        assertEquals(billList2.get(4).getTheme(), "Meio Ambiente");
     }
 }
