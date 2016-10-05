@@ -14,6 +14,7 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -142,5 +143,32 @@ public class BillDAOTest {
         assertEquals(billList2.get(2).getTheme(), "Meio Ambiente");
         assertEquals(billList2.get(3).getTheme(), "Meio Ambiente");
         assertEquals(billList2.get(4).getTheme(), "Meio Ambiente");
+    }
+
+    @Test
+    public void getBillByIdTest(){
+        BillDAO billDAO = BillDAO.getInstance(context);
+        Bill bill = null;
+        Bill bill2 = null;
+        try {
+            bill = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+        billDAO.insertBill(bill);
+        try {
+            bill2 = billDAO.getBillById(1);
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(bill.getId() == 1);
+    }
+
+    @Test
+    public void isDatabaseEmptyTest(){
+        BillDAO billDAO = BillDAO.getInstance(context);
+
+        assertFalse(billDAO.isDatabaseEmpty());
     }
 }
