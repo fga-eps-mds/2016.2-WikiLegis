@@ -12,7 +12,18 @@ import static junit.framework.Assert.assertTrue;
  */
 public class VotesTest {
 
+    @Test
+        public void testCreateVotes(){
+        boolean isValid = true;
 
+        try {
+            Votes vote = new Votes(22, 1, 1, true);
+        } catch (VotesException votesException) {
+            isValid = false;
+        }
+
+        assertTrue(isValid);
+    }
     @Test
     public void testUserIdIsNull() {
         boolean isValid = true;

@@ -1,3 +1,6 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -71,7 +74,7 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/passwordConfirmationField"
-        android:hint="Confirmação de senha"
+        android:hint="Confirmação senha"
         android:textColorHint="#FAFAFA"
         android:textColor="#FAFAFA"
         android:backgroundTint="#FAFAFA"
@@ -153,3 +156,4 @@
         android:layout_alignTop="@+id/passwordConfirmationField" />
 
 </RelativeLayout>
+</ScrollView>

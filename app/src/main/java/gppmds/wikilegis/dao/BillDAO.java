@@ -22,7 +22,8 @@ public class BillDAO extends DaoUtilities{
     private static String tableName = "Bill";
 
     private BillDAO(final Context context) {
-        BillDAO.database = new DatabaseHelper(context);
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        DaoUtilities.setDatabase(databaseHelper);
     }
 
     public static BillDAO getInstance(final Context context) {
@@ -36,7 +37,7 @@ public class BillDAO extends DaoUtilities{
 
     public boolean isDatabaseEmpty() {
 
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT 1 FROM " + tableName;
 
@@ -60,7 +61,7 @@ public class BillDAO extends DaoUtilities{
 
     public boolean insertBill(final Bill bill) {
 
-        SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         ContentValues values = new ContentValues();
 
@@ -93,6 +94,8 @@ public class BillDAO extends DaoUtilities{
     public long deleteAllBills() {
         long result;
 
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
         result = deleteAndClose(sqliteDatabase, tableName);
 
         return result;
@@ -100,7 +103,7 @@ public class BillDAO extends DaoUtilities{
 
     public List<Bill> getAllBills() throws BillException {
 
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName;
 
@@ -128,7 +131,7 @@ public class BillDAO extends DaoUtilities{
 
     public Bill getBillById(final Integer id) throws BillException {
 
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName + " WHERE [id] = " + id.toString();
 

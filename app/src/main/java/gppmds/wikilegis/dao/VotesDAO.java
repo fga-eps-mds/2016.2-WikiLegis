@@ -12,7 +12,7 @@ import java.util.List;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Votes;
 
-public class VotesDAO extends DaoUtilities{
+public class VotesDAO {
 
     private static String tableColumns[] = {"id", "contentType", "vote", "userId", "segmentId"};
 
@@ -21,7 +21,8 @@ public class VotesDAO extends DaoUtilities{
     private static String tableName = "votes";
 
     private VotesDAO(final Context context) {
-        VotesDAO.database = new DatabaseHelper(context);
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        DaoUtilities.setDatabase(databaseHelper);
     }
 
     public static VotesDAO getInstance(final Context context) {
@@ -34,7 +35,7 @@ public class VotesDAO extends DaoUtilities{
     }
 
     public boolean  isDatabaseEmpty(){
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT 1 FROM " + tableName;
 
@@ -60,7 +61,7 @@ public class VotesDAO extends DaoUtilities{
 
     public boolean insertVote(final Votes vote) {
 
-        SQLiteDatabase sqLiteDatabase = database.getWritableDatabase();
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         ContentValues values = new ContentValues();
 
@@ -69,8 +70,8 @@ public class VotesDAO extends DaoUtilities{
         values.put(tableColumns[3], vote.getUserId());
         values.put(tableColumns[4], vote.getObjectId());
 
-
-        boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
+        DaoUtilities daoUtilities = new DaoUtilities();
+        boolean result = daoUtilities.insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
         return result;
     }
@@ -88,7 +89,7 @@ public class VotesDAO extends DaoUtilities{
     }
 
     public List<Votes> getAllVotes() throws VotesException {
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName;
 
@@ -112,7 +113,7 @@ public class VotesDAO extends DaoUtilities{
     }
 
     public List<Votes> getVotesByIdOfSegment(final Integer id) throws VotesException {
-        sqliteDatabase = database.getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName + " WHERE \"segmentId\" = " + id.toString();
 
