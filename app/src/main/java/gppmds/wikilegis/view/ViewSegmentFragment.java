@@ -2,6 +2,7 @@ package gppmds.wikilegis.view;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,9 +57,13 @@ public class ViewSegmentFragment extends Fragment {
 
         settingText();
 
+        TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
+        tabs.setVisibility(View.GONE);
+
         segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
         RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
         recyclerView.setAdapter(content);
+
         return view;
     }
 

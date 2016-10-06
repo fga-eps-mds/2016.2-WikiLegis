@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,6 +36,9 @@ public class ViewBillFragment extends Fragment {
 
         this.settingEditText(view);
         this.settingTypeText(idBill);
+
+        TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
+        tabs.setVisibility(View.GONE);
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
         recyclerView.setHasFixedSize(true);
