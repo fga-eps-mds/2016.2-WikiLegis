@@ -36,9 +36,9 @@ public class OpenBillsListFragment extends Fragment implements AdapterView.OnIte
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_list_bills, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_open_bills, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_open);
         recyclerView.setHasFixedSize(true);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
