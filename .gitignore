@@ -42,3 +42,7 @@ captures/
 # Checkstyle configuration
 .idea/checkstyle-idea.xml
 
+# Logs from metrics shell
+metrics/logs/
+*.sh.swp
+
