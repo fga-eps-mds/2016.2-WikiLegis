@@ -134,31 +134,4 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
 
         onView(withId(R.id.imageViewProposal)).check(matches(isDisplayed()));
     }
-
-    public void testByClickASegmentThatShouldNotBeClickable() throws InterruptedException {
-        //Redirecting to ViewSegmentFragment
-        closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
-        onView(withId(R.id.main_content)).perform(swipeLeft());
-        Thread.sleep(2000);
-        onView(withId(R.id.recycler_view_closed))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.textViewProposal)).check(matches(isDisplayed()));
-    }
-
-    public void testByClickASegmentThatShouldBeClickable() throws InterruptedException {
-        //Redirecting to ViewSegmentFragment
-        closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
-        onView(withId(R.id.main_content)).perform(swipeLeft());
-        Thread.sleep(2000);
-        onView(withId(R.id.recycler_view_closed))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(withId(R.id.imageViewLike)).check(matches(isDisplayed()));
-    }
 }
