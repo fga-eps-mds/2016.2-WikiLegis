@@ -53,25 +53,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                // User chose the "Search" card_bill, show field of search...
-                return true;
-
-            case R.id.action_profile:
-                // User choose first icon.
-                return true;
-
-            case R.id.action_exit_account:
-                //Deslog user
-                return true;
-
-            case R.id.action_filtering:
-                return true;
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-        }
+        return true;
     }
 }
