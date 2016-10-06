@@ -5,7 +5,7 @@
               android:layout_height="match_parent">
 
     <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinner_open"
         android:layout_margin="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

@@ -4,14 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
@@ -48,7 +43,7 @@ public class ClosedBillsListFragment extends Fragment implements MaterialSpinner
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        MaterialSpinner spinner = (MaterialSpinner) view.findViewById(R.id.spinner);
+        MaterialSpinner spinner = (MaterialSpinner) view.findViewById(R.id.spinner_closed);
         spinner.setItems("Relevantes", "Recentes");
         spinner.setOnItemSelectedListener(this);
 
