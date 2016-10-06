@@ -42,7 +42,7 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
 
     public void testLogoIsDisplayed() {
         closeSoftKeyboard();
-        onView(withId(R.id.imageViewLogo)).check(matches(isDisplayed()));
+        onView(withId(R.id.imageViewLogo)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
     public void testEmailLoginFieldIsDisplayed() {
