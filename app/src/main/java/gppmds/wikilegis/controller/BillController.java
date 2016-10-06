@@ -142,11 +142,12 @@ public class BillController {
         List<Bill> billListAux = new ArrayList<>();
 
         BillComparatorProposals billComparatorDProposals = new BillComparatorProposals();
-        Collections.sort(listToFiltering, billComparatorDProposals);
 
         for (int i = 0; i < listToFiltering.size(); i++) {
             billListAux.add(listToFiltering.get(i));
         }
+
+        Collections.sort(billListAux, billComparatorDProposals);
 
         return billListAux;
 
@@ -156,11 +157,12 @@ public class BillController {
         List<Bill> billListAux = new ArrayList<>();
 
         BillComparatorDate comparator = new BillComparatorDate();
-        Collections.sort(listToFiltering, comparator);
 
         for (int i = 0; i < listToFiltering.size(); i++) {
             billListAux.add(listToFiltering.get(i));
         }
+
+        Collections.sort(billListAux, comparator);
 
         return billListAux;
     }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,13 +65,13 @@ public class OpenBillsListFragment extends Fragment implements MaterialSpinner.O
 
         billListRelevantsAndOpened = new ArrayList<>();
         billListRelevantsAndOpened = billController.filteringForNumberOfProposals(billListInitial);
-        billListRelevantsAndOpened = billController.filterigForStatusPublished
-                (billListRelevantsAndOpened);
+        billListRelevantsAndOpened =
+                billController.filterigForStatusPublished(billListRelevantsAndOpened);
 
         billListRecentsAndOpened = new ArrayList<>();
         billListRecentsAndOpened = billController.filteringForDate(billListInitial);
-        billListRecentsAndOpened = billController.filterigForStatusPublished
-                (billListRecentsAndOpened);
+        billListRecentsAndOpened =
+                billController.filterigForStatusPublished(billListRecentsAndOpened);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class OpenBillsListFragment extends Fragment implements MaterialSpinner.O
             recyclerViewAdapter.getData().addAll(billListRelevantsAndOpened);
             recyclerViewAdapter.notifyDataSetChanged();
         }
-        else{
+        else if(item.equals("Recentes")){
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRecentsAndOpened);
             recyclerViewAdapter.notifyDataSetChanged();
