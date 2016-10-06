@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.jaredrummler.materialspinner.MaterialSpinner;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ import gppmds.wikilegis.model.Bill;
 /**
  * Created by izabela on 02/10/16.
  */
-public class OpenBillsListFragment extends Fragment implements AdapterView.OnItemSelectedListener{
+public class OpenBillsListFragment extends Fragment implements MaterialSpinner.OnItemSelectedListener{
 
     public static OpenBillsListFragment newInstance(){
         return new OpenBillsListFragment();
@@ -44,13 +46,9 @@ public class OpenBillsListFragment extends Fragment implements AdapterView.OnIte
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        Spinner dropdown = (Spinner) view.findViewById(R.id.spinner);
-        String[] items = new String[]{"Relevantes", "Recentes"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
-
-        dropdown.setOnItemSelectedListener(this);
+        MaterialSpinner spinner = (MaterialSpinner) view.findViewById(R.id.spinner);
+        spinner.setItems("Relevantes", "Recentes");
+        spinner.setOnItemSelectedListener(this);
 
         initBillList();
 
@@ -79,8 +77,8 @@ public class OpenBillsListFragment extends Fragment implements AdapterView.OnIte
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-        if(parent.getItemAtPosition(position).toString().equals("Relevantes")){
+    public void onItemSelected(MaterialSpinner view, int position, long id, Object item){
+        if(item.equals("Relevantes")){
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRelevantsAndOpened);
             recyclerViewAdapter.notifyDataSetChanged();
@@ -90,11 +88,6 @@ public class OpenBillsListFragment extends Fragment implements AdapterView.OnIte
             recyclerViewAdapter.getData().addAll(billListRecentsAndOpened);
             recyclerViewAdapter.notifyDataSetChanged();
         }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent){
-
     }
 
     @Override

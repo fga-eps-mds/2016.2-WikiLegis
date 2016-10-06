@@ -4,12 +4,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,7 @@ import gppmds.wikilegis.model.Bill;
 /**
  * Created by izabela on 02/10/16.
  */
-public class ClosedBillsListFragment extends Fragment implements AdapterView.OnItemSelectedListener{
+public class ClosedBillsListFragment extends Fragment implements MaterialSpinner.OnItemSelectedListener{
 
     public static ClosedBillsListFragment newInstance(){
         return new ClosedBillsListFragment();
@@ -44,13 +48,9 @@ public class ClosedBillsListFragment extends Fragment implements AdapterView.OnI
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        Spinner dropdown = (Spinner) view.findViewById(R.id.spinner);
-        String[] items = new String[]{"Relevantes", "Recentes"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
-
-        dropdown.setOnItemSelectedListener(this);
+        MaterialSpinner spinner = (MaterialSpinner) view.findViewById(R.id.spinner);
+        spinner.setItems("Relevantes", "Recentes");
+        spinner.setOnItemSelectedListener(this);
 
         initBillList();
 
@@ -79,8 +79,8 @@ public class ClosedBillsListFragment extends Fragment implements AdapterView.OnI
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-        if(parent.getItemAtPosition(position).toString().equals("Relevantes")){
+    public void onItemSelected(MaterialSpinner view, int position, long id, Object item){
+        if(item.equals("Relevantes")){
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRelevantsAndClosed);
             recyclerViewAdapter.notifyDataSetChanged();
@@ -92,9 +92,6 @@ public class ClosedBillsListFragment extends Fragment implements AdapterView.OnI
         }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent){
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
