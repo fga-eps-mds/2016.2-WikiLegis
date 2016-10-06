@@ -1,6 +1,8 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
@@ -8,20 +10,24 @@ import org.junit.Before;
 
 import gppmds.wikilegis.R;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
 
 
-    public ViewBillFragmentTest() {
-        super(MainActivity.class);
+    public ViewBillFragmentTest(){
+        super(LoadingActivity.class);
     }
-    @Before
+
     public void setUp() throws Exception {
         super.setUp();
         final Activity activityOnTest = getActivity();
@@ -35,34 +41,30 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainA
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
-    public void testSwitchRelevantRecentIsDisplayed(){
-        onView(withId(R.id.switchRelevanteRecente)).check(matches(isDisplayed()));
+    public void testByClickASegmentThatShouldNotBeClickable() throws InterruptedException {
+        //Redirecting to ViewSegmentFragment
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.main_content)).perform(swipeLeft());
+        Thread.sleep(2000);
+        onView(withId(R.id.recycler_view_closed))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.textViewProposal)).check(matches(isDisplayed()));
     }
 
-    public void testSwitchRelevantRecent(){
-        onView(withId(R.id.switchRelevanteRecente)).perform(click());
-    }
-
-    public void testSwitchOpenClosedIsDisplayed(){
-        onView(withId(R.id.switchAbertoFechado)).check(matches(isDisplayed()));
-    }
-    public void testSwitchOpenClosed(){
-        onView(withId(R.id.switchAbertoFechado)).perform(click());
-    }
-
-    public void testTextEncerradosIsDisplayed(){
-        onView(withId(R.id.textViewEncerrados)).check(matches(isDisplayed()));
-    }
-
-    public void testTextRecentesIsDisplayed(){
-        onView(withId(R.id.textViewRecentes)).check(matches(isDisplayed()));
-    }
-
-    public void testTextAbertosIsDisplayed(){
-        onView(withId(R.id.textViewAbertos)).check(matches(isDisplayed()));
-    }
-
-    public void testTextRelevantesIsDisplayed(){
-        onView(withId(R.id.textViewRelevantes)).check(matches(isDisplayed()));
+    public void testByClickASegmentThatShouldBeClickable() throws InterruptedException {
+        //Redirecting to ViewSegmentFragment
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.main_content)).perform(swipeLeft());
+        Thread.sleep(2000);
+        onView(withId(R.id.recycler_view_closed))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.imageViewLike)).check(matches(isDisplayed()));
     }
 }
