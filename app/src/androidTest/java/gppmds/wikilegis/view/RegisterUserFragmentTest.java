@@ -87,7 +87,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText(""));
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("Inválido, o nome não pode ser vazio.")));
     }
@@ -97,7 +97,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).check(matches(hasErrorText("O nome deve ter apenas letras.")));
     }
 
@@ -107,7 +107,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.firstNameField)).perform(typeText("aaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaa125"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.lastNameField)).check(matches(hasErrorText("O sobrenome deve ter apenas letras.")));
     }
@@ -119,7 +119,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaa"));
         closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText(""));
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.emailField)).check(matches(hasErrorText("Inválido, o email não pode ser vazio.")));
     }
@@ -133,7 +133,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.emailField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@gmail.com"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.emailField)).check(matches(hasErrorText("Inválido, o email deve ter no máximo 150 caractéres")));
     }
@@ -148,7 +148,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText(""));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha não pode ser vazia.")));
     }
@@ -163,7 +163,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText("1234"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha deve conter no mínimo 6 caractéres.")));
     }
@@ -178,7 +178,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.passwordField)).perform(typeText("1234567891011"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.passwordField)).check(matches(hasErrorText("Inválido, a senha deve ter no máximo 10 caractéres")));
     }
@@ -195,7 +195,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.passwordConfirmationField)).perform(typeText("12345678"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView(withId(R.id.passwordConfirmationField)).check(matches(hasErrorText("As senhas digitadas sao diferentes")));
     }
@@ -205,7 +205,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
 
         onView((withId(R.id.firstNameField))).check(matches(hasErrorText("Inválido, o nome deve ter no máximo 30 caractéres")));
     }
@@ -216,7 +216,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText(""));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
         onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Inválido, o sobrenome não pode ser vazio.")));
     }
 
@@ -226,7 +226,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.firstNameField)).perform(typeText("aaaaaaaaaaa"));
         onView(withId(R.id.lastNameField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
         onView((withId(R.id.lastNameField))).check(matches(hasErrorText("Inválido, o sobrenome deve ter no máximo 30 caractéres")));
     }
 
@@ -238,11 +238,11 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.emailField)).perform(typeText("mekmay@hotmailcom"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
         onView((withId(R.id.emailField))).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
     }
 
-    public void testEmailRepeatFields(){
+    public void testEmailRepeatFields() throws InterruptedException {
         closeSoftKeyboard();
         onView(withId(R.id.registerText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.firstNameField)).perform(typeText("Augusto"));
@@ -254,7 +254,8 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.passwordConfirmationField)).perform(typeText("12345678"));
         closeSoftKeyboard();
-        onView(withId(R.id.registerButton)).perform(click());
+        onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
+        Thread.sleep(500);
         onView(withText("Email já cadastrado!")).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 }

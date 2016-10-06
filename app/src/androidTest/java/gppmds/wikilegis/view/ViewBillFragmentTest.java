@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
@@ -43,7 +44,7 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
     public void testByClickASegmentThatShouldNotBeClickable() throws InterruptedException {
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.main_content)).perform(swipeLeft());
         Thread.sleep(2000);
         onView(withId(R.id.recycler_view_closed))
@@ -57,7 +58,7 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
     public void testByClickASegmentThatShouldBeClickable() throws InterruptedException {
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.main_content)).perform(swipeLeft());
         Thread.sleep(2000);
         onView(withId(R.id.recycler_view_closed))

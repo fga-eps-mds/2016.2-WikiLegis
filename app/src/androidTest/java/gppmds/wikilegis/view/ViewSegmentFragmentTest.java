@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
@@ -42,7 +43,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testTitleBillIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
@@ -54,7 +55,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testConstentSegmentIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
@@ -66,7 +67,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testNumberOfLikeIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
@@ -78,7 +79,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testImageLikeIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
@@ -90,7 +91,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testNumberOfDislikeIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
@@ -102,7 +103,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testImageDislikeIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
@@ -114,7 +115,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testProposalIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
@@ -126,7 +127,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     public void testImageProposalIsDisplayed(){
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
