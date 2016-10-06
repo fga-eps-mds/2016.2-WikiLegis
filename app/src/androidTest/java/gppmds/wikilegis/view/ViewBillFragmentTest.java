@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
@@ -8,20 +9,24 @@ import org.junit.Before;
 
 import gppmds.wikilegis.R;
 
+import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
 
 
-    public ViewBillFragmentTest() {
-        super(MainActivity.class);
+    public ViewBillFragmentTest(){
+        super(LoadingActivity.class);
     }
-    @Before
+
     public void setUp() throws Exception {
         super.setUp();
         final Activity activityOnTest = getActivity();
@@ -34,4 +39,6 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<MainA
         };
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
+
+
 }
