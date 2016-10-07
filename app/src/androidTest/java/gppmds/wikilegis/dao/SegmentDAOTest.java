@@ -80,13 +80,38 @@ public class SegmentDAOTest {
 
     @Test
     public void insertSegmentTest(){
-        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        Segment segment = null;
+
         try {
-            Segment segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
-            assertTrue(segmentDAO.insertSegment(segment));
+            segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
         } catch (SegmentException e) {
             e.printStackTrace();
         }
+
+        boolean insertedSegment = segmentDAO.insertSegment(segment);
+
+        List<Segment> segmentList = new ArrayList<>();
+
+        try {
+            segmentList = segmentDAO.getAllSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        int countEqualsSegments = 0;
+
+        Log.d("HAHAHA", segmentList.size() + "");
+
+        for(int i = 0; i < segmentList.size(); i++) {
+            Log.d("Originalkkk: ", segmentList.get(i).isOriginal() ? "1" : "0");
+            if(segment.equals(segmentList.get(i))){
+                countEqualsSegments++;
+            }
+        }
+
+        Log.d("AQUI", countEqualsSegments + "");
+
+        assertTrue(insertedSegment && countEqualsSegments == 1);
     }
 
     @Test

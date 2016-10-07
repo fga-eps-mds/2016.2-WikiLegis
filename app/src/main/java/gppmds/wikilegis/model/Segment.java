@@ -39,6 +39,21 @@ public class Segment {
         setDate(date);
     }
 
+    public boolean equals(Segment segment) {
+
+        /*boolean isEverythingEqual = ( this.id.equals(segment.getId()) &&
+                this.order.equals(segment.getOrder()) && this.bill.equals(segment.getBill())
+                /*&& this.original == segment.isOriginal() &&
+                this.replaced.equals(segment.getReplaced()) &&
+                this.parent.equals(segment.getParent()) && this.type.equals(segment.getType())
+                && this.number.equals(segment.getNumber()) &&
+                this.content.equals(segment.getContent()) && this.date.equals(segment.getDate()) );
+
+        return isEverythingEqual;*/
+
+        return this.original == segment.isOriginal();
+    }
+
     public Integer getId() {
         return id;
     }

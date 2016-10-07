@@ -22,8 +22,8 @@ public class Votes {
     }
 
     public boolean equals(Votes votes){
-        return this.contentType==votes.getContentType() && this.userId==votes.getUserId() &&
-                this.objectId==votes.getObjectId() && this.vote==votes.getVote();
+        return this.contentType == votes.getContentType() && this.userId == votes.getUserId() &&
+                this.objectId == votes.getObjectId() && this.vote == votes.getVote();
     }
 
     public Integer getUserId() {
