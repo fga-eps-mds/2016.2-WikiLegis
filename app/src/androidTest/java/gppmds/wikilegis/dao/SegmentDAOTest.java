@@ -33,7 +33,6 @@ public class SegmentDAOTest {
 
     @Test
     public void deleteAllSegmentsTest(){
-        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
         List<Segment> segmentList = new ArrayList<>();
 
         try {
@@ -62,8 +61,19 @@ public class SegmentDAOTest {
     }
 
     @Test
-    public void isDatabaseEmptyTest(){
-        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+    public void isDatabaseEmptyWhenDatabaseIsEmptyTest() {
+        assertTrue(segmentDAO.isDatabaseEmpty());
+    }
+
+    @Test
+    public void isDatabaseEmptyWhenDatabaseIsNotEmptyTest() {
+        try {
+            Segment segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+
+            segmentDAO.insertSegment(segment);
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
 
         assertFalse(segmentDAO.isDatabaseEmpty());
     }
