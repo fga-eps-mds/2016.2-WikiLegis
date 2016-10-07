@@ -2,6 +2,7 @@ package gppmds.wikilegis.dao;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +53,7 @@ public class VotesDAOTest {
     }
 
     @Test
-    public void insertVoteDAOTest(){
+    public void insertVoteDAOTest() throws VotesException {
         Votes vote = null;
 
         try {
@@ -71,14 +72,24 @@ public class VotesDAOTest {
             e.printStackTrace();
         }
 
+        /*
+        * final Integer userId, final Integer contentType,
+                 final Integer objectId, final boolean vote
+        * */
+
+
         int countEqualsVotes = 0;
         for(int i = 0; i < votesList.size(); i++){
-            if(votesList.get(i).equals(vote)) {
+            Votes voteDB = votesList.get(i);
+            if(voteDB.equals(vote)) {
                 countEqualsVotes++;
             }
         }
+        Log.i("COUNTEQUALS - ", ""+countEqualsVotes);
+        Log.i("Voteslist", ""+votesList.size());
 
         assertTrue(countEqualsVotes == 1 && votesList.size() == 1);
+
     }
 
     @Test
@@ -107,7 +118,7 @@ public class VotesDAOTest {
 
         int count = 0;
         for(int i = 0; i < votesList2.size(); i++) {
-            if(votesList2.get(i) == votesList1.get(i)) {
+            if(votesList2.get(i).equals(votesList1.get(i))) {
                 count++;
             }
         }
