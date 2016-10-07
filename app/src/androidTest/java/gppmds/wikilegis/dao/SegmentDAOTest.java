@@ -22,10 +22,13 @@ import static junit.framework.Assert.assertTrue;
  */
 public class SegmentDAOTest {
     Context context;
+    SegmentDAO segmentDAO;
 
     @Before
     public void setup() {
         context = InstrumentationRegistry.getTargetContext();
+        segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO.clearSegmentsTable();
     }
 
     @Test
@@ -34,25 +37,28 @@ public class SegmentDAOTest {
         List<Segment> segmentList = new ArrayList<>();
 
         try {
-            Segment segment1 = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
-            Segment segment2 = new Segment(2, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
-            Segment segment3 = new Segment(3, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
-            Segment segment4 = new Segment(4, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
-            Segment segment5 = new Segment(5, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
 
-            segmentList.add(segment1);
-            segmentList.add(segment2);
-            segmentList.add(segment3);
-            segmentList.add(segment4);
-            segmentList.add(segment5);
-
+            for (int i = 1; i <= 5; i++) {
+                Segment segment = new Segment(i, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+                segmentList.add(segment);
+            }
             segmentDAO.insertAllSegments(segmentList);
 
         } catch (SegmentException e) {
             e.printStackTrace();
         }
-        //Log.d("AQUII", segmentDAO.deleteAllSegments()+"");
-        assertTrue(segmentDAO.deleteAllSegments() == 5);
+
+        long deletedSegments = segmentDAO.deleteAllSegments();
+        List<Segment> segments = new ArrayList<>();
+
+        try {
+            segments = segmentDAO.getAllSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("PRIMEIRO ASSERT: ", "HUEUEHEUHEUEHUE");
+        assertTrue(deletedSegments == segmentList.size() && segments.isEmpty());
     }
 
     @Test

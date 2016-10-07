@@ -174,4 +174,13 @@ public class SegmentDAO extends DaoUtilities{
         }
         return segmentList;
     }
+
+    public boolean clearSegmentsTable(){
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getWritableDatabase();
+        sqliteDatabase.delete("["+tableName+"]", null, null);
+
+        boolean isEmpty = isDatabaseEmpty();
+
+        return isEmpty;
+    }
 }
