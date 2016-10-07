@@ -72,12 +72,6 @@ public class VotesDAOTest {
             e.printStackTrace();
         }
 
-        /*
-        * final Integer userId, final Integer contentType,
-                 final Integer objectId, final boolean vote
-        * */
-
-
         int countEqualsVotes = 0;
         for(int i = 0; i < votesList.size(); i++){
             Votes voteDB = votesList.get(i);
@@ -128,15 +122,36 @@ public class VotesDAOTest {
 
     @Test
     public void getVotesByIdOfSegmentTest(){
-        VotesDAO votesDAO = VotesDAO.getInstance(context);
-        List<Votes> votesList = null;
+        List<Votes> votes = new ArrayList<>();
 
         try {
-            votesList = votesDAO.getVotesByIdOfSegment(13172);
+            for(int i = 1; i <= 5; i++) {
+                Votes vote = new Votes(i, 2, 3, true);
+                votes.add(vote);
+            }
         } catch (VotesException e) {
             e.printStackTrace();
         }
 
-        assertTrue(votesList.size() == 0);
+        votesDAO.insertAllVotes(votes);
+
+        List<Votes> votesList = null;
+
+        try {
+            votesList = votesDAO.getVotesByIdOfSegment(3);
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("TO AQUI", "AQUIIIIIIIIIII");
+
+        int countEqualsVotes = 0;
+        for(int i = 0; i < votesList.size(); i++) {
+            if(votesList.get(i).equals(votes.get(i))){
+                countEqualsVotes++;
+            }
+        }
+
+        assertTrue(countEqualsVotes == votes.size());
     }
 }
