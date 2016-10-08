@@ -124,7 +124,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Propostas"
                 android:clickable="false"
-                android:id="@+id/textView"
+                android:id="@+id/textViewProposal"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:layout_alignParentTop="true"
@@ -136,8 +136,8 @@
                 android:id="@+id/imageViewProposal"
                 android:src="@drawable/chat"
                 android:clickable="false"
-                android:layout_alignBottom="@+id/textView"
-                android:layout_toStartOf="@+id/textView"
+                android:layout_alignBottom="@+id/textViewProposal"
+                android:layout_toStartOf="@+id/textViewProposal"
                 android:layout_marginEnd="30dp" />
         </RelativeLayout>
 
