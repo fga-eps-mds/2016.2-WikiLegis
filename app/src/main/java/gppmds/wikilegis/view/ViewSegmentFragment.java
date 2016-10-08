@@ -2,6 +2,7 @@ package gppmds.wikilegis.view;
 
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +28,7 @@ import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
@@ -105,5 +111,38 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         dialog.setContentView(R.layout.fragment_proposal);
         dialog.show();
 
+        Button saveProposalButton = (Button) dialog.findViewById(R.id.save);
+
+        saveProposalButton.setOnClickListener(new View.OnClickListener() {
+
+            String result = "FAIL";
+
+            @Override
+            public void onClick(View v) {
+                EditText proposalField = (EditText) dialog.findViewById(R.id.proposal);
+                String proposalTyped = proposalField.getText().toString();
+
+                SegmentController segmentController = SegmentController.getInstance(getContext());
+
+                try{
+                    result = segmentController.registerSegment(billId, 1, proposalTyped);
+                } catch(JSONException e){
+                    e.printStackTrace();
+                } catch(SegmentException e){
+                    e.printStackTrace();
+                }
+
+                if(result == "SUCCESS"){
+                    Toast.makeText(getContext(), "Obrigado pela sugestão!", Toast.LENGTH_SHORT)
+                            .show();
+                    dialog.dismiss();
+
+                } else{
+                    Toast.makeText(getContext(), "Desculpe, um problema ocorreu",
+                            Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            }
+        });
     }
 }

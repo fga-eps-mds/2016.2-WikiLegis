@@ -13,7 +13,9 @@ import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.User;
 
 public class SegmentController {
 
@@ -194,5 +196,25 @@ public class SegmentController {
                 }
             }
         return aux;
+    }
+
+    public String registerSegment(final int idBill,
+                                  final int replaced,
+                                  String content) throws JSONException,
+            SegmentException{
+
+        Segment segment = new Segment(idBill, replaced, content);
+
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put("billl", segment.getBill());
+        jsonParam.put("replaced", segment.getReplaced());
+        jsonParam.put("content", segment.getContent());
+
+        String url = "wikilegis-staging.labhackercd.net/api/segments/";
+
+        PostRequest postRequest = new PostRequest(context, jsonParam, url);
+        postRequest.execute();
+
+        return "SUCESS";
     }
 }

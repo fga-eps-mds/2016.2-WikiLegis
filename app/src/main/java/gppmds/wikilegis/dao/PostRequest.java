@@ -20,13 +20,14 @@ import java.net.URL;
 import gppmds.wikilegis.model.User;
 
 public class PostRequest extends AsyncTask<Void, Void, Integer>{
-    private final static String url = "http://wikilegis-staging.labhackercd.net/api/user/create/";
+    private String url = "";
     private Exception exception;
-    private User user;
     private Context context;
+    private JSONObject objectToBeSend;
 
-    public PostRequest(final User user, final Context context){
-        this.user = user;
+    public PostRequest(final Context context, JSONObject jsonObject, String url){
+        this.objectToBeSend = jsonObject;
+        this.url = url;
         this.context = context;
     }
 
@@ -45,10 +46,7 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
 
                 Log.d("Info", "Connenction body set");
 
-                JSONObject jsonParam;
-                jsonParam = setJSON();
-
-                httpResult = makeResult(urlConnection, jsonParam);
+                httpResult = makeResult(urlConnection, objectToBeSend);
                 Log.d("Info", "RESULT: " + httpResult);
             }
             catch (MalformedURLException e) {
@@ -56,9 +54,6 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
             }
             catch (IOException e) {
                 Log.d("Error", "Houve no post");
-            }
-            catch (JSONException e) {
-                Log.d("Error", "Informações com problema");
             }
             finally{
                 if (urlConnection != null)
@@ -91,15 +86,6 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
         urlConnection.setRequestMethod("POST");
         urlConnection.setRequestProperty("Content-Type", "application/json");
         return urlConnection;
-    }
-
-    private JSONObject setJSON() throws JSONException {
-        JSONObject jsonParam = new JSONObject();
-        jsonParam.put("email", user.getEmail());
-        jsonParam.put("first_name", user.getFirstName());
-        jsonParam.put("last_name", user.getLastName());
-        jsonParam.put("password", user.getPassword());
-        return jsonParam;
     }
 
     private int makeResult(HttpURLConnection urlConnection, JSONObject jsonParam) throws IOException {

@@ -2,6 +2,9 @@ package gppmds.wikilegis.controller;
 
 import android.content.Context;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
@@ -29,18 +32,22 @@ public class RegisterUserController {
                                final String lastName,
                                final String email,
                                final String password,
-                               final String passwordConfirmation) {
+                               final String passwordConfirmation) throws UserException, JSONException{
 
-        try {
 
             User user = new User(firstName, lastName, email, password, passwordConfirmation);
-            PostRequest postRequest = new PostRequest(user, context);
-            postRequest.execute();
-            return "SUCESS";
 
-        } catch (UserException e) {
-            String exceptionMessage = e.getMessage();
-            return exceptionMessage;
-        }
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("email", user.getEmail());
+            jsonParam.put("first_name", user.getFirstName());
+            jsonParam.put("last_name", user.getLastName());
+            jsonParam.put("password", user.getPassword());
+
+            String url = "http://wikilegis-staging.labhackercd.net/api/user/create/";
+
+            PostRequest postRequest = new PostRequest(context, jsonParam, url);
+            postRequest.execute();
+
+            return "SUCESS";
     }
 }
