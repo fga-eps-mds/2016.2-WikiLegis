@@ -70,25 +70,11 @@ public class SegmentDAO extends DaoUtilities{
 
         SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
-        ContentValues values = new ContentValues();
-
         SegmentController segmentController = SegmentController.getInstance(context);
 
         String contentWhitType = segmentController.addingTypeContent(segment);
 
-        values.put(tableColumns[0], segment.getId());
-        values.put(tableColumns[1], segment.getOrder());
-        values.put(tableColumns[2], segment.getBill());
-        values.put(tableColumns[3], segment.isOriginal());
-        values.put(tableColumns[4], segment.getReplaced());
-        values.put(tableColumns[5], segment.getParent());
-        values.put(tableColumns[6], segment.getType());
-        values.put(tableColumns[7], segment.getNumber());
-        values.put(tableColumns[8], contentWhitType);
-        values.put(tableColumns[9], "FirstName");
-        values.put(tableColumns[10], "SecondName");
-        values.put(tableColumns[11], 1);
-        values.put(tableColumns[12], segment.getDate());
+        ContentValues values = setContentValues(segment, contentWhitType);
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
@@ -128,18 +114,7 @@ public class SegmentDAO extends DaoUtilities{
 
         while (cursor.moveToNext()) {
 
-            segment = new Segment(
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
-                    Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[8])),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[12]))
-            );
+            segment = setSegmentById(cursor);
         }
         cursor.close();
 
@@ -158,20 +133,58 @@ public class SegmentDAO extends DaoUtilities{
 
         while (cursor.moveToNext()) {
 
-            Segment segment = new Segment(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
-                    Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
-                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[8])),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[12]))
-            );
-
+            Segment segment = setAllSegments(cursor);
             segmentList.add(segment);
         }
         return segmentList;
+    }
+
+    private static ContentValues setContentValues(final Segment segment, String contentWhitType){
+        ContentValues values = new ContentValues();
+        values.put(tableColumns[0], segment.getId());
+        values.put(tableColumns[1], segment.getOrder());
+        values.put(tableColumns[2], segment.getBill());
+        values.put(tableColumns[3], segment.isOriginal());
+        values.put(tableColumns[4], segment.getReplaced());
+        values.put(tableColumns[5], segment.getParent());
+        values.put(tableColumns[6], segment.getType());
+        values.put(tableColumns[7], segment.getNumber());
+        values.put(tableColumns[8], contentWhitType);
+        values.put(tableColumns[9], "FirstName");
+        values.put(tableColumns[10], "SecondName");
+        values.put(tableColumns[11], 1);
+        values.put(tableColumns[12], segment.getDate());
+        return values;
+    }
+
+    private static Segment setSegmentById(Cursor cursor) throws SegmentException {
+        Segment segment = new Segment(
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
+                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
+                cursor.getString(cursor.getColumnIndex(tableColumns[8])),
+                cursor.getString(cursor.getColumnIndex(tableColumns[12]))
+        );
+        return segment;
+    }
+
+    private static Segment setAllSegments(Cursor cursor) throws SegmentException {
+        Segment segment = new Segment(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
+                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))),
+                cursor.getString(cursor.getColumnIndex(tableColumns[8])),
+                cursor.getString(cursor.getColumnIndex(tableColumns[12]))
+        );
+        return segment;
     }
 }

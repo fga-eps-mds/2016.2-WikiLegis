@@ -36,40 +36,32 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
 
     protected Integer doInBackground(final Void... params) {
         int httpResult = 400;
+        HttpURLConnection urlConnection = null;
         try {
             String http = url;
+            urlConnection = setBody(http);
 
-            HttpURLConnection urlConnection = null;
-            try {
-                urlConnection = setBody(http);
+            Log.d("Info", "Connenction body set");
 
-                Log.d("Info", "Connenction body set");
+            JSONObject jsonParam;
+            jsonParam = setJSON();
 
-                JSONObject jsonParam;
-                jsonParam = setJSON();
-
-                httpResult = makeResult(urlConnection, jsonParam);
-                Log.d("Info", "RESULT: " + httpResult);
-            }
-            catch (MalformedURLException e) {
-                Log.d("Error", "URL com problema");
-            }
-            catch (IOException e) {
-                Log.d("Error", "Houve no post");
-            }
-            catch (JSONException e) {
-                Log.d("Error", "Informações com problema");
-            }
-            finally{
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-
-        }
-        catch (Exception e) {
+            httpResult = makeResult(urlConnection, jsonParam);
+            Log.d("Info", "RESULT: " + httpResult);
+        } catch (MalformedURLException e) {
+            Log.d("Error", "URL com problema");
+        } catch (IOException e) {
+            Log.d("Error", "Houve no post");
+        } catch (JSONException e) {
+            Log.d("Error", "Informações com problema");
+        } catch (Exception e) {
             Log.e("ERROR", e.getMessage(), e);
             return null;
+        } finally{
+            if (urlConnection != null)
+                urlConnection.disconnect();
         }
+
         return httpResult;
     }
 
