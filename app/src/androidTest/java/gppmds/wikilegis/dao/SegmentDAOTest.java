@@ -153,16 +153,24 @@ public class SegmentDAOTest {
     public void getSegmentByIdTest() throws SegmentException {
         boolean result = false;
         boolean isSegmentInserted = false;
-        List<Segment> segmentList = new ArrayList<>();
+
         Segment segment = null;
         Segment segment2Compare = null;
+
         try {
             segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
-            //segment2Compare = segmentDAO.getSegmentById(segment.getId());
-            segmentList.add(segment);
+
             isSegmentInserted = segmentDAO.insertSegment(segment);
 
-            if (segment.getId() == segment2Compare.getId()){
+            SegmentController segmentController = SegmentController.getInstance(context);
+
+            String contentWhitType = segmentController.addingTypeContent(segment);
+
+            segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, contentWhitType, "13/12/2006");
+
+            segment2Compare = segmentDAO.getSegmentById(segment.getId());
+
+            if (segment.equals(segment2Compare)){
                 result = true;
             } else {
                 result = false;
@@ -171,11 +179,6 @@ public class SegmentDAOTest {
             e.printStackTrace();
         }
 
-
-
-        Log.d("segmentID: ", "" + segment.getId());
-        Log.d("segment2CompareID: ", "" + segment2Compare.getId());
-        Log.d("ASSERTS: ", result + " " + isSegmentInserted);
         assertTrue(result && isSegmentInserted);
     }
 
