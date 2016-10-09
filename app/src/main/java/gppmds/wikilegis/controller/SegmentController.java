@@ -81,60 +81,128 @@ public class SegmentController {
     public static String convertRoman(Integer number) {
         String numberRoman = "";
 
-        while (number >= 1000) {
-            numberRoman += "M";
-            number -= 1000;
-        }
-        while (number >= 900) {
-            numberRoman += "CM";
-            number -= 900;
-        }
-        while (number >= 500) {
-            numberRoman += "D";
-            number -= 500;
-        }
-        while (number >= 400) {
-            numberRoman += "CD";
-            number -= 400;
-        }
-        while (number >= 100) {
-            numberRoman += "C";
-            number -= 100;
-        }
-        while (number >= 90) {
-            numberRoman += "XC";
-            number -= 90;
-        }
-        while (number >= 50) {
-            numberRoman += "L";
-            number -= 50;
-        }
-        while (number >= 40) {
-            numberRoman += "XL";
-            number -= 40;
-        }
-        while (number >= 10) {
-            numberRoman += "X";
-            number -= 10;
-        }
-        while (number >= 9) {
-            numberRoman += "IX";
-            number -= 9;
-        }
-        while (number >= 5) {
-            numberRoman += "V";
-            number -= 5;
-        }
-        while (number >= 4) {
-            numberRoman += "IV";
-            number -= 4;
-        }
+        numberRomanBiggerThan1000(number, numberRoman);
+
+        numberRomanBiggerThan900(number, numberRoman);
+
+        numberRomanBiggerThan500(number, numberRoman);
+
+        numberRomanBiggerThan400(number,numberRoman);
+
+        numberRomanBiggerThan100(number,numberRoman);
+
+        numberRomanBiggerThan90(number,numberRoman);
+
+        numberRomanBiggerThan50(number,numberRoman);
+
+        numberRomanBiggerThan40(number,numberRoman);
+
+        numberRomanBiggerThan10(number,numberRoman);
+
+        numberRomanBiggerThan9(number,numberRoman);
+
+        numberRomanBiggerThan5(number,numberRoman);
+
+        numberRomanBiggerThan4(number,numberRoman);
+
+        numberRomanBiggerThan1(number,numberRoman);
+
+
+        return numberRoman;
+    }
+
+    private static void numberRomanBiggerThan1(Integer number, String numberRoman) {
         while (number >= 1) {
             numberRoman += "I";
             number -= 1;
         }
+    }
 
-        return numberRoman;
+    private static void numberRomanBiggerThan4(Integer number, String numberRoman) {
+        while (number >= 4) {
+            numberRoman += "IV";
+            number -= 4;
+        }
+    }
+
+    private static void numberRomanBiggerThan5(Integer number, String numberRoman) {
+        while (number >= 5) {
+            numberRoman += "V";
+            number -= 5;
+        }
+    }
+
+    private static void numberRomanBiggerThan9(Integer number, String numberRoman) {
+        while (number >= 9) {
+            numberRoman += "IX";
+            number -= 9;
+        }
+    }
+
+    private static void numberRomanBiggerThan10(Integer number, String numberRoman) {
+        while (number >= 10) {
+            numberRoman += "X";
+            number -= 10;
+        }
+    }
+
+    private static void numberRomanBiggerThan40(Integer number, String numberRoman) {
+        while (number >= 40) {
+            numberRoman += "XL";
+            number -= 40;
+        }
+    }
+
+    private static void numberRomanBiggerThan50(Integer number, String numberRoman) {
+        while (number >= 50) {
+            numberRoman += "L";
+            number -= 50;
+        }
+    }
+
+    private static void numberRomanBiggerThan90(Integer number, String numberRoman) {
+        while (number >= 90) {
+            numberRoman += "XC";
+            number -= 90;
+        }
+    }
+
+    private static void numberRomanBiggerThan100(Integer number, String numberRoman) {
+        while (number >= 100) {
+            numberRoman += "C";
+            number -= 100;
+        }
+    }
+
+    private static void numberRomanBiggerThan400(Integer number, String numberRoman) {
+        while (number >= 400) {
+            numberRoman += "CD";
+            number -= 400;
+
+        }
+    }
+
+    private static void numberRomanBiggerThan500(Integer number, String numberRoman) {
+        while (number >= 500) {
+            numberRoman += "D";
+            number -= 500;
+
+        }
+    }
+
+    private static void numberRomanBiggerThan900(Integer number, String numberRoman) {
+        while (number >= 900) {
+            numberRoman += "CM";
+            number -= 900;
+
+        }
+    }
+
+    private static void numberRomanBiggerThan1000(Integer number, String numberRoman) {
+        while (number >= 1000) {
+            numberRoman += "M";
+            number -= 1000;
+        }
     }
 
     public boolean isSegmentDatabaseIsEmpty() {
