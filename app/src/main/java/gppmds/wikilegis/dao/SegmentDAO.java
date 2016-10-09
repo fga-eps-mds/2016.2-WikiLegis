@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -76,10 +77,12 @@ public class SegmentDAO extends DaoUtilities{
 
         String contentWhitType = segmentController.addingTypeContent(segment);
 
+        Log.d("segment.IsOriginal(): ", "" + segment.isOriginal());
+
         values.put(tableColumns[0], segment.getId());
         values.put(tableColumns[1], segment.getOrder());
         values.put(tableColumns[2], segment.getBill());
-        values.put(tableColumns[3], segment.isOriginal());
+        values.put(tableColumns[3], segment.booleanToInt(segment.isOriginal()));
         values.put(tableColumns[4], segment.getReplaced());
         values.put(tableColumns[5], segment.getParent());
         values.put(tableColumns[6], segment.getType());
@@ -91,7 +94,7 @@ public class SegmentDAO extends DaoUtilities{
         values.put(tableColumns[12], segment.getDate());
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
-
+        Log.d("booleanToInt(): ", ""+ segment.booleanToInt(segment.isOriginal()));
         return result;
     }
 
@@ -132,7 +135,7 @@ public class SegmentDAO extends DaoUtilities{
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
-                    Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
@@ -161,7 +164,7 @@ public class SegmentDAO extends DaoUtilities{
             Segment segment = new Segment(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
-                    Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
@@ -183,4 +186,6 @@ public class SegmentDAO extends DaoUtilities{
 
         return isEmpty;
     }
+
+
 }

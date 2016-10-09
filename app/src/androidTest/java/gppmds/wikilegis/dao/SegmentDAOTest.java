@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
@@ -79,17 +80,25 @@ public class SegmentDAOTest {
     }
 
     @Test
-    public void insertSegmentTest(){
+    public void insertSegmentTest() throws SegmentException {
         Segment segment = null;
+        SegmentController segmentController = SegmentController.getInstance(context);
 
         try {
             segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+
         } catch (SegmentException e) {
             e.printStackTrace();
         }
 
         boolean insertedSegment = segmentDAO.insertSegment(segment);
-
+        String contentWhitType = segmentController.addingTypeContent(segment);
+        Log.d("ContentWithType: ", "" + contentWhitType);
+        try {
+            segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, contentWhitType, "13/12/2006");
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
         List<Segment> segmentList = new ArrayList<>();
 
         try {
@@ -102,12 +111,14 @@ public class SegmentDAOTest {
 
         Log.d("HAHAHA", segmentList.size() + "");
 
+        Log.d("CONTENTS -> ", segment.getContent() + " = " + segmentList.get(0).getContent());
         for(int i = 0; i < segmentList.size(); i++) {
             Log.d("Originalkkk: ", segmentList.get(i).isOriginal() ? "1" : "0");
             if(segment.equals(segmentList.get(i))){
                 countEqualsSegments++;
             }
         }
+        Log.d("VALOR DO ORIGINAL: ", "" + segment.isOriginal());
 
         Log.d("AQUI", countEqualsSegments + "");
 
