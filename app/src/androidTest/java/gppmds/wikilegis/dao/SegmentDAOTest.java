@@ -1,6 +1,7 @@
 package gppmds.wikilegis.dao;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
@@ -57,7 +58,7 @@ public class SegmentDAOTest {
             e.printStackTrace();
         }
 
-        Log.d("PRIMEIRO ASSERT: ", "HUEUEHEUHEUEHUE");
+        //Log.d("PRIMEIRO ASSERT: ", "HUEUEHEUHEUEHUE");
         assertTrue(deletedSegments == segmentList.size() && segments.isEmpty());
     }
 
@@ -93,7 +94,7 @@ public class SegmentDAOTest {
 
         boolean insertedSegment = segmentDAO.insertSegment(segment);
         String contentWhitType = segmentController.addingTypeContent(segment);
-        Log.d("ContentWithType: ", "" + contentWhitType);
+        //Log.d("ContentWithType: ", "" + contentWhitType);
         try {
             segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, contentWhitType, "13/12/2006");
         } catch (SegmentException e) {
@@ -109,25 +110,25 @@ public class SegmentDAOTest {
 
         int countEqualsSegments = 0;
 
-        Log.d("HAHAHA", segmentList.size() + "");
+        //Log.d("HAHAHA", segmentList.size() + "");
 
-        Log.d("CONTENTS -> ", segment.getContent() + " = " + segmentList.get(0).getContent());
+        //Log.d("CONTENTS -> ", segment.getContent() + " = " + segmentList.get(0).getContent());
         for(int i = 0; i < segmentList.size(); i++) {
             Log.d("Originalkkk: ", segmentList.get(i).isOriginal() ? "1" : "0");
             if(segment.equals(segmentList.get(i))){
                 countEqualsSegments++;
             }
         }
-        Log.d("VALOR DO ORIGINAL: ", "" + segment.isOriginal());
+        //Log.d("VALOR DO ORIGINAL: ", "" + segment.isOriginal());
 
-        Log.d("AQUI", countEqualsSegments + "");
+        //Log.d("AQUI", countEqualsSegments + "");
 
         assertTrue(insertedSegment && countEqualsSegments == 1);
     }
 
     @Test
     public void insertAllSegmentsTest(){
-        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO = SegmentDAO.getInstance(context);
         List<Segment> segmentList = new ArrayList<>();
         try {
             Segment segment1 = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
@@ -149,17 +150,35 @@ public class SegmentDAOTest {
     }
 
     @Test
-    public void getSegmentByIdTest(){
-        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
-        Segment segment2 = null;
+    public void getSegmentByIdTest() throws SegmentException {
+        boolean result = false;
+        boolean isSegmentInserted = false;
+        List<Segment> segmentList = new ArrayList<>();
+        Segment segment = null;
+        Segment segment2Compare = null;
         try {
-            Segment segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
-            segment2 = segmentDAO.getSegmentById(1);
-        } catch (SegmentException e) {
+            segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, "blablabla", "13/12/2006");
+            //segment2Compare = segmentDAO.getSegmentById(segment.getId());
+            segmentList.add(segment);
+            isSegmentInserted = segmentDAO.insertSegment(segment);
+
+            if (segment.getId() == segment2Compare.getId()){
+                result = true;
+            } else {
+                result = false;
+            }
+        } catch (SegmentException e){
             e.printStackTrace();
         }
-        assertEquals(segment2.getDate(), "13/12/2006");
+
+
+
+        Log.d("segmentID: ", "" + segment.getId());
+        Log.d("segment2CompareID: ", "" + segment2Compare.getId());
+        Log.d("ASSERTS: ", result + " " + isSegmentInserted);
+        assertTrue(result && isSegmentInserted);
     }
+
 
     @Test
     public void getAllSegmentsTest(){
