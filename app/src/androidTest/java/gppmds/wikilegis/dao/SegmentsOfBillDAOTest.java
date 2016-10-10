@@ -9,8 +9,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentsOfBillException;
+import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
 
@@ -79,7 +81,59 @@ public class SegmentsOfBillDAOTest {
 
     @Test
     public void insertAllSegmentsOfBillsTest() {
+        List<Bill> billList = new ArrayList<>();
 
+        try {
+            for(int i = 1; i <= 5; i++) {
+                Bill bill = new Bill(i, "Teste", "teste", "closed", "description", "Meio Ambiente",
+                        666, 13);
+
+                billList.add(bill);
+            }
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        boolean result = false;
+
+        try {
+            result = segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        SegmentsOfBill segmentsOfBill = null;
+
+        List <SegmentsOfBill> segmentsOfBillsList = new ArrayList<>();
+        for(int i = 0; i < billList.size(); i++) {
+            for(int j=0; j<billList.get(i).getSegments().size(); j++) {
+                try {
+                    segmentsOfBill = new SegmentsOfBill(billList.get(i).getId(),
+                            billList.get(i).getSegments().get(j), j);
+
+                    segmentsOfBillsList.add(segmentsOfBill);
+                } catch (SegmentsOfBillException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        List<SegmentsOfBill> segmentsOfBillListDB = new ArrayList<>();
+
+        try {
+            segmentsOfBillListDB = segmentsOfBillDAO.getAllSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        int numberOfSegmentsOfBill = 0;
+        for(int i = 0; i < segmentsOfBillListDB.size(); i++){
+            if(segmentsOfBillsList.get(i).equals(segmentsOfBillListDB.get(i))){
+                numberOfSegmentsOfBill++;
+            }
+        }
+
+        assertTrue(result && numberOfSegmentsOfBill == segmentsOfBillsList.size());
     }
 
     @Test
