@@ -38,8 +38,8 @@ public class RegisterUserController {
 
             User user = new User(firstName, lastName, email, password, passwordConfirmation);
             JSONObject userJson = setJSON(user);
-            PostRequest postRequest = new PostRequest(context);
-            postRequest.execute(userJson.toString());
+            PostRequest postRequest = new PostRequest(context,"http://wikilegis-staging.labhackercd.net/api/user/create/");
+            postRequest.execute(userJson.toString(),"application/json");
             return "SUCESS";
 
         } catch (UserException e) {
