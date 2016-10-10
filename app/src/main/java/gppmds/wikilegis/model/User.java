@@ -50,6 +50,11 @@ public class User {
         setPassword(password, passwordConfimation);
     }
 
+    public User(final String email, final String password) throws UserException {
+        setEmail(email);
+        setPassword(password, password);
+    }
+
     public String getFirstName() {
         return firstName;
     }
