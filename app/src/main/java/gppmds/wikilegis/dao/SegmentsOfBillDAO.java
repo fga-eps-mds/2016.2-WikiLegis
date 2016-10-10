@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
     public boolean insertSegmentsOfBill(SegmentsOfBill segmentsOfBill) {
 
-        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
@@ -85,7 +86,9 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
         boolean result = true;
 
         for(int i = 0; i < billList.size(); i++) {
+            Log.d("PRIMEIRO FOR !!!!", "");
             for(int j=0; j<billList.get(i).getSegments().size(); j++) {
+                Log.d("ENTEI NO FOR??? ", "");
                 SegmentsOfBill segmentsOfBill = null;
                 try {
                     segmentsOfBill = new SegmentsOfBill(billList.get(i).getId(),
