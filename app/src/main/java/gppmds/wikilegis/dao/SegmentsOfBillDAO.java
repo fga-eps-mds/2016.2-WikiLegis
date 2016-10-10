@@ -59,7 +59,6 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
             }
 
         } else {
-
             isEmpty = true;
         }
 

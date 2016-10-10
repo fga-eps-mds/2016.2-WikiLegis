@@ -2,6 +2,7 @@ package gppmds.wikilegis.dao;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -138,6 +139,35 @@ public class SegmentsOfBillDAOTest {
 
     @Test
     public void deleteAllSegmentsOfBillTest() {
+
+        List<Bill> billList = new ArrayList<>();
+
+        try {
+            Bill bill = null;
+            for (int i = 1; i <= 5; i++) {
+                bill = new Bill (i, "Teste", "teste", "closed", "description", "Meio Ambiente",
+                        666, 13);
+                billList.add(bill);
+            }
+
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        boolean hasInserted = false;
+        try {
+            hasInserted = segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        long deletedSegments = segmentsOfBillDAO.deleteAllSegmentsOfBill();
+        //long deletedSegments = 5;
+        Log.d("deletedSegments = ", + deletedSegments + " billListSIZE = " + billList.size());
+        Log.d("HasInserted: ", ""+hasInserted);
+
+        boolean isDbEmpty = segmentsOfBillDAO.isDatabaseEmpty();
+        assertTrue(isDbEmpty && deletedSegments == billList.size());
 
     }
 
