@@ -170,4 +170,13 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
         return segmentsOfBillList;
     }
+
+    public boolean clearSegmentsOfBillDaoTable(){
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getWritableDatabase();
+        sqliteDatabase.delete("["+tableName+"]", null, null);
+
+        boolean isEmpty = isDatabaseEmpty();
+
+        return isEmpty;
+    }
 }

@@ -20,6 +20,12 @@ public class SegmentsOfBill {
         setPosition(position);
     }
 
+    public boolean equals (SegmentsOfBill segmentsOfBill){
+        return (this.idBill.equals(segmentsOfBill.getIdBill()) &&
+                this.idSegment.equals(segmentsOfBill.getIdSegment()) &&
+                this.position.equals(segmentsOfBill.getPosition()) );
+    }
+
     public Integer getIdBill() {
         return idBill;
     }
