@@ -33,8 +33,7 @@ public class LoginController {
 
     public String confirmLogin(final String email, final String password) {
         PostRequest postRequest = new PostRequest(context,"http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/");
-
-
+        
         Uri.Builder builder = new Uri.Builder();
         builder.appendQueryParameter("username", email);
         builder.appendQueryParameter("password", password);
@@ -42,6 +41,7 @@ public class LoginController {
 
         Log.v("TOKEN", authentication);
         String token = null;
+
         try {
             token = postRequest.execute(authentication,"application/x-www-form-urlencoded").get();
         } catch (InterruptedException e) {
@@ -49,14 +49,14 @@ public class LoginController {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        Log.v("Token", token);
         Log.v("Status",postRequest.getResponse()+"");
 
-        //Requisição retornar que existe o email e senha
-        if(false) {
+        //Reponse is 200 if authentication is correct.
+        if(postRequest.getResponse() == 200) {
+            Log.v("Token", token);
             return "SUCESS";
         }
-        //Requisição retornar que os dados não condizem
+        //Reponse is 400 if authentication is incorrect.
         else {
             return "FAIL";
         }
