@@ -1,7 +1,9 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -63,7 +65,7 @@ public class LoginController {
                 e.printStackTrace();
             }
 
-            setUserWithSharedPreferences(userInformation);
+            setUserAsSharedPreferences(userInformation);
 
             Log.v("Status", postRequest.getResponse() + "");
 
@@ -83,7 +85,7 @@ public class LoginController {
         }
     }
 
-    private void setUserWithSharedPreferences(String userInformation) {
+    private void setUserAsSharedPreferences(String userInformation) {
         JSONObject userJson = null;
         String token = null;
 
@@ -97,8 +99,40 @@ public class LoginController {
             String lastName = user.getString("last_name");
             String email = user.getString("email");
 
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            createLoginSession(email, token, firstName, lastName, session);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void createLoginSession(final String email,
+                                   final String token,
+                                   final String firstName,
+                                   final String lastName,
+                                   SharedPreferences session) {
+
+        // All Shared Preferences Keys
+        final String IS_LOGIN = "IsLoggedIn";
+        // User token
+        final String USER_TOKEN = "token";
+        // User first name
+        final String FIRST_NAME = "firstName";
+        // User first name
+        final String LAST_NAME = "lastName";
+        // Email address
+        final String KEY_EMAIL = "email";
+
+        SharedPreferences.Editor editor = session.edit();
+
+        editor.putBoolean(IS_LOGIN, true);
+        editor.putString(KEY_EMAIL, email);
+        editor.putString(USER_TOKEN, token);
+        editor.putString(FIRST_NAME, firstName);
+        editor.putString(LAST_NAME, lastName);
+        editor.commit();
     }
 }
