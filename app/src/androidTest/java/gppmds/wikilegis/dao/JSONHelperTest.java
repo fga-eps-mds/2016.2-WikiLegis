@@ -53,7 +53,82 @@ public class JSONHelperTest {
 
     @Test
     public void billListFromJSONTest() {
+        String billList = JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/");
+        List<Bill> billListApi = new ArrayList<>();
+        JSONObject bills = null;
 
+        try {
+            bills = new JSONObject(billList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONArray results = new JSONArray();
+        try {
+            results = bills.getJSONArray("results");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Integer numberOfProposals = 0;
+        Integer date = 0;
+        int id = 0;
+        boolean canGetId = false;
+        boolean canGetBill = false;
+        boolean canAssignSegment = false;
+        boolean canSetSegment = false;
+
+        List<Segment> aux = SegmentController.getAllSegments();
+        for (int index = 0; index < results.length(); index++){
+
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = results.getJSONObject(index);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                id = jsonObject.getInt("id");
+                canGetId = true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            numberOfProposals = BillController.countedTheNumberOfProposals(aux, id);
+
+            date= SegmentController.getMinDate(id);
+
+            Bill billAux = null;
+            try {
+                billAux = BillController.getBill(numberOfProposals, date, jsonObject);
+                canGetBill = true;
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JSONArray segments = null;
+            try {
+                segments = jsonObject.getJSONArray("segments");
+                canAssignSegment = true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            for (int j = 0; j < segments.length(); j++) {
+
+                try {
+                    billAux.setSegments(segments.getInt(j));
+                    canSetSegment = true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            billListApi.add(billAux);
+        }
+
+        assertTrue(canGetId && canAssignSegment && canGetBill && canSetSegment);
     }
 
     @Test
