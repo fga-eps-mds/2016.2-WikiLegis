@@ -36,58 +36,32 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
 
     protected Integer doInBackground(final Void... params) {
         int httpResult = 400;
+        HttpURLConnection urlConnection = null;
         try {
-
-            StringBuilder sb = new StringBuilder();
             String http = url;
+            urlConnection = setBody(http);
 
-            HttpURLConnection urlConnection = null;
-            try {
-                URL url = new URL(http);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setDoOutput(true);
-                urlConnection.setDoInput(true);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Content-Type", "application/json");
+            Log.d("Info", "Connenction body set");
 
-                Log.d("Info", "Connenction body set");
+            JSONObject jsonParam;
+            jsonParam = setJSON();
 
-                JSONObject jsonParam = new JSONObject();
-                jsonParam.put("email", user.getEmail());
-                jsonParam.put("first_name", user.getFirstName());
-                jsonParam.put("last_name", user.getLastName());
-                jsonParam.put("password", user.getPassword());
-
-                OutputStream out = urlConnection.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                writer.write(jsonParam.toString());
-                writer.flush();
-                writer.close();
-                urlConnection.connect();
-                Log.d("Info", "Connection sucess");
-
-                httpResult = urlConnection.getResponseCode();
-                Log.d("Info", "RESULT: " + httpResult);
-            }
-            catch (MalformedURLException e) {
-                Log.d("Error", "URL com problema");
-            }
-            catch (IOException e) {
-                Log.d("Error", "Houve no post");
-            }
-            catch (JSONException e) {
-                Log.d("Error", "Informações com problema");
-            }
-            finally{
-                if (urlConnection != null)
-                    urlConnection.disconnect();
-            }
-
-        }
-        catch (Exception e) {
+            httpResult = makeResult(urlConnection, jsonParam);
+            Log.d("Info", "RESULT: " + httpResult);
+        } catch (MalformedURLException e) {
+            Log.d("Error", "URL com problema");
+        } catch (IOException e) {
+            Log.d("Error", "Houve no post");
+        } catch (JSONException e) {
+            Log.d("Error", "Informações com problema");
+        } catch (Exception e) {
             Log.e("ERROR", e.getMessage(), e);
             return null;
+        } finally{
+            if (urlConnection != null)
+                urlConnection.disconnect();
         }
+
         return httpResult;
     }
 
@@ -98,5 +72,36 @@ public class PostRequest extends AsyncTask<Void, Void, Integer>{
             Toast.makeText(context, "Email já cadastrado!", Toast.LENGTH_SHORT).show();
         }
         Log.i("INFO", ""+ response);
+    }
+
+    private HttpURLConnection setBody(String http) throws IOException {
+        URL url = new URL(http);
+        HttpURLConnection urlConnection;
+        urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setDoOutput(true);
+        urlConnection.setDoInput(true);
+        urlConnection.setRequestMethod("POST");
+        urlConnection.setRequestProperty("Content-Type", "application/json");
+        return urlConnection;
+    }
+
+    private JSONObject setJSON() throws JSONException {
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put("email", user.getEmail());
+        jsonParam.put("first_name", user.getFirstName());
+        jsonParam.put("last_name", user.getLastName());
+        jsonParam.put("password", user.getPassword());
+        return jsonParam;
+    }
+
+    private int makeResult(HttpURLConnection urlConnection, JSONObject jsonParam) throws IOException {
+        OutputStream out = urlConnection.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+        writer.write(jsonParam.toString());
+        writer.flush();
+        writer.close();
+        urlConnection.connect();
+        Log.d("Info", "Connection sucess");
+        return urlConnection.getResponseCode();
     }
 }
