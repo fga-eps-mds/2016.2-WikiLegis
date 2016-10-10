@@ -280,8 +280,9 @@ public class SegmentController {
 
         String url = "wikilegis-staging.labhackercd.net/api/segments/";
 
-        PostRequest postRequest = new PostRequest(context, jsonParam, url);
-        postRequest.execute();
+        PostRequest postRequest = new PostRequest(context,
+                "http://wikilegis-staging.labhackercd.net/api/user/create/");
+        postRequest.execute(jsonParam.toString(),"application/json");
 
         return "SUCESS";
     }
