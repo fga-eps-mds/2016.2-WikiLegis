@@ -18,25 +18,16 @@ public class GetRequest extends AsyncTask<String, String, String> {
         String text = "";
 
         URL url = null;
-
-        try {
-            url = new URL(params[0]);
-        } catch (MalformedURLException e) {
-            Log.e(params[0]," MALFORMED URL");
-        }
-
         HttpURLConnection urlConnection = null;
         try {
+            url = new URL(params[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            Log.e("Connection failed",",Internet may be off");
-        }
-
-        try{
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             text = RequestTools.readStream(in);
-        } catch (IOException e) {
-            Log.e("Connection faild",", Try later");
+        } catch (MalformedURLException MalformedURL) {
+            Log.e(params[0]," MALFORMED URL");
+        } catch (IOException InOutException) {
+            Log.e("Connection failed",",Internet may be off");
         } finally {
             urlConnection.disconnect();
         }
@@ -47,9 +38,6 @@ public class GetRequest extends AsyncTask<String, String, String> {
     @Override
     public void onPostExecute(String result) {
         super.onPostExecute(result);
-        //Here you can use the data according to what you want
-        //Log.d("RESPONSE ------ :", result);
-
     }
 
 }
