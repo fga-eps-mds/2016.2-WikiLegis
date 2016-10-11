@@ -38,40 +38,15 @@ public class JSONHelper {
         return getApi;
     }
 
-    public static List<Bill> billListFromJSON(final String billList,
-                                              final List<Segment> aux) throws JSONException,
-                                               BillException, SegmentException {
-        int id;
+    public static List<Bill> billListFromJSON(final String billList, final List<Segment> aux)
+            throws JSONException, BillException, SegmentException {
 
         List<Bill> billListApi = new ArrayList<>();
 
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
 
-        Integer numberOfProposals, date;
-
-
-
-        for (int index = 0; index < results.length(); index++){
-
-            JSONObject jsonObject = results.getJSONObject(index);
-
-            id = jsonObject.getInt("id");
-
-            numberOfProposals = BillController.countedTheNumberOfProposals(aux, id);
-
-            date= SegmentController.getMinDate(id);
-
-            Bill billAux = BillController.getBill(numberOfProposals, date, jsonObject);
-
-            JSONArray segments = jsonObject.getJSONArray("segments");
-
-            for (int j = 0; j < segments.length(); j++) {
-
-                billAux.setSegments(segments.getInt(j));
-            }
-            billListApi.add(billAux);
-        }
+        populateListBill(results, aux, billListApi);
 
         return billListApi;
     }
@@ -87,16 +62,8 @@ public class JSONHelper {
             JSONObject votes = new JSONObject(votesList);
             JSONArray results = votes.getJSONArray("results");
 
-            for (int i = 0; i < results.length(); i++) {
-                JSONObject jsonObject = results.getJSONObject(i);
+            populateListVotes(results, votesListApi );
 
-                Votes voteAux = new Votes(jsonObject.getInt("user"),
-                        jsonObject.getInt("content_type"),
-                        jsonObject.getInt("object_id"),
-                        jsonObject.getString("vote").equals("false") ? false : true);
-
-                votesListApi.add(voteAux);
-            }
             String nextUrl = votes.getString("next");
             url = updateDomain(nextUrl);
 
@@ -105,15 +72,21 @@ public class JSONHelper {
         return votesListApi;
     }
 
+    public static void populateListVotes(JSONArray results, List<Votes> votesListApi)
+            throws JSONException, VotesException {
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject jsonObject = results.getJSONObject(i);
+
+            votesListApi.add(setVotesAttributes(jsonObject));
+        }
+    }
 
     public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
-
         String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/";
 
         List<Segment> segmentListApi = new ArrayList<>();
 
         do {
-
             String segmentList = getJSONObjectApi(url);
 
             JSONObject segment = new JSONObject(segmentList);
@@ -122,18 +95,7 @@ public class JSONHelper {
             for (int i = 0; i < results.length(); i++) {
                 JSONObject jsonObject = results.getJSONObject(i);
 
-                    Segment segmentAux = new Segment(jsonObject.getInt("id"),
-                            jsonObject.getInt("order"),
-                            jsonObject.getInt("bill"),
-                            jsonObject.getBoolean("original"),
-                            jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
-                            jsonObject.getInt("id"),
-                            jsonObject.getInt("type"),
-                            jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
-                            jsonObject.getString("content"),
-                            jsonObject.getString("created"));
-
-                segmentListApi.add(segmentAux);
+                segmentListApi.add(setSegmentAttributes(jsonObject));
             }
             String nextUrl = segment.getString("next");
             url = updateDomain(nextUrl);
@@ -144,8 +106,6 @@ public class JSONHelper {
     }
 
     public static String updateDomain(final String nextUrl){
-
-
         if (nextUrl.equals("null"))
             return "null";
         String correctAdress = nextUrl.substring(22);
@@ -153,4 +113,47 @@ public class JSONHelper {
         Log.d("Aqui", correctDomain);
         return correctDomain;
     };
+
+    private static Votes setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
+        Votes voteAux = new Votes(jsonObject.getInt("user"),
+                jsonObject.getInt("content_type"),
+                jsonObject.getInt("object_id"),
+                jsonObject.getString("vote").equals("false") ? false : true);
+        return voteAux;
+    }
+
+    private static Segment setSegmentAttributes(JSONObject jsonObject) throws JSONException, SegmentException {
+        Segment segmentAux = new Segment(jsonObject.getInt("id"),
+                jsonObject.getInt("order"),
+                jsonObject.getInt("bill"),
+                jsonObject.getBoolean("original"),
+                jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
+                jsonObject.getInt("id"),
+                jsonObject.getInt("type"),
+                jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
+                jsonObject.getString("content"),
+                jsonObject.getString("created"));
+        return segmentAux;
+    }
+
+    private static void populateListBill(JSONArray results, List<Segment> aux, List<Bill> billListApi)
+            throws JSONException, BillException {
+        int id;
+        Integer numberOfProposals;
+        Integer date;
+
+        for (int index = 0; index < results.length(); index++){
+            JSONObject jsonObject = results.getJSONObject(index);
+            id = jsonObject.getInt("id");
+            numberOfProposals = BillController.countedTheNumberOfProposals(aux, id);
+            date= SegmentController.getMinDate(id);
+            Bill billAux = BillController.getBill(numberOfProposals, date, jsonObject);
+            JSONArray segments = jsonObject.getJSONArray("segments");
+
+            for (int j = 0; j < segments.length(); j++) {
+                billAux.setSegments(segments.getInt(j));
+            }
+            billListApi.add(billAux);
+        }
+    }
 }
