@@ -4,12 +4,15 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.SegmentsOfBillController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentsOfBillException;
@@ -41,7 +44,7 @@ public class SegmentsOfBillDAOTest {
         // idDoBill, idDoSegment, posicao
         SegmentsOfBill segmentsOfBill = null;
         try {
-            segmentsOfBill = new SegmentsOfBill(1,1,1);
+            segmentsOfBill = new SegmentsOfBill(1,1);
         } catch (SegmentsOfBillException e) {
             e.printStackTrace();
         }
@@ -56,11 +59,12 @@ public class SegmentsOfBillDAOTest {
         boolean result = false;
 
         try {
-            segmentsOfBill = new SegmentsOfBill(1,1,1);
+            segmentsOfBill = new SegmentsOfBill(1,1);
             result = segmentsOfBillDAO.insertSegmentsOfBill(segmentsOfBill);
         } catch (SegmentsOfBillException e) {
             e.printStackTrace();
         }
+
         int numberOfSegmentsOfBill = 0;
         List<SegmentsOfBill> segmentOfBillList = new ArrayList<>();
         try {
@@ -89,37 +93,31 @@ public class SegmentsOfBillDAOTest {
                 Bill bill = new Bill(i, "Teste", "teste", "closed", "description", "Meio Ambiente",
                         666, 13);
 
+                //Para cada bill, vão ser inseridos segmentos com id de [1 a 5], [6 a 10] e assim
+                // sucessivamente
+                for(int j = 5 * (i-1) + 1; j <= 5 * (i-1) + 5; j++) {
+                    bill.setSegments(j);
+                }
+
                 billList.add(bill);
             }
         } catch (BillException e) {
             e.printStackTrace();
         }
 
-        boolean result = false;
+        BillController billController = BillController.getInstance(context);
+        SegmentsOfBillController segmentsOfBillController =
+                SegmentsOfBillController.getInstance(context);
 
         try {
-            result = segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
+            billController.initControllerBills();
+            segmentsOfBillController.initControllerSegmentsOfBill();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         } catch (SegmentException e) {
             e.printStackTrace();
-        }
-       // assertFalse(segmentsOfBillDAO.isDatabaseEmpty());
-        SegmentsOfBill segmentsOfBill = null;
-
-        List <SegmentsOfBill> segmentsOfBillsList = new ArrayList<>();
-        Log.d("LOG FUNCIONA: ", "SQN");
-        for(int i = 0; i < billList.size(); i++) {
-            Log.d("PRIMEIRO FOR", "BLAH BLAH");
-            for(int j=0; j<billList.get(i).getSegments().size(); j++) {
-                Log.d("SEGUNDO FOR - ENTREEEI ", "  sadsad");
-                try {
-                    segmentsOfBill = new SegmentsOfBill(billList.get(i).getId(),
-                            billList.get(i).getSegments().get(j), j);
-
-                    segmentsOfBillsList.add(segmentsOfBill);
-                } catch (SegmentsOfBillException e) {
-                    e.printStackTrace();
-                }
-            }
         }
 
         List<SegmentsOfBill> segmentsOfBillListDB = new ArrayList<>();
@@ -130,12 +128,54 @@ public class SegmentsOfBillDAOTest {
             e.printStackTrace();
         }
 
-        int numberOfSegmentsOfBill = 0;
-        for(int i = 0; i < segmentsOfBillListDB.size(); i++){
-            if(segmentsOfBillsList.get(i).equals(segmentsOfBillListDB.get(i))){
-                numberOfSegmentsOfBill++;
+        Log.d("AUX antes", segmentsOfBillListDB.size() + "");
+
+
+        boolean result = false;
+
+        try {
+            result = segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+
+        SegmentsOfBill segmentsOfBill = null;
+
+        List <SegmentsOfBill> segmentsOfBillsList = new ArrayList<>();
+        for(int i = 0; i < billList.size(); i++) {
+            for(int j = 0; j < billList.get(i).getSegments().size(); j++) {
+                try {
+                    segmentsOfBill = new SegmentsOfBill(billList.get(i).getId(),
+                            billList.get(i).getSegments().get(j));
+
+                    segmentsOfBillsList.add(segmentsOfBill);
+                } catch (SegmentsOfBillException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
+        try {
+            segmentsOfBillListDB = segmentsOfBillDAO.getAllSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("AUX depois", segmentsOfBillListDB.size() + "");
+
+        int numberOfSegmentsOfBill = 0;
+        for(int i = 0; i < segmentsOfBillListDB.size(); i++) {
+            for(int j = 0; j < segmentsOfBillsList.size(); j++) {
+                if(segmentsOfBillListDB.get(i).equals(segmentsOfBillsList.get(j))) {
+                    numberOfSegmentsOfBill++;
+                }
+            }
+        }
+
+        Log.d("Result: ", result + "");
+        Log.d("N segments of bill: ", numberOfSegmentsOfBill + "");
+        Log.d("size()", segmentsOfBillsList.size() + "");
 
         assertTrue(result && numberOfSegmentsOfBill == segmentsOfBillsList.size());
     }
@@ -143,13 +183,23 @@ public class SegmentsOfBillDAOTest {
     @Test
     public void deleteAllSegmentsOfBillTest() {
 
-        /*List<Bill> billList = new ArrayList<>();
+        List<Bill> billList = new ArrayList<>();
+
+        int numberOfSegmentsAdded = 0;
 
         try {
             Bill bill = null;
             for (int i = 1; i <= 5; i++) {
                 bill = new Bill (i, "Teste", "teste", "closed", "description", "Meio Ambiente",
                         666, 13);
+
+                //Para cada bill, vão ser inseridos segmentos com id de [1 a 5], [6 a 10] e assim
+                // sucessivamente
+                for(int j = 5 * (i-1) + 1; j <= 5 * (i-1) + 5; j++) {
+                    bill.setSegments(j);
+                    numberOfSegmentsAdded++;
+                }
+
                 billList.add(bill);
             }
 
@@ -165,13 +215,11 @@ public class SegmentsOfBillDAOTest {
         }
 
         long deletedSegments = segmentsOfBillDAO.deleteAllSegmentsOfBill();
-        //long deletedSegments = 5;
         Log.d("deletedSegments = ", + deletedSegments + " billListSIZE = " + billList.size());
         Log.d("HasInserted: ", ""+hasInserted);
 
-        boolean isDbEmpty = segmentsOfBillDAO.isDatabaseEmpty();
-        assertTrue(isDbEmpty && deletedSegments == billList.size());*/
-
+        final boolean isDbEmpty = segmentsOfBillDAO.isDatabaseEmpty();
+        assertTrue(isDbEmpty && deletedSegments == numberOfSegmentsAdded);
     }
 
     @Test

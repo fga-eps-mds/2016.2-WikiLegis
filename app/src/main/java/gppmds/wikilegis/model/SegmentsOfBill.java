@@ -6,24 +6,19 @@ public class SegmentsOfBill {
 
     private static final String IDBILL_CANT_BE_NULL = "idBill não pode ser carregado";
     private static final String IDSEGMENT_CANT_BE_NULL = "idBill não pode ser carregado";
-    private static final String POSITION_CANT_BE_NULL = "idBill não pode ser carregado";
-
 
     private Integer idSegment;
     private Integer idBill;
-    private Integer position;
 
-    public SegmentsOfBill(final Integer idBill, final Integer idSegment,
-                          final Integer position) throws SegmentsOfBillException {
+    public SegmentsOfBill(final Integer idBill, final Integer idSegment)
+            throws SegmentsOfBillException {
         setIdBill(idBill);
         setIdSegment(idSegment);
-        setPosition(position);
     }
 
     public boolean equals (SegmentsOfBill segmentsOfBill){
         return (this.idBill.equals(segmentsOfBill.getIdBill()) &&
-                this.idSegment.equals(segmentsOfBill.getIdSegment()) &&
-                this.position.equals(segmentsOfBill.getPosition()) );
+                this.idSegment.equals(segmentsOfBill.getIdSegment()) );
     }
 
     public Integer getIdBill() {
@@ -49,19 +44,6 @@ public class SegmentsOfBill {
             this.idSegment = idSegment;
         } else {
             throw new SegmentsOfBillException(IDSEGMENT_CANT_BE_NULL);
-        }
-    }
-
-    public Integer getPosition() {
-        return position;
-    }
-
-    private void setPosition(final Integer position) throws SegmentsOfBillException {
-
-        if (validateIntegerNull(position)) {
-            this.position = position;
-        } else {
-                throw new SegmentsOfBillException(POSITION_CANT_BE_NULL);
         }
     }
 
