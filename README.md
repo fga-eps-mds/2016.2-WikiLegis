@@ -13,3 +13,16 @@ Para instalar o ambiente de desenvolvimento, <a href="https://github.com/TiagoAs
     git clone https://github.com/TiagoAssuncao/chef-android-linux
     cd chef-android-linux
     sh install-components.sh
+
+## Issues
+
+As issues deste repositório são criadas com base nas seguintes necessidades:
+
+* Histórias de Usuário (são pontuadas pela equipe)
+* Histórias Técnicas (são pontuadas pela equipe)
+* Tarefas a serem realizadas (sem necessidade de pontuação)
+
+### Labels
+
+As labels atribuídas às issues são:
+
