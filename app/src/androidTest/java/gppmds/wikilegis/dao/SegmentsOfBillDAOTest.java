@@ -222,13 +222,47 @@ public class SegmentsOfBillDAOTest {
         assertTrue(isDbEmpty && deletedSegments == numberOfSegmentsAdded);
     }
 
+
     @Test
     public void getAllSegmentsTest() {
+        List<SegmentsOfBill> segmentsOfBillList= new ArrayList<>();
+        try {
+            for(int i = 1; i <= 5; i++) {
+                SegmentsOfBill segmentsOfBill1 = new SegmentsOfBill(1, i);
+                segmentsOfBillList.add(segmentsOfBill1);
+            }
+        } catch (SegmentsOfBillException e) {
+            e.printStackTrace();
+        }
 
+        boolean result = true;
+        for(int i = 0; i < segmentsOfBillList.size(); i++){
+            result &= segmentsOfBillDAO.insertSegmentsOfBill(segmentsOfBillList.get(i));
+        }
+
+        List<SegmentsOfBill> segmentsOfBillListDAO = null;
+        try {
+            segmentsOfBillListDAO = segmentsOfBillDAO.getAllSegments();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("SegmentsDAOSize: ", segmentsOfBillListDAO.size() + "");
+
+        int numberOfEqualsSegments = 0;
+        for(int i = 0; i < segmentsOfBillList.size(); i++) {
+            for(int j = 0; j < segmentsOfBillListDAO.size(); j++) {
+                if(segmentsOfBillList.get(i).equals(segmentsOfBillListDAO.get(j))){
+                    numberOfEqualsSegments++;
+                }
+            }
+        }
+
+        Log.d("Result: ", result + "");
+        Log.d("NumberEqualsSegm.: ", numberOfEqualsSegments + "");
+        Log.d("SegmentsOfBillSize: ", segmentsOfBillList.size() + "");
+
+        assertTrue(result && numberOfEqualsSegments == segmentsOfBillList.size());
     }
 
-    @Test
-    public void getAllSegmentsOfBillTest() {
-
-    }
 }
