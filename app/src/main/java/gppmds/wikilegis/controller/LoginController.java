@@ -59,9 +59,15 @@ public class LoginController {
             try {
                 userInformation = postRequest.execute(authentication,
                         "application/x-www-form-urlencoded").get();
+                if(userInformation!=null)
+                    Log.i("UserInformation", userInformation);
+                else
+                    Log.i("Info", "UserInformation is null");
             } catch (InterruptedException e) {
+                Log.e("Error", "InterruptException");
                 e.printStackTrace();
             } catch (ExecutionException e) {
+                Log.e("Error", "ExecutionException");
                 e.printStackTrace();
             }
 
@@ -86,25 +92,33 @@ public class LoginController {
     }
 
     private void setUserAsSharedPreferences(String userInformation) {
+
         JSONObject userJson = null;
         String token = null;
 
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
         try {
-            userJson = new JSONObject(userInformation);
-            token = userJson.getString("token");
+            if (userInformation != null) {
+                userJson=new JSONObject(userInformation);
+                token=userJson.getString("token");
 
-            JSONObject user = userJson.getJSONObject("user");
+                JSONObject user=userJson.getJSONObject("user");
 
-            String firstName = user.getString("first_name");
-            String lastName = user.getString("last_name");
-            String email = user.getString("email");
+                String firstName=user.getString("first_name");
+                String lastName=user.getString("last_name");
+                String email=user.getString("email");
 
-            SharedPreferences session = PreferenceManager.
-                    getDefaultSharedPreferences(context);
+                createLoginSession(email, token, firstName, lastName, session);
+            } else {
+                Log.i("Info", "UserInformation is not valid");
 
-            createLoginSession(email, token, firstName, lastName, session);
+                createSessionIsNotLogged(session);
+            }
 
         } catch (JSONException e) {
+            Log.e("Error", "JSONException");
             e.printStackTrace();
         }
     }
@@ -133,6 +147,16 @@ public class LoginController {
         editor.putString(USER_TOKEN, token);
         editor.putString(FIRST_NAME, firstName);
         editor.putString(LAST_NAME, lastName);
+        editor.commit();
+    }
+
+    public void createSessionIsNotLogged(SharedPreferences session) {
+        // All Shared Preferences Keys
+        final String IS_LOGIN = "IsLoggedIn";
+
+        SharedPreferences.Editor editor = session.edit();
+
+        editor.putBoolean(IS_LOGIN, false);
         editor.commit();
     }
 }
