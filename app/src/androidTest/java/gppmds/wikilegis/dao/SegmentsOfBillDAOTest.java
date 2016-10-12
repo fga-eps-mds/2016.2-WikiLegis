@@ -265,4 +265,35 @@ public class SegmentsOfBillDAOTest {
         assertTrue(result && numberOfEqualsSegments == segmentsOfBillList.size());
     }
 
+    @Test
+    public void getAllSegmentsOfBillTest() {
+        List<SegmentsOfBill> segmentsOfBillList= new ArrayList<>();
+        try {
+            for(int i = 1; i <= 5; i++) {
+                SegmentsOfBill segmentsOfBill1 = new SegmentsOfBill(1, i);
+                segmentsOfBillList.add(segmentsOfBill1);
+            }
+        } catch (SegmentsOfBillException e) {
+            e.printStackTrace();
+        }
+
+        boolean result = true;
+        for(int i = 0; i < segmentsOfBillList.size(); i++){
+            result &= segmentsOfBillDAO.insertSegmentsOfBill(segmentsOfBillList.get(i));
+        }
+
+        List<SegmentsOfBill> segmentsOfBillListDAO = segmentsOfBillDAO.getAllSegmentsOfBill(1);
+
+        int numberOfEqualsSegments = 0;
+        for(int i = 0 ; i < segmentsOfBillList.size(); i++) {
+            for(int j = 0; j < segmentsOfBillListDAO.size(); j++){
+                if(segmentsOfBillList.get(i).equals(segmentsOfBillListDAO.get(j))){
+                    numberOfEqualsSegments++;
+                }
+            }
+        }
+
+        assertTrue(result && numberOfEqualsSegments == segmentsOfBillList.size());
+    }
+
 }
