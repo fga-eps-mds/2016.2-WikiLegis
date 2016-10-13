@@ -2,7 +2,9 @@ package gppmds.wikilegis.view;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +64,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         // Create new fragment and transaction
         switch (view.getId()) {
             case R.id.loginAsVisitorText:
-                //Change activity***
+                //Change activity
+                LoginController loginController = LoginController.getInstance(getContext());
+                SharedPreferences session = PreferenceManager.
+                        getDefaultSharedPreferences(getContext());
+                loginController.createSessionIsNotLogged(session);
+
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
                 break;
