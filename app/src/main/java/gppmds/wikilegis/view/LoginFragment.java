@@ -18,6 +18,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView visitor;
     private TextView register;
     private Button button;
+    private TextView about;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -40,12 +41,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         this.visitor = (TextView) view.findViewById(R.id.loginAsVisitorText);
         this.register = (TextView) view.findViewById(R.id.registerText);
         this.button = (Button) view.findViewById(R.id.loginButton);
+        this.about = (TextView) view.findViewById(R.id.aboutApp);
     }
 
     private void settingClickLitenersView() {
         visitor.setOnClickListener(this);
         register.setOnClickListener(this);
         button.setOnClickListener(this);
+        about.setOnClickListener(this);
     }
 
     @Override
@@ -66,6 +69,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 Intent intent1 = new Intent(getContext(), MainActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.aboutApp :
+                Fragment aboutFragment = new AboutFragment();
+                openFragment(aboutFragment);
                 break;
             default:
                 //nothing to do
