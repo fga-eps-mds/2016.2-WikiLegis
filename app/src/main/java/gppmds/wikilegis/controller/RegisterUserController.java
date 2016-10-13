@@ -1,9 +1,12 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.exception.UserException;
@@ -39,8 +42,19 @@ public class RegisterUserController {
             User user = new User(firstName, lastName, email, password, passwordConfirmation);
             JSONObject userJson = setJSON(user);
             PostRequest postRequest = new PostRequest(context,"http://wikilegis-staging.labhackercd.net/api/user/create/");
-            postRequest.execute(userJson.toString(),"application/json");
-            return "SUCESS";
+
+            try {
+                String responseInformation = postRequest.execute(userJson.toString(),
+                        "application/json").get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+            Log.d("Response", postRequest.getResponse() + "");
+
+            return String.valueOf(postRequest.getResponse());
 
         } catch (UserException e) {
             String exceptionMessage = e.getMessage();
