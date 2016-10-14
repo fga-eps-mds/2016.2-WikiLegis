@@ -44,4 +44,5 @@ captures/
 
 # Logs from metrics shell
 metrics/logs/
+*.sh.swp
 

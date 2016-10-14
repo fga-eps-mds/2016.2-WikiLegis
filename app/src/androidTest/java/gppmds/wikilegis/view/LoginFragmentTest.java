@@ -167,4 +167,9 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
 
         onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
     }
+
+    public void testAboutTextIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.aboutApp)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
+    }
 }
