@@ -90,4 +90,9 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         onView(withId(R.id.loginAsVisitorText)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.textViewRelevantes)).check(matches(isDisplayed()));
     }
+
+    public void testAboutTextIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.aboutApp)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
+    }
 }

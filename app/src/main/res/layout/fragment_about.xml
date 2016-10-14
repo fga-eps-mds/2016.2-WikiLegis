@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="200px"
         android:layout_height="200px"
-        android:id="@+id/imageView2"
+        android:id="@+id/imageViewLogoAbout"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/logo_white"
         android:layout_marginTop="39dp" />
@@ -19,6 +19,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/aboutText"
         android:text="@string/about_app"
         android:layout_marginTop="40dp"
         android:layout_marginRight="25dp"
