@@ -3,6 +3,7 @@ package gppmds.wikilegis.view;
 import android.app.Activity;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 import android.view.WindowManager;
 
 import org.junit.Before;
@@ -15,11 +16,14 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasImeAction;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
@@ -109,5 +113,58 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.emailLoginField)).perform(ViewActions.scrollTo()).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
+    }
+
+    public void testEmptyPasswordMessageIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.passwordLoginField)).perform(ViewActions.scrollTo()).check(matches(hasErrorText("Inválido, a senha não "
+                + "pode ser vazia.")));
+    }
+
+    public void testErrorWithLesserMinLengthPasswordMessageIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("12345"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.passwordLoginField)).perform(ViewActions.scrollTo()).check(matches(hasErrorText("Inválido, a senha"
+                + " deve conter no mínimo 6 caractéres.")));
+    }
+
+    public void testErrorWithOverMaxLengthPasswordMessageIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("12345678910"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions    .scrollTo()).perform(click());
+        onView(withId(R.id.passwordLoginField)).perform(ViewActions.scrollTo()).check(matches(hasErrorText("Inválido, a senha"
+                + " deve ter no máximo 10 caractéres")));
+    }
+
+    public void testInvalidInputToastIsDisplayed() {
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("abcdefg"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+
+        onView(withText("Usuário ou senha inválidos!")).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+    }
+
+    public void testValidInput() {
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("12345678"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+
+        onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
     }
 }
