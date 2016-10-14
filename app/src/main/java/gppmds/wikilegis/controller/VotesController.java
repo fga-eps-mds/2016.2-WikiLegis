@@ -73,4 +73,8 @@ public class VotesController {
             votesList = votesDAO.getAllVotes();
         }
     }
+
+    public void postVote(boolean vote) {
+
+    }
 }

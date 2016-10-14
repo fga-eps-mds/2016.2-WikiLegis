@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private TextView dislikes;
     private TextView segmentText;
     private TextView billText;
+    private ImageView likesIcon;
+    private ImageView dislikesIcon;
     private List<Segment> segmentList;
     private SegmentController segmentController;
     private List<Segment> segmentListAux= new ArrayList<>();
@@ -86,8 +89,16 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         likes = (TextView) view.findViewById(R.id.textViewNumberLike);
         dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
         proposalButon = (Button)view.findViewById(R.id.buttonGreen);
+        likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
+        dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
+
         proposalButon.setOnClickListener(this);
 
+        likes.setOnClickListener(this);
+        likesIcon.setOnClickListener(this);
+
+        dislikes.setOnClickListener(this);
+        dislikesIcon.setOnClickListener(this);
     }
 
     private void settingText() {
@@ -107,42 +118,53 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.fragment_proposal);
-        dialog.show();
+        final int idView = view.getId();
 
-        Button saveProposalButton = (Button) dialog.findViewById(R.id.save);
+        if(idView == R.id.imageViewLike || idView == R.id.textViewNumberLike) {
+            //likesIcon.setImageResource(R.drawable.dislike);
+            Log.d("LIKEI", "onClick ");
+        }
+        else if(idView == R.id.imageViewDislike || idView == R.id.textViewNumberDislike) {
+            Log.d("DISLIKEI", "onClick ");
+        }
+        else {
+            final Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.fragment_proposal);
+            dialog.show();
 
-        saveProposalButton.setOnClickListener(new View.OnClickListener() {
+            Button saveProposalButton = (Button) dialog.findViewById(R.id.save);
 
-            String result = "FAIL";
+            saveProposalButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                EditText proposalField = (EditText) dialog.findViewById(R.id.proposal);
-                String proposalTyped = proposalField.getText().toString();
+                String result = "FAIL";
 
-                SegmentController segmentController = SegmentController.getInstance(getContext());
+                @Override
+                public void onClick(View v) {
+                    EditText proposalField = (EditText) dialog.findViewById(R.id.proposal);
+                    String proposalTyped = proposalField.getText().toString();
 
-                try{
-                    result = segmentController.registerSegment(billId, 1, proposalTyped);
-                } catch(JSONException e){
-                    e.printStackTrace();
-                } catch(SegmentException e){
-                    e.printStackTrace();
+                    SegmentController segmentController = SegmentController.getInstance(getContext());
+
+                    try {
+                        result = segmentController.registerSegment(billId, 1, proposalTyped);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (SegmentException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (result == "SUCCESS") {
+                        Toast.makeText(getContext(), "Obrigado pela sugestão!", Toast.LENGTH_SHORT)
+                                .show();
+                        dialog.dismiss();
+
+                    } else {
+                        Toast.makeText(getContext(), "Desculpe, um problema ocorreu",
+                                Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
                 }
-
-                if(result == "SUCCESS"){
-                    Toast.makeText(getContext(), "Obrigado pela sugestão!", Toast.LENGTH_SHORT)
-                            .show();
-                    dialog.dismiss();
-
-                } else{
-                    Toast.makeText(getContext(), "Desculpe, um problema ocorreu",
-                            Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
-            }
-        });
+            });
+        }
     }
 }
