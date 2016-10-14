@@ -1,6 +1,7 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.Intent;
 
 import org.json.JSONException;
 
@@ -8,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.dao.VotesDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
+import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.Votes;
 
 public class VotesController {
@@ -77,4 +80,29 @@ public class VotesController {
     public void postVote(boolean vote) {
 
     }
-}
+    public List<Integer> getIdUsers(int idSegment){
+
+        List<Integer> userList = new ArrayList<>();
+        List<Votes> votesList = null;
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        VotesDAO votesDAO = VotesDAO.getInstance(context);
+
+         try {
+             votesList = votesDAO.getAllVotes();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+            for(int index =  0;index<votesList.size();index++){
+
+               if(idSegment == votesList.get(index).getObjectId()){
+
+                    userList.add(votesList.get(index).getUserId());
+
+               }
+            }
+
+            return userList;
+        }
+    }
+
+
