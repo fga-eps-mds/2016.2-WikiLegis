@@ -39,6 +39,13 @@ public class Segment {
         setDate(date);
     }
 
+    public Segment(final Integer bill,final Integer replaced, final String content)
+            throws SegmentException{
+        setBill(bill);
+        setReplaced(replaced);
+        setContent(content);
+    }
+
     public Integer getId() {
         return id;
     }

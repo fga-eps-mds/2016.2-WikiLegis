@@ -1,6 +1,8 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -13,7 +15,9 @@ import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.User;
 
 public class SegmentController {
 
@@ -265,5 +269,29 @@ public class SegmentController {
                 }
             }
         return aux;
+    }
+
+    public String registerSegment(final int idBill,
+                                  final int replaced,
+                                  String content,
+                                  Context context) throws JSONException,
+            SegmentException{
+
+        Segment segment = new Segment(idBill, replaced, content);
+
+        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+        String token = session.getString("token", "");
+
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
+        String urlRequest = "token=" + token + "&bill=" + segment.getBill() + "&replaced=" +
+                segment.getReplaced() + "&content=" + segment.getContent();
+
+        Log.d("URL", url);
+        Log.d("URL PARAMS", urlRequest);
+
+        PostRequest postRequest = new PostRequest(context, url);
+        postRequest.execute(urlRequest, "text/html");
+
+        return "SUCESS";
     }
 }

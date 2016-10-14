@@ -4,13 +4,18 @@ package gppmds.wikilegis.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-import gppmds.wikilegis.R;
+import android.widget.Toast;
 
+import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.LoginController;
+import gppmds.wikilegis.model.User;
 
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
@@ -18,6 +23,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private TextView visitor;
     private TextView register;
     private Button button;
+    private EditText personNameField;
+    private EditText passwordField;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -40,6 +47,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         this.visitor = (TextView) view.findViewById(R.id.loginAsVisitorText);
         this.register = (TextView) view.findViewById(R.id.registerText);
         this.button = (Button) view.findViewById(R.id.loginButton);
+        this.personNameField = (EditText) view.findViewById(R.id.emailLoginField);
+        this.passwordField = (EditText) view.findViewById(R.id.passwordLoginField);
     }
 
     private void settingClickLitenersView() {
@@ -62,10 +71,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 Fragment registerUserFragment = new RegisterUserFragment();
                 openFragment(registerUserFragment);
                 break;
-            case R.id.loginButton :
 
-                Intent intent1 = new Intent(getContext(), MainActivity.class);
-                startActivity(intent1);
+            case R.id.loginButton :
+                validateLoginInformation(String.valueOf(personNameField.getText()),
+                        String.valueOf(passwordField.getText()));
                 break;
             default:
                 //nothing to do
@@ -84,5 +93,51 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.replace(R.id.content_panel, fragmentToBeOpen);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    private void validateLoginInformation(final String userName, final String password) {
+
+        LoginController login = LoginController.getInstance(getContext());
+
+        String feedbackRegisterMessage = login.confirmLogin(userName, password);
+
+        passwordField.setText("");
+
+        switch (feedbackRegisterMessage) {
+            case User.EMAIL_CANT_BE_EMPTY_EMAIL:
+                setMessageError(personNameField, feedbackRegisterMessage);
+                break;
+            case User.EMAIL_CANT_BE_HIGHER_THAN_150:
+                setMessageError(personNameField, feedbackRegisterMessage);
+                break;
+            case User.INVALID_EMAIL:
+                setMessageError(personNameField, feedbackRegisterMessage);
+                break;
+            case User.PASSWORD_CANT_BE_EMPTY:
+                setMessageError(passwordField, feedbackRegisterMessage);
+                break;
+            case User.PASSWORD_CANT_BE_LESS_THAN_6:
+                setMessageError(passwordField, feedbackRegisterMessage);
+                break;
+            case User.PASSWORD_CANT_BE_HIGHER_THAN_10:
+                setMessageError(passwordField, feedbackRegisterMessage);
+                break;
+            case "SUCESS":
+                personNameField.setText("");
+                Intent intent1 = new Intent(getContext(), MainActivity.class);
+                startActivity(intent1);
+                break;
+            case "FAIL":
+                Toast.makeText(getContext(), "Usuário ou senha inválidos!", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                //nothing to do
+                break;
+        }
+    }
+
+    private void setMessageError(final EditText editText, final String message) {
+        editText.requestFocus();
+        editText.setError(message);
     }
 }

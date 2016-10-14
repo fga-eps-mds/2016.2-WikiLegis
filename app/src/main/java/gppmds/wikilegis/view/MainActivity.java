@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -19,6 +20,8 @@ import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.model.Bill;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TabLayout tabs = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(tabsAdapter);
 
-        TabLayout tabs = (TabLayout) this.findViewById(R.id.tabs);
+        tabs = (TabLayout) this.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
     }
 
@@ -50,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_deslogged, menu);
 
         return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        tabs.setVisibility(View.VISIBLE);
+        super.onBackPressed();
     }
 
     public boolean onOptionsItemSelected(final MenuItem item) {
