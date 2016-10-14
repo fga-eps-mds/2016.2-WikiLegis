@@ -140,7 +140,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                             String result = null;
 
                             try{
-                                result = segmentController.registerSegment(billId, 1, proposalTyped,
+                                result = segmentController.registerSegment(billId,segmentId, proposalTyped,
                                         getContext());
 
                             } catch(JSONException e){

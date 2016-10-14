@@ -280,14 +280,18 @@ public class SegmentController {
         String token = session.getString("token", "");
 
         String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
-        String urlRequest = "token=" + token + "&bill=" + segment.getBill() + "&replaced=" +
-                segment.getReplaced() + "&content=" + segment.getContent();
+        String json = "{" +
+                "\"bill\": " +idBill+","+
+                "\"replaced\": " + replaced+","+
+                "\"content\": \"" +content+"\","+
+                "\"token\": \""+session.getString("token",null) +"\""+
+                "}";
 
         Log.d("URL", url);
-        Log.d("URL PARAMS", urlRequest);
+        Log.d("URL PARAMS", json);
 
         PostRequest postRequest = new PostRequest(context, url);
-        postRequest.execute(urlRequest, "text/html");
+        postRequest.execute(json, "application/json");
 
         return "SUCESS";
     }
