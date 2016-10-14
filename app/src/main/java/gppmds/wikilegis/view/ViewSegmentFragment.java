@@ -3,9 +3,13 @@ package gppmds.wikilegis.view;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -107,42 +111,70 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        final Dialog dialog = new Dialog(getContext());
-        dialog.setContentView(R.layout.fragment_proposal);
-        dialog.show();
 
-        Button saveProposalButton = (Button) dialog.findViewById(R.id.save);
+        if(view.getId() == R.id.buttonGreen){
 
-        saveProposalButton.setOnClickListener(new View.OnClickListener() {
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-            String result = "FAIL";
+            if(!session.getString("token", "").isEmpty()){
 
-            @Override
-            public void onClick(View v) {
-                EditText proposalField = (EditText) dialog.findViewById(R.id.proposal);
-                String proposalTyped = proposalField.getText().toString();
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View inputView = inflater.inflate(R.layout.fragment_proposal, null);
 
-                SegmentController segmentController = SegmentController.getInstance(getContext());
+                AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder(getContext());
+                alertDialogProposalBuilder.setView(inputView);
 
-                try{
-                    result = segmentController.registerSegment(billId, 1, proposalTyped);
-                } catch(JSONException e){
-                    e.printStackTrace();
-                } catch(SegmentException e){
-                    e.printStackTrace();
-                }
+                final EditText proposalInput = (EditText) inputView.findViewById(R.id.proposalInput);
 
-                if(result == "SUCCESS"){
-                    Toast.makeText(getContext(), "Obrigado pela sugestão!", Toast.LENGTH_SHORT)
-                            .show();
-                    dialog.dismiss();
+                alertDialogProposalBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("Enviar", new DialogInterface.OnClickListener(){
 
-                } else{
-                    Toast.makeText(getContext(), "Desculpe, um problema ocorreu",
-                            Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
+                        public void onClick(DialogInterface dialogBox, int id){
+
+                            SegmentController segmentController = SegmentController.getInstance
+                                    (getContext());
+
+                            String proposalTyped = proposalInput.getText().toString();
+
+                            String result = null;
+
+                            try{
+                                result = segmentController.registerSegment(billId, 1, proposalTyped,
+                                        getContext());
+
+                            } catch(JSONException e){
+                                e.printStackTrace();
+                            } catch(SegmentException e){
+                                e.printStackTrace();
+                            }
+
+                            if(result == "SUCCESS"){
+                                Toast.makeText(getContext(), "Obrigado pela sugestão!",
+                                        Toast.LENGTH_SHORT).show();
+
+                            }
+                            else{
+                                Toast.makeText(getContext(), "Desculpe, um problema ocorreu",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+
+                    .setNegativeButton("Cancelar",
+                            new DialogInterface.OnClickListener(){
+                                public void onClick(DialogInterface dialogBox, int id){
+                                    dialogBox.cancel();
+                                }
+                            });
+
+                AlertDialog alertDialogProposal = alertDialogProposalBuilder.create();
+                alertDialogProposal.show();
             }
-        });
+            else{
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -268,21 +270,24 @@ public class SegmentController {
 
     public String registerSegment(final int idBill,
                                   final int replaced,
-                                  String content) throws JSONException,
+                                  String content,
+                                  Context context) throws JSONException,
             SegmentException{
 
         Segment segment = new Segment(idBill, replaced, content);
 
-        JSONObject jsonParam = new JSONObject();
-        jsonParam.put("billl", segment.getBill());
-        jsonParam.put("replaced", segment.getReplaced());
-        jsonParam.put("content", segment.getContent());
+        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+        String token = session.getString("token", "");
 
-        String url = "wikilegis-staging.labhackercd.net/api/segments/";
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
+        String urlRequest = "token=" + token + "&bill=" + segment.getBill() + "&replaced=" +
+                segment.getReplaced() + "&content=" + segment.getContent();
 
-        PostRequest postRequest = new PostRequest(context,
-                "http://wikilegis-staging.labhackercd.net/api/user/create/");
-        postRequest.execute(jsonParam.toString(),"application/json");
+        Log.d("URL", url);
+        Log.d("URL PARAMS", urlRequest);
+
+        PostRequest postRequest = new PostRequest(context, url);
+        postRequest.execute(urlRequest, "text/html");
 
         return "SUCESS";
     }
