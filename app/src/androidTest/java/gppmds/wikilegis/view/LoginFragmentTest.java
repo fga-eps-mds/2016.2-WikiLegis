@@ -13,6 +13,7 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasImeAction;
@@ -83,5 +84,30 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
     public void testButtonLoginAsVisitorTextIsDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.loginAsVisitorText)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
+    }
+
+    public void testEmptyEmailMessageIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.emailLoginField)).perform(ViewActions.scrollTo()).check(matches(hasErrorText("Inválido, o email "
+                + "não pode ser vazio.")));
+    }
+
+    public void testEmailHigherThan150MessageIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.emailLoginField)).perform(ViewActions.scrollTo()).check(matches(hasErrorText("Inválido, o "
+                + "email deve ter no máximo 150 caractéres")));
+    }
+
+    public void testInvalidEmailMessageIsDisplayed(){
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augustomorenovilarinsasdf"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.emailLoginField)).perform(ViewActions.scrollTo()).check(matches(hasErrorText("Ops, esse e-mail é inválido.")));
     }
 }
