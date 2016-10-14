@@ -61,7 +61,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "Cardoso", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -81,7 +81,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "Cardoso", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("a", "Cardoso", "a@a.com",
                 "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -152,7 +152,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("lasa", "aaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaa", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -172,7 +172,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("lasa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("lasa", "a" +
                 "aaa", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -212,7 +212,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("lasa", "a" +
                 "aaa", "a@a.com", "1234567890", "1234567890");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -222,7 +222,7 @@ public class RegisterUserControllerTest {
         String message = registerUserController.registerUser("lasa", "a" +
                 "aaa", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
@@ -293,7 +293,7 @@ public class RegisterUserControllerTest {
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaa.aaaa", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test

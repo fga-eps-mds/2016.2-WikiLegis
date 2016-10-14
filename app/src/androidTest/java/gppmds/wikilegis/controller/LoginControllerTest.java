@@ -1,6 +1,8 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 
 import org.junit.Before;
@@ -8,6 +10,7 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertFalse;
 
 
 /**
@@ -124,6 +127,36 @@ public class LoginControllerTest {
                 + " deve ter no máximo 10 caractéres");
     }
 
+    @Test
+    public void testCreateLoginSession() {
 
+        final String email = "augusto.vilarins@gmail.com";
+        final String token = "abcd";
+        final String firstName = "Augusto";
+        final String lastName = "Vilarins";
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        LoginController loginController = LoginController.getInstance(context);
+        loginController.createLoginSession(email,token, firstName, lastName, session);
+
+        assertTrue(session.getBoolean("IsLoggedIn", false));
+        assertEquals(session.getString("email", null), email);
+        assertEquals(session.getString("token", null), token);
+        assertEquals(session.getString("firstName", null), firstName);
+        assertEquals(session.getString("lastName", null), lastName);
+    }
+
+    @Test
+    public void testCreateSessionIsNotLogged() {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        LoginController loginController = LoginController.getInstance(context);
+        loginController.createSessionIsNotLogged(session);
+
+        assertFalse(session.getBoolean("IsLoggedIn", false));
+    }
 
 }
