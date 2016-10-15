@@ -1,6 +1,9 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
@@ -9,9 +12,11 @@ import android.view.WindowManager;
 import org.junit.Before;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.LoginController;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -172,4 +177,37 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         closeSoftKeyboard();
         onView(withId(R.id.aboutApp)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
+
+    public void testOptionBarWithVisitor() {
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.action_profile)).perform(click());
+        onView(withText("Entrar")).perform(click());
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
+    }
+
+    public void testOptionBarWithUserLogged() {
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("12345678"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+
+        onView(withId(R.id.action_profile)).perform(click());
+        onView(withText("Sair")).perform(click());
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(InstrumentationRegistry.getContext());
+
+        LoginController loginController =
+                LoginController.getInstance(InstrumentationRegistry.getContext());
+        loginController.createSessionIsNotLogged(session);
+
+        assertFalse(session.getBoolean("IsLoggedIn", false));
+    }
+
 }
