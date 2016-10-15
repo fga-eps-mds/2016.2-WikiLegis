@@ -154,9 +154,13 @@ public class LoginController {
         // All Shared Preferences Keys
         final String IS_LOGIN = "IsLoggedIn";
 
+        // User token
+        final String USER_TOKEN = "token";
+
         SharedPreferences.Editor editor = session.edit();
 
         editor.putBoolean(IS_LOGIN, false);
+        editor.putString(USER_TOKEN, null);
         editor.commit();
     }
 }
