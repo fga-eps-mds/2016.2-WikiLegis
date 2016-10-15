@@ -2,7 +2,10 @@ package gppmds.wikilegis.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.Fragment;
 
 import org.json.JSONException;
 
@@ -21,8 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.VotesController;
+import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
@@ -50,14 +56,22 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
                 @Override
                 public void onClick(View view) {
-                    openDialog(view.getContext());
+
+                    SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+
+                    if(!session.getString("token", "").isEmpty()) {
+                        openDialog(view.getContext(), itemView);
+                    } else{
+                        Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                        view.getContext().startActivity(intent);
+                    }
                 }
             });
         }
 
-        private void openDialog(Context context){
+        private void openDialog(final Context context, final View view){
             LayoutInflater inflater = LayoutInflater.from(context);
-            View inputView = inflater.inflate(R.layout.fragment_comment, null);
+            final View inputView = inflater.inflate(R.layout.fragment_comment, null);
 
             AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder(context);
             alertDialogProposalBuilder.setView(inputView);
@@ -67,7 +81,19 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                     .setPositiveButton("Enviar", new DialogInterface.OnClickListener(){
 
                         public void onClick(DialogInterface dialogBox, int id){
-                            //Colocar o que deve ser feito quando o usuario digitar o comentario
+                            CommentSegmentController commentSegmentController = CommentSegmentController.getInstance(context);
+
+                            EditText commentInput = (EditText) inputView.findViewById(R.id.commentInput);
+                            String commentType = commentInput.getText().toString();
+                            try {
+                                commentSegmentController.registerComment(Integer.parseInt(cardView.getTag
+                                        (R.id.idSegment).toString()),
+                                        commentType, context);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (CommentsException e) {
+                                e.printStackTrace();
+                            }
                         }
                     })
 
