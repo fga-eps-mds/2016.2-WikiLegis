@@ -124,6 +124,17 @@
         android:clickable="true"
         android:layout_alignTop="@+id/textView2"
         android:layout_toEndOf="@+id/imageViewLogo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/aboutApp"
+        android:text="Saiba Mais"
+        android:textColor="#77C777"
+        android:clickable="true"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true" />
     />
 
 </RelativeLayout>

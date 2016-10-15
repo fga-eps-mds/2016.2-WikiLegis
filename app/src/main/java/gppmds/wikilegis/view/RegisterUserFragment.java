@@ -135,12 +135,13 @@ public class RegisterUserFragment extends Fragment implements View.OnClickListen
             case User.PASSWORD_ISNT_EQUALS:
                 setMessageError(passwordConfirmationField, feedbackRegisterMessage);
                 break;
-            case "SUCESS":
+            case "201":
+                Toast.makeText(getContext(), "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
                 LoginFragment loginFragment = new LoginFragment();
                 openFragment(loginFragment);
                 break;
             default:
-                //nothing to do
+                Toast.makeText(getContext(), "Email já cadastrado!", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

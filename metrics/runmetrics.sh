@@ -42,6 +42,10 @@ evaluateLcom () {
    grep lcom4_quantile_ninety_five logs/general.log >> logs/filtered.log;
 }
 
+evaluateCof () {
+   grep cof logs/general.log >> logs/filtered.log;
+}
+
 # Append ACC metrics in file
 echo 'Calculating ACC...'
 evaluateAcc
@@ -57,6 +61,10 @@ evaluateAmloc
 # Append LCOM4 metrics in file
 echo 'Calculating LCOM4...'
 evaluateLcom
+
+# Append COF metrics in file
+echo 'Calculating COF...'
+evaluateCof
 
 echo '[OK]'
 echo ''
