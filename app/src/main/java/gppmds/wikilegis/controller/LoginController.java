@@ -108,12 +108,7 @@ public class LoginController {
                 token = userJson.getString("token");
 
                 JSONObject user = userJson.getJSONObject("user");
-
-                String firstName = user.getString("first_name");
-                String lastName = user.getString("last_name");
-                String email = user.getString("email");
-
-                createLoginSession(email, token, firstName, lastName, session);
+                parserUserInformation(user, token, session);
             } else {
                 Log.i("Info", "UserInformation is not valid");
 
@@ -124,6 +119,15 @@ public class LoginController {
             Log.e("Error", "JSONException");
             e.printStackTrace();
         }
+    }
+
+    private void parserUserInformation(JSONObject user, String token, SharedPreferences session)
+            throws JSONException {
+        String firstName = user.getString("first_name");
+        String lastName = user.getString("last_name");
+        String email = user.getString("email");
+
+        createLoginSession(email, token, firstName, lastName, session);
     }
 
     public void createLoginSession(final String email,
