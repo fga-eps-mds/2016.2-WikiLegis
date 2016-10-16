@@ -1,6 +1,8 @@
 package gppmds.wikilegis.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,26 +25,41 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getApplicationContext());
+
+        boolean isLogged = session.getBoolean("IsLoggedIn", false);
+
+        if (isLogged) {
+            updateDataWithDatabase();
+            Intent intent=new Intent(LoadingActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+
             if (SegmentController.getInstance(getApplicationContext()).isSegmentDatabaseIsEmpty()) {
                 setContentView(R.layout.activity_loading);
-                Button button = (Button) findViewById(R.id.button);
+                Button button=(Button) findViewById(R.id.button);
                 button.setOnClickListener(this);
-
             } else {
-                SegmentController.getInstance(getApplicationContext()).initControllerSegments();
-
-                BillController billController = BillController.getInstance(getBaseContext());
-                billController.initControllerBills();
-
-                SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
-
-                VotesController.getInstance(getBaseContext()).initControllerVotes();
-
-                Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
+                updateDataWithDatabase();
+                Intent intent=new Intent(LoadingActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
+        }
+    }
+
+    private void updateDataWithDatabase() {
+        try {
+            SegmentController.getInstance(getApplicationContext()).initControllerSegments();
+
+            BillController billController=BillController.getInstance(getBaseContext());
+            billController.initControllerBills();
+
+            SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
+
+            VotesController.getInstance(getBaseContext()).initControllerVotes();
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (JSONException e) {
