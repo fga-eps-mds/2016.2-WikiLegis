@@ -104,7 +104,24 @@ public class JSONHelper {
 
         return segmentListApi;
     }
-    
+
+    public static List<Segment> getSegmentFromBill(int id) throws JSONException, SegmentException {
+        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/?bill="+id;
+        List<Segment> segmentListApi = new ArrayList<>();
+
+        String segmentList = getJSONObjectApi(url);
+
+        JSONObject segment = new JSONObject(segmentList);
+        JSONArray results = segment.getJSONArray("results");
+
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject jsonObject = results.getJSONObject(i);
+
+            segmentListApi.add(setSegmentAttributes(jsonObject));
+        }
+
+        return segmentListApi;
+    }
 
     public static String updateDomain(final String nextUrl){
         if (nextUrl.equals("null"))
