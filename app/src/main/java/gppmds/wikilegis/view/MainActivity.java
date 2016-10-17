@@ -85,6 +85,12 @@ public class MainActivity extends AppCompatActivity {
                         LoginController.getInstance(getApplicationContext());
                 loginController.createSessionIsNotLogged(session);
                 break;
+            case R.id.action_config_deslogged:
+                Toast.makeText(this, "Config deslogged", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.action_config_logged:
+                Toast.makeText(this, "Config logged", Toast.LENGTH_SHORT).show();
+                break;
         }
         return true;
     }

@@ -17,6 +17,14 @@
                 android:orderInCategory="1"
                 android:title="@string/action_logout">
             </item>
+
+            <item
+                android:id="@+id/action_config_logged"
+                app:showAsAction="always"
+                android:orderInCategory="2"
+                android:title="@string/action_config">
+            </item>
+
         </menu>
     </item>
 
