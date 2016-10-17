@@ -9,9 +9,9 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
@@ -46,48 +46,51 @@ public class LoginController {
 
             User userLogin = new User(email, password);
 
-            Uri.Builder builder = new Uri.Builder();
-            builder.appendQueryParameter("username", userLogin.getEmail());
-            builder.appendQueryParameter("password", userLogin.getPassword());
+            String authentication = createUserAuthentication(userLogin);
 
-            String authentication = builder.build().getEncodedQuery();
-
-            Log.v("TOKEN", authentication);
-
-            String userInformation = null;
-
-            try {
-                userInformation = postRequest.execute(authentication,
-                        "application/x-www-form-urlencoded").get();
-                if(userInformation!=null)
-                    Log.i("UserInformation", userInformation);
-                else
-                    Log.i("Info", "UserInformation is null");
-            } catch (InterruptedException e) {
-                Log.e("Error", "InterruptException");
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                Log.e("Error", "ExecutionException");
-                e.printStackTrace();
-            }
+            String userInformation = userInformationRequest(postRequest, authentication);
 
             setUserAsSharedPreferences(userInformation);
 
-            Log.v("Status", postRequest.getResponse() + "");
-
-            //Reponse is 200 if authentication is correct.
-            if(postRequest.getResponse() == 200) {
-                Log.v("Token", userInformation);
-                return "SUCESS";
-            }
-            //Reponse is 400 if authentication is incorrect.
-            else {
-                return "FAIL";
-            }
+            return returnOfLogin(postRequest);
 
         } catch (UserException exception) {
             String exceptionMessage = exception.getMessage();
             return exceptionMessage;
+        }
+    }
+
+    private String userInformationRequest(PostRequest postRequest, String authentication) {
+        String userInformation = null;
+
+        try {
+            userInformation = postRequest.execute(authentication,
+                    "application/x-www-form-urlencoded").get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return userInformation;
+    }
+
+    private String createUserAuthentication(User userLogin) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendQueryParameter("username", userLogin.getEmail());
+        builder.appendQueryParameter("password", userLogin.getPassword());
+
+        return builder.build().getEncodedQuery();
+    }
+
+    private String returnOfLogin(PostRequest postRequest) {
+        //Reponse is 200 if authentication is correct.
+        if(postRequest.getResponse() == 200) {
+            return "SUCESS";
+        }
+        //Reponse is 400 if authentication is incorrect.
+        else {
+            return "FAIL";
         }
     }
 
@@ -101,16 +104,11 @@ public class LoginController {
 
         try {
             if (userInformation != null) {
-                userJson=new JSONObject(userInformation);
-                token=userJson.getString("token");
+                userJson = new JSONObject(userInformation);
+                token = userJson.getString("token");
 
-                JSONObject user=userJson.getJSONObject("user");
-
-                String firstName=user.getString("first_name");
-                String lastName=user.getString("last_name");
-                String email=user.getString("email");
-
-                createLoginSession(email, token, firstName, lastName, session);
+                JSONObject user = userJson.getJSONObject("user");
+                parserUserInformation(user, token, session);
             } else {
                 Log.i("Info", "UserInformation is not valid");
 
@@ -123,44 +121,36 @@ public class LoginController {
         }
     }
 
+    private void parserUserInformation(JSONObject user, String token, SharedPreferences session)
+            throws JSONException {
+        String firstName = user.getString("first_name");
+        String lastName = user.getString("last_name");
+        String email = user.getString("email");
+
+        createLoginSession(email, token, firstName, lastName, session);
+    }
+
     public void createLoginSession(final String email,
                                    final String token,
                                    final String firstName,
                                    final String lastName,
                                    SharedPreferences session) {
 
-        // All Shared Preferences Keys
-        final String IS_LOGIN = "IsLoggedIn";
-        // User token
-        final String USER_TOKEN = "token";
-        // User first name
-        final String FIRST_NAME = "firstName";
-        // User first name
-        final String LAST_NAME = "lastName";
-        // Email address
-        final String KEY_EMAIL = "email";
-
         SharedPreferences.Editor editor = session.edit();
 
-        editor.putBoolean(IS_LOGIN, true);
-        editor.putString(KEY_EMAIL, email);
-        editor.putString(USER_TOKEN, token);
-        editor.putString(FIRST_NAME, firstName);
-        editor.putString(LAST_NAME, lastName);
+        editor.putBoolean(context.getResources().getString(R.string.is_logged_in), true);
+        editor.putString(context.getResources().getString(R.string.email), email);
+        editor.putString(context.getResources().getString(R.string.token), token);
+        editor.putString(context.getResources().getString(R.string.first_name), firstName);
+        editor.putString(context.getResources().getString(R.string.last_name), lastName);
         editor.commit();
     }
 
     public void createSessionIsNotLogged(SharedPreferences session) {
-        // All Shared Preferences Keys
-        final String IS_LOGIN = "IsLoggedIn";
-
-        // User token
-        final String USER_TOKEN = "token";
-
         SharedPreferences.Editor editor = session.edit();
 
-        editor.putBoolean(IS_LOGIN, false);
-        editor.putString(USER_TOKEN, null);
+        editor.putBoolean(context.getResources().getString(R.string.is_logged_in), false);
+        editor.putString(context.getResources().getString(R.string.token), null);
         editor.commit();
     }
 }
