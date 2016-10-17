@@ -1,28 +1,21 @@
 package gppmds.wikilegis.view;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.LoginController;
-import gppmds.wikilegis.model.Bill;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,19 +72,60 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 SharedPreferences session = PreferenceManager.
-                        getDefaultSharedPreferences(getApplicationContext());
+                        getDefaultSharedPreferences(this);
 
                 LoginController loginController =
-                        LoginController.getInstance(getApplicationContext());
+                        LoginController.getInstance(this);
                 loginController.createSessionIsNotLogged(session);
                 break;
             case R.id.action_config_deslogged:
-                Toast.makeText(this, "Config deslogged", Toast.LENGTH_SHORT).show();
+                actionDialogSettings();
                 break;
             case R.id.action_config_logged:
-                Toast.makeText(this, "Config logged", Toast.LENGTH_SHORT).show();
+                actionDialogSettings();
                 break;
         }
         return true;
     }
+
+    private void actionDialogSettings() {
+        showDialogSettings(MainActivity.this, "Download de dados", new String[] { "Confirmar" },
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Do your functionality here
+                        int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+                    }
+                });
+    }
+
+    public void showDialogSettings(Context context, String title, String[] btnText,
+                                   DialogInterface.OnClickListener listener) {
+
+        final CharSequence[] items = { "Apenas wifi", "Wifi e dados", "Nunca" };
+
+        if (listener == null)
+            listener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    paramDialogInterface.dismiss();
+                }
+            };
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+
+        builder.setSingleChoiceItems(items, -1,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                    }
+                });
+        builder.setPositiveButton(btnText[0], listener);
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], listener);
+        }
+        builder.show();
+    }
+
 }
