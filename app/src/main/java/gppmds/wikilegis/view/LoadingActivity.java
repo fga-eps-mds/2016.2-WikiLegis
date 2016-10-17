@@ -19,7 +19,7 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 
-public class LoadingActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoadingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,82 +27,85 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
 
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(getApplicationContext());
-
-        boolean isLogged = session.getBoolean("IsLoggedIn", false);
-
-        if (isLogged) {
-            updateDataWithDatabase();
-            Intent intent=new Intent(LoadingActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-
-            if (SegmentController.getInstance(getApplicationContext()).isSegmentDatabaseIsEmpty()) {
-                setContentView(R.layout.activity_loading);
-                Button button=(Button) findViewById(R.id.button);
-                button.setOnClickListener(this);
-            } else {
-                updateDataWithDatabase();
-                Intent intent=new Intent(LoadingActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }
+        Intent intent=new Intent(LoadingActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+//
+//        boolean isLogged = session.getBoolean("IsLoggedIn", false);
+//
+//        if (isLogged) {
+//            updateDataWithDatabase();
+//            Intent intent=new Intent(LoadingActivity.this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        } else {
+//
+//            if (SegmentController.getInstance(getApplicationContext()).isSegmentDatabaseIsEmpty()) {
+//                setContentView(R.layout.activity_loading);
+//                Button button=(Button) findViewById(R.id.button);
+//                button.setOnClickListener(this);
+//            } else {
+//                updateDataWithDatabase();
+//                Intent intent=new Intent(LoadingActivity.this, LoginActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }
     }
 
-    private void updateDataWithDatabase() {
-        try {
-            SegmentController.getInstance(getApplicationContext()).initControllerSegments();
+//    private void updateDataWithDatabase() {
+//        try {
+//            SegmentController.getInstance(getApplicationContext()).initControllerSegments();
+//
+//            BillController billController=BillController.getInstance(getBaseContext());
+//            billController.initControllerBills();
+//
+//            SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
+//
+//            VotesController.getInstance(getBaseContext()).initControllerVotes();
+//        } catch (SegmentException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        } catch (BillException e) {
+//            e.printStackTrace();
+//        } catch (VotesException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-            BillController billController=BillController.getInstance(getBaseContext());
-            billController.initControllerBills();
-
-            SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
-
-            VotesController.getInstance(getBaseContext()).initControllerVotes();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onClick(final View view) {
-        try {
-            SegmentController.getInstance(getApplicationContext()).initControllerSegments();
-
-            BillController billController = BillController.getInstance(getBaseContext());
-            billController.initControllerBills();
-
-            SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
-
-            Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        }
-
-        VotesController votesController = VotesController.getInstance(getBaseContext());
-
-        try {
-            votesController.initControllerVotes();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void onClick(final View view) {
+//        try {
+//            SegmentController.getInstance(getApplicationContext()).initControllerSegments();
+//
+//            BillController billController = BillController.getInstance(getBaseContext());
+//            billController.initControllerBills();
+//
+//            SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
+//
+//            Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
+//            startActivity(intent);
+//            finish();
+//        } catch (SegmentException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        } catch (BillException e) {
+//            e.printStackTrace();
+//        }
+//
+//        VotesController votesController = VotesController.getInstance(getBaseContext());
+//
+//        try {
+//            votesController.initControllerVotes();
+//        } catch (SegmentException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        } catch (VotesException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
 

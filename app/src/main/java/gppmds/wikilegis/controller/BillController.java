@@ -68,6 +68,11 @@ public class BillController {
             billList = billDao.getAllBills();
         }
     }
+    public void DownloadBills() throws BillException, JSONException, SegmentException {
+        billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
+                SegmentController.getAllSegments());
+    }
+
 
     public static List<Segment> getSegmentsFromIdOfBill(final int idBill) {
         List<Segment> listSegment;

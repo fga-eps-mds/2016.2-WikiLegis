@@ -43,13 +43,15 @@ public class SegmentsOfBillController {
         segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
 
         if (segmentsOfBillDAO.isDatabaseEmpty()) {
-            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.
-                    getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
-                    SegmentController.getAllSegments());
+            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),SegmentController.getAllSegments());
             segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
         } else {
             segmentsOfBillList = segmentsOfBillDAO.getAllSegments();
         }
+    }
+
+    public void downloadSegmentsOfBill(){
+
     }
 
 }

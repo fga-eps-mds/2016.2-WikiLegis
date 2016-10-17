@@ -51,6 +51,9 @@ public class SegmentController {
             segmentList = segmentDAO.getAllSegments();
         }
     }
+    public void downloadSegmentFromBill(int idBill) throws SegmentException, JSONException {
+        segmentList = JSONHelper.segmentListFromJSON();
+    }
 
     public static int getMinDate(final int id) {
         Integer day, month, year;

@@ -104,6 +104,7 @@ public class JSONHelper {
 
         return segmentListApi;
     }
+    
 
     public static String updateDomain(final String nextUrl){
         if (nextUrl.equals("null"))
