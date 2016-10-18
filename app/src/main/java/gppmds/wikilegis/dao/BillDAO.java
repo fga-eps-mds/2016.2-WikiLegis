@@ -152,5 +152,4 @@ public class BillDAO extends DaoUtilities{
 
         return bill;
     }
-
 }

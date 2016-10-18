@@ -81,8 +81,8 @@ public class JSONHelper {
         }
     }
 
-    public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
-        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/";
+    public static List<Segment> segmentListFromJSON(String urlDate) throws JSONException, SegmentException {
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/"+urlDate;
 
         List<Segment> segmentListApi = new ArrayList<>();
 

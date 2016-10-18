@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.SegmentsOfBillController;
 import gppmds.wikilegis.controller.VotesController;
@@ -51,58 +52,21 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void updateDataWithDatabase() {
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getApplicationContext());
         try {
-            SegmentController.getInstance(getApplicationContext()).initControllerSegments();
-
-            BillController billController=BillController.getInstance(getBaseContext());
-            billController.initControllerBills();
-
-            SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
-
-            VotesController.getInstance(getBaseContext()).initControllerVotes();
+            dataDownloadController.updateData();
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void onClick(final View view) {
-        try {
-            SegmentController.getInstance(getApplicationContext()).initControllerSegments();
-
-            BillController billController = BillController.getInstance(getBaseContext());
-            billController.initControllerBills();
-
-            SegmentsOfBillController.getInstance(getApplicationContext()).initControllerSegmentsOfBill();
-
-            Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        }
-
-        VotesController votesController = VotesController.getInstance(getBaseContext());
-
-        try {
-            votesController.initControllerVotes();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
+        updateDataWithDatabase();
     }
 }
 

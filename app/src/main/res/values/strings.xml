@@ -37,6 +37,7 @@
     <string name="last_name">lastName</string>
     <string name="email">email</string>
     <string name="network_settings">NetworkSettings</string>
+    <string name="last_downloaded_date">date</string>
 
 
 

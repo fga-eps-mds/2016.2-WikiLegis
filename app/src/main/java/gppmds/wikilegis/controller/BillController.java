@@ -1,6 +1,9 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
@@ -57,16 +61,14 @@ public class BillController {
 
         billDao = BillDAO.getInstance(context);
 
-        if (billDao.isDatabaseEmpty()) {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.network_settings),"2010-01-01");
+        billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("?created="+date),
+                SegmentController.getAllSegments());
+        Log.d("data", date);
 
-            billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
-                    SegmentController.getAllSegments());
-
-            billDao.insertAllBills(billList);
-
-        } else {
-            billList = billDao.getAllBills();
-        }
+        billDao.insertAllBills(billList);
     }
 
     public static List<Segment> getSegmentsFromIdOfBill(final int idBill) {
