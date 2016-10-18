@@ -65,11 +65,13 @@ public class DataDownloadController {
         int preferencesConnection = session.getInt(context.getResources().getString(R.string.network_settings),0);
         int actualConnection  = connectionType();
         if((preferencesConnection <= 1 && actualConnection == 0)||(preferencesConnection == 1 && actualConnection == 1)){
+            SegmentController segmentController = SegmentController.getInstance(context);
+            segmentController.initControllerSegments();
+
             BillController billController = BillController.getInstance(context);
             billController.initControllerBills();
 
-            SegmentController segmentController = SegmentController.getInstance(context);
-            segmentController.initControllerSegments();
+            SegmentsOfBillController.getInstance(context).initControllerSegmentsOfBill();
 
             SharedPreferences.Editor editor = session.edit();
             editor.putString(context.getResources().getString(R.string.last_downloaded_date),getLocalTime());

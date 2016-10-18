@@ -98,7 +98,8 @@ public class JSONHelper {
                 segmentListApi.add(setSegmentAttributes(jsonObject));
             }
             String nextUrl = segment.getString("next");
-            url = updateDomain(nextUrl);
+            url = nextUrl; //updateDomain(nextUrl);
+            Log.d("URL",nextUrl);
 
         } while (!url.equals("null"));
 

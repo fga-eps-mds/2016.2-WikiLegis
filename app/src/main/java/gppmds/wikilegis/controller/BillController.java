@@ -64,7 +64,7 @@ public class BillController {
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
         String date = session.getString(context.getResources().getString(R.string.network_settings),"2010-01-01");
-        billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("?created="+date),
+        billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
                 SegmentController.getAllSegments());
         Log.d("data", date);
 

@@ -55,6 +55,10 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getApplicationContext());
         try {
             dataDownloadController.updateData();
+
+            Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -67,6 +71,8 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(final View view) {
         updateDataWithDatabase();
+
+
     }
 }
 
