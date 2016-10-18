@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -96,6 +97,26 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         //Do your functionality here
                         int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+                        SharedPreferences session = PreferenceManager.
+                                getDefaultSharedPreferences(MainActivity.this);
+
+                        SharedPreferences.Editor editor = session.edit();
+
+                        switch (selectedPosition) {
+
+                            case 0:
+                                editor.putInt(MainActivity.this.getResources().getString(R.string.network_settings), 0);
+                                break;
+                            case 1:
+                                editor.putInt(MainActivity.this.getResources().getString(R.string.network_settings), 1);
+                                break;
+                            case 2:
+                                editor.putInt(MainActivity.this.getResources().getString(R.string.network_settings), 2);
+                                break;
+                            default:
+                                //Nothing to do
+                        }
+                        editor.commit();
                     }
                 });
     }
@@ -115,8 +136,13 @@ public class MainActivity extends AppCompatActivity {
             };
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(MainActivity.this);
+        int networkPreference = session.getInt(MainActivity.this.getResources().getString(R.string.network_settings), 0);
 
-        builder.setSingleChoiceItems(items, -1,
+        Log.d("networkPrefe", networkPreference+"");
+
+        builder.setSingleChoiceItems(items, networkPreference,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                     }
