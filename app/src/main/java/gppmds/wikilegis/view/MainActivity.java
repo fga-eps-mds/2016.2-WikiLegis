@@ -80,38 +80,41 @@ public class MainActivity extends AppCompatActivity {
                 loginController.createSessionIsNotLogged(session);
                 break;
             case R.id.action_config_deslogged:
-                actionDialogSettings();
+                actionDialogNetworkSettings();
                 break;
             case R.id.action_config_logged:
-                actionDialogSettings();
+                actionDialogNetworkSettings();
                 break;
         }
         return true;
     }
 
-    private void actionDialogSettings() {
-        showDialogSettings(MainActivity.this, "Download de dados", new String[] { "Confirmar" },
+    private void actionDialogNetworkSettings() {
+        showDialogNetworkSettings(MainActivity.this, "Download de dados", new String[] { "Confirmar" },
                 new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Do your functionality here
                         int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+
                         SharedPreferences session = PreferenceManager.
                                 getDefaultSharedPreferences(MainActivity.this);
-
                         SharedPreferences.Editor editor = session.edit();
 
                         switch (selectedPosition) {
 
                             case 0:
-                                editor.putInt(MainActivity.this.getResources().getString(R.string.network_settings), 0);
+                                editor.putInt(MainActivity.this.getResources()
+                                        .getString(R.string.network_settings), 0);
                                 break;
                             case 1:
-                                editor.putInt(MainActivity.this.getResources().getString(R.string.network_settings), 1);
+                                editor.putInt(MainActivity.this.getResources()
+                                        .getString(R.string.network_settings), 1);
                                 break;
                             case 2:
-                                editor.putInt(MainActivity.this.getResources().getString(R.string.network_settings), 2);
+                                editor.putInt(MainActivity.this.getResources()
+                                        .getString(R.string.network_settings), 2);
                                 break;
                             default:
                                 //Nothing to do
@@ -121,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void showDialogSettings(Context context, String title, String[] btnText,
-                                   DialogInterface.OnClickListener listener) {
+    public void showDialogNetworkSettings(Context context, String title, String[] btnText,
+                                          DialogInterface.OnClickListener listener) {
 
         final CharSequence[] items = { "Apenas wifi", "Wifi e dados", "Nunca" };
 
@@ -138,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle(title);
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(MainActivity.this);
-        int networkPreference = session.getInt(MainActivity.this.getResources().getString(R.string.network_settings), 0);
+        int networkPreference = session.getInt(MainActivity.this.getResources()
+                .getString(R.string.network_settings), 0);
 
         Log.d("networkPrefe", networkPreference+"");
 
