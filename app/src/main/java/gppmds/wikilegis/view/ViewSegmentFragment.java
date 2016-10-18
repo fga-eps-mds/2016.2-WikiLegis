@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,11 +71,14 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
 
+        FloatingActionButton floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.floatingButton);
+        floatingActionButton.setVisibility(View.VISIBLE);
+        floatingActionButton.setOnClickListener(this);
+
         settingText();
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
-
         segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
         RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
         recyclerView.setAdapter(content);
@@ -108,6 +113,17 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             e.printStackTrace();
         }
     }
+    private void openFragment(Fragment fragmentToBeOpen){
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getActivity().getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.floatingButton, fragmentToBeOpen);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -170,6 +186,10 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
                 AlertDialog alertDialogProposal = alertDialogProposalBuilder.create();
                 alertDialogProposal.show();
+            }
+            if(view.getId() == R.id.floatingButton){
+                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
+                openFragment(createSuggestProposal);
             }
             else{
                 Intent intent = new Intent(getContext(), LoginActivity.class);

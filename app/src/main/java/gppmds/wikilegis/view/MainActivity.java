@@ -1,5 +1,6 @@
 package gppmds.wikilegis.view;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
+        FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton);
+        floatingActionButton.setVisibility(View.INVISIBLE);
+
         // Create the adapter that will return a fragment for each of the two tabs
         TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabs = (TabLayout) this.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
     }
 
     @Override
