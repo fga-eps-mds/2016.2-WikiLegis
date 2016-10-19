@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById(R.id.floatingButton);
+        FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById
+                (R.id.floatingButton);
         floatingActionButton.setVisibility(View.INVISIBLE);
 
         // Create the adapter that will return a fragment for each of the two tabs
@@ -56,14 +57,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_deslogged, menu);
-
         return true;
     }
 
     @Override
-    public void onBackPressed(){
-        tabs.setVisibility(View.VISIBLE);
-        super.onBackPressed();
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        final String STATE_VISIBILITY = "state-visibility";
+
+        savedInstanceState.putBoolean(STATE_VISIBILITY, true);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        Boolean tabsVisibility = savedInstanceState.getBoolean("state-visibility");
+        tabs.setVisibility(tabsVisibility ? View.VISIBLE : View.GONE);
+
     }
 
     public boolean onOptionsItemSelected(final MenuItem item) {

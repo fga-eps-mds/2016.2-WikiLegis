@@ -54,6 +54,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private Button proposalButon;
+    FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -71,7 +72,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.floatingButton);
+        floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.floatingButton);
         floatingActionButton.setVisibility(View.VISIBLE);
         floatingActionButton.setOnClickListener(this);
 
@@ -79,6 +80,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
+
         segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
         RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
         recyclerView.setAdapter(content);
@@ -94,8 +96,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         billText = (TextView) view.findViewById(R.id.titleBill);
         likes = (TextView) view.findViewById(R.id.textViewNumberLike);
         dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
-        proposalButon = (Button)view.findViewById(R.id.buttonGreen);
-        proposalButon.setOnClickListener(this);
 
     }
 
@@ -118,7 +118,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getActivity().getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.floatingButton, fragmentToBeOpen);
+        fragmentTransaction.replace(R.id.view_segment_fragment, fragmentToBeOpen);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -127,74 +127,21 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
+        if(view.getId() == R.id.floatingButton){
+            Bundle segmentAndBillId = new Bundle();
+            segmentAndBillId.putInt("billId", billId);
+            segmentAndBillId.putInt("segmentId",segmentId);
 
-        if(view.getId() == R.id.buttonGreen){
+            CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
+            createSuggestProposal.setArguments(segmentAndBillId);
 
-            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-            if(!session.getString("token", "").isEmpty()){
-
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                View inputView = inflater.inflate(R.layout.fragment_proposal, null);
-
-                AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder(getContext());
-                alertDialogProposalBuilder.setView(inputView);
-
-                final EditText proposalInput = (EditText) inputView.findViewById(R.id.proposalInput);
-
-                alertDialogProposalBuilder
-                    .setCancelable(false)
-                    .setPositiveButton("Enviar", new DialogInterface.OnClickListener(){
-
-                        public void onClick(DialogInterface dialogBox, int id){
-
-                            SegmentController segmentController = SegmentController.getInstance
-                                    (getContext());
-
-                            String proposalTyped = proposalInput.getText().toString();
-
-                            String result = null;
-
-                            try{
-                                result = segmentController.registerSegment(billId,segmentId, proposalTyped,
-                                        getContext());
-
-                            } catch(JSONException e){
-                                e.printStackTrace();
-                            } catch(SegmentException e){
-                                e.printStackTrace();
-                            }
-
-                            if(result == "SUCCESS"){
-                                Toast.makeText(getContext(), "Obrigado pela sugestão!",
-                                        Toast.LENGTH_SHORT).show();
-
-                            }
-                            else{
-                                Toast.makeText(getContext(), "Desculpe, um problema ocorreu",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    })
-
-                    .setNegativeButton("Cancelar",
-                            new DialogInterface.OnClickListener(){
-                                public void onClick(DialogInterface dialogBox, int id){
-                                    dialogBox.cancel();
-                                }
-                            });
-
-                AlertDialog alertDialogProposal = alertDialogProposalBuilder.create();
-                alertDialogProposal.show();
-            }
-            if(view.getId() == R.id.floatingButton){
-                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
-                openFragment(createSuggestProposal);
-            }
-            else{
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-            }
+            openFragment(createSuggestProposal);
         }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        floatingActionButton.setVisibility(View.INVISIBLE);
     }
 }
