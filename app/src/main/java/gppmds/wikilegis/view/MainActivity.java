@@ -1,24 +1,25 @@
 package gppmds.wikilegis.view;
 
 import android.support.design.widget.FloatingActionButton;
+
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 
-import java.util.ArrayList;
-import java.util.List;
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillController;
-import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.controller.LoginController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -56,29 +57,115 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_deslogged, menu);
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getApplicationContext());
+
+        boolean isLogged = session.getBoolean("IsLoggedIn", false);
+
+        if (isLogged) {
+            getMenuInflater().inflate(R.menu.menu_logged, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.menu_deslogged, menu);
+        }
+
         return true;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        final String STATE_VISIBILITY = "state-visibility";
-
-        savedInstanceState.putBoolean(STATE_VISIBILITY, true);
-
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        Boolean tabsVisibility = savedInstanceState.getBoolean("state-visibility");
-        tabs.setVisibility(tabsVisibility ? View.VISIBLE : View.GONE);
-
     }
 
     public boolean onOptionsItemSelected(final MenuItem item) {
+
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
+        switch(item.getItemId()) {
+            case R.id.action_login:
+                startActivity(intent);
+                break;
+            case R.id.action_logout:
+                startActivity(intent);
+
+                SharedPreferences session = PreferenceManager.
+                        getDefaultSharedPreferences(this);
+
+                LoginController loginController =
+                        LoginController.getInstance(this);
+                loginController.createSessionIsNotLogged(session);
+                break;
+            case R.id.action_config_deslogged:
+                actionDialogNetworkSettings();
+                break;
+            case R.id.action_config_logged:
+                actionDialogNetworkSettings();
+                break;
+        }
         return true;
     }
+
+    private void actionDialogNetworkSettings() {
+        showDialogNetworkSettings(MainActivity.this, "Download de dados", new String[]{"Confirmar"},
+                new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        //Do your functionality here
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+
+                        SharedPreferences session = PreferenceManager.
+                                getDefaultSharedPreferences(MainActivity.this);
+                        SharedPreferences.Editor editor = session.edit();
+
+                        switch(selectedPosition){
+
+                            case 0:
+                                editor.putInt(MainActivity.this.getResources()
+                                        .getString(R.string.network_settings), 0);
+                                break;
+                            case 1:
+                                editor.putInt(MainActivity.this.getResources()
+                                        .getString(R.string.network_settings), 1);
+                                break;
+                            case 2:
+                                editor.putInt(MainActivity.this.getResources()
+                                        .getString(R.string.network_settings), 2);
+                                break;
+                            default:
+                                //Nothing to do
+                        }
+                        editor.commit();
+                    }
+                });
+    }
+
+    public void showDialogNetworkSettings(Context context, String title, String[] btnText,
+                                          DialogInterface.OnClickListener listener) {
+
+        final CharSequence[] items = { "Apenas wifi", "Wifi e dados", "Nunca" };
+
+        if (listener == null)
+            listener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    paramDialogInterface.dismiss();
+                }
+            };
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(MainActivity.this);
+        int networkPreference = session.getInt(MainActivity.this.getResources()
+                .getString(R.string.network_settings), 0);
+
+        Log.d("networkPrefe", networkPreference+"");
+
+        builder.setSingleChoiceItems(items, networkPreference,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                    }
+                });
+        builder.setPositiveButton(btnText[0], listener);
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], listener);
+        }
+        builder.show();
+    }
+
 }

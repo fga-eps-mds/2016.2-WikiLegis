@@ -83,6 +83,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
         RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
+        Log.d("TAMANHO2", segmentListAux.size() + "");
         recyclerView.setAdapter(content);
 
         return view;
@@ -130,7 +131,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         if(view.getId() == R.id.floatingButton){
             Bundle segmentAndBillId = new Bundle();
             segmentAndBillId.putInt("billId", billId);
-            segmentAndBillId.putInt("segmentId",segmentId);
+            segmentAndBillId.putInt("segmentId", segmentId);
 
             CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
             createSuggestProposal.setArguments(segmentAndBillId);

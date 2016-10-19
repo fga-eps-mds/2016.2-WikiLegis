@@ -19,8 +19,27 @@
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="action_exit_account">Exit Account</string>
-    <string name="action_filtering">Filtrar</string>
+    <string name="action_logout">Sair</string>
+    <string name="action_login">Entrar</string>
+    <string name="action_config">Configurações de download</string>
     <string name="sucessfull_registration_message">Cadastro efetuado com sucesso!</string>
+    <string name="about_app">O Wikilegis é uma iniciativa da câmara dos deputados, que visa
+        aproximar a sociedade e seus representantes políticos através de interação digital.
+        Neste ambiente você tem acesso a projetos de leis que estão sendo elaborados e tem
+        a possibilidade de contribuir com eles, avaliando, sugerindo alterações e comentando
+        sua opinião.</string>
+
+
+    <!-- all SharedPreferences keys-->
+    <string name="token">token</string>
+    <string name="is_logged_in">IsLoggedIn</string>
+    <string name="first_name">firstName</string>
+    <string name="last_name">lastName</string>
+    <string name="email">email</string>
+    <string name="network_settings">NetworkSettings</string>
+    <string name="last_downloaded_date">date</string>
+
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

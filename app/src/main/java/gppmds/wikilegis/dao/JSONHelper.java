@@ -41,19 +41,16 @@ public class JSONHelper {
     public static List<Bill> billListFromJSON(final String billList, final List<Segment> aux)
             throws JSONException, BillException, SegmentException {
 
-        List<Bill> billListApi = new ArrayList<>();
-
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
 
-        populateListBill(results, aux, billListApi);
+        List<Bill> billListApi = getListBill(results, aux);
 
         return billListApi;
     }
 
-    public static List<Votes> votesListFromJSON() throws JSONException, VotesException {
-
-        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/votes/?page=1";
+    public static List<Votes> votesListFromJSON(String urlDate) throws JSONException, VotesException {
+        String url = "http://wikilegis-staging.labhackercd.net/api/votes/"+urlDate;
         List<Votes> votesListApi = new ArrayList<>();
 
         do {
@@ -65,7 +62,9 @@ public class JSONHelper {
             populateListVotes(results, votesListApi );
 
             String nextUrl = votes.getString("next");
-            url = updateDomain(nextUrl);
+            url = nextUrl; //updateDomain(nextUrl);
+
+            Log.d("Url", url);
 
         } while (!url.equals("null"));
 
@@ -81,8 +80,8 @@ public class JSONHelper {
         }
     }
 
-    public static List<Segment> segmentListFromJSON() throws JSONException, SegmentException {
-        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/";
+    public static List<Segment> segmentListFromJSON(String urlDate) throws JSONException, SegmentException {
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/"+urlDate;
 
         List<Segment> segmentListApi = new ArrayList<>();
 
@@ -98,7 +97,8 @@ public class JSONHelper {
                 segmentListApi.add(setSegmentAttributes(jsonObject));
             }
             String nextUrl = segment.getString("next");
-            url = updateDomain(nextUrl);
+            url = nextUrl; //updateDomain(nextUrl);
+            Log.d("URL",nextUrl);
 
         } while (!url.equals("null"));
 
@@ -115,8 +115,8 @@ public class JSONHelper {
     };
 
     private static Votes setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
-        Votes voteAux = new Votes(jsonObject.getInt("user"),
-                jsonObject.getInt("content_type"),
+        Votes voteAux = new Votes(1,//jsonObject.getInt("user"),
+                1,//jsonObject.getInt("content_type"),
                 jsonObject.getInt("object_id"),
                 jsonObject.getString("vote").equals("false") ? false : true);
         return voteAux;
@@ -136,11 +136,13 @@ public class JSONHelper {
         return segmentAux;
     }
 
-    private static void populateListBill(JSONArray results, List<Segment> aux, List<Bill> billListApi)
+    private static List<Bill> getListBill(JSONArray results, List<Segment> aux)
             throws JSONException, BillException {
         int id;
         Integer numberOfProposals;
         Integer date;
+
+        List<Bill> billListApi = new ArrayList<>();
 
         for (int index = 0; index < results.length(); index++){
             JSONObject jsonObject = results.getJSONObject(index);
@@ -153,7 +155,13 @@ public class JSONHelper {
             for (int j = 0; j < segments.length(); j++) {
                 billAux.setSegments(segments.getInt(j));
             }
+
+            Log.d("billauxs", billAux.getSegments().size() + "");
+
             billListApi.add(billAux);
         }
+
+        return billListApi;
     }
+
 }

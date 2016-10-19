@@ -1,13 +1,12 @@
 package gppmds.wikilegis.view;
 
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +49,7 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
 
     private String saveSuggestion(Integer billId, Integer segmentId){
 
+
         SegmentController segmentController = SegmentController.getInstance
                 (getContext());
 
@@ -67,7 +67,7 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
             e.printStackTrace();
         }
 
-        if(result == "SUCCESS"){
+        if(result.equals("SUCCESS")){
             result =  "Obrigado pela sugestão!";
         }
         else{
@@ -82,20 +82,21 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
         if(view.getId() == R.id.saveSuggestion){
 
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
-            if(!session.getString("token", "").isEmpty()){
 
-                Integer idBill = getArguments().getInt("idBill");
-                Integer idSegment = getArguments().getInt("idSegment");
 
+            Integer idBill = getArguments().getInt("billId");
+            Integer idSegment = getArguments().getInt("segmentId");
+
+            Log.d("ID SEGMENT", idSegment+"");
                 String savingStatus = saveSuggestion(idBill, idSegment);
 
                 Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
             }
-            else {
+           /* else {
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
-            }
-        }
+            }*/
+
     }
 
     @Override

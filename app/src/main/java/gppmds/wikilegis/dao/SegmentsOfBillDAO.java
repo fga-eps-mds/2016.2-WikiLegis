@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,11 +87,16 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
         boolean result = true;
 
         for(int i = 0; i < billList.size(); i++) {
-            for(int j=0; j<billList.get(i).getSegments().size(); j++) {
+            SegmentDAO segmentDAO = SegmentDAO.getInstance(getContext());
+
+            int idBill = billList.get(i).getId();
+            List<Integer> segmentList = segmentDAO.getSegmentsByIdBill(idBill);
+
+            for(int j = 0; j < segmentList.size(); j++) {
                 SegmentsOfBill segmentsOfBill = null;
                 try {
-                    segmentsOfBill = new SegmentsOfBill(billList.get(i).getId(),
-                            billList.get(i).getSegments().get(j), j);
+                    segmentsOfBill = new SegmentsOfBill(idBill,
+                            segmentList.get(j), j);
                 } catch (SegmentsOfBillException e) {
                     e.printStackTrace();
                 }

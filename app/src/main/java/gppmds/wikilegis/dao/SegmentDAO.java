@@ -121,6 +121,24 @@ public class SegmentDAO extends DaoUtilities{
         return segment;
     }
 
+    public List<Integer> getSegmentsByIdBill(final Integer idBill) throws SegmentException {
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
+        String query = "SELECT * FROM " + tableName + " WHERE \"idBill\" = " + idBill.toString();
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+
+        List<Integer> segmentsIdList = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            Segment segment = setSegmentById(cursor);
+            segmentsIdList.add(segment.getId());
+        }
+        cursor.close();
+
+        return segmentsIdList;
+    }
+
     public List<Segment> getAllSegments() throws SegmentException {
 
         SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();

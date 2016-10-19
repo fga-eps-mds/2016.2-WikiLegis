@@ -11,6 +11,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
@@ -48,12 +50,21 @@ public class SegmentController {
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
-        if (segmentDAO.isDatabaseEmpty()) {
-            segmentList = JSONHelper.segmentListFromJSON();
-            segmentDAO.insertAllSegments(segmentList);
-        } else {
-            segmentList = segmentDAO.getAllSegments();
-        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+        Log.d("data", date);
+
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON("?created=" + date);
+
+        segmentDAO.insertAllSegments(newSegments);
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
+
+        Log.d("TAMANHO", segmentList.size() + "");
     }
 
     public static int getMinDate(final int id) {
@@ -81,104 +92,107 @@ public class SegmentController {
         }
         return aux;
     }
+    private static String numberRoman = "";
+    private static Integer number;
 
-    public static String convertRoman(Integer number) {
-        String numberRoman = "";
+    public static String convertRoman(Integer numberT) {
+        numberRoman = "";
+        number = numberT;
 
-        numberRomanBiggerThan1000(number, numberRoman);
+        numberRomanBiggerThan1000();
 
-        numberRomanBiggerThan900(number, numberRoman);
+        numberRomanBiggerThan900();
 
-        numberRomanBiggerThan500(number, numberRoman);
+        numberRomanBiggerThan500();
 
-        numberRomanBiggerThan400(number,numberRoman);
+        numberRomanBiggerThan400();
 
-        numberRomanBiggerThan100(number,numberRoman);
+        numberRomanBiggerThan100();
 
-        numberRomanBiggerThan90(number,numberRoman);
+        numberRomanBiggerThan90();
 
-        numberRomanBiggerThan50(number,numberRoman);
+        numberRomanBiggerThan50();
 
-        numberRomanBiggerThan40(number,numberRoman);
+        numberRomanBiggerThan40();
 
-        numberRomanBiggerThan10(number,numberRoman);
+        numberRomanBiggerThan10();
 
-        numberRomanBiggerThan9(number,numberRoman);
+        numberRomanBiggerThan9();
 
-        numberRomanBiggerThan5(number,numberRoman);
+        numberRomanBiggerThan5();
 
-        numberRomanBiggerThan4(number,numberRoman);
+        numberRomanBiggerThan4();
 
-        numberRomanBiggerThan1(number,numberRoman);
+        numberRomanBiggerThan1();
 
 
         return numberRoman;
     }
 
-    private static void numberRomanBiggerThan1(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan1() {
         while (number >= 1) {
             numberRoman += "I";
             number -= 1;
         }
     }
 
-    private static void numberRomanBiggerThan4(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan4() {
         while (number >= 4) {
             numberRoman += "IV";
             number -= 4;
         }
     }
 
-    private static void numberRomanBiggerThan5(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan5() {
         while (number >= 5) {
             numberRoman += "V";
             number -= 5;
         }
     }
 
-    private static void numberRomanBiggerThan9(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan9() {
         while (number >= 9) {
             numberRoman += "IX";
             number -= 9;
         }
     }
 
-    private static void numberRomanBiggerThan10(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan10() {
         while (number >= 10) {
             numberRoman += "X";
             number -= 10;
         }
     }
 
-    private static void numberRomanBiggerThan40(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan40() {
         while (number >= 40) {
             numberRoman += "XL";
             number -= 40;
         }
     }
 
-    private static void numberRomanBiggerThan50(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan50() {
         while (number >= 50) {
             numberRoman += "L";
             number -= 50;
         }
     }
 
-    private static void numberRomanBiggerThan90(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan90() {
         while (number >= 90) {
             numberRoman += "XC";
             number -= 90;
         }
     }
 
-    private static void numberRomanBiggerThan100(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan100() {
         while (number >= 100) {
             numberRoman += "C";
             number -= 100;
         }
     }
 
-    private static void numberRomanBiggerThan400(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan400() {
         while (number >= 400) {
             numberRoman += "CD";
             number -= 400;
@@ -186,7 +200,7 @@ public class SegmentController {
         }
     }
 
-    private static void numberRomanBiggerThan500(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan500() {
         while (number >= 500) {
             numberRoman += "D";
             number -= 500;
@@ -194,7 +208,7 @@ public class SegmentController {
         }
     }
 
-    private static void numberRomanBiggerThan900(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan900() {
         while (number >= 900) {
             numberRoman += "CM";
             number -= 900;
@@ -202,7 +216,7 @@ public class SegmentController {
         }
     }
 
-    private static void numberRomanBiggerThan1000(Integer number, String numberRoman) {
+    private static void numberRomanBiggerThan1000() {
         while (number >= 1000) {
             numberRoman += "M";
             number -= 1000;
@@ -271,8 +285,7 @@ public class SegmentController {
     public String registerSegment(final int idBill,
                                   final int replaced,
                                   String content,
-                                  Context context) throws JSONException,
-            SegmentException{
+                                  Context context) throws JSONException, SegmentException{
 
         Segment segment = new Segment(idBill, replaced, content);
 
@@ -285,6 +298,7 @@ public class SegmentController {
                 "\"content\": \"" +content+"\","+
                 "\"token\": \""+session.getString("token",null) +"\""+
                 "}";
+        
 
         Log.d("URL", url);
         Log.d("URL PARAMS", json);
@@ -292,6 +306,6 @@ public class SegmentController {
         PostRequest postRequest = new PostRequest(context, url);
         postRequest.execute(json, "application/json");
 
-        return "SUCESS";
+        return "SUCCESS";
     }
 }
