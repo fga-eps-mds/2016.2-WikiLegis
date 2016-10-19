@@ -16,6 +16,7 @@ import gppmds.wikilegis.dao.GetRequest;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.view.MainActivity;
 
 /**
@@ -83,6 +84,13 @@ public class DataDownloadController {
 
             segmentsOfBillController.initControllerSegmentsOfBill();
 
+
+            VotesController votesController = VotesController.getInstance(context);
+            try {
+                votesController.initControllerVotes();
+            } catch (VotesException e) {
+                e.printStackTrace();
+            }
 
             SharedPreferences.Editor editor = session.edit();
             editor.putString("date", getLocalTime());

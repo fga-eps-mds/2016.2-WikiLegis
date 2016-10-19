@@ -49,9 +49,8 @@ public class JSONHelper {
         return billListApi;
     }
 
-    public static List<Votes> votesListFromJSON() throws JSONException, VotesException {
-
-        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/votes/?page=1";
+    public static List<Votes> votesListFromJSON(String urlDate) throws JSONException, VotesException {
+        String url = "http://wikilegis-staging.labhackercd.net/api/votes/"+urlDate;
         List<Votes> votesListApi = new ArrayList<>();
 
         do {
@@ -63,7 +62,9 @@ public class JSONHelper {
             populateListVotes(results, votesListApi );
 
             String nextUrl = votes.getString("next");
-            url = updateDomain(nextUrl);
+            url = nextUrl; //updateDomain(nextUrl);
+
+            Log.d("Url", url);
 
         } while (!url.equals("null"));
 
@@ -114,8 +115,8 @@ public class JSONHelper {
     };
 
     private static Votes setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
-        Votes voteAux = new Votes(jsonObject.getInt("user"),
-                jsonObject.getInt("content_type"),
+        Votes voteAux = new Votes(1,//jsonObject.getInt("user"),
+                1,//jsonObject.getInt("content_type"),
                 jsonObject.getInt("object_id"),
                 jsonObject.getString("vote").equals("false") ? false : true);
         return voteAux;
