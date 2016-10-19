@@ -47,13 +47,15 @@ public class SegmentsOfBillController {
         segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
-        String date = session.getString(context.getResources().getString(R.string.network_settings),"2010-01-01");
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date),"2010-01-01");
         Log.d("data", date);
-        List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.
-                getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/?created="+date),
-                SegmentController.getAllSegments());
+
+        BillController billController = BillController.getInstance(context);
+
+        List<Bill> billList = billController.getAllBills();
+
         segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
 
+        segmentsOfBillList = segmentsOfBillDAO.getAllSegments();
     }
-
 }

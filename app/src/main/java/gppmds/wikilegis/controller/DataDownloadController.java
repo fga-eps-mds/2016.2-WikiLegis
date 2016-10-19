@@ -62,19 +62,33 @@ public class DataDownloadController {
 
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
-        int preferencesConnection = session.getInt(context.getResources().getString(R.string.network_settings),0);
+
+        final String keyPreferencesConnection = context.getResources().getString(R.string.network_settings);
+
+        Log.d("1 keyPreferencesConnection", keyPreferencesConnection);
+
+        int preferencesConnection = session.getInt(keyPreferencesConnection, 0);
         int actualConnection  = connectionType();
         if((preferencesConnection <= 1 && actualConnection == 0)||(preferencesConnection == 1 && actualConnection == 1)){
+            Log.d("TO BAIXANDO AS COISAS", "updateData ");
+
             SegmentController segmentController = SegmentController.getInstance(context);
             segmentController.initControllerSegments();
 
             BillController billController = BillController.getInstance(context);
             billController.initControllerBills();
 
-            SegmentsOfBillController.getInstance(context).initControllerSegmentsOfBill();
+            SegmentsOfBillController segmentsOfBillController =
+                    SegmentsOfBillController.getInstance(context);
+
+            segmentsOfBillController.initControllerSegmentsOfBill();
+
 
             SharedPreferences.Editor editor = session.edit();
-            editor.putString(context.getResources().getString(R.string.last_downloaded_date),getLocalTime());
+            editor.putString("date", getLocalTime());
+                    editor.commit();
+
+            Log.d("Data salva", session.getString("date", getLocalTime()));
         }else{
             //TOAST
         }

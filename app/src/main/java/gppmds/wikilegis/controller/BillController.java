@@ -63,12 +63,16 @@ public class BillController {
 
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
-        String date = session.getString(context.getResources().getString(R.string.network_settings),"2010-01-01");
-        billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+
+        List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
+                        ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
                 SegmentController.getAllSegments());
         Log.d("data", date);
 
-        billDao.insertAllBills(billList);
+        billDao.insertAllBills(newBills);
+
+        billList = billDao.getAllBills();
     }
 
     public static List<Segment> getSegmentsFromIdOfBill(final int idBill) {
@@ -78,6 +82,8 @@ public class BillController {
         listSegment = new ArrayList<Segment>();
 
         segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(idBill);
+
+        Log.d("HAHAHA", segmentsOfBillList.size() + "");
 
         for (int i = 0; i < segmentsOfBillList.size(); i++) {
             try {

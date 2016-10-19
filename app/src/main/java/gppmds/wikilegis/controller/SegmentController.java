@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
@@ -50,12 +51,18 @@ public class SegmentController {
 
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
-        String date = session.getString(context.getResources().getString(R.string.network_settings),"2010-01-01");
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
         Log.d("data", date);
-        segmentList = JSONHelper.segmentListFromJSON("?created="+date);
 
-        segmentDAO.insertAllSegments(segmentList);
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON("?created=" + date);
 
+        segmentDAO.insertAllSegments(newSegments);
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
+
+        Log.d("TAMANHO", segmentList.size() + "");
     }
 
     public static int getMinDate(final int id) {
