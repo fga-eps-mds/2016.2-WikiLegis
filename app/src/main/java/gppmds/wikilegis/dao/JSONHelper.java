@@ -41,12 +41,10 @@ public class JSONHelper {
     public static List<Bill> billListFromJSON(final String billList, final List<Segment> aux)
             throws JSONException, BillException, SegmentException {
 
-        List<Bill> billListApi = new ArrayList<>();
-
         JSONObject bills = new JSONObject(billList);
         JSONArray results = bills.getJSONArray("results");
 
-        populateListBill(results, aux, billListApi);
+        List<Bill> billListApi = getListBill(results, aux);
 
         return billListApi;
     }
@@ -137,11 +135,13 @@ public class JSONHelper {
         return segmentAux;
     }
 
-    private static void populateListBill(JSONArray results, List<Segment> aux, List<Bill> billListApi)
+    private static List<Bill> getListBill(JSONArray results, List<Segment> aux)
             throws JSONException, BillException {
         int id;
         Integer numberOfProposals;
         Integer date;
+
+        List<Bill> billListApi = new ArrayList<>();
 
         for (int index = 0; index < results.length(); index++){
             JSONObject jsonObject = results.getJSONObject(index);
@@ -154,7 +154,13 @@ public class JSONHelper {
             for (int j = 0; j < segments.length(); j++) {
                 billAux.setSegments(segments.getInt(j));
             }
+
+            Log.d("billauxs", billAux.getSegments().size() + "");
+
             billListApi.add(billAux);
         }
+
+        return billListApi;
     }
+
 }
