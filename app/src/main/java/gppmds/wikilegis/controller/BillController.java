@@ -1,6 +1,9 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
@@ -57,16 +61,18 @@ public class BillController {
 
         billDao = BillDAO.getInstance(context);
 
-        if (billDao.isDatabaseEmpty()) {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
 
-            billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
-                    SegmentController.getAllSegments());
+        List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
+                        ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
+                SegmentController.getAllSegments());
+        Log.d("data", date);
 
-            billDao.insertAllBills(billList);
+        billDao.insertAllBills(newBills);
 
-        } else {
-            billList = billDao.getAllBills();
-        }
+        billList = billDao.getAllBills();
     }
     public void DownloadBills() throws BillException, JSONException, SegmentException {
         billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
@@ -81,6 +87,8 @@ public class BillController {
         listSegment = new ArrayList<Segment>();
 
         segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(idBill);
+
+        Log.d("HAHAHA", segmentsOfBillList.size() + "");
 
         for (int i = 0; i < segmentsOfBillList.size(); i++) {
             try {

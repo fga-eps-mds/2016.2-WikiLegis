@@ -1,6 +1,8 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -9,6 +11,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
@@ -44,12 +48,21 @@ public class SegmentController {
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
-        if (segmentDAO.isDatabaseEmpty()) {
-            segmentList = JSONHelper.segmentListFromJSON();
-            segmentDAO.insertAllSegments(segmentList);
-        } else {
-            segmentList = segmentDAO.getAllSegments();
-        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+        Log.d("data", date);
+
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON("?created=" + date);
+
+        segmentDAO.insertAllSegments(newSegments);
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
+
+        Log.d("TAMANHO", segmentList.size() + "");
     }
     public void downloadSegmentFromBill(int idBill) throws SegmentException, JSONException {
         segmentList = JSONHelper.segmentListFromJSON();

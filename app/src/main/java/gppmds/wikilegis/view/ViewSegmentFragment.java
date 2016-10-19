@@ -62,6 +62,7 @@ public class ViewSegmentFragment extends Fragment {
 
         segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
         RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
+        Log.d("TAMANHO2", segmentListAux.size() + "");
         recyclerView.setAdapter(content);
 
         return view;

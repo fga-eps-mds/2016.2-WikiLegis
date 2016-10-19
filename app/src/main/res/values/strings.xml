@@ -21,6 +21,7 @@
     <string name="action_exit_account">Exit Account</string>
     <string name="action_logout">Sair</string>
     <string name="action_login">Entrar</string>
+    <string name="action_config">Configurações de download</string>
     <string name="sucessfull_registration_message">Cadastro efetuado com sucesso!</string>
     <string name="about_app">O Wikilegis é uma iniciativa da câmara dos deputados, que visa
         aproximar a sociedade e seus representantes políticos através de interação digital.
@@ -35,6 +36,8 @@
     <string name="first_name">firstName</string>
     <string name="last_name">lastName</string>
     <string name="email">email</string>
+    <string name="network_settings">NetworkSettings</string>
+    <string name="last_downloaded_date">date</string>
 
 
 
