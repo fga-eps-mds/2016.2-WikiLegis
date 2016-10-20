@@ -65,7 +65,7 @@ public class BillController {
                 getDefaultSharedPreferences(context);
         String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
 
-        List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
+        List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
                         ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
                 SegmentController.getAllSegments());
         Log.d("data", date);
@@ -75,7 +75,7 @@ public class BillController {
         billList = billDao.getAllBills();
     }
     public void DownloadBills() throws BillException, JSONException, SegmentException {
-        billList = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
+        billList = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi("http://wikilegis.labhackercd.net/api/bills/"),
                 SegmentController.getAllSegments());
     }
 

@@ -42,7 +42,13 @@ public class MainActivity extends AppCompatActivity {
         DataDownloadController dataCenter = DataDownloadController.getInstance(getBaseContext());
 
         if(dataCenter.connectionType() < 2) {
-            DataDownloadController.getAllBills();
+            try {
+                DataDownloadController.getAllBills();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
         } else {
             try {
                 billController.DownloadBills();

@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.api.BillJsonHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
@@ -113,15 +114,15 @@ public class DataDownloadController {
 
     }
 
-    public static Bill getBillById(int id) {
+    public static Bill getBillById(int id) throws JSONException, BillException {
         Bill bill = null;
-        //TODO Get Bill
+        bill = BillJsonHelper.getBillFromApiById(id);
         return bill;
     }
 
-    public static List<Bill> getAllBills() {
+    public static List<Bill> getAllBills() throws JSONException, BillException {
         List<Bill> allBills = null;
-        //TODO Get AllBill
+        allBills = BillJsonHelper.getAllBillFromApi();
         return allBills;
     }
 

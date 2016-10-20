@@ -21,7 +21,7 @@ import gppmds.wikilegis.model.Votes;
 
 public class JSONHelper {
 
-    public static String getJSONObjectApi(final String URL) {
+    public static String requestJsonObjectFromApi(final String URL) {
         String getApi = null;
 
         GetRequest request = new GetRequest();
@@ -54,12 +54,12 @@ public class JSONHelper {
         List<Votes> votesListApi = new ArrayList<>();
 
         do {
-            String votesList = getJSONObjectApi(url);
+            String votesList = requestJsonObjectFromApi(url);
 
             JSONObject votes = new JSONObject(votesList);
             JSONArray results = votes.getJSONArray("results");
 
-            populateListVotes(results, votesListApi );
+            populateListVotes(results, votesListApi);
 
             String nextUrl = votes.getString("next");
             url = nextUrl; //updateDomain(nextUrl);
@@ -86,7 +86,7 @@ public class JSONHelper {
         List<Segment> segmentListApi = new ArrayList<>();
 
         do {
-            String segmentList = getJSONObjectApi(url);
+            String segmentList = requestJsonObjectFromApi(url);
 
             JSONObject segment = new JSONObject(segmentList);
             JSONArray results = segment.getJSONArray("results");
@@ -109,7 +109,7 @@ public class JSONHelper {
         String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/?bill="+id;
         List<Segment> segmentListApi = new ArrayList<>();
 
-        String segmentList = getJSONObjectApi(url);
+        String segmentList = requestJsonObjectFromApi(url);
 
         JSONObject segment = new JSONObject(segmentList);
         JSONArray results = segment.getJSONArray("results");
@@ -164,9 +164,11 @@ public class JSONHelper {
 
         for (int index = 0; index < results.length(); index++){
             JSONObject jsonObject = results.getJSONObject(index);
+
             id = jsonObject.getInt("id");
             numberOfProposals = BillController.countedTheNumberOfProposals(aux, id);
             date= SegmentController.getMinDate(id);
+
             Bill billAux = BillController.getBill(numberOfProposals, date, jsonObject);
             JSONArray segments = jsonObject.getJSONArray("segments");
 

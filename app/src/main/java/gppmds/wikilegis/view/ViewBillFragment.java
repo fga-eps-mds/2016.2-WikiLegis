@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 import gppmds.wikilegis.R;
@@ -69,7 +71,13 @@ public class ViewBillFragment extends Fragment {
         DataDownloadController dataCenter = DataDownloadController.getInstance(getContext());
 
         if(dataCenter.connectionType() < 2) {
-            bill = DataDownloadController.getBillById(id);
+            try {
+                bill = DataDownloadController.getBillById(id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
         } else {
             try {
                 bill = BillController.getBillById(id);
