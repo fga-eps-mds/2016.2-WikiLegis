@@ -10,21 +10,21 @@
         android:icon="@drawable/reorder"
         app:showAsAction="always"
         android:orderInCategory="1">
-    </item>
-
-    <item
-        android:id="@+id/action_settigs"
-        android:title="@string/action_settings"
-        android:icon="@drawable/settings"
-        app:showAsAction="always"
-        android:orderInCategory="3">
         <menu>
             <item
-                android:id="@+id/action_filtering"
+                android:id="@+id/action_login"
                 app:showAsAction="always"
                 android:orderInCategory="1"
-                android:title="@string/action_filtering">
+                android:title="@string/action_login">
             </item>
+
+            <item
+                android:id="@+id/action_config_deslogged"
+                app:showAsAction="always"
+                android:orderInCategory="2"
+                android:title="@string/action_config">
+            </item>
+
         </menu>
     </item>
 

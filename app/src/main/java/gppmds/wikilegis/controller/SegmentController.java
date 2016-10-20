@@ -11,6 +11,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.dao.SegmentDAO;
@@ -48,12 +50,21 @@ public class SegmentController {
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
-        if (segmentDAO.isDatabaseEmpty()) {
-            segmentList = JSONHelper.segmentListFromJSON();
-            segmentDAO.insertAllSegments(segmentList);
-        } else {
-            segmentList = segmentDAO.getAllSegments();
-        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+        Log.d("data", date);
+
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON("?created=" + date);
+
+        segmentDAO.insertAllSegments(newSegments);
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
+
+        Log.d("TAMANHO", segmentList.size() + "");
     }
 
     public static int getMinDate(final int id) {
@@ -274,24 +285,27 @@ public class SegmentController {
     public String registerSegment(final int idBill,
                                   final int replaced,
                                   String content,
-                                  Context context) throws JSONException,
-            SegmentException{
+                                  Context context) throws JSONException, SegmentException{
 
         Segment segment = new Segment(idBill, replaced, content);
 
         SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
-        String token = session.getString("token", "");
 
         String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
-        String urlRequest = "token=" + token + "&bill=" + segment.getBill() + "&replaced=" +
-                segment.getReplaced() + "&content=" + segment.getContent();
+        String json = "{" +
+                "\"bill\": " +idBill+","+
+                "\"replaced\": " + replaced+","+
+                "\"content\": \"" +content+"\","+
+                "\"token\": \""+session.getString("token",null) +"\""+
+                "}";
+        
 
         Log.d("URL", url);
-        Log.d("URL PARAMS", urlRequest);
+        Log.d("URL PARAMS", json);
 
         PostRequest postRequest = new PostRequest(context, url);
-        postRequest.execute(urlRequest, "text/html");
+        postRequest.execute(json, "application/json");
 
-        return "SUCESS";
+        return "SUCCESS";
     }
 }

@@ -38,13 +38,15 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
 
                     Bundle bundle = new Bundle();
-                    bundle.putInt("segmentId", Integer.parseInt(view.getTag(R.id.idSegment).toString()));
+                    bundle.putInt("segmentId", Integer.parseInt(view.getTag(R.id.idSegment)
+                            .toString()));
                     bundle.putInt("billId", Integer.parseInt(view.getTag(R.id.idBill).toString()));
 
                     ViewSegmentFragment viewSegmentFragment = new ViewSegmentFragment();
                     viewSegmentFragment.setArguments(bundle);
 
-                    activity.getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.main_content,
+                    activity.getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                            .replace(R.id.main_content,
                             viewSegmentFragment).commit();
                 }
             });

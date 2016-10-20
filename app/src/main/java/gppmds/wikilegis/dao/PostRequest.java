@@ -68,13 +68,6 @@ public class PostRequest extends AsyncTask<String, String, String>{
 
     protected void onPostExecute(String bodyTextResponse) {
         super.onPostExecute(bodyTextResponse);
-
-        if (response == 201) {
-            Toast.makeText(context, "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Email já cadastrado!", Toast.LENGTH_SHORT).show();
-        }
-        Log.i("INFO", ""+ response);
     }
 
     private HttpURLConnection setBody(String http, String requestType) throws IOException {

@@ -3,6 +3,7 @@ package gppmds.wikilegis.controller;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithEmptyFirstName() {
+    public void testRegisterUserWithEmptyFirstName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("", "Cardoso", "a@a.com",
@@ -35,7 +36,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithNullFirstName(){
+    public void testRegisterUserWithNullFirstName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser(null, "Cardoso", "a@a.com",
@@ -45,7 +46,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithFirstNameWithOnlySpace() {
+    public void testRegisterUserWithFirstNameWithOnlySpace() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("      ", "Cardoso", "a@a.com",
@@ -55,17 +56,18 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMaxLengthFirstName() {
+    public void testRegisterUserWithMaxLengthFirstName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "Cardoso", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithMaxMoreOneLengthFirstName() {
+    public void testRegisterUserWithMaxMoreOneLengthFirstName() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -75,27 +77,28 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMaxMinusOneLengthFirstName() {
+    public void testRegisterUserWithMaxMinusOneLengthFirstName() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "Cardoso", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithMinLenghtFirstName() {
+    public void testRegisterUserWithMinLenghtFirstName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("a", "Cardoso", "a@a.com",
                 "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithNameWithNumber(){
+    public void testRegisterUserWithNameWithNumber() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("1asa", "Cardoso", "a@a.com",
@@ -106,7 +109,8 @@ public class RegisterUserControllerTest {
 
 
     @Test
-    public void testRegisterUserWithNameWithSpecialCharacters(){
+    public void testRegisterUserWithNameWithSpecialCharacters() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("l@sa", "Cardoso", "a@a.com",
@@ -116,7 +120,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithEmptySecondName() {
+    public void testRegisterUserWithEmptySecondName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "", "a@a.com",
@@ -126,7 +130,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithNullSecondName(){
+    public void testRegisterUserWithNullSecondName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", null, "a@a.com",
@@ -136,7 +140,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithSecondNameWithOnlySpace() {
+    public void testRegisterUserWithSecondNameWithOnlySpace() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "         ", "a@a.com",
@@ -146,17 +150,18 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMaxLengthSecondName() {
+    public void testRegisterUserWithMaxLengthSecondName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "aaaaaaaaaaaaaaaaaaaaaaaaaaa" +
                 "aaa", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithMaxMoreOneLengthSecondName() {
+    public void testRegisterUserWithMaxMoreOneLengthSecondName() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
@@ -166,27 +171,28 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMaxMinusOneLengthSecondName() {
+    public void testRegisterUserWithMaxMinusOneLengthSecondName() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithMinLenghtSecondName() {
+    public void testRegisterUserWithMinLenghtSecondName() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
                 "aaa", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithLastNameWithNumber(){
+    public void testRegisterUserWithLastNameWithNumber() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "Nasc1mento" +
@@ -196,7 +202,8 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithLastNameWithSpecialCharacters(){
+    public void testRegisterUserWithLastNameWithSpecialCharacters() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "N&re" +
@@ -206,27 +213,27 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMaxLenghtPassword() {
+    public void testRegisterUserWithMaxLenghtPassword() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
                 "aaa", "a@a.com", "1234567890", "1234567890");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithMinLenghtPassword() {
+    public void testRegisterUserWithMinLenghtPassword() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
                 "aaa", "a@a.com", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithMaxMoreOneLenghtPassword() {
+    public void testRegisterUserWithMaxMoreOneLenghtPassword() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
@@ -236,7 +243,8 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMinMinusOneLenghtPassword() {
+    public void testRegisterUserWithMinMinusOneLenghtPassword() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
@@ -246,7 +254,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithNullPassword(){
+    public void testRegisterUserWithNullPassword() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
@@ -256,7 +264,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithPasswordOnlySpace() {
+    public void testRegisterUserWithPasswordOnlySpace() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
@@ -266,7 +274,7 @@ public class RegisterUserControllerTest {
      }
 
     @Test
-    public void testRegisterUserWithEmptyPassword(){
+    public void testRegisterUserWithEmptyPassword() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
@@ -276,7 +284,8 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithDifferenceBetwenPasswords(){
+    public void testRegisterUserWithDifferenceBetwenPasswords() throws JSONException,
+            UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("lasa", "a" +
@@ -286,18 +295,19 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMaxLengthEmail(){
+    public void testRegisterUserWithMaxLengthEmail() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
-        String message = registerUserController.registerUser("Cardoso", "Nere", "aaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaa.aaaa", "123456", "123456");
+        String message = registerUserController.registerUser("Cardoso", "Nere",
+                "aaaaaaaaaaaaaaaaa" + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                        "aaaaaaaaaaaaaaaaaaaaa" + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                        "@aaa.aaaa", "123456", "123456");
 
-        assertTrue(message.equals("SUCESS"));
+        assertTrue(message.equals("400"));
     }
 
     @Test
-    public void testRegisterUserWithEmptyEmail(){
+    public void testRegisterUserWithEmptyEmail() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("Nere", "Cardoso", "", "123456",
@@ -307,7 +317,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithNullEmail(){
+    public void testRegisterUserWithNullEmail() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("Nere", "Cardoso", null, "123456",
@@ -317,7 +327,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithEmailOnlySpace() {
+    public void testRegisterUserWithEmailOnlySpace() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("Nere", "Cardoso", "   ", "123456",
@@ -327,7 +337,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithMaxMoreOneLenghtEmail(){
+    public void testRegisterUserWithMaxMoreOneLenghtEmail() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("Cardoso", "Nere", "aaaaaaaaaaaaaa" +
@@ -339,7 +349,7 @@ public class RegisterUserControllerTest {
     }
 
     @Test
-    public void testRegisterUserWithEmailPattern(){
+    public void testRegisterUserWithEmailPattern() throws JSONException, UserException {
         RegisterUserController registerUserController = RegisterUserController.getInstance(context);
 
         String message = registerUserController.registerUser("Nere", "Cardoso", "aaaaa", "123456",

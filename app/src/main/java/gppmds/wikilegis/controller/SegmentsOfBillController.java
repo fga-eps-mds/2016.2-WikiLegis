@@ -1,12 +1,16 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.SegmentsOfBillDAO;
 import gppmds.wikilegis.exception.BillException;
@@ -41,15 +45,17 @@ public class SegmentsOfBillController {
                                                       JSONException, SegmentException {
 
         segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date),"2010-01-01");
+        Log.d("data", date);
 
-        if (segmentsOfBillDAO.isDatabaseEmpty()) {
-            List<Bill> billList = JSONHelper.billListFromJSON(JSONHelper.
-                    getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/"),
-                    SegmentController.getAllSegments());
-            segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
-        } else {
-            segmentsOfBillList = segmentsOfBillDAO.getAllSegments();
-        }
+        BillController billController = BillController.getInstance(context);
+
+        List<Bill> billList = billController.getAllBills();
+
+        segmentsOfBillDAO.insertAllSegmentsOfBills(billList);
+
+        segmentsOfBillList = segmentsOfBillDAO.getAllSegments();
     }
-
 }

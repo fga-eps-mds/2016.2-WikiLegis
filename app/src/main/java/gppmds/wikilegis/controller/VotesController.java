@@ -1,12 +1,15 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.VotesDAO;
 import gppmds.wikilegis.exception.SegmentException;
@@ -66,11 +69,16 @@ public class VotesController {
 
         votesDAO = votesDAO.getInstance(context);
 
-        if (votesDAO.isDatabaseEmpty()) {
-            votesList = JSONHelper.votesListFromJSON();
-            votesDAO.insertAllVotes(votesList);
-        } else {
-            votesList = votesDAO.getAllVotes();
-        }
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+
+        List<Votes> newVotes = new ArrayList<>();
+
+        newVotes = JSONHelper.votesListFromJSON("?created=" + date);
+
+        votesDAO.insertAllVotes(newVotes);
+
+        votesList = votesDAO.getAllVotes();
     }
 }
