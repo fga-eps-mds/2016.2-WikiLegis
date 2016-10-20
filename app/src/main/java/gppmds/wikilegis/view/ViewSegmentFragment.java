@@ -119,7 +119,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getActivity().getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.view_segment_fragment, fragmentToBeOpen);
+        fragmentTransaction.replace(R.id.view_segment_fragment, fragmentToBeOpen,
+                "SUGGEST_PROPOSAL");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -129,14 +130,23 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.floatingButton){
-            Bundle segmentAndBillId = new Bundle();
-            segmentAndBillId.putInt("billId", billId);
-            segmentAndBillId.putInt("segmentId", segmentId);
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-            CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
-            createSuggestProposal.setArguments(segmentAndBillId);
+            if(session.getBoolean(getContext().getString(R.string.is_logged_in), false)){
 
-            openFragment(createSuggestProposal);
+                Bundle segmentAndBillId = new Bundle();
+                segmentAndBillId.putInt("billId", billId);
+                segmentAndBillId.putInt("segmentId", segmentId);
+
+                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
+                createSuggestProposal.setArguments(segmentAndBillId);
+
+                openFragment(createSuggestProposal);
+            }
+            else{
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
         }
     }
 

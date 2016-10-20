@@ -1,5 +1,6 @@
 package gppmds.wikilegis.view;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +23,7 @@ import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;
 
 
-public class CreateSuggestProposal extends Fragment implements View.OnClickListener{
+public class CreateSuggestProposal extends Fragment implements View.OnClickListener {
 
     private EditText suggestionTyped;
     private FloatingActionButton floatingActionButton;
@@ -81,22 +83,16 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         if(view.getId() == R.id.saveSuggestion){
 
-            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-
             Integer idBill = getArguments().getInt("billId");
             Integer idSegment = getArguments().getInt("segmentId");
 
-            Log.d("ID SEGMENT", idSegment+"");
-                String savingStatus = saveSuggestion(idBill, idSegment);
+            Log.d("ID SEGMENT", idSegment + "");
+            String savingStatus = saveSuggestion(idBill, idSegment);
 
-                Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
-            }
-           /* else {
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-            }*/
+            Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
 
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package gppmds.wikilegis.view;
 
+import android.app.Dialog;
 import android.support.design.widget.FloatingActionButton;
 
 import android.content.Context;
@@ -168,4 +169,38 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
+    @Override
+    public void onBackPressed(){
+        final CreateSuggestProposal createSuggestProposal = (CreateSuggestProposal)
+                getSupportFragmentManager().findFragmentByTag("SUGGEST_PROPOSAL");
+        if(createSuggestProposal.isVisible()){
+            final AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder
+                    (createSuggestProposal.getContext());
+
+            alertDialogProposalBuilder.setMessage("Você tem certeza que deseja descartar sua " +
+                    "sugestão?");
+
+            alertDialogProposalBuilder.setPositiveButton("Sim", new DialogInterface
+                    .OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialog, int which){
+                    dialog.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(createSuggestProposal)
+                            .commit();
+                }
+            });
+
+            alertDialogProposalBuilder.setNegativeButton("Não", new DialogInterface
+                    .OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialog, int which){
+                    dialog.dismiss();
+                }
+            });
+
+            alertDialogProposalBuilder.show();
+        }
+    }
 }
