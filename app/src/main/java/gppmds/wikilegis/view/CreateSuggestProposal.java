@@ -66,14 +66,19 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
         } catch(JSONException e){
             e.printStackTrace();
         } catch(SegmentException e){
-            e.printStackTrace();
+            result = getContext().getResources().getString(R.string.empty_segment);
         }
 
         if(result.equals("SUCCESS")){
-            result =  "Obrigado pela sugestão!";
+            result =  getContext().getResources().getString(R.string.success_proposal);
+        }
+        else if(result.equals(getContext().getResources().getString(R.string.empty_segment))){
+            suggestionTyped.requestFocus();
+            suggestionTyped.setError(result);
         }
         else{
-            result = "Desculpe, um problema ocorreu";
+            result = getContext().getResources().getString(R.string.connection_problem);
+            Log.d("Connection problem ", result);
         }
 
         return result;
@@ -89,9 +94,12 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
             Log.d("ID SEGMENT", idSegment + "");
             String savingStatus = saveSuggestion(idBill, idSegment);
 
-            Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
+            if(savingStatus.equals(getContext().getResources().getString(
+                    R.string.success_proposal))){
+                Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
 
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            }
         }
     }
 

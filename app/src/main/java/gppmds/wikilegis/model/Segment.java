@@ -169,7 +169,7 @@ public class Segment {
     }
 
     private boolean validateStringEmpty(final String string) {
-        if (string == null) {
+        if (string == null || string.isEmpty()) {
             return false;
         }
         return true;
