@@ -57,7 +57,11 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
     private void updateDataWithDatabase() {
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getApplicationContext());
         try {
-            dataDownloadController.updateData();
+            try {
+                dataDownloadController.updateData();
+            } catch (VotesException e) {
+                e.printStackTrace();
+            }
 
             Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
             startActivity(intent);

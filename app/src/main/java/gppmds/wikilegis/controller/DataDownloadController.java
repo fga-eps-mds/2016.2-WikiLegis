@@ -74,6 +74,8 @@ public class DataDownloadController {
 
             updateSegments();
 
+            updateModifiedSegments();
+
             updateBills();
 
             updateSegmentsOfBill();
@@ -93,6 +95,10 @@ public class DataDownloadController {
     public void updateSegments() throws SegmentException, JSONException {
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
+    }
+
+    public void updateModifiedSegments() throws SegmentException, JSONException{
+        SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initModifiedSegments();
     }
 
