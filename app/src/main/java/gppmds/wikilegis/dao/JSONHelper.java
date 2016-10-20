@@ -49,8 +49,8 @@ public class JSONHelper {
         return billListApi;
     }
 
-    public static List<Votes> votesListFromJSON(String urlDate) throws JSONException, VotesException {
-        String url = "http://wikilegis-staging.labhackercd.net/api/votes/"+urlDate;
+    public static List<Votes> votesListFromJSON(String urlDomain, String urlDate) throws JSONException, VotesException {
+        String url = urlDomain + urlDate;
         List<Votes> votesListApi = new ArrayList<>();
 
         do {
@@ -80,8 +80,8 @@ public class JSONHelper {
         }
     }
 
-    public static List<Segment> segmentListFromJSON(String urlDate) throws JSONException, SegmentException {
-        String url = "http://wikilegis-staging.labhackercd.net/api/segments/"+urlDate;
+    public static List<Segment> segmentListFromJSON(String urlDomain, String urlDate) throws JSONException, SegmentException {
+        String url = urlDomain + urlDate;
 
         List<Segment> segmentListApi = new ArrayList<>();
 
