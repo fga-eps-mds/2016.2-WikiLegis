@@ -126,7 +126,7 @@ public class JSONHelper {
         Segment segmentAux = new Segment(jsonObject.getInt("id"),
                 jsonObject.getInt("order"),
                 jsonObject.getInt("bill"),
-                jsonObject.getBoolean("original"),
+                jsonObject.getBoolean("original") ? 1 : 0,
                 jsonObject.getString("replaced").equals("null") ? 0 : jsonObject.getInt("replaced"),
                 jsonObject.getInt("id"),
                 jsonObject.getInt("type"),
