@@ -14,9 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.SegmentDAO;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 import static junit.framework.Assert.assertEquals;
@@ -31,6 +34,8 @@ public class DataDownloadControllerTest {
     SegmentDAO segmentDAO;
     DataDownloadController dataDownloadController;
     SegmentController segmentController;
+    BillDAO billDAO;
+    BillController billController;
 
     @Before
     public void setup() {
@@ -39,11 +44,15 @@ public class DataDownloadControllerTest {
         dataDownloadController = DataDownloadController.getInstance(context);
         segmentController = SegmentController.getInstance(context);
 
-        segmentDAO.clearSegmentsTable();
+        billDAO = BillDAO.getInstance(context);
+        billController = BillController.getInstance(context);
+
+        billDAO.deleteAllBills();
     }
 
     @Test
     public void testUpdateSegments() {
+        segmentDAO.clearSegmentsTable();
         final String date = "2010-01-01";
 
         List<Segment> segmentsFromAPI = new ArrayList<>();
@@ -98,6 +107,54 @@ public class DataDownloadControllerTest {
 
         assertTrue(segmentsFromDB.size() == segmentsFromAPI.size() &&
                 numberOfEqualsSegments == segmentsFromDB.size());
+    }
+
+    @Test
+    public void testUpdateBills() {
+        final String date = "2010-01-01";
+        List<Bill> billsFromAPI = new ArrayList<>();
+
+        try {
+            billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
+                    ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
+                    SegmentController.getAllSegments());
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            SharedPreferences.Editor editor = session.edit();
+            editor.putString("date", date);
+            editor.commit();
+
+            dataDownloadController.updateBills();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        List<Bill> billsFromDB = billController.getAllBills();
+
+        int numberOfEqualsBills = 0;
+        for(int i = 0; i < billsFromDB.size(); i++) {
+            for(int j = 0; j < billsFromAPI.size(); j++) {
+                Bill billFromAPI = billsFromAPI.get(j);
+                Bill billFromDB = billsFromDB.get(i);
+
+                if(billFromAPI.equals(billFromDB)) {
+                    numberOfEqualsBills++;
+                }
+            }
+        }
+
+        Log.d("bill api", billsFromAPI.size() + "");
+        Log.d("bill db", billsFromDB.size() + "");
+        Log.d("nb eql", numberOfEqualsBills + "");
+
+        assertTrue(billsFromAPI.size() == billsFromDB.size() &&
+                numberOfEqualsBills == billsFromDB.size());
     }
 
 }
