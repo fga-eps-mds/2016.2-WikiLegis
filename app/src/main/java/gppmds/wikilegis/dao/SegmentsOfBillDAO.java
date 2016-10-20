@@ -20,7 +20,7 @@ import gppmds.wikilegis.model.SegmentsOfBill;
  */
 public class SegmentsOfBillDAO extends  DaoUtilities{
 
-    private static String tableColumns[] = {"idSegment", "idBill", "position"};
+    private static String tableColumns[] = {"id", "idSegment", "idBill"};
 
     private static SegmentsOfBillDAO instance;
 
@@ -60,7 +60,6 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
             }
 
         } else {
-
             isEmpty = true;
         }
 
@@ -69,13 +68,12 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
     public boolean insertSegmentsOfBill(SegmentsOfBill segmentsOfBill) {
 
-        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getWritableDatabase();
 
         ContentValues values = new ContentValues();
 
-        values.put(tableColumns[0], segmentsOfBill.getIdSegment());
-        values.put(tableColumns[1], segmentsOfBill.getIdBill());
-        values.put(tableColumns[2], segmentsOfBill.getPosition());
+        values.put(tableColumns[1], segmentsOfBill.getIdSegment());
+        values.put(tableColumns[2], segmentsOfBill.getIdBill());
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
@@ -96,7 +94,8 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
                 SegmentsOfBill segmentsOfBill = null;
                 try {
                     segmentsOfBill = new SegmentsOfBill(idBill,
-                            segmentList.get(j), j);
+                            segmentList.get(j));
+
                 } catch (SegmentsOfBillException e) {
                     e.printStackTrace();
                 }
@@ -131,9 +130,8 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
             SegmentsOfBill segmentsOfBill = null;
             try {
-                segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))));
+                segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))));
             } catch (SegmentsOfBillException e) {
                 e.printStackTrace();
             }
@@ -162,9 +160,9 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
             SegmentsOfBill segmentsOfBill = null;
             try {
-                segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
-                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))));
+                segmentsOfBill = new SegmentsOfBill(Integer.parseInt(cursor.getString(cursor.
+                        getColumnIndex(tableColumns[2]))),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))));
             } catch (SegmentsOfBillException e) {
                 e.printStackTrace();
             }
@@ -172,8 +170,15 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
             segmentsOfBillList.add(segmentsOfBill);
         }
 
-        //sqliteDatabase.close();
-
         return segmentsOfBillList;
+    }
+
+    public boolean clearSegmentsOfBillDaoTable(){
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getWritableDatabase();
+        sqliteDatabase.delete("["+tableName+"]", null, null);
+
+        boolean isEmpty = isDatabaseEmpty();
+
+        return isEmpty;
     }
 }

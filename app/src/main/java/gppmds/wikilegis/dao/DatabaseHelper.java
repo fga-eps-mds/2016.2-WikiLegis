@@ -52,13 +52,14 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     //Segments of Bill
 
+    private static final String SEGMENTS_BILL_ID = "[id]";
     private static final String SEGMENTS_BILL_ID_SEGMENT = "[idSegment]";
     private static final String SEGMENTS_BILL_ID_BILL = "[idBill]";
-    private static final String SEGMENTS_BILL_POSITION = "[position]";
 
     private static final String CREATE_SEGMENTS_BILL = "CREATE TABLE " + SEGMENTS_BILL_TABLE + " ( " +
-            SEGMENTS_BILL_ID_SEGMENT + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_BILL_POSITION + " INTEGER ," +
-            SEGMENTS_BILL_ID_BILL + " INTEGER );";
+            SEGMENTS_BILL_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+            SEGMENTS_BILL_ID_SEGMENT + " INTEGER UNIQUE, " +
+            SEGMENTS_BILL_ID_BILL + " INTEGER);";
 
     //Segments
 
@@ -78,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final String CREATE_SEGMENTS = "CREATE TABLE " + SEGMENTS_TABLE + " ( " +
             SEGMENTS_ID + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_ORDER + " INTEGER, " +
-            SEGMENTS_ID_BILL + " INTEGER, " + SEGMENTS_ORIGINAL + " BIT, " + SEGMENTS_REPLACED +
+            SEGMENTS_ID_BILL + " INTEGER, " + SEGMENTS_ORIGINAL + " INTEGER, " + SEGMENTS_REPLACED +
             " INTEGER, " + SEGMENTS_PARENT + " INTEGER, " + SEGMENTS_TYPE + " INTEGER, " +
             SEGMENTS_NUMBER + " INTEGER, " + SEGMENTS_CONTENT + " VARCHAR(500), " +
             SEGMENTS_FIRST_NAME_AUTHOR + " VARCHAR(30), " + SEGMENTS_SECOND_NAME_AUTHOR + " VARCHAR(30), " +
