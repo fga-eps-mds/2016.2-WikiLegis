@@ -10,6 +10,7 @@ import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.GetRequest;
@@ -17,6 +18,7 @@ import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
+import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.view.MainActivity;
 
 /**
@@ -36,6 +38,8 @@ public class DataDownloadController {
         }
         return  instance;
     }
+
+
 
     public int connectionType() {
         final ConnectivityManager connMgr = (ConnectivityManager)
@@ -66,7 +70,7 @@ public class DataDownloadController {
 
         final String keyPreferencesConnection = context.getResources().getString(R.string.network_settings);
 
-        Log.d("1 keyPreferencesConnection", keyPreferencesConnection);
+        Log.d("keyPreferencesConnectio", keyPreferencesConnection);
 
         int preferencesConnection = session.getInt(keyPreferencesConnection, 0);
         int actualConnection  = connectionType();
@@ -111,4 +115,19 @@ public class DataDownloadController {
         return formatted;
 
     }
+
+    public static Bill getBillById(int id) {
+
+    }
+
+    public static List<Bill> getAllBills() {
+        List<Bill> allBills;
+
+        JSONHelper.billListFromJSON()
+
+        return allBills;
+    }
+
+
+
 }

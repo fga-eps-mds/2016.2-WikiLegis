@@ -65,7 +65,7 @@ public class SegmentController {
         Log.d("TAMANHO", segmentList.size() + "");
     }
     public void downloadSegmentFromBill(int idBill) throws SegmentException, JSONException {
-        segmentList = JSONHelper.segmentListFromJSON();
+        segmentList = JSONHelper.segmentListFromJSON("");
     }
 
     public static int getMinDate(final int id) {

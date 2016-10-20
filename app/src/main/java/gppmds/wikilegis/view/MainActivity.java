@@ -23,6 +23,7 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.LoginController;
 
 import gppmds.wikilegis.exception.BillException;
@@ -38,15 +39,20 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         BillController billController = BillController.getInstance(getApplicationContext());
+        DataDownloadController dataCenter = DataDownloadController.getInstance(getBaseContext());
 
-        try {
-            billController.DownloadBills();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (SegmentException e) {
-            e.printStackTrace();
+        if(dataCenter.connectionType() < 2) {
+            DataDownloadController.getAllBills();
+        } else {
+            try {
+                billController.DownloadBills();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
         }
         settingView();
 

@@ -15,6 +15,7 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
@@ -65,11 +66,16 @@ public class ViewBillFragment extends Fragment {
     private void settingTypeText(final int id) {
 
         Bill bill = null;
+        DataDownloadController dataCenter = DataDownloadController.getInstance(getContext());
 
-        try {
-            bill = BillController.getBillById(id);
-        } catch (BillException e) {
-            e.printStackTrace();
+        if(dataCenter.connectionType() < 2) {
+            bill = DataDownloadController.getBillById(id);
+        } else {
+            try {
+                bill = BillController.getBillById(id);
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
         }
 
         this.titleBillTextView.setText(bill.getTitle());
