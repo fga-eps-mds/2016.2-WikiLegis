@@ -81,6 +81,30 @@ public class SegmentDAO extends DaoUtilities{
         return result;
     }
 
+    public boolean modifiedSegment(final Segment segment) throws SegmentException {
+
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String contentWhitType = segmentController.addingTypeContent(segment);
+
+        ContentValues values = setContentValues(segment, contentWhitType);
+
+        deleteSegment(segment.getId());
+        boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
+
+        return result;
+    }
+
+    public void deleteSegment(final Integer idSegment) throws SegmentException {
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
+        String query = "DELETE * FROM " + tableName + " WHERE \"id\" = " + idSegment.toString();
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+    }
+
     public boolean insertAllSegments(final List<Segment> segmentList) {
         Iterator<Segment> index = segmentList.iterator();
 
@@ -88,6 +112,18 @@ public class SegmentDAO extends DaoUtilities{
 
         while (index.hasNext()) {
             result = insertSegment(index.next());
+        }
+
+        return result;
+    }
+
+    public boolean modifiedAllSegments(final List<Segment> segmentList) throws SegmentException {
+        Iterator<Segment> index = segmentList.iterator();
+
+        boolean result = true;
+
+        while (index.hasNext()) {
+            result = modifiedSegment(index.next());
         }
 
         return result;

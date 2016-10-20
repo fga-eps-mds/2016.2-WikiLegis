@@ -75,7 +75,25 @@ public class VotesController {
 
         List<Votes> newVotes = new ArrayList<>();
 
-        newVotes = JSONHelper.votesListFromJSON("?created=" + date);
+        newVotes = JSONHelper.votesListFromJSON("http://wikilegis-staging.labhackercd.net/api/votes/",
+                "?created=" + date);
+
+        votesDAO.insertAllVotes(newVotes);
+
+        votesList = votesDAO.getAllVotes();
+    }
+
+    public void initModifiedVotes() throws SegmentException, JSONException, VotesException {
+        votesDAO = votesDAO.getInstance(context);
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+
+        List<Votes> newVotes = new ArrayList<>();
+
+        newVotes = JSONHelper.votesListFromJSON("http://wikilegis-staging.labhackercd.net/api/votes/",
+                "?modified=" + date);
 
         votesDAO.insertAllVotes(newVotes);
 

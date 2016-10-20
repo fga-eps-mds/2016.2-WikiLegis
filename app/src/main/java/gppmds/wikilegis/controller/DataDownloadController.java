@@ -75,6 +75,7 @@ public class DataDownloadController {
 
             SegmentController segmentController = SegmentController.getInstance(context);
             segmentController.initControllerSegments();
+            segmentController.initModifiedSegments();
 
             BillController billController = BillController.getInstance(context);
             billController.initControllerBills();
@@ -83,7 +84,6 @@ public class DataDownloadController {
                     SegmentsOfBillController.getInstance(context);
 
             segmentsOfBillController.initControllerSegmentsOfBill();
-
 
             VotesController votesController = VotesController.getInstance(context);
             try {
