@@ -287,25 +287,35 @@ public class SegmentController {
                                   String content,
                                   Context context) throws JSONException, SegmentException{
 
-        Segment segment = new Segment(idBill, replaced, content);
 
-        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+        String result ;
 
-        String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
-        String json = "{" +
-                "\"bill\": " +idBill+","+
-                "\"replaced\": " + replaced+","+
-                "\"content\": \"" +content+"\","+
-                "\"token\": \""+session.getString("token",null) +"\""+
-                "}";
-        
+        if(content.isEmpty()){
+            result = context.getResources().getString(R.string.empty_segment);
 
-        Log.d("URL", url);
-        Log.d("URL PARAMS", json);
+        }else{
 
-        PostRequest postRequest = new PostRequest(context, url);
-        postRequest.execute(json, "application/json");
+            Segment segment = new Segment(idBill, replaced, content);
 
-        return "SUCCESS";
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+
+            String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
+            String json = "{" +
+                    "\"bill\": " +idBill+","+
+                    "\"replaced\": " + replaced+","+
+                    "\"content\": \"" +content+"\","+
+                    "\"token\": \""+session.getString("token",null) +"\""+
+                    "}";
+
+
+            Log.d("URL", url);
+            Log.d("URL PARAMS", json);
+
+            PostRequest postRequest = new PostRequest(context, url);
+            postRequest.execute(json, "application/json");
+            result = "SUCCESS";
+
+        }
+        return result;
     }
 }
