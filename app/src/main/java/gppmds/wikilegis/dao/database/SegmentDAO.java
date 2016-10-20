@@ -1,4 +1,4 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -28,7 +28,7 @@ public class SegmentDAO extends DaoUtilities{
         this.context = context;
 
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        DaoUtilities.setDatabase(databaseHelper);
+        setDatabase(databaseHelper);
     }
 
     public static SegmentDAO getInstance(final Context context) {
@@ -41,7 +41,7 @@ public class SegmentDAO extends DaoUtilities{
     }
 
     public boolean  isDatabaseEmpty(){
-        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = getDatabase().getReadableDatabase();
 
         String query = "SELECT 1 FROM " + tableName;
 
@@ -68,7 +68,7 @@ public class SegmentDAO extends DaoUtilities{
 
     public boolean insertSegment(final Segment segment) {
 
-        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = getDatabase().getReadableDatabase();
 
         SegmentController segmentController = SegmentController.getInstance(context);
 
@@ -96,7 +96,7 @@ public class SegmentDAO extends DaoUtilities{
     public long deleteAllSegments() {
         long result;
 
-        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = getDatabase().getReadableDatabase();
 
         result = deleteAndClose(sqLiteDatabase, tableName);
 
@@ -104,7 +104,7 @@ public class SegmentDAO extends DaoUtilities{
     }
 
     public Segment getSegmentById(final Integer id) throws SegmentException {
-        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName + " WHERE \"id\" = " + id.toString();
 
@@ -122,7 +122,7 @@ public class SegmentDAO extends DaoUtilities{
     }
 
     public List<Integer> getSegmentsByIdBill(final Integer idBill) throws SegmentException {
-        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName + " WHERE \"idBill\" = " + idBill.toString();
 
@@ -141,7 +141,7 @@ public class SegmentDAO extends DaoUtilities{
 
     public List<Segment> getAllSegments() throws SegmentException {
 
-        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName;
 

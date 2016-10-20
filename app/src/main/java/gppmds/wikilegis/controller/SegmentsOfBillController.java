@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.dao.SegmentsOfBillDAO;
+import gppmds.wikilegis.dao.database.SegmentsOfBillDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;

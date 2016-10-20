@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.PostRequest;
+import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 

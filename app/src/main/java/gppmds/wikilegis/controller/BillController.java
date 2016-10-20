@@ -13,8 +13,8 @@ import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.BillDAO;
-import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.database.BillDAO;
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;

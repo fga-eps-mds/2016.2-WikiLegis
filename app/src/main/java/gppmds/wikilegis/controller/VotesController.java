@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.dao.VotesDAO;
+import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.database.VotesDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Votes;

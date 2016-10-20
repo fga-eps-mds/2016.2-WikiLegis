@@ -1,4 +1,4 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.api;
 
 import android.util.Log;
 

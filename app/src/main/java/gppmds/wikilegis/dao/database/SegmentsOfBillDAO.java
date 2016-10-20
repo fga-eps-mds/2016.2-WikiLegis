@@ -1,10 +1,9 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.SegmentsOfBillException;
 import gppmds.wikilegis.model.Bill;
-import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.SegmentsOfBill;
 
 /**
@@ -28,7 +26,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
     private SegmentsOfBillDAO(Context context) {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        DaoUtilities.setDatabase(databaseHelper);
+        setDatabase(databaseHelper);
     }
 
     public static SegmentsOfBillDAO getInstance(Context context) {
@@ -42,7 +40,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
     public boolean isDatabaseEmpty() {
 
-        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = getDatabase().getReadableDatabase();
 
         String query = "SELECT 1 FROM " + tableName;
 
@@ -69,7 +67,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
     public boolean insertSegmentsOfBill(SegmentsOfBill segmentsOfBill) {
 
-        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = getDatabase().getReadableDatabase();
 
         ContentValues values = new ContentValues();
 
@@ -109,7 +107,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
     public long deleteAllSegmentsOfBill() {
         long result = 0;
 
-        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqLiteDatabase = getDatabase().getReadableDatabase();
         DaoUtilities daoUtilities = new DaoUtilities();
 
         result = daoUtilities.deleteAndClose(sqLiteDatabase, tableName);
@@ -119,7 +117,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
     public List<SegmentsOfBill> getAllSegments() throws SegmentException {
 
-        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName;
 
@@ -148,7 +146,7 @@ public class SegmentsOfBillDAO extends  DaoUtilities{
 
     public List<SegmentsOfBill> getAllSegmentsOfBill(Integer idBill) {
 
-        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+        SQLiteDatabase sqliteDatabase = getDatabase().getReadableDatabase();
 
         String idBillAux = idBill.toString();
 

@@ -13,13 +13,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.GetRequest;
-import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
-import gppmds.wikilegis.view.MainActivity;
 
 /**
  * Created by marcelo on 10/17/16.
@@ -117,14 +114,14 @@ public class DataDownloadController {
     }
 
     public static Bill getBillById(int id) {
-
+        Bill bill = null;
+        //TODO Get Bill
+        return bill;
     }
 
     public static List<Bill> getAllBills() {
-        List<Bill> allBills;
-
-        JSONHelper.billListFromJSON()
-
+        List<Bill> allBills = null;
+        //TODO Get AllBill
         return allBills;
     }
 

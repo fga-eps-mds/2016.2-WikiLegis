@@ -2,9 +2,6 @@ package gppmds.wikilegis.controller;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.util.Log;
-
-import gppmds.wikilegis.controller.BillController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +11,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import gppmds.wikilegis.dao.BillDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
