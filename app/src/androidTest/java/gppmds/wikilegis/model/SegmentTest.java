@@ -151,7 +151,7 @@ public class SegmentTest {
             isValid = false;
         }
 
-        assertTrue(isValid);
+        assertFalse(isValid);
     }
 
     @Test
