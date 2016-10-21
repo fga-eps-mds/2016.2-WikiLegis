@@ -86,7 +86,7 @@ public class DataDownloadController {
             editor.putString("date", getLocalTime());
             editor.commit();
 
-            Log.d("Data salva", session.getString("date", getLocalTime()));
+            Log.d("Data salva", session.getString("date", "Nada salvo"));
         }else{
             SegmentController segmentController = SegmentController.getInstance(context);
             segmentController.initControllerSegmentsOffline();

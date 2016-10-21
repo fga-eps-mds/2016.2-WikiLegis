@@ -63,7 +63,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     }
 
     private void goBackN() {
-        final int N = 10; // how many times to hit back button
+        final int N = 50; // how many times to hit back button
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();

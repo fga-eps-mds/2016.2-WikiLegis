@@ -1,14 +1,18 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.WindowManager;
 
 import org.junit.Before;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.SegmentController;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -58,15 +62,22 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
     }
     */
     public void testByClickASegmentThatShouldBeClickable() throws InterruptedException {
+        SegmentController segmentController =
+                SegmentController.getInstance(getInstrumentation().getContext());
+
+        if (segmentController.isSegmentDatabaseIsEmpty()) {
+            onView(withId(R.id.button)).perform(click());
+        }
+
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
-        onView(withId(R.id.main_content)).perform(swipeLeft());
         Thread.sleep(2000);
-        onView(withId(R.id.recycler_view_closed))
+        onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.imageViewLike)).check(matches(isDisplayed()));
+
     }
 }
