@@ -64,7 +64,7 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
         onView(withId(R.id.main_content)).perform(swipeLeft());
         Thread.sleep(2000);
         onView(withId(R.id.recycler_view_closed))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.imageViewLike)).check(matches(isDisplayed()));

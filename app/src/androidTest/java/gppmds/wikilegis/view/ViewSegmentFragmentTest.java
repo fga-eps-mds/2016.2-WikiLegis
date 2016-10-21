@@ -3,6 +3,7 @@ package gppmds.wikilegis.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
@@ -34,6 +35,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
 
     public void setUp() throws Exception {
         super.setUp();
+
         final Activity activityOnTest = getActivity();
         Runnable wakeUpDevice = new Runnable() {
             public void run() {
@@ -52,6 +54,21 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         activityOnTest.runOnUiThread(wakeUpDevice);
+    }
+
+    public void tearDown() throws Exception {
+        goBackN();
+
+        super.tearDown();
+    }
+
+    private void goBackN() {
+        final int N = 10; // how many times to hit back button
+        try {
+            for (int i = 0; i < N; i++)
+                Espresso.pressBack();
+        } catch (Exception e) {
+        }
     }
 
     public void testImageProposalIsDisplayed(){

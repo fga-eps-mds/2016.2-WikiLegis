@@ -90,6 +90,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'recyclerview-v7:23.4.0'
+        exclude group: 'com.android.support', module:  'cardview-v7:23.4.0'
         exclude module: 'recyclerview-v7'
     }
 

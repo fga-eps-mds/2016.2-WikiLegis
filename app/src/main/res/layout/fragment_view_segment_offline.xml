@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/titleBill"
+                android:id="@+id/titleBillOffline"
                 android:autoText="false"
                 android:hint="Texto da bill"
                 android:layout_marginTop="15dp"
@@ -40,11 +40,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/contentSegment"
+                android:id="@+id/contentSegmentOffline"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/titleBill"
+                android:layout_below="@+id/titleBillOffline"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"/>
 
@@ -84,7 +84,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/imageViewProposal"
+                android:id="@+id/imageViewProposalOffline"
                 android:src="@drawable/chat"
                 android:clickable="false"
                 android:layout_alignBottom="@+id/textViewProposal"

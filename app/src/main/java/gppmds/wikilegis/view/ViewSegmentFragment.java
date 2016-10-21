@@ -83,13 +83,15 @@ public class ViewSegmentFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_view_segment, container, false);
             likes = (TextView) view.findViewById(R.id.textViewNumberLike);
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
+            billText = (TextView) view.findViewById(R.id.titleBill);
+            segmentText = (TextView) view.findViewById(R.id.contentSegment);
         } else if (connectionType == NO_NETWORK){
             view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
+            billText = (TextView) view.findViewById(R.id.titleBillOffline);
+            segmentText = (TextView) view.findViewById(R.id.contentSegmentOffline);
         }
 
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
-        segmentText = (TextView) view.findViewById(R.id.contentSegment);
-        billText = (TextView) view.findViewById(R.id.titleBill);
     }
 
     private void settingText() {

@@ -84,6 +84,9 @@ public class SegmentsOfBillDAOTest {
         assertTrue(result && (numberOfSegmentsOfBill == 1));
     }
 
+    //Segments of bill será excluida
+
+    /*
     @Test
     public void insertAllSegmentsOfBillsTest() {
         List<Bill> billList = new ArrayList<>();
@@ -221,7 +224,7 @@ public class SegmentsOfBillDAOTest {
         final boolean isDbEmpty = segmentsOfBillDAO.isDatabaseEmpty();
         assertTrue(isDbEmpty && deletedSegments == numberOfSegmentsAdded);
     }
-
+    */
 
     @Test
     public void getAllSegmentsTest() {
