@@ -1,11 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
-    android:background="@drawable/background"
-    android:layout_marginTop="50dp">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
+                android:background="@drawable/background"
+                android:layout_marginTop="50dp">
 
     <FrameLayout
         android:layout_width="350dp"
@@ -48,48 +48,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"/>
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/imageViewLike"
-                android:clickable="false"
-                android:src="@drawable/like"
-                android:layout_marginStart="50dp"
-                android:layout_below="@+id/contentSegment"
-                android:layout_alignParentStart="true" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/imageViewDislike"
-                android:src="@drawable/dislike"
-                android:layout_marginStart="130dp"
-                android:clickable="false"
-                android:layout_alignTop="@+id/imageViewLike"
-                android:layout_toEndOf="@+id/imageViewLike"
-                android:layout_marginBottom="15dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_marginStart="5dp"
-                android:clickable="false"
-                android:text=""
-                android:id="@+id/textViewNumberLike"
-                android:layout_alignBottom="@+id/imageViewLike"
-                android:layout_toEndOf="@+id/imageViewLike" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=""
-                android:clickable="false"
-                android:id="@+id/textViewNumberDislike"
-                android:layout_marginStart="5dp"
-                android:layout_alignTop="@+id/textViewNumberLike"
-                android:layout_toEndOf="@+id/imageViewDislike" />
 
         </RelativeLayout>
 
