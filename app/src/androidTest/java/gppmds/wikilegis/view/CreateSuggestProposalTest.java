@@ -2,6 +2,7 @@ package gppmds.wikilegis.view;
 
 import android.app.Activity;
 import android.preference.PreferenceManager;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
@@ -99,5 +100,90 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.suggestionEditText)).check(matches(hasErrorText(getActivity()
                 .getApplicationContext().getResources().getString(R.string.empty_segment))));
 
+    }
+
+    public void testCancelEmptyProposalSuggestion(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+
+        if(!isLoggedIn){
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.recycler_view_open))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.floatingButton)).perform((click()));
+        Espresso.pressBack();
+        onView(withId(R.id.floatingButton)).check(matches(isDisplayed()));
+
+    }
+
+    public void testCancelProposalSuggestion(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+
+        if(!isLoggedIn){
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.recycler_view_open))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.floatingButton)).perform((click()));
+        onView(withId(R.id.suggestionEditText)).perform(typeText("Testando"));
+        closeSoftKeyboard();
+        Espresso.pressBack();
+        onView(withText("Sim")).perform(click());
+        onView(withId(R.id.floatingButton)).check(matches(isDisplayed()));
+    }
+
+    public void testKeepProposalSuggestion(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+
+        if(!isLoggedIn){
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.recycler_view_open))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.floatingButton)).perform((click()));
+        onView(withId(R.id.suggestionEditText)).perform(typeText("Testando"));
+        closeSoftKeyboard();
+        Espresso.pressBack();
+        onView(withText("Não")).perform(click());
+        onView(withId(R.id.suggestionEditText)).check(matches(withText("Testando")));
     }
 }
