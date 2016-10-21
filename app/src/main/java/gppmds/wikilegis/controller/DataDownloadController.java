@@ -88,7 +88,18 @@ public class DataDownloadController {
 
             Log.d("Data salva", session.getString("date", getLocalTime()));
         }else{
-            //TOAST
+            SegmentController segmentController = SegmentController.getInstance(context);
+            segmentController.initControllerSegmentsOffline();
+
+            BillController billController = BillController.getInstance(context);
+            billController.initControllerBillsOffline();
+
+            SegmentsOfBillController segmentsOfBillController =
+                    SegmentsOfBillController.getInstance(context);
+            segmentsOfBillController.initControllerSegmentsOfBillOffline();
+
+            VotesController votesController = VotesController.getInstance(context);
+            votesController.initControllerVotesOffline();
         }
     }
 

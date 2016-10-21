@@ -75,6 +75,12 @@ public class BillController {
         billList = billDao.getAllBills();
     }
 
+    public void initControllerBillsOffline() throws BillException {
+        billDao = BillDAO.getInstance(context);
+        billList = billDao.getAllBills();
+        Log.d("BILL OFFLINE", billList.size() + "");
+    }
+
     public static List<Segment> getSegmentsFromIdOfBill(final int idBill) {
         List<Segment> listSegment;
         List<SegmentsOfBill> segmentsOfBillList;
@@ -88,7 +94,7 @@ public class BillController {
         for (int i = 0; i < segmentsOfBillList.size(); i++) {
             try {
                 Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i)
-                        .getIdSegment());
+                        .getIdSegment(), context);
                 if (segmentAux.getOrder() != 0)
                     listSegment.add(segmentAux);
             } catch (SegmentException e) {

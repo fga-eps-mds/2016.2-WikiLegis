@@ -41,7 +41,8 @@ public class SegmentController {
         return segmentList;
     }
 
-    public static Segment getSegmentById(final Integer id) throws SegmentException {
+    public static Segment getSegmentById(final Integer id, Context context) throws SegmentException {
+        segmentDAO = SegmentDAO.getInstance(context);
         return segmentDAO.getSegmentById(id);
     }
 
@@ -64,6 +65,13 @@ public class SegmentController {
         segmentList = segmentDAO.getAllSegments();
 
         Log.d("TAMANHO", segmentList.size() + "");
+    }
+
+    public void initControllerSegmentsOffline() throws SegmentException {
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
+        Log.d("TAMANHO OFFLINE", segmentList.size() + "");
     }
 
     public void initModifiedSegments() throws SegmentException, JSONException {
