@@ -42,7 +42,16 @@ public class Bill {
         setDate(date);
     }
 
+    public boolean equals(Bill bill) {
 
+        boolean isEverythingEqual = ( this.id.equals(bill.getId()) && this.title.equals(bill.getTitle())
+                && this.epigraph.equals(bill.getEpigraph()) && this.status.equals(bill.getStatus())
+                && this.description.equals(bill.getDescription()) && this.theme.equals(bill.getTheme())
+                && this.numberOfPrposals.equals(bill.getNumberOfPrposals()) && this.date.equals(bill.getDate())
+        );
+
+        return isEverythingEqual;
+    }
 
     public Integer getId() {
         return id;

@@ -58,7 +58,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
                 (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
 
         if(isLoggedIn){
-            onView(withId(R.id.action_profile)).perform(click());
+            onView(withId(R.id.action_profile_logged)).perform(click());
             onView(withText("Sair")).perform(click());
         }
 

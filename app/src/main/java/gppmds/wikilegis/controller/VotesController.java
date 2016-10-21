@@ -3,6 +3,7 @@ package gppmds.wikilegis.controller;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONException;
 
@@ -75,10 +76,17 @@ public class VotesController {
 
         List<Votes> newVotes = new ArrayList<>();
 
-        newVotes = JSONHelper.votesListFromJSON("?created=" + date);
+        newVotes = JSONHelper.votesListFromJSON("http://wikilegis-staging.labhackercd.net/api/votes/",
+                "?created=" + date);
 
         votesDAO.insertAllVotes(newVotes);
 
         votesList = votesDAO.getAllVotes();
+    }
+
+    public void initControllerVotesOffline() throws VotesException {
+        votesDAO = votesDAO.getInstance(context);
+        votesList = votesDAO.getAllVotes();
+        Log.d("Votes OFFLINE", votesList.size() + "");
     }
 }

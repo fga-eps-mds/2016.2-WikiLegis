@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
@@ -223,10 +224,29 @@ public class SegmentControllerTest {
     @Test
     public void testGetSegmentByValidId() throws SegmentException, JSONException{
         SegmentController segmentController = SegmentController.getInstance(context);
-        segmentController.initControllerSegments();
+        List<Segment> proposalList = new ArrayList<>();
 
-        Segment segment = segmentController.getSegmentById(3927);
-        assertTrue(segment.getId() == 3927);
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO.deleteAllSegments();
+
+        final Integer TYPE = 11;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da subsecao.";
+        Segment segment = null;
+
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+
+            segmentDAO.insertSegment(segment);
+
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        Segment segmentById = segmentController.getSegmentById(1, context);
+        assertTrue(segmentById.getId() == 1);
+
+        segmentDAO.deleteAllSegments();
     }
 
     @Test
@@ -234,7 +254,7 @@ public class SegmentControllerTest {
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
-        Segment segment = segmentController.getSegmentById(0);
+        Segment segment = segmentController.getSegmentById(0, context);
         assertNull(segment);
     }
 
@@ -288,17 +308,44 @@ public class SegmentControllerTest {
     public void testGetProposalsOfSegment(){
         SegmentController segmentController = SegmentController.getInstance(context);
         List<Segment> proposalList = new ArrayList<>();
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO.deleteAllSegments();
+
+        final Integer TYPE = 11;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da subsecao.";
+        Segment segment = null;
+        Segment sugestedOne = null;
+        Segment sugestedTwo = null;
+        Segment sugestedThree = null;
+
         try {
-            segmentController.initControllerSegments();
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+
+            sugestedOne = new Segment(2, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
+            sugestedTwo = new Segment(3, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
+            sugestedThree = new Segment(4, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
+
+            segmentDAO.insertSegment(segment);
+            segmentDAO.insertSegment(sugestedOne);
+            segmentDAO.insertSegment(sugestedTwo);
+            segmentDAO.insertSegment(sugestedThree);
+
         } catch (SegmentException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+        }
+
+        try {
+            segmentController.initControllerSegmentsOffline();
+        } catch (SegmentException e) {
             e.printStackTrace();
         }
-        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(),
-                3946);
 
-        assertTrue(proposalList.size() == 4);
+        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(),
+                1);
+
+        assertTrue(proposalList.size() == 3);
     }
 
     @Test

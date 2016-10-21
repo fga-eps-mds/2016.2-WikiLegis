@@ -5,7 +5,7 @@
     tools:context=".view.MainActivity">
 
     <item
-        android:id="@+id/action_profile"
+        android:id="@+id/action_profile_deslogged"
         android:title="@string/action_profile"
         android:icon="@drawable/reorder"
         app:showAsAction="always"

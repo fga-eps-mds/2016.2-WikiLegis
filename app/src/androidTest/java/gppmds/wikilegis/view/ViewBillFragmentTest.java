@@ -41,6 +41,8 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
+    //Na staging não existem segmentos que não são clicáveis
+    /*
     public void testByClickASegmentThatShouldNotBeClickable() throws InterruptedException {
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
@@ -54,7 +56,7 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.textViewProposal)).check(matches(isDisplayed()));
     }
-
+    */
     public void testByClickASegmentThatShouldBeClickable() throws InterruptedException {
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();

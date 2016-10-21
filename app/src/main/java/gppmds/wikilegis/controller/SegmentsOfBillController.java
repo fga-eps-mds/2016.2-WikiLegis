@@ -58,4 +58,10 @@ public class SegmentsOfBillController {
 
         segmentsOfBillList = segmentsOfBillDAO.getAllSegments();
     }
+
+    public void initControllerSegmentsOfBillOffline() throws SegmentException {
+        segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
+        segmentsOfBillList = segmentsOfBillDAO.getAllSegments();
+        Log.d("SegOFBill OFFLINE", segmentsOfBillList.size() + "");
+    }
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -81,6 +82,30 @@ public class SegmentDAO extends DaoUtilities{
         return result;
     }
 
+    public boolean modifiedSegment(final Segment segment) throws SegmentException {
+
+        SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String contentWhitType = segmentController.addingTypeContent(segment);
+
+        ContentValues values = setContentValues(segment, contentWhitType);
+
+        deleteSegment(segment.getId());
+        boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
+        Log.d("booleanToInt(): ", ""+ segment.booleanToInt(segment.isOriginal()));
+        return result;
+    }
+
+    public void deleteSegment(final Integer idSegment) throws SegmentException {
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
+        String query = "DELETE FROM " + tableName + " WHERE \"id\" = " + idSegment.toString();
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+    }
+
     public boolean insertAllSegments(final List<Segment> segmentList) {
         Iterator<Segment> index = segmentList.iterator();
 
@@ -88,6 +113,18 @@ public class SegmentDAO extends DaoUtilities{
 
         while (index.hasNext()) {
             result = insertSegment(index.next());
+        }
+
+        return result;
+    }
+
+    public boolean modifiedAllSegments(final List<Segment> segmentList) throws SegmentException {
+        Iterator<Segment> index = segmentList.iterator();
+
+        boolean result = true;
+
+        while (index.hasNext()) {
+            result = modifiedSegment(index.next());
         }
 
         return result;
@@ -113,7 +150,6 @@ public class SegmentDAO extends DaoUtilities{
         Segment segment = null;
 
         while (cursor.moveToNext()) {
-
             segment = setSegmentById(cursor);
         }
         cursor.close();
@@ -150,7 +186,6 @@ public class SegmentDAO extends DaoUtilities{
         List<Segment> segmentList = new ArrayList<Segment>();
 
         while (cursor.moveToNext()) {
-
             Segment segment = setAllSegments(cursor);
             segmentList.add(segment);
         }
@@ -180,7 +215,7 @@ public class SegmentDAO extends DaoUtilities{
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
-                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
@@ -195,7 +230,7 @@ public class SegmentDAO extends DaoUtilities{
         Segment segment = new Segment(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[2]))),
-                Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
+                Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
                 Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[6]))),
@@ -205,4 +240,14 @@ public class SegmentDAO extends DaoUtilities{
         );
         return segment;
     }
+
+    public boolean clearSegmentsTable(){
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getWritableDatabase();
+        sqliteDatabase.delete("["+tableName+"]", null, null);
+
+        boolean isEmpty = isDatabaseEmpty();
+
+        return isEmpty;
+    }
+
 }
