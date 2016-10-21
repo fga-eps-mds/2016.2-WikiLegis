@@ -300,4 +300,22 @@ public class SegmentControllerTest {
 
         assertTrue(proposalList.size() == 4);
     }
+
+    @Test
+    public void testRegisterSegmentWithEmptySuggestion() throws SegmentException, JSONException{
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String status= segmentController.registerSegment(13, 131, "", context);
+
+        assertEquals(status, "Por favor, digite uma sugestão");
+    }
+
+    @Test
+    public void testRegisterSegmentWithValidSuggestion() throws SegmentException, JSONException{
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String status= segmentController.registerSegment(13, 121, "Testando", context);
+
+        assertEquals(status, "SUCCESS");
+    }
 }

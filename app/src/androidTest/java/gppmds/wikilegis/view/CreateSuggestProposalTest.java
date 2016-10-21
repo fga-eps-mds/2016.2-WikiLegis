@@ -18,10 +18,13 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by josue on 10/20/16.
@@ -185,5 +188,35 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         Espresso.pressBack();
         onView(withText("Não")).perform(click());
         onView(withId(R.id.suggestionEditText)).check(matches(withText("Testando")));
+    }
+
+    public void testValidProposalSuggestion() throws InterruptedException {
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+
+        if(!isLoggedIn){
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.recycler_view_open))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.floatingButton)).perform((click()));
+        onView(withId(R.id.suggestionEditText)).perform(typeText("Testando"));
+        closeSoftKeyboard();
+        onView(withId(R.id.saveSuggestion)).perform(click());
+        Thread.sleep(500);
+        onView(withText("Obrigado pela sugestão!")).inRoot(withDecorView(not(is(getActivity()
+                .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 }

@@ -295,8 +295,6 @@ public class SegmentController {
 
         }else{
 
-            Segment segment = new Segment(idBill, replaced, content);
-
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
             String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
@@ -318,4 +316,6 @@ public class SegmentController {
         }
         return result;
     }
+
+
 }
