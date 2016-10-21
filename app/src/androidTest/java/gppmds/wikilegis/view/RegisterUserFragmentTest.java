@@ -256,6 +256,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         closeSoftKeyboard();
         onView(withId(R.id.registerButton)).perform(ViewActions.scrollTo()).perform(click());
         Thread.sleep(500);
-        onView(withText("Email já cadastrado!")).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+        onView(withText("Email já cadastrado!")).inRoot(withDecorView(not(is(getActivity()
+                .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 }

@@ -27,6 +27,7 @@ import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.exception.SegmentException;
@@ -36,6 +37,7 @@ import gppmds.wikilegis.model.Segment;
 
 public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerViewAdapterContent.ContentViewHolder> {
     private List<Segment> listSegment = new ArrayList<>();
+    private Context context;
 
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
@@ -115,21 +117,57 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public ContentViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_segment,
-                parent, false);
-        ContentViewHolder contentViewHolder = new ContentViewHolder(v);
+
+        context = parent.getContext();
+
+        DataDownloadController dataDownloadController =
+                DataDownloadController.getInstance(context);
+
+        final int WIFI = 0;
+        final int MOBILE_3G = 1;
+        final int NO_NETWORK = 2;
+
+        int connectionType = dataDownloadController.connectionType();
+
+        ContentViewHolder contentViewHolder = null;
+
+        if(connectionType == WIFI || connectionType == MOBILE_3G) {
+            View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_segment,
+                    parent, false);
+            contentViewHolder=new ContentViewHolder(v);
+        } else if (connectionType == NO_NETWORK) {
+            View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_segment_offline,
+                    parent, false);
+            contentViewHolder=new ContentViewHolder(v);
+        }
+
         return contentViewHolder;
     }
 
     @Override
     public void onBindViewHolder(final ContentViewHolder holder, final int position) {
+
         holder.cardView.setTag(R.id.idSegment, listSegment.get(position).getId());
         holder.proposals.setText(listSegment.get(position).getContent());
-        try {
-            holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position).getId()).toString());
-            holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment.get(position).getId()).toString());
-        } catch (VotesException e) {
-            e.printStackTrace();
+
+        DataDownloadController dataDownloadController =
+                DataDownloadController.getInstance(context);
+
+        final int WIFI = 0;
+        final int MOBILE_3G = 1;
+        final int NO_NETWORK = 2;
+
+        int connectionType = dataDownloadController.connectionType();
+
+        if(connectionType == WIFI || connectionType == MOBILE_3G) {
+            try {
+                holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position).getId()).toString());
+                holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment.get(position).getId()).toString());
+            } catch (VotesException e) {
+                e.printStackTrace();
+            }
+        } else if (connectionType == NO_NETWORK) {
+            //nothing to do
         }
     }
 

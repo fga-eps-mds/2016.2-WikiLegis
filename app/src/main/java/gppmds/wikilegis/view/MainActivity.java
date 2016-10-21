@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.LoginController;
@@ -25,6 +26,7 @@ import gppmds.wikilegis.controller.LoginController;
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabs = null;
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton)findViewById
+        floatingActionButton = (FloatingActionButton)findViewById
                 (R.id.floatingButton);
         floatingActionButton.setVisibility(View.INVISIBLE);
 
@@ -173,34 +175,54 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(){
         final CreateSuggestProposal createSuggestProposal = (CreateSuggestProposal)
                 getSupportFragmentManager().findFragmentByTag("SUGGEST_PROPOSAL");
-        if(createSuggestProposal.isVisible()){
-            final AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder
-                    (createSuggestProposal.getContext());
 
-            alertDialogProposalBuilder.setMessage("Você tem certeza que deseja descartar sua " +
-                    "sugestão?");
+        if(createSuggestProposal != null){
+            if(createSuggestProposal.isVisible()){
 
-            alertDialogProposalBuilder.setPositiveButton("Sim", new DialogInterface
-                    .OnClickListener(){
+                EditText proposalSuggestionEditText = (EditText) createSuggestProposal.getView()
+                        .findViewById(R.id.suggestionEditText);
+                String suggestionTyped = proposalSuggestionEditText.getText().toString();
 
-                @Override
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.dismiss();
-                    getSupportFragmentManager().beginTransaction().remove(createSuggestProposal)
-                            .commit();
+                if(!suggestionTyped.isEmpty()){
+
+                    final AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder
+                            (createSuggestProposal.getContext());
+
+                    alertDialogProposalBuilder.setMessage("Você tem certeza que deseja descartar sua " +
+                            "sugestão?");
+
+                    alertDialogProposalBuilder.setPositiveButton("Sim", new DialogInterface
+                            .OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.dismiss();
+                            getSupportFragmentManager().beginTransaction().remove(createSuggestProposal)
+                                    .commit();
+                            floatingActionButton.setVisibility(View.VISIBLE);
+                        }
+                    });
+
+                    alertDialogProposalBuilder.setNegativeButton("Não", new DialogInterface
+                            .OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which){
+                            dialog.dismiss();
+                        }
+                    });
+
+                    alertDialogProposalBuilder.show();
                 }
-            });
+                else{
+                    super.onBackPressed();
+                    floatingActionButton.setVisibility(View.VISIBLE);
 
-            alertDialogProposalBuilder.setNegativeButton("Não", new DialogInterface
-                    .OnClickListener(){
-
-                @Override
-                public void onClick(DialogInterface dialog, int which){
-                    dialog.dismiss();
                 }
-            });
-
-            alertDialogProposalBuilder.show();
+            }
+        }
+        else{
+            super.onBackPressed();
         }
     }
 }

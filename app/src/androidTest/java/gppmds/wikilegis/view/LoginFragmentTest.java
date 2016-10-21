@@ -181,7 +181,7 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
     public void testOptionBarWithVisitor() {
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
-        onView(withId(R.id.action_profile)).perform(click());
+        onView(withId(R.id.action_profile_deslogged)).perform(click());
         onView(withText("Entrar")).perform(click());
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
@@ -195,7 +195,7 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
 
-        onView(withId(R.id.action_profile)).perform(click());
+        onView(withId(R.id.action_profile_logged)).perform(click());
         onView(withText("Sair")).perform(click());
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));

@@ -34,7 +34,16 @@ public class VotesDAO {
         return VotesDAO.instance;
     }
 
-    public boolean  isDatabaseEmpty(){
+    public boolean clearVotesTable(){
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getWritableDatabase();
+        sqliteDatabase.delete("["+tableName+"]", null, null);
+
+        boolean isEmpty = isDatabaseEmpty();
+
+        return isEmpty;
+    }
+
+    public boolean isDatabaseEmpty(){
         SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT 1 FROM " + tableName;
@@ -127,12 +136,12 @@ public class VotesDAO {
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
-                    cursor.getString(cursor.getColumnIndex(tableColumns[2])).equals("true") ? true : false
-            );
+                    cursor.getString(cursor.getColumnIndex(tableColumns[2])).equals("true") );
 
             votesList.add(vote);
         }
         cursor.close();
         return votesList;
     }
+
 }
