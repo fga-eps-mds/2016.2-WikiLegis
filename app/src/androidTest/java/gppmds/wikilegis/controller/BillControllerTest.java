@@ -15,10 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.dao.BillDAO;
+import gppmds.wikilegis.dao.SegmentDAO;
+import gppmds.wikilegis.dao.SegmentsOfBillDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.SegmentsOfBillException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.SegmentsOfBill;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -38,43 +42,106 @@ public class BillControllerTest {
     }
 
     @Test
-    public void testGetSegmentsFromIdOfBill() throws BillException, JSONException, SegmentException{
+    public void testGetSegmentsFromIdOfBill() throws BillException, JSONException, SegmentException, SegmentsOfBillException {
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO.deleteAllSegments();
+
+        SegmentsOfBillDAO segmentsOfBillDAO = SegmentsOfBillDAO.getInstance(context);
+        segmentsOfBillDAO.deleteAllSegmentsOfBill();
+
+
         SegmentController segmentController = SegmentController.getInstance(context);
-        segmentController.initControllerSegments();
 
         BillController billController = BillController.getInstance(context);
+
+        SegmentsOfBillController segmentsOfBillController = SegmentsOfBillController.getInstance(context);
+
+        Bill billToInsert = new Bill(1, "Titulo", "Epigraph", "status", "Description", "theme",
+                1, 20160008);
+
+        billDAO.insertBill(billToInsert);
+
+        final int BILL_ID = 1;
+
+        List<Integer> segmentsList = new ArrayList<>();
+
+        for (int i = 1; i <= 5; i++) {
+            Segment newSegment = new Segment(i, i, BILL_ID, 1, 0, 1, 1, 1, "Content", "2015-07-09");
+            segmentDAO.insertSegment(newSegment);
+            billToInsert.setSegments(newSegment.getId());
+
+            SegmentsOfBill segmentsOfBill = new SegmentsOfBill(BILL_ID, newSegment.getId());
+
+            segmentsOfBillDAO.insertSegmentsOfBill(segmentsOfBill);
+        }
+
+        segmentsList = billToInsert.getSegments();
+
+        segmentController.initControllerSegments();
         billController.initControllerBills();
-
-        SegmentsOfBillController segmentsOfBillController = SegmentsOfBillController
-                .getInstance(context);
         segmentsOfBillController.initControllerSegmentsOfBill();
-
-        final int BILL_ID = 25;
 
         List<Segment> foundSegments = billController.getSegmentsFromIdOfBill(BILL_ID);
 
-        final Integer NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25 = 3;
+        int countEquals = 0;
 
-        assertTrue(foundSegments.size() == NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25);
+        for(int i = 0; i < segmentsList.size(); i++) {
+            for(int j = 0; j < foundSegments.size(); j++) {
+                if(segmentsList.get(i) == foundSegments.get(j).getId()) {
+                    countEquals++;
+                }
+            }
+        }
+
+        final Integer NUMBER_OF_SEGMENTS_OF_BILL = 5;
+
+        Log.d("segmentL s", segmentsList.size() + "");
+        Log.d("foundS s", foundSegments.size() + "");
+        Log.d("countEq", countEquals + "");
+
+        assertTrue(segmentsList.size() == foundSegments.size()
+                && NUMBER_OF_SEGMENTS_OF_BILL == countEquals);
+
+        billDAO.deleteAllBills();
     }
 
     @Test
     public void testGetBillByValidId() throws BillException, SegmentException, JSONException{
-        BillController billController = BillController.getInstance(context);
-        billController.initControllerBills();
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
 
-        Bill bill = billController.getBillById(53);
-        assertEquals(bill.getId()+"", "53");
+        Bill billToInsert = new Bill(1, "Titulo", "Epigraph", "status", "Description", "theme",
+        1, 20160008);
+
+        billDAO.insertBill(billToInsert);
+
+        BillController billController = BillController.getInstance(context);
+
+        Bill bill = billController.getBillById(1);
+        assertEquals(bill.getId()+"", "1");
+
+        billDAO.deleteAllBills();
     }
 
     @Test
     public void testGetBillByInvalidId() throws BillException, SegmentException, JSONException{
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
+
+        Bill billToInsert = new Bill(1, "Titulo", "Epigraph", "status", "Description", "theme",
+                1, 20160008);
+
+        billDAO.insertBill(billToInsert);
+
         BillController billController = BillController.getInstance(context);
-        billController.initControllerBills();
 
         Bill bill = billController.getBillById(7);
 
         assertNull(bill);
+        billDAO.deleteAllBills();
     }
 
     @Test

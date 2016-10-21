@@ -225,7 +225,7 @@ public class SegmentControllerTest {
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
-        Segment segment = segmentController.getSegmentById(3927);
+        Segment segment = segmentController.getSegmentById(3927, context);
         assertTrue(segment.getId() == 3927);
     }
 
@@ -234,7 +234,7 @@ public class SegmentControllerTest {
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
-        Segment segment = segmentController.getSegmentById(0);
+        Segment segment = segmentController.getSegmentById(0, context);
         assertNull(segment);
     }
 
