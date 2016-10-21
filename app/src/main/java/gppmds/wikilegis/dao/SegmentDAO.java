@@ -101,7 +101,7 @@ public class SegmentDAO extends DaoUtilities{
     public void deleteSegment(final Integer idSegment) throws SegmentException {
         SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
-        String query = "DELETE * FROM " + tableName + " WHERE \"id\" = " + idSegment.toString();
+        String query = "DELETE FROM " + tableName + " WHERE \"id\" = " + idSegment.toString();
 
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
     }
