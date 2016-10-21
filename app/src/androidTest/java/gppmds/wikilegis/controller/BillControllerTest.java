@@ -1,6 +1,8 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.dao.BillDAO;
+import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.dao.SegmentsOfBillDAO;
 import gppmds.wikilegis.exception.BillException;
@@ -146,10 +149,58 @@ public class BillControllerTest {
 
     @Test
     public void testGetAllBills() throws BillException, JSONException, SegmentException{
-        BillController billController = BillController.getInstance(context);
-        billController.initControllerBills();
+        final String date = "2010-01-01";
+        List<Bill> billsFromAPI = new ArrayList<>();
+        BillController billController;
+        billController = BillController.getInstance(context);
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
 
-        assertTrue(billController.getAllBills().size() > 0);
+
+        try {
+            billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
+                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
+                    SegmentController.getAllSegments());
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            SharedPreferences.Editor editor = session.edit();
+            editor.putString("date", date);
+            editor.commit();
+
+            DataDownloadController dataDownloadController = DataDownloadController.getInstance(context);
+            dataDownloadController.updateBills();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        List<Bill> billsFromDB = billController.getAllBills();
+
+        int numberOfEqualsBills = 0;
+        for(int i = 0; i < billsFromDB.size(); i++) {
+            for(int j = 0; j < billsFromAPI.size(); j++) {
+                Bill billFromAPI = billsFromAPI.get(j);
+                Bill billFromDB = billsFromDB.get(i);
+
+                if(billFromAPI.equals(billFromDB)) {
+                    numberOfEqualsBills++;
+                }
+            }
+        }
+
+        Log.d("bill api", billsFromAPI.size() + "");
+        Log.d("bill db", billsFromDB.size() + "");
+        Log.d("nb eql", numberOfEqualsBills + "");
+
+        assertTrue(billsFromDB.size() > 0);
+
+        assertTrue(billsFromAPI.size() == billsFromDB.size() &&
+                numberOfEqualsBills == billsFromDB.size());
     }
 
     @Test
