@@ -52,6 +52,22 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
+
+    public void tearDown() throws Exception {
+        goBackN();
+
+        super.tearDown();
+    }
+
+    private void goBackN() {
+        final int N = 10; // how many times to hit back button
+        try {
+            for (int i = 0; i < N; i++)
+                Espresso.pressBack();
+        } catch (Exception e) {
+        }
+    }
+
     public void testSuggestProposalLoggedOut(){
 
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
@@ -62,7 +78,6 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
             onView(withText("Sair")).perform(click());
         }
 
-        closeSoftKeyboard();
         onView(withText("Visitante")).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -77,8 +92,6 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
     }
 
     public void testEmptyProposalSuggestion(){
-
-        closeSoftKeyboard();
 
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
                 (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
