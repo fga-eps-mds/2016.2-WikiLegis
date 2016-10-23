@@ -11,11 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
@@ -46,7 +51,17 @@ public class ViewBillFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        List<Segment> segmentList = BillController.getSegmentsFromIdOfBill(idBill);
+        List<Segment> segmentList = new ArrayList<>();
+
+        SegmentController segmentController = SegmentController.getInstance(getContext());
+
+        try {
+            segmentList = segmentController.getSegmentsByIdBill(idBill);
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         Log.d("TAMANHO15000", segmentList.size() + "");
 

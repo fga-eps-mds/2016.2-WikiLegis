@@ -78,8 +78,6 @@ public class DataDownloadController {
 
             updateBills();
 
-            updateSegmentsOfBill();
-
             updateVotes();
 
             SharedPreferences.Editor editor = session.edit();
@@ -105,13 +103,6 @@ public class DataDownloadController {
     public void updateBills() throws BillException, JSONException, SegmentException {
         BillController billController = BillController.getInstance(context);
         billController.initControllerBills();
-    }
-
-    public void updateSegmentsOfBill() throws BillException, JSONException, SegmentException {
-        SegmentsOfBillController segmentsOfBillController =
-                SegmentsOfBillController.getInstance(context);
-
-        segmentsOfBillController.initControllerSegmentsOfBill();
     }
 
     public void updateVotes() throws VotesException, JSONException, SegmentException {
