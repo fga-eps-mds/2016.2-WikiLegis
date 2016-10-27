@@ -105,10 +105,11 @@ public class JSONHelper {
         return segmentListApi;
     }
 
-    public static List<Segment> getSegmentFromBill(int id) throws JSONException, SegmentException {
-        String url = "http://wikilegis-staging.labhackercd.net/api/segments/?bill="+id;
+    public static List<Segment> getSegmentFromBill(String billId, String replaced) throws JSONException, SegmentException {
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/?bill="+billId+"&replaced="+replaced;
         List<Segment> segmentListApi = new ArrayList<>();
 
+        do {
         String segmentList = requestJsonObjectFromApi(url);
 
         JSONObject segment = new JSONObject(segmentList);
@@ -119,6 +120,12 @@ public class JSONHelper {
 
             segmentListApi.add(setSegmentAttributes(jsonObject));
         }
+
+        String nextUrl = segment.getString("next");
+        url = nextUrl; //updateDomain(nextUrl);
+        Log.d("URL",nextUrl);
+
+        } while (!url.equals("null"));
 
         return segmentListApi;
     }
@@ -183,5 +190,6 @@ public class JSONHelper {
 
         return billListApi;
     }
+
 
 }

@@ -55,7 +55,7 @@ public class ViewBillFragment extends Fragment {
 
         if(dataDownloadController.connectionType() < 2){
             try {
-                segmentList = DataDownloadController.getSegmentsOfBillById(idBill);
+                segmentList = DataDownloadController.getSegmentsOfBillById(""+idBill,"");
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (BillException e) {

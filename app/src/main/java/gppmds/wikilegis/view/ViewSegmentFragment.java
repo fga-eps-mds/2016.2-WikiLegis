@@ -12,11 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
@@ -60,8 +63,22 @@ public class ViewSegmentFragment extends Fragment {
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
 
-        segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
-        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+
+        if(dataDownloadController.connectionType() < 2){
+            try {
+                DataDownloadController.getSegmentsOfBillById(""+segmentId,""+billId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            segmentListAux = SegmentController.getProposalsOfSegment(segmentList, segmentId);
+        }
+            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
         Log.d("TAMANHO2", segmentListAux.size() + "");
         recyclerView.setAdapter(content);
 
@@ -79,8 +96,15 @@ public class ViewSegmentFragment extends Fragment {
 
     private void settingText() {
         try {
-            dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
-            likes.setText(VotesController.getLikesOfSegment(segmentId).toString());
+            DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+
+            if(dataDownloadController.connectionType() < 2) {
+
+            }else{
+                dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
+                likes.setText(VotesController.getLikesOfSegment(segmentId).toString());
+
+            }
             segmentText.setText(SegmentController.getSegmentById(segmentId).getContent());
             billText.setText(BillController.getBillById(billId).getTitle());
         } catch (SegmentException e) {

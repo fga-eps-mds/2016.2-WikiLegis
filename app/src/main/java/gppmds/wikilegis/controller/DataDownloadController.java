@@ -9,7 +9,10 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
@@ -122,10 +125,25 @@ public class DataDownloadController {
         return bill;
     }
 
-    public static List<Segment> getSegmentsOfBillById(int id) throws JSONException, BillException, SegmentException {
+    public static List<Segment> getSegmentsOfBillById(String billBill, String segmentBill) throws JSONException, BillException, SegmentException {
         List<Segment> segmentList = null;
-        segmentList = JSONHelper.getSegmentFromBill(id);
-        return segmentList;
+        segmentList = JSONHelper.getSegmentFromBill(billBill,segmentBill);
+        List<Segment> orderedSement = new ArrayList<>();
+
+        for(Segment segment : segmentList){
+            if(segment.getReplaced() == 0){
+                Log.d("Order",segment.getOrder()+"");
+                Log.d("Content",segment.getContent());
+                Log.d("Type",segment.getType()+"");
+                Log.d("Replaced",segment.getReplaced()+"");
+
+                orderedSement.add(segment);
+            }
+        }
+        SegmentComparatorOrder comparator = new SegmentComparatorOrder();
+        Collections.sort(orderedSement,comparator);
+
+        return orderedSement;
     }
 
     public static List<Bill> getAllBills() throws JSONException, BillException {
