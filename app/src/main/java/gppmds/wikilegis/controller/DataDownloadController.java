@@ -78,8 +78,6 @@ public class DataDownloadController {
 
             updateBills();
 
-            updateVotes();
-
             SharedPreferences.Editor editor = session.edit();
             editor.putString("date", getLocalTime());
             editor.commit();
@@ -105,10 +103,6 @@ public class DataDownloadController {
         billController.initControllerBills();
     }
 
-    public void updateVotes() throws VotesException, JSONException, SegmentException {
-        VotesController votesController = VotesController.getInstance(context);
-        votesController.initControllerVotes();
-    }
     private String getLocalTime(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);

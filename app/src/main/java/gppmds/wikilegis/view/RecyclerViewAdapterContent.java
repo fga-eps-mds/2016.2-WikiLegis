@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
@@ -49,12 +48,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(final ContentViewHolder holder, final int position) {
         holder.proposals.setText(listSegment.get(position).getContent());
-        try {
-            holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position).getId()).toString());
-            holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment.get(position).getId()).toString());
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
+        //FIXME
+        holder.likes.setText("7");
+        holder.dislikes.setText("13");
     }
 
     @Override

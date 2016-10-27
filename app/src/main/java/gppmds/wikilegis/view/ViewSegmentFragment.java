@@ -18,11 +18,9 @@ import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 public class ViewSegmentFragment extends Fragment {
@@ -79,15 +77,14 @@ public class ViewSegmentFragment extends Fragment {
 
     private void settingText() {
         try {
-            dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
-            likes.setText(VotesController.getLikesOfSegment(segmentId).toString());
+            //FIXME
+            dislikes.setText("7");
+            likes.setText("13");
             segmentText.setText(SegmentController.getSegmentById(segmentId).getContent());
             billText.setText(BillController.getBillById(billId).getTitle());
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
             e.printStackTrace();
         }
     }
