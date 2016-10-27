@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(dataCenter.connectionType() < 2) {
             try {
-                DataDownloadController.getAllBills();
+                billController.setBillList(DataDownloadController.getAllBills());
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (BillException e) {

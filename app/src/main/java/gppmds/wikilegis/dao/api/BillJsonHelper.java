@@ -62,7 +62,7 @@ public class BillJsonHelper {
         Bill bill = null;
         bill = new Bill(billJson.getInt("id"),billJson.getString("title"),
                 billJson.getString("epigraph"),billJson.getString("status"),
-                billJson.getString("description"),billJson.getString("theme"),0,
+                billJson.getString("description"),billJson.getString("theme"),billJson.getInt("proposals_count"),
                 convertDate(billJson.getString("created")));
 
         JSONArray segments = billJson.getJSONArray("segments");

@@ -106,7 +106,7 @@ public class JSONHelper {
     }
 
     public static List<Segment> getSegmentFromBill(int id) throws JSONException, SegmentException {
-        String url = "http://beta.edemocracia.camara.leg.br/wikilegis/api/segments/?bill="+id;
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/?bill="+id;
         List<Segment> segmentListApi = new ArrayList<>();
 
         String segmentList = requestJsonObjectFromApi(url);

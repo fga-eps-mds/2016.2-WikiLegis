@@ -19,6 +19,7 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
@@ -49,8 +50,22 @@ public class ViewBillFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        List<Segment> segmentList = BillController.getSegmentsFromIdOfBill(idBill);
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+        List<Segment> segmentList = null;
 
+        if(dataDownloadController.connectionType() < 2){
+            try {
+                segmentList = DataDownloadController.getSegmentsOfBillById(idBill);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            segmentList = BillController.getSegmentsFromIdOfBill(idBill);
+        }
         Log.d("TAMANHO15000", segmentList.size() + "");
 
         RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(segmentList, getContext());

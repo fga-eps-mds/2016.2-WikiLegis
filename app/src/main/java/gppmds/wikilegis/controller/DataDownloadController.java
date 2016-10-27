@@ -14,10 +14,12 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.BillJsonHelper;
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.model.Segment;
 
 /**
  * Created by marcelo on 10/17/16.
@@ -118,6 +120,12 @@ public class DataDownloadController {
         Bill bill = null;
         bill = BillJsonHelper.getBillFromApiById(id);
         return bill;
+    }
+
+    public static List<Segment> getSegmentsOfBillById(int id) throws JSONException, BillException, SegmentException {
+        List<Segment> segmentList = null;
+        segmentList = JSONHelper.getSegmentFromBill(id);
+        return segmentList;
     }
 
     public static List<Bill> getAllBills() throws JSONException, BillException {

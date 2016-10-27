@@ -40,6 +40,10 @@ public class BillController {
         return  instance;
     }
 
+    public void setBillList(List<Bill> billList) {
+        this.billList = billList;
+    }
+
     public List<Bill> getAllBills(){
         return billList;
     }
