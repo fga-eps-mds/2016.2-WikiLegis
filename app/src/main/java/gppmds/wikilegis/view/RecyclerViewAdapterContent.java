@@ -13,7 +13,6 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.DataDownloadController;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
@@ -82,16 +81,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         int connectionType = dataDownloadController.connectionType();
         holder.proposals.setText(listSegment.get(position).getContent());
 
-        if(connectionType == WIFI || connectionType == MOBILE_3G) {
-            try {
-                holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position).getId()).toString());
-                holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment.get(position).getId()).toString());
-            } catch (VotesException e) {
-                e.printStackTrace();
-            }
-        } else if (connectionType == NO_NETWORK) {
-            //nothing to do
-        }
+        //FIXME
+        holder.likes.setText("7");
+        holder.dislikes.setText("13");
     }
 
     @Override

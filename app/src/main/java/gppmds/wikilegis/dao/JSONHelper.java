@@ -49,37 +49,6 @@ public class JSONHelper {
         return billListApi;
     }
 
-    public static List<Votes> votesListFromJSON(String urlDomain, String urlDate) throws JSONException, VotesException {
-        String url = urlDomain + urlDate;
-        List<Votes> votesListApi = new ArrayList<>();
-
-        do {
-            String votesList = getJSONObjectApi(url);
-
-            JSONObject votes = new JSONObject(votesList);
-            JSONArray results = votes.getJSONArray("results");
-
-            populateListVotes(results, votesListApi );
-
-            String nextUrl = votes.getString("next");
-            url = nextUrl; //updateDomain(nextUrl);
-
-            Log.d("Url", url);
-
-        } while (!url.equals("null"));
-
-        return votesListApi;
-    }
-
-    public static void populateListVotes(JSONArray results, List<Votes> votesListApi)
-            throws JSONException, VotesException {
-        for (int i = 0; i < results.length(); i++) {
-            JSONObject jsonObject = results.getJSONObject(i);
-
-            votesListApi.add(setVotesAttributes(jsonObject));
-        }
-    }
-
     public static List<Segment> segmentListFromJSON(String urlDomain, String urlDate) throws JSONException, SegmentException {
         String url = urlDomain + urlDate;
 
@@ -113,14 +82,6 @@ public class JSONHelper {
         Log.d("Aqui", correctDomain);
         return correctDomain;
     };
-
-    private static Votes setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
-        Votes voteAux = new Votes(1,//jsonObject.getInt("user"),
-                1,//jsonObject.getInt("content_type"),
-                jsonObject.getInt("object_id"),
-                jsonObject.getString("vote").equals("false") ? false : true);
-        return voteAux;
-    }
 
     private static Segment setSegmentAttributes(JSONObject jsonObject) throws JSONException, SegmentException {
         Segment segmentAux = new Segment(jsonObject.getInt("id"),

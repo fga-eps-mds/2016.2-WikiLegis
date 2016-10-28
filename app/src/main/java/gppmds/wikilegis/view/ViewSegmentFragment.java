@@ -19,11 +19,9 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 public class ViewSegmentFragment extends Fragment {
@@ -105,23 +103,15 @@ public class ViewSegmentFragment extends Fragment {
         int connectionType = dataDownloadController.connectionType();
 
         try {
+            //FIXME
+            dislikes.setText("7");
+            likes.setText("13");
             segmentText.setText(SegmentController.getSegmentById(segmentId, getContext()).getContent());
             billText.setText(BillController.getBillById(billId).getTitle());
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (BillException e) {
             e.printStackTrace();
-        }
-
-        if(connectionType == WIFI || connectionType == MOBILE_3G) {
-            try {
-                dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
-                likes.setText(VotesController.getLikesOfSegment(segmentId).toString());
-            } catch (VotesException e) {
-                e.printStackTrace();
-            }
-        } else if (connectionType == NO_NETWORK){
-            //Nothing to do
         }
     }
 }
