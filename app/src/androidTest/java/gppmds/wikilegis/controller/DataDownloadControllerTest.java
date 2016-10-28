@@ -14,7 +14,9 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import gppmds.wikilegis.R;
@@ -186,6 +188,18 @@ public class DataDownloadControllerTest {
     }
 
     @Test
+    public void testGetLocalDate() {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, 1);
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        String formatted = format1.format(cal.getTime());
+
+        String localDate = DataDownloadController.getLocalTime();
+
+        assertEquals(formatted, localDate);
+    }
+
+    @Test
     public void testConnectionTypeWithWifiDisconnected() {
         final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final Class conmanClass;
@@ -232,7 +246,7 @@ public class DataDownloadControllerTest {
 
         SharedPreferences.Editor editor = session.edit();
 
-        final String keyConnection = "network_settings";
+        final String keyConnection = "NetworkSettings";
         editor.putInt(keyConnection, 0);
 
         final String keyDate = "date";
@@ -264,7 +278,7 @@ public class DataDownloadControllerTest {
 
         SharedPreferences.Editor editor = session.edit();
 
-        final String keyConnection = "network_settings";
+        final String keyConnection = "NetworkSettings";
         editor.putInt(keyConnection, 1);
 
         final String keyDate = "date";
@@ -295,7 +309,7 @@ public class DataDownloadControllerTest {
 
         SharedPreferences.Editor editor = session.edit();
 
-        final String keyConnection = "network_settings";
+        final String keyConnection = "NetworkSettings";
         editor.putInt(keyConnection, 2);
 
         final String keyDate = "date";
@@ -304,7 +318,10 @@ public class DataDownloadControllerTest {
         editor.commit();
 
         try {
+            Log.d("PreferencesConnect", session.getInt("NetworkSettings", 999) + "");
             dataDownloadController.updateData();
+
+            Log.d("PreferencesConnect 2", session.getInt("NetworkSettings", 999) + "");
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (JSONException e) {
@@ -343,7 +360,7 @@ public class DataDownloadControllerTest {
 
         SharedPreferences.Editor editor = session.edit();
 
-        final String keyConnection = "network_settings";
+        final String keyConnection = "NetworkSettings";
         editor.putInt(keyConnection, 1);
 
         final String keyDate = "date";

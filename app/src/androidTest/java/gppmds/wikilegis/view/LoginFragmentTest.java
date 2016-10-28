@@ -178,6 +178,108 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         onView(withId(R.id.aboutApp)).perform(ViewActions.scrollTo()).check(matches(isDisplayed()));
     }
 
+    public void testWithOnlyWifiIfSelectedInActionBarWithUserLogged() {
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("12345678"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+
+        onView(withId(R.id.action_profile)).perform(click());
+        onView(withText("Configurações de download")).perform(click());
+        onView(withText("Apenas wifi")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity().getBaseContext());
+
+        assertTrue(session.getInt("NetworkSettings", -1) == 0);
+    }
+
+    public void testWithWifiAndDataMobileIfSelectedInActionBarWithUserLogged() {
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("12345678"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+
+        onView(withId(R.id.action_profile)).perform(click());
+        onView(withText("Configurações de download")).perform(click());
+        onView(withText("Wifi e dados")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity().getBaseContext());
+
+        assertTrue(session.getInt("NetworkSettings", -1) == 1);
+    }
+
+    public void testWithNeverDownloadMobileIfSelectedInActionBarWithUserLogged() {
+        closeSoftKeyboard();
+        onView(withId(R.id.emailLoginField)).perform(typeText("augusto.vilarins@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("12345678"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+
+        onView(withId(R.id.action_profile)).perform(click());
+        onView(withText("Configurações de download")).perform(click());
+        onView(withText("Nunca")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity().getBaseContext());
+
+        assertTrue(session.getInt("NetworkSettings", -1) == 2);
+    }
+
+    public void testWithOnlyWifiIfSelectedInActionBarWithUserDislogged() {
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.action_profile)).perform(click());
+
+        onView(withText("Configurações de download")).perform(click());
+        onView(withText("Apenas wifi")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity().getBaseContext());
+
+        assertTrue(session.getInt("NetworkSettings", -1) == 0);
+    }
+
+    public void testWithWifiAndMobileDataIfSelectedInActionBarWithUserDislogged() {
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.action_profile)).perform(click());
+
+        onView(withText("Configurações de download")).perform(click());
+        onView(withText("Wifi e dados")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity().getBaseContext());
+
+        assertTrue(session.getInt("NetworkSettings", -1) == 1);
+    }
+
+    public void testWithNeverDownloadIfSelectedInActionBarWithUserDislogged() {
+        closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.action_profile)).perform(click());
+
+        onView(withText("Configurações de download")).perform(click());
+        onView(withText("Nunca")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity().getBaseContext());
+
+        assertTrue(session.getInt("NetworkSettings", -1) == 2);
+    }
+
     public void testOptionBarWithVisitor() {
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());

@@ -70,7 +70,8 @@ public class DataDownloadController {
         int preferencesConnection = session.getInt(keyPreferencesConnection, 0);
         int actualConnection  = connectionType();
 
-        if((preferencesConnection <= 1 && actualConnection == 0)||(preferencesConnection == 1 && actualConnection == 1)){
+        if((preferencesConnection <= 1 && actualConnection == 0)
+                || (preferencesConnection == 1 && actualConnection == 1)){
             Log.d("TO BAIXANDO AS COISAS", "updateData");
 
             updateSegments();
@@ -109,7 +110,6 @@ public class DataDownloadController {
         cal.add(Calendar.DATE, 1);
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String formatted = format1.format(cal.getTime());
-        System.out.println(formatted);
 
         return formatted;
     }

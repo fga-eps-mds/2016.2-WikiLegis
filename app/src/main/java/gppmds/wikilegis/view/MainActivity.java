@@ -137,25 +137,27 @@ public class MainActivity extends AppCompatActivity {
                     paramDialogInterface.dismiss();
                 }
             };
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
+
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(MainActivity.this);
         int networkPreference = session.getInt(MainActivity.this.getResources()
                 .getString(R.string.network_settings), 0);
 
         Log.d("networkPrefe", networkPreference+"");
-
         builder.setSingleChoiceItems(items, networkPreference,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                     }
                 });
+
         builder.setPositiveButton(btnText[0], listener);
+
         if (btnText.length != 1) {
             builder.setNegativeButton(btnText[1], listener);
         }
         builder.show();
     }
-
 }
