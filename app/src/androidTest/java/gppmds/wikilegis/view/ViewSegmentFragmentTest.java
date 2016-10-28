@@ -1,12 +1,14 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.SegmentController;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -38,6 +40,28 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
             }
         };
         activityOnTest.runOnUiThread(wakeUpDevice);
+
+        SegmentController segmentController =
+                SegmentController.getInstance(getActivity().getBaseContext());
+
+        if(segmentController.isSegmentDatabaseIsEmpty()) {
+            onView(withId(R.id.button)).perform(click());
+        }
+    }
+
+    public void tearDown() throws Exception {
+        goBackN();
+
+        super.tearDown();
+    }
+
+    private void goBackN() {
+        final int N = 100; // how many times to hit back button
+        try {
+            for (int i = 0; i < N; i++)
+                Espresso.pressBack();
+        } catch (Exception e) {
+        }
     }
 
     public void testTitleBillIsDisplayed(){

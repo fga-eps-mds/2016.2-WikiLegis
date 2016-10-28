@@ -59,6 +59,7 @@ public class DataDownloadController {
         }
         return connectionType;
     }
+
     public void updateData() throws SegmentException, JSONException, BillException, VotesException {
 
         SharedPreferences session = PreferenceManager.
@@ -103,7 +104,7 @@ public class DataDownloadController {
         billController.initControllerBills();
     }
 
-    private String getLocalTime(){
+    public static String getLocalTime(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");

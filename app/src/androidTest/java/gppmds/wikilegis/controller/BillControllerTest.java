@@ -38,22 +38,20 @@ public class BillControllerTest {
     }
 
     @Test
-    public void testGetSegmentsFromIdOfBill() throws BillException, JSONException, SegmentException{
+    public void testGetSegmentsFromIdOfBill() throws BillException,
+            JSONException, SegmentException {
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
         BillController billController = BillController.getInstance(context);
         billController.initControllerBills();
 
-        SegmentsOfBillController segmentsOfBillController = SegmentsOfBillController
-                .getInstance(context);
-        segmentsOfBillController.initControllerSegmentsOfBill();
 
-        final int BILL_ID = 25;
+        final int BILL_ID = 11;
 
-        List<Segment> foundSegments = billController.getSegmentsFromIdOfBill(BILL_ID);
+        List<Segment> foundSegments = segmentController.getSegmentsByIdBill(BILL_ID);
 
-        final Integer NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25 = 3;
+        final Integer NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25 = 7;
 
         assertTrue(foundSegments.size() == NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25);
     }
@@ -63,8 +61,8 @@ public class BillControllerTest {
         BillController billController = BillController.getInstance(context);
         billController.initControllerBills();
 
-        Bill bill = billController.getBillById(53);
-        assertEquals(bill.getId()+"", "53");
+        Bill bill = billController.getBillById(12);
+        assertEquals(bill.getId()+"", "12");
     }
 
     @Test
@@ -72,7 +70,7 @@ public class BillControllerTest {
         BillController billController = BillController.getInstance(context);
         billController.initControllerBills();
 
-        Bill bill = billController.getBillById(7);
+        Bill bill = billController.getBillById(666);
 
         assertNull(bill);
     }

@@ -2,6 +2,8 @@ package gppmds.wikilegis.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
@@ -10,6 +12,8 @@ import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +23,7 @@ import gppmds.wikilegis.dao.JSONHelper;
 import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
@@ -48,11 +53,12 @@ public class DataDownloadControllerTest {
         billController = BillController.getInstance(context);
 
         billDAO.deleteAllBills();
+
+        segmentDAO.clearSegmentsTable();
     }
 
     @Test
     public void testUpdateSegments() {
-        segmentDAO.clearSegmentsTable();
         final String date = "2010-01-01";
 
         List<Segment> segmentsFromAPI = new ArrayList<>();
@@ -116,7 +122,7 @@ public class DataDownloadControllerTest {
 
         try {
             billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
-                    ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
+                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created=" + date),
                     SegmentController.getAllSegments());
 
             SharedPreferences session = PreferenceManager.
@@ -155,6 +161,99 @@ public class DataDownloadControllerTest {
 
         assertTrue(billsFromAPI.size() == billsFromDB.size() &&
                 numberOfEqualsBills == billsFromDB.size());
+    }
+
+    @Test
+    public void testConnectionTypeWithWifiConnected() {
+        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        final int CONNECTION_TYPE = dataDownloadController.connectionType();
+        final int EXPECTED_CONNECTION_TYPE = 0;
+
+        Log.d(CONNECTION_TYPE + "", "testConnectionTypeWithWifiConnected ");
+
+        assertEquals(CONNECTION_TYPE, EXPECTED_CONNECTION_TYPE);
+    }
+
+    @Test
+    public void testConnectionTypeWithWifiDisconnected() {
+        final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final Class conmanClass;
+        try {
+            conmanClass = Class.forName(conman.getClass().getName());
+            final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
+            iConnectivityManagerField.setAccessible(true);
+            final Object iConnectivityManager = iConnectivityManagerField.get(conman);
+            final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
+            final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
+            setMobileDataEnabledMethod.setAccessible(false);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+
+        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = false;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        final int CONNECTION_TYPE = dataDownloadController.connectionType();
+        final int EXPECTED_CONNECTION_TYPE = 2;
+
+        assertEquals(CONNECTION_TYPE, EXPECTED_CONNECTION_TYPE);
+    }
+
+    @Test
+    public void testUpdateData() {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = session.edit();
+
+        final String keyConnection = "network_settings";
+        editor.putInt(keyConnection, 0);
+
+        final String keyDate = "date";
+        editor.putString(keyDate, "2010-01-01");
+
+        editor.commit();
+
+        try {
+            dataDownloadController.updateData();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(session.getString(keyDate, "2010-01-01"),
+                DataDownloadController.getLocalTime());
     }
 
 }
