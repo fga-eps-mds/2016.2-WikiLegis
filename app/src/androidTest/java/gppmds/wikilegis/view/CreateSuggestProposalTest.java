@@ -3,6 +3,7 @@ package gppmds.wikilegis.view;
 import android.app.Activity;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
@@ -92,6 +93,8 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
     }
 
     public void testEmptyProposalSuggestion(){
+
+        closeSoftKeyboard();
 
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
                 (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
