@@ -1,6 +1,8 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 
 import org.json.JSONException;
@@ -182,6 +184,16 @@ public class SegmentControllerTest {
     @Test
     public void testIsSegmentDatabaseIsEmptyWithDatabaseIsNotEmpty() throws SegmentException,
             JSONException {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = session.edit();
+
+        final String keyDate = "date";
+        editor.putString(keyDate, "2010-01-01");
+
+        editor.commit();
+
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
@@ -342,7 +354,7 @@ public class SegmentControllerTest {
                 1);
 
         assertTrue(proposalList.size() == 3);
-    }
+    }*/
 
     @Test
     public void testRegisterSegmentWithEmptySuggestion() throws SegmentException, JSONException{
@@ -362,5 +374,4 @@ public class SegmentControllerTest {
 
         assertEquals(status, "SUCCESS");
     }
-    */
 }

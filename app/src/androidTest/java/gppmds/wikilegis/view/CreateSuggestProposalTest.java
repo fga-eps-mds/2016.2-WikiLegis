@@ -7,6 +7,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
+import org.junit.After;
 import org.junit.Before;
 
 import gppmds.wikilegis.R;
@@ -50,15 +51,14 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
-
+    @After
     public void tearDown() throws Exception {
         goBackN();
-
         super.tearDown();
     }
 
     private void goBackN() {
-        final int N = 25; // how many times to hit back button
+        final int N = 20; // how many times to hit back button
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();
@@ -93,8 +93,6 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
 
     public void testEmptyProposalSuggestion(){
 
-        closeSoftKeyboard();
-
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
                 (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
 
@@ -115,7 +113,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.floatingButton))
                 .perform((click()));
         onView(withId(R.id.saveSuggestion)).perform(click());
-        onView(withId(R.id.commentEditText)).check(matches(hasErrorText(getActivity()
+        onView(withId(R.id.suggestionProposalEditText)).check(matches(hasErrorText(getActivity()
                 .getApplicationContext().getResources().getString(R.string.empty_segment))));
 
     }
@@ -169,7 +167,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
-        onView(withId(R.id.commentEditText)).perform(typeText("Testando"));
+        onView(withId(R.id.suggestionProposalEditText)).perform(typeText("Testando"));
         closeSoftKeyboard();
         Espresso.pressBack();
         onView(withText("Sim")).perform(click());
@@ -198,11 +196,11 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
-        onView(withId(R.id.commentEditText)).perform(typeText("Testando"));
+        onView(withId(R.id.suggestionProposalEditText)).perform(typeText("Testando"));
         closeSoftKeyboard();
         Espresso.pressBack();
         onView(withText("Não")).perform(click());
-        onView(withId(R.id.commentEditText)).check(matches(withText("Testando")));
+        onView(withId(R.id.suggestionProposalEditText)).check(matches(withText("Testando")));
     }
 
     public void testValidProposalSuggestion() throws InterruptedException {
@@ -227,7 +225,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
-        onView(withId(R.id.commentEditText)).perform(typeText("Testando"));
+        onView(withId(R.id.suggestionProposalEditText)).perform(typeText("Testando"));
         closeSoftKeyboard();
         onView(withId(R.id.saveSuggestion)).perform(click());
         Thread.sleep(400);
