@@ -35,6 +35,7 @@ public class JSONHelper {
         } catch (InterruptedException e){
             Log.d("InterruptedException", URL);
         }
+        Log.d("JSON",getApi);
         return getApi;
     }
 

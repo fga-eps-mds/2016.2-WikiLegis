@@ -25,7 +25,6 @@ import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 public class ViewSegmentFragment extends Fragment {
@@ -37,7 +36,7 @@ public class ViewSegmentFragment extends Fragment {
     private TextView billText;
     private List<Segment> segmentList;
     private SegmentController segmentController;
-    private List<Segment> segmentListAux= new ArrayList<>();
+    private List<Segment> proposalsList = new ArrayList<>();
     private View view;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -56,33 +55,20 @@ public class ViewSegmentFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         segmentController = SegmentController.getInstance(getContext());
-
-        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-
-        if(dataDownloadController.connectionType() < 2){
-            Log.d("Entrou aqui no wifi...", "");
-            try {
-                segmentList = DataDownloadController.getSegmentsOfBillById(""+segmentId,"",false);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (BillException e) {
-                e.printStackTrace();
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            }
-        }else {
-            segmentList = SegmentController.getAllSegments();
-        }
+        segmentList = SegmentController.getAllSegments();
 
         settingText();
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
 
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+
         if(dataDownloadController.connectionType() < 2){
             Log.d("Entrou aqui no wifi...", "");
             try {
-                segmentListAux = DataDownloadController.getSegmentsOfBillById(""+segmentId,""+billId, true);
+                proposalsList = DataDownloadController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
+                Log.d("Numero de propostas",proposalsList.size()+"");
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (BillException e) {
@@ -91,10 +77,10 @@ public class ViewSegmentFragment extends Fragment {
                 e.printStackTrace();
             }
         }else {
-            segmentListAux = SegmentController.getProposalsOfSegment(segmentList, segmentId);
+            proposalsList = SegmentController.getProposalsOfSegment(segmentList, segmentId);
         }
 
-            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
+            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList);
         recyclerView.setAdapter(content);
 
         return view;
@@ -110,16 +96,17 @@ public class ViewSegmentFragment extends Fragment {
     }
 
     private void settingText() {
-        Log.d("Chego até aqui 1:", "");
+        Log.d("Chego até aqui 1:", "sadsaadsadsdsadsadsadsa");
         try {
             DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
             VotesController votesController = VotesController.getInstance(getContext());
             SegmentController segmentController = SegmentController.getInstance(getContext());
-            Log.d("Chego até aqui 2:", "");
+            Log.d("Chego até aqui 2:", "dsadsadsasasasdadsadsa");
             if(dataDownloadController.connectionType() < 2) {
-                votesController.setVotesList(DataDownloadController.getVoteBySegmentId(""+segmentId));
                 segmentText.setText(segmentController.getSegmentByIdFromList(segmentId).getContent());
                 billText.setText(BillController.getBillByIdFromList(billId).getTitle());
+                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
+                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
             }else{
                 dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
                 likes.setText(VotesController.getLikesOfSegment(segmentId).toString());

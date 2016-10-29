@@ -130,7 +130,7 @@ public class DataDownloadController {
         List<Segment> segmentList = null;
         segmentList = JSONHelper.getSegmentFromBill(billBill,segmentBill);
         List<Segment> orderedSement = new ArrayList<>();
-
+        Log.d("soakkosa",segmentList.size()+"");
 
             for (Segment segment : segmentList) {
                 if(!isProposal) {
@@ -139,7 +139,7 @@ public class DataDownloadController {
                     orderedSement.add(segment);
                     }
                 }else{
-                    if (segment.getReplaced() != 0) {
+                    if (segment.getReplaced() > 0) {
 
                         orderedSement.add(segment);
                     }
@@ -147,6 +147,10 @@ public class DataDownloadController {
             }
         SegmentComparatorOrder comparator = new SegmentComparatorOrder();
         Collections.sort(orderedSement, comparator);
+
+        SegmentController segmentController = SegmentController.getInstance(context);
+        segmentController.setSegmentList(segmentList);
+
         return orderedSement;
     }
 
@@ -160,6 +164,22 @@ public class DataDownloadController {
         List<Vote> listVotes = null;
         listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+id);
         return listVotes;
+    }
+    public static int getNumberOfVotesbySegment(int id, Boolean isLike) throws BillException, VotesException, JSONException {
+        List<Vote> votes = getVoteBySegmentId(""+id);
+        int numberOfVotes = 0;
+        for(Vote vote : votes) {
+            if (isLike) {
+                if (vote.isVote()) {
+                    numberOfVotes++;
+                }
+            }else{
+                if(!vote.isVote()){
+                    numberOfVotes++;
+                }
+            }
+        }
+        return numberOfVotes;
     }
 
 }
