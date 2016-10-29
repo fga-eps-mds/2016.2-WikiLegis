@@ -56,18 +56,33 @@ public class ViewSegmentFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         segmentController = SegmentController.getInstance(getContext());
-        segmentList = SegmentController.getAllSegments();
+
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+
+        if(dataDownloadController.connectionType() < 2){
+            Log.d("Entrou aqui no wifi...", "");
+            try {
+                segmentList = DataDownloadController.getSegmentsOfBillById(""+segmentId,"",false);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            segmentList = SegmentController.getAllSegments();
+        }
 
         settingText();
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
 
-        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-
         if(dataDownloadController.connectionType() < 2){
+            Log.d("Entrou aqui no wifi...", "");
             try {
-                DataDownloadController.getSegmentsOfBillById(""+segmentId,""+billId);
+                segmentListAux = DataDownloadController.getSegmentsOfBillById(""+segmentId,""+billId, true);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (BillException e) {
@@ -78,8 +93,8 @@ public class ViewSegmentFragment extends Fragment {
         }else {
             segmentListAux = SegmentController.getProposalsOfSegment(segmentList, segmentId);
         }
+
             RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
-        Log.d("TAMANHO2", segmentListAux.size() + "");
         recyclerView.setAdapter(content);
 
         return view;
@@ -95,22 +110,22 @@ public class ViewSegmentFragment extends Fragment {
     }
 
     private void settingText() {
+        Log.d("Chego até aqui 1:", "");
         try {
             DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
             VotesController votesController = VotesController.getInstance(getContext());
-
-
-
+            SegmentController segmentController = SegmentController.getInstance(getContext());
+            Log.d("Chego até aqui 2:", "");
             if(dataDownloadController.connectionType() < 2) {
                 votesController.setVotesList(DataDownloadController.getVoteBySegmentId(""+segmentId));
-                Log.d("TO AQUI","PORRA");
+                segmentText.setText(segmentController.getSegmentByIdFromList(segmentId).getContent());
+                billText.setText(BillController.getBillByIdFromList(billId).getTitle());
             }else{
                 dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
                 likes.setText(VotesController.getLikesOfSegment(segmentId).toString());
-                Log.d("TO AQUI","CARAI");
+                segmentText.setText(SegmentController.getSegmentById(segmentId).getContent());
+                billText.setText(BillController.getBillById(billId).getTitle());
             }
-            segmentText.setText(SegmentController.getSegmentById(segmentId).getContent());
-            billText.setText(BillController.getBillById(billId).getTitle());
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (BillException e) {

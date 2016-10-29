@@ -18,6 +18,7 @@ import java.util.List;
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
+import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -55,7 +56,9 @@ public class ViewBillFragment extends Fragment {
 
         if(dataDownloadController.connectionType() < 2){
             try {
-                segmentList = DataDownloadController.getSegmentsOfBillById(""+idBill,"");
+                segmentList = DataDownloadController.getSegmentsOfBillById(""+idBill,"", false);
+                SegmentController segmentController = SegmentController.getInstance(getContext());
+                segmentController.setSegmentList(segmentList);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (BillException e) {

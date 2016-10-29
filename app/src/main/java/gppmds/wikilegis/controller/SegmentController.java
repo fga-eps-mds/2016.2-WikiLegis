@@ -42,6 +42,22 @@ public class SegmentController {
         return segmentDAO.getSegmentById(id);
     }
 
+    public void setSegmentList(List<Segment> segmentList) {
+        SegmentController.segmentList = segmentList;
+    }
+
+    public Segment getSegmentByIdFromList(final Integer id ){
+        Log.d("Chegou aqui:", "");
+        for (Segment segment : segmentList){
+            Log.d("Estamos aqui: ", segment.getId()+"");
+            if(segment.getId() == id){
+                Log.d("Aqui o IF: ", segment.getId()+"");
+                return segment;
+            }
+        }
+        return null;
+    }
+
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
@@ -61,6 +77,7 @@ public class SegmentController {
 
         Log.d("TAMANHO", segmentList.size() + "");
     }
+
     public void downloadSegmentFromBill(int idBill) throws SegmentException, JSONException {
         segmentList = JSONHelper.segmentListFromJSON("");
     }

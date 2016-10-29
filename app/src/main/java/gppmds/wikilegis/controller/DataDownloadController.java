@@ -125,24 +125,28 @@ public class DataDownloadController {
         return bill;
     }
 
-    public static List<Segment> getSegmentsOfBillById(String billBill, String segmentBill) throws JSONException, BillException, SegmentException {
+    public static List<Segment> getSegmentsOfBillById(String billBill, String segmentBill, boolean isProposal)
+            throws JSONException, BillException, SegmentException {
         List<Segment> segmentList = null;
         segmentList = JSONHelper.getSegmentFromBill(billBill,segmentBill);
         List<Segment> orderedSement = new ArrayList<>();
 
-        for(Segment segment : segmentList){
-            if(segment.getReplaced() == 0){
-                Log.d("Order",segment.getOrder()+"");
-                Log.d("Content",segment.getContent());
-                Log.d("Type",segment.getType()+"");
-                Log.d("Replaced",segment.getReplaced()+"");
 
-                orderedSement.add(segment);
+            for (Segment segment : segmentList) {
+                if(!isProposal) {
+                    if (segment.getReplaced() == 0) {
+
+                    orderedSement.add(segment);
+                    }
+                }else{
+                    if (segment.getReplaced() != 0) {
+
+                        orderedSement.add(segment);
+                    }
+                }
             }
-        }
         SegmentComparatorOrder comparator = new SegmentComparatorOrder();
-        Collections.sort(orderedSement,comparator);
-
+        Collections.sort(orderedSement, comparator);
         return orderedSement;
     }
 

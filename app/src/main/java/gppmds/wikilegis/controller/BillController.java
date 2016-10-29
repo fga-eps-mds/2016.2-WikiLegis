@@ -126,6 +126,15 @@ public class BillController {
         return numberOfProposals;
     }
 
+    public static Bill getBillByIdFromList(final int id){
+        for (Bill bill : billList){
+            if(bill.getId() == id){
+                return bill;
+            }
+        }
+        return null;
+    }
+
     public static Bill getBillById(final int id) throws BillException {
         billDao = BillDAO.getInstance(context);
 
