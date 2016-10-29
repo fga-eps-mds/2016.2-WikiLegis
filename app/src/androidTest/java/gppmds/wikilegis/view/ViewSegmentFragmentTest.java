@@ -1,8 +1,10 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
+
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -13,6 +15,7 @@ import org.junit.After;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.DataDownloadController;
+import gppmds.wikilegis.controller.SegmentController;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -45,6 +48,15 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
             }
         };
 
+        activityOnTest.runOnUiThread(wakeUpDevice);
+
+        SegmentController segmentController =
+                SegmentController.getInstance(getActivity().getBaseContext());
+
+        if(segmentController.isSegmentDatabaseIsEmpty()) {
+            onView(withId(R.id.button)).perform(click());
+        }
+
         //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
@@ -52,8 +64,6 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
     public void tearDown() throws Exception {
@@ -63,7 +73,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     }
 
     private void goBackN() {
-        final int N = 10; // how many times to hit back button
+        final int N = 50; // how many times to hit back button
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();

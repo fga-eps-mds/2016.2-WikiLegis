@@ -1,38 +1,24 @@
 package gppmds.wikilegis.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Image;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.support.v4.app.Fragment;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.CommentSegmentController;
-import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.DataDownloadController;
-import gppmds.wikilegis.controller.VotesController;
-import gppmds.wikilegis.exception.CommentsException;
-import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
 
@@ -51,6 +37,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
         ContentViewHolder(final View itemView) {
             super(itemView);
+
             cardView = (CardView) itemView.findViewById(R.id.frameCardViewSegment);
             proposals = (TextView) itemView.findViewById(R.id.textViewSegment);
             likes = (TextView) itemView.findViewById(R.id.textViewNumberLikeCard);
@@ -65,12 +52,18 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                     SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(view
                             .getContext());
 
-                    if(session.getBoolean("isLoggedIn", false)){
-                        CreateComment createComment = new CreateComment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("idSegment", Integer.parseInt(cardView.getTag(R.id.idSegment)
+                            .toString()));
 
-                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    if(session.getBoolean("IsLoggedIn", false)){
+                        CreateComment createComment = new CreateComment();
+                        createComment.setArguments(bundle);
+
+                        AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
                         activity.getSupportFragmentManager().beginTransaction().addToBackStack(null)
-                                .replace(R.id.view_segment_fragment,createComment);
+                                .replace(R.id.main_content,createComment, "COMMENT_FRAGMENT")
+                                .commit();
                     }
                     else{
                         Intent intent = new Intent(view.getContext(), LoginActivity.class);
@@ -129,18 +122,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
         int connectionType = dataDownloadController.connectionType();
 
-        if(connectionType == WIFI || connectionType == MOBILE_3G) {
-            try {
-                holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position)
-                        .getId()).toString());
-                holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment
-                        .get(position).getId()).toString());
-            } catch (VotesException e) {
-                e.printStackTrace();
-            }
-        } else if (connectionType == NO_NETWORK) {
-            //nothing to do
-        }
+        //FIXME
+        holder.likes.setText("7");
+        holder.dislikes.setText("13");
     }
 
     @Override

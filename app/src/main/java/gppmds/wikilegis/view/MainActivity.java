@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         settingView();
-
     }
 
     private void settingView() {
@@ -149,21 +149,24 @@ public class MainActivity extends AppCompatActivity {
                     paramDialogInterface.dismiss();
                 }
             };
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
+
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(MainActivity.this);
         int networkPreference = session.getInt(MainActivity.this.getResources()
                 .getString(R.string.network_settings), 0);
 
         Log.d("networkPrefe", networkPreference+"");
-
         builder.setSingleChoiceItems(items, networkPreference,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                     }
                 });
+
         builder.setPositiveButton(btnText[0], listener);
+
         if (btnText.length != 1) {
             builder.setNegativeButton(btnText[1], listener);
         }
@@ -175,6 +178,9 @@ public class MainActivity extends AppCompatActivity {
         final CreateSuggestProposal createSuggestProposal = (CreateSuggestProposal)
                 getSupportFragmentManager().findFragmentByTag("SUGGEST_PROPOSAL");
 
+        final CreateComment createComment = (CreateComment)
+                getSupportFragmentManager().findFragmentByTag("COMMENT_FRAGMENT");
+
         if(createSuggestProposal != null){
             if(createSuggestProposal.isVisible()){
 
@@ -184,44 +190,66 @@ public class MainActivity extends AppCompatActivity {
 
                 if(!suggestionTyped.isEmpty()){
 
-                    final AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder
-                            (createSuggestProposal.getContext());
-
-                    alertDialogProposalBuilder.setMessage("Você tem certeza que deseja descartar sua " +
-                            "sugestão?");
-
-                    alertDialogProposalBuilder.setPositiveButton("Sim", new DialogInterface
-                            .OnClickListener(){
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which){
-                            dialog.dismiss();
-                            getSupportFragmentManager().beginTransaction().remove(createSuggestProposal)
-                                    .commit();
-                            floatingActionButton.setVisibility(View.VISIBLE);
-                        }
-                    });
-
-                    alertDialogProposalBuilder.setNegativeButton("Não", new DialogInterface
-                            .OnClickListener(){
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which){
-                            dialog.dismiss();
-                        }
-                    });
-
-                    alertDialogProposalBuilder.show();
+                    confirmDiscard(createSuggestProposal, " sua sugestão?");
                 }
                 else{
                     super.onBackPressed();
                     floatingActionButton.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+        else if(createComment != null){
+            if(createComment.isVisible()){
 
+                EditText commentEditText = (EditText) createComment.getView()
+                        .findViewById(R.id.commentEditText);
+                String commentTyped = commentEditText.getText().toString();
+
+                if(!commentTyped.isEmpty()){
+
+                    confirmDiscard(createComment, " seu comentário?");
+                }
+                else{
+                    super.onBackPressed();
+                    floatingActionButton.setVisibility(View.VISIBLE);
                 }
             }
         }
         else{
             super.onBackPressed();
         }
+    }
+
+    private void confirmDiscard(final Fragment fragment,
+                                String message){
+
+        final AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder
+                (fragment.getContext());
+
+        alertDialogProposalBuilder.setMessage("Você tem certeza que deseja descartar" +
+                message);
+
+        alertDialogProposalBuilder.setPositiveButton("Sim", new DialogInterface
+                .OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                dialog.dismiss();
+                getSupportFragmentManager().beginTransaction().remove(fragment)
+                        .commit();
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        alertDialogProposalBuilder.setNegativeButton("Não", new DialogInterface
+                .OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                dialog.dismiss();
+            }
+        });
+
+        alertDialogProposalBuilder.show();
     }
 }

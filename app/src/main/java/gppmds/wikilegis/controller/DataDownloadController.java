@@ -59,6 +59,7 @@ public class DataDownloadController {
         }
         return connectionType;
     }
+
     public void updateData() throws SegmentException, JSONException, BillException, VotesException {
 
         SharedPreferences session = PreferenceManager.
@@ -69,7 +70,8 @@ public class DataDownloadController {
         int preferencesConnection = session.getInt(keyPreferencesConnection, 0);
         int actualConnection  = connectionType();
 
-        if((preferencesConnection <= 1 && actualConnection == 0)||(preferencesConnection == 1 && actualConnection == 1)){
+        if((preferencesConnection <= 1 && actualConnection == 0)
+                || (preferencesConnection == 1 && actualConnection == 1)){
             Log.d("TO BAIXANDO AS COISAS", "updateData");
 
             updateSegments();
@@ -78,28 +80,11 @@ public class DataDownloadController {
 
             updateBills();
 
-            updateSegmentsOfBill();
-
-            updateVotes();
-
             SharedPreferences.Editor editor = session.edit();
             editor.putString("date", getLocalTime());
             editor.commit();
 
-            Log.d("Data salva", session.getString("date", getLocalTime()));
-        }else{
-            SegmentController segmentController = SegmentController.getInstance(context);
-            segmentController.initControllerSegmentsOffline();
-
-            BillController billController = BillController.getInstance(context);
-            billController.initControllerBillsOffline();
-
-            SegmentsOfBillController segmentsOfBillController =
-                    SegmentsOfBillController.getInstance(context);
-            segmentsOfBillController.initControllerSegmentsOfBillOffline();
-
-            VotesController votesController = VotesController.getInstance(context);
-            votesController.initControllerVotesOffline();
+            Log.d("Data salva", session.getString("date", "Nada salvo"));
         }
     }
 
@@ -118,23 +103,11 @@ public class DataDownloadController {
         billController.initControllerBills();
     }
 
-    public void updateSegmentsOfBill() throws BillException, JSONException, SegmentException {
-        SegmentsOfBillController segmentsOfBillController =
-                SegmentsOfBillController.getInstance(context);
-
-        segmentsOfBillController.initControllerSegmentsOfBill();
-    }
-
-    public void updateVotes() throws VotesException, JSONException, SegmentException {
-        VotesController votesController = VotesController.getInstance(context);
-        votesController.initControllerVotes();
-    }
-    private String getLocalTime(){
+    public static String getLocalTime(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String formatted = format1.format(cal.getTime());
-        System.out.println(formatted);
 
         return formatted;
     }

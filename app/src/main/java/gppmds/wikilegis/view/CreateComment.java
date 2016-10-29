@@ -81,9 +81,9 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.saveSuggestion){
+        if(view.getId() == R.id.saveComment){
 
-            Integer idSegment = getArguments().getInt("segmentId");
+            Integer idSegment = getArguments().getInt("idSegment");
 
             Log.d("ID SEGMENT", idSegment + "");
             String savingStatus = saveComment(idSegment);

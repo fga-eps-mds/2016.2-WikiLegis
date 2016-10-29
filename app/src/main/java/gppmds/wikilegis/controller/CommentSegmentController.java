@@ -44,8 +44,8 @@ public class CommentSegmentController {
 
             String url = "http://wikilegis-staging.labhackercd.net/api/comments/";
             String json = "{" +
-                    "\"object_pk\": " + segment.getObjectPk() + "," +
-                    "\"comment\": " + segment.getComment() + "," +
+                    "\"object_id\": " + segment.getObjectPk() + "," +
+                    "\"comment\": \"" + segment.getComment() + "\"" + "," +
                     "\"token\": \"" + session.getString("token", null) + "\"" +
                     "}";
 

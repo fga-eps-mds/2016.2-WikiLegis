@@ -12,11 +12,8 @@ import android.widget.Button;
 import org.json.JSONException;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.SegmentsOfBillController;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
