@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Votes;
+import gppmds.wikilegis.model.Vote;
 
 public class VotesDAO {
 
@@ -59,7 +59,7 @@ public class VotesDAO {
         return isEmpty;
     }
 
-    public boolean insertVote(final Votes vote) {
+    public boolean insertVote(final Vote vote) {
 
         SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
@@ -76,8 +76,8 @@ public class VotesDAO {
         return result;
     }
 
-    public boolean insertAllVotes(final List<Votes> votesList) {
-        Iterator<Votes> index = votesList.iterator();
+    public boolean insertAllVotes(final List<Vote> voteList) {
+        Iterator<Vote> index = voteList.iterator();
 
         boolean result = true;
 
@@ -88,51 +88,51 @@ public class VotesDAO {
         return result;
     }
 
-    public List<Votes> getAllVotes() throws VotesException {
+    public List<Vote> getAllVotes() throws VotesException {
         SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName;
 
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
 
-        Votes vote = null;
-        List<Votes> votesList = new ArrayList<>();
+        Vote vote = null;
+        List<Vote> voteList = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            vote = new Votes(
+            vote = new Vote(
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])).equals("true") ? true : false
             );
 
-            votesList.add(vote);
+            voteList.add(vote);
         }
         cursor.close();
-        return votesList;
+        return voteList;
     }
 
-    public List<Votes> getVotesByIdOfSegment(final Integer id) throws VotesException {
+    public List<Vote> getVotesByIdOfSegment(final Integer id) throws VotesException {
         SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
         String query = "SELECT * FROM " + tableName + " WHERE \"segmentId\" = " + id.toString();
 
         Cursor cursor = sqliteDatabase.rawQuery(query, null);
 
-        Votes vote = null;
-        List<Votes> votesList = new ArrayList<>();
+        Vote vote = null;
+        List<Vote> voteList = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            vote = new Votes(
+            vote = new Vote(
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[3]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[1]))),
                     Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[4]))),
                     cursor.getString(cursor.getColumnIndex(tableColumns[2])).equals("true") ? true : false
             );
 
-            votesList.add(vote);
+            voteList.add(vote);
         }
         cursor.close();
-        return votesList;
+        return voteList;
     }
 }

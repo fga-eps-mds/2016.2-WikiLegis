@@ -10,10 +10,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Votes;
+import gppmds.wikilegis.model.Vote;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -21,7 +20,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by shammyz on 9/30/16.
  */
-public class VotesControllerTest {
+public class VoteControllerTest {
     Context context;
 
     @Before
@@ -41,15 +40,15 @@ public class VotesControllerTest {
         } catch (SegmentException e) {
             e.printStackTrace();
         }
-        List<Votes> votesList = new ArrayList<>();
+        List<Vote> voteList = new ArrayList<>();
 
         try{
-            votesList = VotesController.getVotesByIdOfSegment(3927);
+            voteList = VotesController.getVotesByIdOfSegment(3927);
 
         }catch(VotesException e){
             e.printStackTrace();
         }
-        assertEquals(votesList.size(), 18);
+        assertEquals(voteList.size(), 18);
     }
 
     @Test

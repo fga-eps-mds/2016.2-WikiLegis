@@ -2,7 +2,7 @@ package gppmds.wikilegis.model;
 
 import gppmds.wikilegis.exception.VotesException;
 
-public class Votes {
+public class Vote {
 
     private static final String USERID_CANT_BE_NULL = "Id não pode ser carregado";
     private static final String CONTENT_CANT_BE_NULL = "Conteudo não pode ser carregado";
@@ -13,8 +13,8 @@ public class Votes {
     private Integer objectId;
     private boolean vote;
 
-    public Votes(final Integer userId, final Integer contentType,
-                 final Integer objectId, final boolean vote) throws VotesException {
+    public Vote(final Integer userId, final Integer contentType,
+                final Integer objectId, final boolean vote) throws VotesException {
         setContentType(contentType);
         setUserId(userId);
         setObjectId(objectId);

@@ -14,11 +14,11 @@ import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.database.VotesDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Votes;
+import gppmds.wikilegis.model.Vote;
 
 public class VotesController {
 
-    private static List<Votes> votesList = new ArrayList<Votes>();
+    private static List<Vote> voteList = new ArrayList<Vote>();
     private static VotesDAO votesDAO;
     private static Context context;
     private static VotesController instance = null;
@@ -34,18 +34,18 @@ public class VotesController {
         return  instance;
     }
 
-    public static List<Votes> getVotesByIdOfSegment(final Integer idOfSegment) throws VotesException {
+    public static List<Vote> getVotesByIdOfSegment(final Integer idOfSegment) throws VotesException {
         votesDAO = votesDAO.getInstance(context);
         return votesDAO.getVotesByIdOfSegment(idOfSegment);
     }
 
     public static Integer getLikesOfSegment(final Integer idOfSegment) throws VotesException {
-        List<Votes> votesListAux = getVotesByIdOfSegment(idOfSegment);
+        List<Vote> voteListAux = getVotesByIdOfSegment(idOfSegment);
 
         int countLikes = 0;
 
-        for (int i = 0; i < votesListAux.size(); i++) {
-            if (votesListAux.get(i).isVote()) {
+        for (int i = 0; i < voteListAux.size(); i++) {
+            if (voteListAux.get(i).isVote()) {
                 countLikes++;
             }
         }
@@ -53,12 +53,12 @@ public class VotesController {
     }
 
     public static Integer getDislikesOfSegment(final Integer idOfSegment) throws VotesException {
-        List<Votes> votesListAux = getVotesByIdOfSegment(idOfSegment);
+        List<Vote> voteListAux = getVotesByIdOfSegment(idOfSegment);
 
         int countDislikes = 0;
 
-        for (int i = 0; i < votesListAux.size(); i++) {
-            if (!votesListAux.get(i).isVote()) {
+        for (int i = 0; i < voteListAux.size(); i++) {
+            if (!voteListAux.get(i).isVote()) {
                 countDislikes++;
             }
         }
@@ -73,12 +73,16 @@ public class VotesController {
                 getDefaultSharedPreferences(context);
         String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
 
-        List<Votes> newVotes = new ArrayList<>();
+        List<Vote> newVotes = new ArrayList<>();
 
         newVotes = JSONHelper.votesListFromJSON("?created=" + date);
 
         votesDAO.insertAllVotes(newVotes);
 
-        votesList = votesDAO.getAllVotes();
+        voteList = votesDAO.getAllVotes();
+    }
+
+    public void setVotesList(List<Vote> voteList) {
+        this.voteList = voteList;
     }
 }

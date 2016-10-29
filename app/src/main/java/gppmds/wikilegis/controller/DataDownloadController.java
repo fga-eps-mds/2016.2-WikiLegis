@@ -11,7 +11,6 @@ import org.json.JSONException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +22,7 @@ import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.Vote;
 
 /**
  * Created by marcelo on 10/17/16.
@@ -152,6 +152,10 @@ public class DataDownloadController {
         return allBills;
     }
 
-
+    public static List<Vote> getVoteBySegmentId(String id) throws JSONException, BillException, VotesException {
+        List<Vote> listVotes = null;
+        listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+id);
+        return listVotes;
+    }
 
 }

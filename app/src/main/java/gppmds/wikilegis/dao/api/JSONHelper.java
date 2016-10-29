@@ -17,7 +17,7 @@ import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.Votes;
+import gppmds.wikilegis.model.Vote;
 
 public class JSONHelper {
 
@@ -49,9 +49,9 @@ public class JSONHelper {
         return billListApi;
     }
 
-    public static List<Votes> votesListFromJSON(String urlDate) throws JSONException, VotesException {
+    public static List<Vote> votesListFromJSON(String urlDate) throws JSONException, VotesException {
         String url = "http://wikilegis-staging.labhackercd.net/api/votes/"+urlDate;
-        List<Votes> votesListApi = new ArrayList<>();
+        List<Vote> voteListApi = new ArrayList<>();
 
         do {
             String votesList = requestJsonObjectFromApi(url);
@@ -59,7 +59,7 @@ public class JSONHelper {
             JSONObject votes = new JSONObject(votesList);
             JSONArray results = votes.getJSONArray("results");
 
-            populateListVotes(results, votesListApi);
+            populateListVotes(results, voteListApi);
 
             String nextUrl = votes.getString("next");
             url = nextUrl; //updateDomain(nextUrl);
@@ -68,15 +68,15 @@ public class JSONHelper {
 
         } while (!url.equals("null"));
 
-        return votesListApi;
+        return voteListApi;
     }
 
-    public static void populateListVotes(JSONArray results, List<Votes> votesListApi)
+    public static void populateListVotes(JSONArray results, List<Vote> voteListApi)
             throws JSONException, VotesException {
         for (int i = 0; i < results.length(); i++) {
             JSONObject jsonObject = results.getJSONObject(i);
 
-            votesListApi.add(setVotesAttributes(jsonObject));
+            voteListApi.add(setVotesAttributes(jsonObject));
         }
     }
 
@@ -139,8 +139,8 @@ public class JSONHelper {
         return correctDomain;
     };
 
-    private static Votes setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
-        Votes voteAux = new Votes(1,//jsonObject.getInt("user"),
+    private static Vote setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
+        Vote voteAux = new Vote(1,//jsonObject.getInt("user"),
                 1,//jsonObject.getInt("content_type"),
                 jsonObject.getInt("object_id"),
                 jsonObject.getString("vote").equals("false") ? false : true);

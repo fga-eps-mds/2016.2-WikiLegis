@@ -97,13 +97,17 @@ public class ViewSegmentFragment extends Fragment {
     private void settingText() {
         try {
             DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+            VotesController votesController = VotesController.getInstance(getContext());
+
+
 
             if(dataDownloadController.connectionType() < 2) {
-
+                votesController.setVotesList(DataDownloadController.getVoteBySegmentId(""+segmentId));
+                Log.d("TO AQUI","PORRA");
             }else{
                 dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
                 likes.setText(VotesController.getLikesOfSegment(segmentId).toString());
-
+                Log.d("TO AQUI","CARAI");
             }
             segmentText.setText(SegmentController.getSegmentById(segmentId).getContent());
             billText.setText(BillController.getBillById(billId).getTitle());
@@ -112,6 +116,8 @@ public class ViewSegmentFragment extends Fragment {
         } catch (BillException e) {
             e.printStackTrace();
         } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
