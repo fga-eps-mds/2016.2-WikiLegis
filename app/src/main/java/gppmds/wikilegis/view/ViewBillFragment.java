@@ -58,7 +58,7 @@ public class ViewBillFragment extends Fragment {
         segmentController = SegmentController.getInstance(getContext());
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
         List<Segment> segmentList = new ArrayList<>();
-
+        //TODO TESTAR 
         if(dataDownloadController.connectionType() < 2){
             try {
                 segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
@@ -101,7 +101,7 @@ public class ViewBillFragment extends Fragment {
 
         Bill bill = null;
         DataDownloadController dataCenter = DataDownloadController.getInstance(getContext());
-
+        //TODO TESTAR
         if(dataCenter.connectionType() < 2) {
             try {
                 bill = billController.getBillByIdFromApi(id);

@@ -48,44 +48,50 @@ public class SegmentController {
     public void setSegmentList(List<Segment> segmentList) {
         SegmentController.segmentList = segmentList;
     }
-
+    //TODO TESTAR
     public Segment getSegmentByIdFromList(final Integer id ){
-        Log.d("Chegou aqui:", "");
         for (Segment segment : segmentList){
-            Log.d("Estamos aqui: ", segment.getId()+"");
             if(segment.getId() == id){
-                Log.d("Aqui o IF: ", segment.getId()+"");
                 return segment;
             }
         }
         return null;
     }
+    //TODO TESTAR
     public List<Segment> getSegmentsOfBillById(String billBill, String segmentBill, boolean isProposal)
             throws JSONException, BillException, SegmentException {
+
         List<Segment> segmentList = null;
         segmentList = JSONHelper.getSegmentFromBill(billBill,segmentBill);
-        List<Segment> orderedSement = new ArrayList<>();
-        Log.d("soakkosa",segmentList.size()+"");
+
+        List<Segment> orderedSegment = new ArrayList<>();
 
         for (Segment segment : segmentList) {
             if(!isProposal) {
                 if (segment.getReplaced() == 0) {
 
-                    orderedSement.add(segment);
+                    orderedSegment.add(segment);
                 }
             }else{
                 if (segment.getReplaced() > 0) {
 
-                    orderedSement.add(segment);
+                    orderedSegment.add(segment);
                 }
             }
         }
-        SegmentComparatorOrder comparator = new SegmentComparatorOrder();
-        Collections.sort(orderedSement, comparator);
+
+        orderSegments(orderedSegment);
 
         this.segmentList = segmentList;
 
-        return orderedSement;
+        return orderedSegment;
+    }
+    //TODO TESTAR
+    private List<Segment> orderSegments(List<Segment> orderedSegment) {
+        SegmentComparatorOrder comparator = new SegmentComparatorOrder();
+        Collections.sort(orderedSegment, comparator);
+
+        return orderedSegment;
     }
 
 

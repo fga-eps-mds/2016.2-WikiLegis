@@ -4,25 +4,28 @@ import gppmds.wikilegis.exception.VotesException;
 
 public class Vote {
 
-    private static final String USERID_CANT_BE_NULL = "Id não pode ser carregado";
-    private static final String CONTENT_CANT_BE_NULL = "Conteudo não pode ser carregado";
-    private static final String OBJECTID_CANT_BE_NULL = "Id do objeto não pode ser carregado";
+    private static final String USERID_CANT_BE_NULL = "Id do usuário não pode ser nulo";
+    private static final String CONTENT_CANT_BE_NULL = "Conteudo não pode ser nulo";
+    private static final String OBJECTID_CANT_BE_NULL = "Id do segmento não pode ser nulo";
+    private static final String ID_CANT_BE_NULL = "Id não pode ser nulo";
 
+    private Integer id;
     private Integer userId;
     private Integer contentType;
     private Integer objectId;
     private boolean vote;
 
-    public Vote(final Integer userId, final Integer contentType,
+    public Vote(int id, final Integer userId, final Integer contentType,
                 final Integer objectId, final boolean vote) throws VotesException {
         setContentType(contentType);
         setUserId(userId);
         setObjectId(objectId);
         setVote(vote);
+        setId(id);
     }
 
     public boolean equals(Vote votes){
-        return this.contentType == votes.getContentType() && this.userId == votes.getUserId() &&
+        return this.id == votes.getId() && this.contentType == votes.getContentType() && this.userId == votes.getUserId() &&
                 this.objectId  == votes.getObjectId() && this.vote == votes.getVote();
     }
 
@@ -31,10 +34,10 @@ public class Vote {
     }
 
     private void setUserId(final Integer userId) throws VotesException {
-        if (validateIntegerNull(userId)) {
+        if (validateIntegerisNotNull(userId)) {
             this.userId = userId;
         } else{
-            throw  new VotesException("USERID_CANT_BE_NULL");
+            throw  new VotesException(USERID_CANT_BE_NULL);
         }
     }
 
@@ -43,10 +46,10 @@ public class Vote {
     }
 
     private void setContentType(final Integer contentType) throws VotesException {
-        if (validateIntegerNull(contentType)) {
+        if (validateIntegerisNotNull(contentType)) {
             this.contentType = contentType;
         } else{
-            throw  new VotesException("CONTENT_CANT_BE_NULL");
+            throw  new VotesException(CONTENT_CANT_BE_NULL);
         }
     }
 
@@ -55,10 +58,10 @@ public class Vote {
     }
 
     private void setObjectId(final Integer objectId) throws VotesException {
-        if (validateIntegerNull(objectId)) {
+        if (validateIntegerisNotNull(objectId)) {
             this.objectId = objectId;
         } else{
-            throw  new VotesException("OBJECTID_CANT_BE_NULL");
+            throw  new VotesException(OBJECTID_CANT_BE_NULL);
         }
     }
 
@@ -74,9 +77,22 @@ public class Vote {
         return this.vote;
     }
 
+    private void setId(Integer id) throws VotesException{
+        if(validateIntegerisNotNull(id)){
+            this.id = id;
+        }else{
+            throw new VotesException(ID_CANT_BE_NULL);
+        }
+
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
     //Validation methods
 
-    private boolean validateIntegerNull(final Integer integer){
+    private boolean validateIntegerisNotNull(final Integer integer){
         if (integer == null) {
             return false;
         }

@@ -29,6 +29,7 @@ import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.Vote;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -398,5 +399,102 @@ public class DataDownloadControllerTest {
 
         assertEquals(session.getString(keyDate, "2010-01-01"),
                 "2010-01-01");
+    }
+
+    @Test
+    public void testListOfVotes() {
+        List<Vote> listVotes = null;
+        try {
+            listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+75);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+        List<Vote> listVotesToBeTested = null;
+        try {
+            listVotesToBeTested = DataDownloadController.getVoteBySegmentId(75+"");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }  int count = 0;
+       for(Vote vote : listVotesToBeTested){
+           for(Vote voteApi : listVotes){
+            if(vote.equals(voteApi)){
+                count++;
+            }
+        }
+       }
+        Log.d("Count",""+count);
+        assertTrue(count == listVotes.size());
+    }
+
+    @Test
+    public void testNumberOfLikes() {
+        List<Vote> listVotes = null;
+        try {
+            listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+75);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        int countLikes = 0;
+
+        for(Vote vote : listVotes) {
+            if(vote.isVote()) {
+                countLikes++;
+            }
+        }
+        int likes = -1;
+
+        try {
+            likes = DataDownloadController.getNumberOfVotesbySegment(75, true);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(countLikes == likes);
+    }
+
+    @Test
+    public void testNumberOfDislikes() {
+        List<Vote> listVotes = null;
+        try {
+            listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+75);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        int countDislikes = 0;
+
+        for(Vote vote : listVotes) {
+            if(!vote.isVote()) {
+                countDislikes++;
+            }
+        }
+        int likes = -1;
+
+        try {
+            likes = DataDownloadController.getNumberOfVotesbySegment(75, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(countDislikes == likes);
     }
 }

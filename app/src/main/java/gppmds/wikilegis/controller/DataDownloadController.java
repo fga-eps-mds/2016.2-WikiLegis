@@ -122,6 +122,7 @@ public class DataDownloadController {
         listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+id);
         return listVotes;
     }
+
     public static int getNumberOfVotesbySegment(int id, Boolean isLike) throws BillException, VotesException, JSONException {
         List<Vote> votes = getVoteBySegmentId(""+id);
         int numberOfVotes = 0;

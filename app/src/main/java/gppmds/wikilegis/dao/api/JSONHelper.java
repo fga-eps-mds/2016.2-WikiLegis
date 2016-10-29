@@ -141,7 +141,8 @@ public class JSONHelper {
     };
 
     private static Vote setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
-        Vote voteAux = new Vote(1,//jsonObject.getInt("user"),
+        Vote voteAux = new Vote(jsonObject.getInt("id"),
+                1,//jsonObject.getInt("user"),
                 1,//jsonObject.getInt("content_type"),
                 jsonObject.getInt("object_id"),
                 jsonObject.getString("vote").equals("false") ? false : true);

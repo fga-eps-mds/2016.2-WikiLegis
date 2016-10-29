@@ -17,7 +17,7 @@ public class VoteTest {
         boolean isValid = true;
 
         try {
-            Vote vote = new Vote(22, 1, 1, true);
+            Vote vote = new Vote(1, 22, 1, 1, true);
         } catch (VotesException votesException) {
             isValid = false;
         }
@@ -29,7 +29,7 @@ public class VoteTest {
         boolean isValid = true;
 
         try {
-            Vote vote = new Vote(null, 1, 1, true);
+            Vote vote = new Vote(1, null, 1, 1, true);
         } catch (VotesException votesException) {
             isValid = false;
         }
@@ -43,7 +43,7 @@ public class VoteTest {
         boolean isValid = true;
 
         try {
-            Vote vote = new Vote(1, null, 1, true);
+            Vote vote = new Vote(1, 1, null, 1, true);
         } catch (VotesException votesException) {
             isValid = false;
         }
@@ -57,7 +57,7 @@ public class VoteTest {
         boolean isValid = true;
 
         try {
-            Vote vote = new Vote(1, 1, null, true);
+            Vote vote = new Vote(1, 1, 1, null, true);
         } catch (VotesException votesException) {
             isValid = false;
         }
@@ -71,7 +71,7 @@ public class VoteTest {
         boolean isValid = true;
 
         try {
-            Vote vote = new Vote(1, 1, 1,false);
+            Vote vote = new Vote(1, 1, 1, 1,false);
         } catch (VotesException votesException) {
             isValid = false;
         }
@@ -85,7 +85,7 @@ public class VoteTest {
         boolean isValid = true;
 
         try {
-            Vote vote = new Vote(1, 1, 1, true);
+            Vote vote = new Vote(1, 1, 1, 1, true);
         } catch (VotesException votesException) {
             isValid = false;
         }

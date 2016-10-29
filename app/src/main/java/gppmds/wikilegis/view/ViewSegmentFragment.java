@@ -62,7 +62,7 @@ public class ViewSegmentFragment extends Fragment {
         tabs.setVisibility(View.GONE);
 
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-
+        //TODO TESTAR
         if(dataDownloadController.connectionType() < 2){
             Log.d("Entrou aqui no wifi...", "");
             try {
@@ -114,7 +114,7 @@ public class ViewSegmentFragment extends Fragment {
         try {
             DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
             SegmentController segmentController = SegmentController.getInstance(getContext());
-
+            //TODO TESTAR
             if(dataDownloadController.connectionType() < 2) {
                 final Segment SEGMENT = segmentController.getSegmentByIdFromList(segmentId);
 
