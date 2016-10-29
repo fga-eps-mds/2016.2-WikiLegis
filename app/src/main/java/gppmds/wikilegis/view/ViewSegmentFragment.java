@@ -66,7 +66,7 @@ public class ViewSegmentFragment extends Fragment {
         if(dataDownloadController.connectionType() < 2){
             Log.d("Entrou aqui no wifi...", "");
             try {
-                proposalsList = DataDownloadController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
+                proposalsList = segmentController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
                 Log.d("Numero de propostas",proposalsList.size()+"");
             } catch (JSONException e) {
                 e.printStackTrace();

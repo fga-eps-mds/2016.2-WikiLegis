@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.api.BillJsonHelper;
 import gppmds.wikilegis.dao.database.BillDAO;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
@@ -105,6 +106,18 @@ public class BillController {
             }
         }
         return null;
+    }
+
+    public static void getAllBillsFromApi() throws JSONException, BillException {
+        List<Bill> allBills = null;
+        allBills = BillJsonHelper.getAllBillFromApi();
+        billList = allBills;
+    }
+
+    public static Bill getBillByIdFromApi(int id) throws JSONException, BillException {
+        Bill bill = null;
+        bill = BillJsonHelper.getBillFromApiById(id);
+        return bill;
     }
 
     public static Bill getBillById(final int id) throws BillException {

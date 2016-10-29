@@ -30,6 +30,8 @@ public class ViewBillFragment extends Fragment {
     private TextView titleBillTextView = null;
     private TextView textAbstractTextView = null;
     private TextView numberProposalsTextView = null;
+    private BillController billController = null;
+    private SegmentController segmentController = null;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -52,12 +54,14 @@ public class ViewBillFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        billController = BillController.getInstance(getContext());
+        segmentController = SegmentController.getInstance(getContext());
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
         List<Segment> segmentList = new ArrayList<>();
 
         if(dataDownloadController.connectionType() < 2){
             try {
-                segmentList = DataDownloadController.getSegmentsOfBillById(""+idBill,"", false);
+                segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
                 SegmentController segmentController = SegmentController.getInstance(getContext());
                 segmentController.setSegmentList(segmentList);
             } catch (JSONException e) {
@@ -100,10 +104,10 @@ public class ViewBillFragment extends Fragment {
 
         if(dataCenter.connectionType() < 2) {
             try {
-                bill = DataDownloadController.getBillById(id);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                bill = billController.getBillByIdFromApi(id);
             } catch (BillException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {

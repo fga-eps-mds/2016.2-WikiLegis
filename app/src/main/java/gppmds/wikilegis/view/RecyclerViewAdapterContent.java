@@ -1,6 +1,7 @@
 package gppmds.wikilegis.view;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.DataDownloadController;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
@@ -81,9 +85,17 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         int connectionType = dataDownloadController.connectionType();
         holder.proposals.setText(listSegment.get(position).getContent());
 
-        //FIXME
-        holder.likes.setText("7");
-        holder.dislikes.setText("13");
+        int proposalId = listSegment.get(position).getId();
+        try {
+            holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(proposalId,false)+"");
+            holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(proposalId,true) +"");
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

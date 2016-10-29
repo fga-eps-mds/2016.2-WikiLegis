@@ -8,11 +8,13 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.database.SegmentDAO;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
@@ -58,6 +60,34 @@ public class SegmentController {
         }
         return null;
     }
+    public List<Segment> getSegmentsOfBillById(String billBill, String segmentBill, boolean isProposal)
+            throws JSONException, BillException, SegmentException {
+        List<Segment> segmentList = null;
+        segmentList = JSONHelper.getSegmentFromBill(billBill,segmentBill);
+        List<Segment> orderedSement = new ArrayList<>();
+        Log.d("soakkosa",segmentList.size()+"");
+
+        for (Segment segment : segmentList) {
+            if(!isProposal) {
+                if (segment.getReplaced() == 0) {
+
+                    orderedSement.add(segment);
+                }
+            }else{
+                if (segment.getReplaced() > 0) {
+
+                    orderedSement.add(segment);
+                }
+            }
+        }
+        SegmentComparatorOrder comparator = new SegmentComparatorOrder();
+        Collections.sort(orderedSement, comparator);
+
+        this.segmentList = segmentList;
+
+        return orderedSement;
+    }
+
 
     public void initControllerSegments() throws SegmentException, JSONException {
 

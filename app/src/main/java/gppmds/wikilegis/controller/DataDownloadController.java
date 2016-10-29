@@ -42,8 +42,6 @@ public class DataDownloadController {
         return  instance;
     }
 
-
-
     public int connectionType() {
         final ConnectivityManager connMgr = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -117,47 +115,6 @@ public class DataDownloadController {
         String formatted = format1.format(cal.getTime());
 
         return formatted;
-    }
-
-    public static Bill getBillById(int id) throws JSONException, BillException {
-        Bill bill = null;
-        bill = BillJsonHelper.getBillFromApiById(id);
-        return bill;
-    }
-
-    public static List<Segment> getSegmentsOfBillById(String billBill, String segmentBill, boolean isProposal)
-            throws JSONException, BillException, SegmentException {
-        List<Segment> segmentList = null;
-        segmentList = JSONHelper.getSegmentFromBill(billBill,segmentBill);
-        List<Segment> orderedSement = new ArrayList<>();
-        Log.d("soakkosa",segmentList.size()+"");
-
-            for (Segment segment : segmentList) {
-                if(!isProposal) {
-                    if (segment.getReplaced() == 0) {
-
-                    orderedSement.add(segment);
-                    }
-                }else{
-                    if (segment.getReplaced() > 0) {
-
-                        orderedSement.add(segment);
-                    }
-                }
-            }
-        SegmentComparatorOrder comparator = new SegmentComparatorOrder();
-        Collections.sort(orderedSement, comparator);
-
-        SegmentController segmentController = SegmentController.getInstance(context);
-        segmentController.setSegmentList(segmentList);
-
-        return orderedSement;
-    }
-
-    public static List<Bill> getAllBills() throws JSONException, BillException {
-        List<Bill> allBills = null;
-        allBills = BillJsonHelper.getAllBillFromApi();
-        return allBills;
     }
 
     public static List<Vote> getVoteBySegmentId(String id) throws JSONException, BillException, VotesException {
