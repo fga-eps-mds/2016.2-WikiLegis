@@ -15,29 +15,29 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.controller.CommentSegmentController;
+import gppmds.wikilegis.exception.CommentsException;
 
 
-public class CreateSuggestProposal extends Fragment implements View.OnClickListener {
+public class CreateComment extends Fragment implements View.OnClickListener {
 
-    private EditText suggestionTyped;
+    private EditText commentEditText;
     private FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view  = inflater.inflate(R.layout.fragment_create_suggest_proposal, container, false);
+        View view  = inflater.inflate(R.layout.fragment_create_comment, container, false);
 
-        Button saveButton = (Button) view.findViewById(R.id.saveSuggestion);
+        Button saveButton = (Button) view.findViewById(R.id.saveComment);
         saveButton.setOnClickListener(this);
 
         floatingActionButton = (FloatingActionButton) getActivity()
                 .findViewById(R.id.floatingButton);
         floatingActionButton.setVisibility(View.INVISIBLE);
 
-        suggestionTyped = (EditText) view.findViewById(R.id.suggestionProposalEditText);
+        commentEditText = (EditText) view.findViewById(R.id.commentEditText);
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
@@ -45,32 +45,31 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
         return view;
     }
 
-    private String saveSuggestion(Integer billId, Integer segmentId){
+    private String saveComment(Integer segmentId){
 
-
-        SegmentController segmentController = SegmentController.getInstance
+        CommentSegmentController commentSegmentController = CommentSegmentController.getInstance
                 (getContext());
 
-        String proposalTyped = suggestionTyped.getText().toString();
+        String proposalTyped = commentEditText.getText().toString();
 
         String result = null;
 
         try{
-            result = segmentController.registerSegment(billId, segmentId, proposalTyped,
+            result = commentSegmentController.registerComment(segmentId, proposalTyped,
                     getContext());
 
         } catch(JSONException e){
             e.printStackTrace();
-        } catch(SegmentException e){
-            result = getContext().getResources().getString(R.string.empty_segment);
+        } catch(CommentsException e){
+            e.printStackTrace();
         }
 
         if(result.equals("SUCCESS")){
-            result =  getContext().getResources().getString(R.string.success_proposal);
+            result =  getContext().getResources().getString(R.string.success_comment);
         }
-        else if(result.equals(getContext().getResources().getString(R.string.empty_segment))){
-            suggestionTyped.requestFocus();
-            suggestionTyped.setError(result);
+        else if(result.equals(getContext().getResources().getString(R.string.empty_comment))){
+            commentEditText.requestFocus();
+            commentEditText.setError(result);
         }
         else{
             result = getContext().getResources().getString(R.string.connection_problem);
@@ -84,14 +83,13 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         if(view.getId() == R.id.saveSuggestion){
 
-            Integer idBill = getArguments().getInt("billId");
             Integer idSegment = getArguments().getInt("segmentId");
 
             Log.d("ID SEGMENT", idSegment + "");
-            String savingStatus = saveSuggestion(idBill, idSegment);
+            String savingStatus = saveComment(idSegment);
 
             if(savingStatus.equals(getContext().getResources().getString(
-                    R.string.success_proposal))){
+                    R.string.success_comment))){
                 Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
 
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();

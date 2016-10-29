@@ -52,4 +52,8 @@
     <string name="empty_segment">Por favor, digite uma sugestão</string>
     <string name="success_proposal">Obrigado pela sugestão!</string>
 
+    <!-- Proposal comment strings -->
+    <string name="empty_comment">Por favor, digite um comentário</string>
+    <string name="success_comment">Obrigado pelo comentário!</string>
+
 </resources>

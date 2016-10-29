@@ -1,6 +1,5 @@
 package gppmds.wikilegis.view;
 
-import android.app.Dialog;
 import android.support.design.widget.FloatingActionButton;
 
 import android.content.Context;
@@ -180,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
             if(createSuggestProposal.isVisible()){
 
                 EditText proposalSuggestionEditText = (EditText) createSuggestProposal.getView()
-                        .findViewById(R.id.suggestionEditText);
+                        .findViewById(R.id.suggestionProposalEditText);
                 String suggestionTyped = proposalSuggestionEditText.getText().toString();
 
                 if(!suggestionTyped.isEmpty()){

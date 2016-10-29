@@ -1,12 +1,15 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +18,12 @@ import gppmds.wikilegis.dao.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
+import static org.mockito.Mockito.*;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by shammyz on 9/30/16.
- */
 public class SegmentControllerTest {
     Context context;
 
@@ -359,9 +360,10 @@ public class SegmentControllerTest {
 
     @Test
     public void testRegisterSegmentWithValidSuggestion() throws SegmentException, JSONException{
+
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        String status= segmentController.registerSegment(13, 121, "Testando", context);
+        String status = segmentController.registerSegment(13, 121, "Testando", context);
 
         assertEquals(status, "SUCCESS");
     }

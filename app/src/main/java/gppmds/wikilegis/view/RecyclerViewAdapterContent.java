@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.media.Image;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -35,7 +36,9 @@ import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
 
-public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerViewAdapterContent.ContentViewHolder> {
+public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerViewAdapterContent
+        .ContentViewHolder> {
+
     private List<Segment> listSegment = new ArrayList<>();
     private Context context;
 
@@ -54,60 +57,27 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
             dislikes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCard);
             commentSegment = (ImageView) itemView.findViewById(R.id.imageViewProposalCard);
 
-            commentSegment.setOnClickListener(new View.OnClickListener() {
+            commentSegment.setOnClickListener(new View.OnClickListener(){
 
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view){
 
-                    SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(view.getContext());
+                    SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(view
+                            .getContext());
 
-                    if(!session.getString("token", "").isEmpty()) {
-                        openDialog(view.getContext(), itemView);
-                    } else{
+                    if(session.getBoolean("isLoggedIn", false)){
+                        CreateComment createComment = new CreateComment();
+
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        activity.getSupportFragmentManager().beginTransaction().addToBackStack(null)
+                                .replace(R.id.view_segment_fragment,createComment);
+                    }
+                    else{
                         Intent intent = new Intent(view.getContext(), LoginActivity.class);
                         view.getContext().startActivity(intent);
                     }
                 }
             });
-        }
-
-        private void openDialog(final Context context, final View view){
-            LayoutInflater inflater = LayoutInflater.from(context);
-            final View inputView = inflater.inflate(R.layout.fragment_comment, null);
-
-            AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder(context);
-            alertDialogProposalBuilder.setView(inputView);
-
-            alertDialogProposalBuilder
-                    .setCancelable(false)
-                    .setPositiveButton("Enviar", new DialogInterface.OnClickListener(){
-
-                        public void onClick(DialogInterface dialogBox, int id){
-                            CommentSegmentController commentSegmentController = CommentSegmentController.getInstance(context);
-
-                            EditText commentInput = (EditText) inputView.findViewById(R.id.commentInput);
-                            String commentType = commentInput.getText().toString();
-                            try {
-                                commentSegmentController.registerComment(Integer.parseInt(cardView.getTag
-                                        (R.id.idSegment).toString()),
-                                        commentType, context);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (CommentsException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    })
-
-                    .setNegativeButton("Cancelar",
-                            new DialogInterface.OnClickListener(){
-                                public void onClick(DialogInterface dialogBox, int id){
-                                    dialogBox.cancel();
-                                }
-                            });
-
-            AlertDialog alertDialogProposal = alertDialogProposalBuilder.create();
-            alertDialogProposal.show();
         }
     }
 
@@ -136,8 +106,8 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                     parent, false);
             contentViewHolder=new ContentViewHolder(v);
         } else if (connectionType == NO_NETWORK) {
-            View v=LayoutInflater.from(parent.getContext()).inflate(R.layout.item_view_segment_offline,
-                    parent, false);
+            View v=LayoutInflater.from(parent.getContext()).inflate(R.layout
+                            .item_view_segment_offline, parent, false);
             contentViewHolder=new ContentViewHolder(v);
         }
 
@@ -161,8 +131,10 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
         if(connectionType == WIFI || connectionType == MOBILE_3G) {
             try {
-                holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position).getId()).toString());
-                holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment.get(position).getId()).toString());
+                holder.likes.setText(VotesController.getLikesOfSegment(listSegment.get(position)
+                        .getId()).toString());
+                holder.dislikes.setText(VotesController.getDislikesOfSegment(listSegment
+                        .get(position).getId()).toString());
             } catch (VotesException e) {
                 e.printStackTrace();
             }

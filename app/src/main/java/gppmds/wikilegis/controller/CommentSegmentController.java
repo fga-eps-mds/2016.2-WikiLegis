@@ -7,11 +7,13 @@ import android.util.Log;
 
 import org.json.JSONException;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.PostRequest;
 import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.model.Comments;
 
 public class CommentSegmentController {
+
     private final Context context;
     private static CommentSegmentController instance = null;
 
@@ -26,26 +28,36 @@ public class CommentSegmentController {
         return  instance;
     }
 
-    public boolean registerComment (int objectPK, String comment, Context context)
+    public String registerComment (int objectPK, String comment, Context context)
             throws JSONException, CommentsException {
 
-        Comments segment = new Comments(objectPK, comment);
+        String status;
 
-        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+        if(comment.isEmpty()){
+            status = context.getResources().getString(R.string.empty_comment);
+        }
+        else{
 
-        String url = "http://wikilegis-staging.labhackercd.net/api/comments/";
-        String json = "{" +
-                "\"object_pk\": " +segment.getObjectPk()+","+
-                "\"comment\": " + segment.getComment()+","+
-                "\"token\": \""+session.getString("token",null) +"\""+
-                "}";
+            Comments segment = new Comments(objectPK, comment);
 
-        Log.d("URL", url);
-        Log.d("URL PARAMS", json);
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
-        PostRequest postRequest = new PostRequest(context, url);
-        postRequest.execute(json, "application/json");
+            String url = "http://wikilegis-staging.labhackercd.net/api/comments/";
+            String json = "{" +
+                    "\"object_pk\": " + segment.getObjectPk() + "," +
+                    "\"comment\": " + segment.getComment() + "," +
+                    "\"token\": \"" + session.getString("token", null) + "\"" +
+                    "}";
 
-        return true;
+            Log.d("URL", url);
+            Log.d("URL PARAMS", json);
+
+            PostRequest postRequest = new PostRequest(context, url);
+            postRequest.execute(json, "application/json");
+
+            status = "SUCCESS";
+        }
+
+        return status;
     }
 }
