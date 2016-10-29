@@ -10,28 +10,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final Integer DATABASE_VERSION = 1;
 
     private static final String BILL_TABLE = "[Bill]";
-    private static final String SEGMENTS_BILL_TABLE = "[SegmentsBill]";
     private static final String SEGMENTS_TABLE = "[Segments]";
-    private static final String EMAIL_TABLE = "[email]";
-    private static final String VOTES_TABLE = "[votes]";
 
-
-    private static final String VOTE_ID = "[id]";
-    private static final String VOTE_CONTENT_TYPE = "[contentType]";
-    private static final String VOTE_VOTE = "[vote]";
-    private static final String VOTE_USER_ID = "[userId]";
-    private static final String VOTE_SEGMENT_ID = "[segmentId]";
-
-    private static final String CREATE_VOTE = "CREATE TABLE " + VOTES_TABLE + " ( " +
-            VOTE_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " + VOTE_CONTENT_TYPE + " INTEGER, " +
-            VOTE_VOTE + " VARCHAR(6), " + VOTE_USER_ID + " INTEGER, " + VOTE_SEGMENT_ID + " INTEGER );";
-
-    //Emails
-
-    private static final String EMAIL_EMAIL = "[email]";
-
-    private static final String CREATE_EMAIL = "CREATE TABLE " + EMAIL_TABLE + " (" +
-            EMAIL_EMAIL + " );";
 
     //Bill
 
@@ -49,16 +29,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             BILL_EPIGRAPH + "  VARCHAR(200), "+ BILL_DESCRIPTION + " VARCHAR(500), " +
             BILL_THEME + " VARCHAR(50), "+ BILL_AMOUNT_PROPOSALS + " INTEGER, " +
             BILL_STATUS + " VARCHAR(50), " + BILL_DATE + " INTEGER);";
-
-    //Segments of Bill
-
-    private static final String SEGMENTS_BILL_ID_SEGMENT = "[idSegment]";
-    private static final String SEGMENTS_BILL_ID_BILL = "[idBill]";
-    private static final String SEGMENTS_BILL_POSITION = "[position]";
-
-    private static final String CREATE_SEGMENTS_BILL = "CREATE TABLE " + SEGMENTS_BILL_TABLE + " ( " +
-            SEGMENTS_BILL_ID_SEGMENT + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_BILL_POSITION + " INTEGER ," +
-            SEGMENTS_BILL_ID_BILL + " INTEGER );";
 
     //Segments
 
@@ -78,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     private static final String CREATE_SEGMENTS = "CREATE TABLE " + SEGMENTS_TABLE + " ( " +
             SEGMENTS_ID + " INTEGER NOT NULL PRIMARY KEY, " + SEGMENTS_ORDER + " INTEGER, " +
-            SEGMENTS_ID_BILL + " INTEGER, " + SEGMENTS_ORIGINAL + " BIT, " + SEGMENTS_REPLACED +
+            SEGMENTS_ID_BILL + " INTEGER, " + SEGMENTS_ORIGINAL + " INTEGER, " + SEGMENTS_REPLACED +
             " INTEGER, " + SEGMENTS_PARENT + " INTEGER, " + SEGMENTS_TYPE + " INTEGER, " +
             SEGMENTS_NUMBER + " INTEGER, " + SEGMENTS_CONTENT + " VARCHAR(500), " +
             SEGMENTS_FIRST_NAME_AUTHOR + " VARCHAR(30), " + SEGMENTS_SECOND_NAME_AUTHOR + " VARCHAR(30), " +
@@ -91,10 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(final SQLiteDatabase db) {
         db.execSQL(CREATE_BILL);
-        db.execSQL(CREATE_SEGMENTS_BILL);
         db.execSQL(CREATE_SEGMENTS);
-        db.execSQL(CREATE_EMAIL);
-        db.execSQL(CREATE_VOTE);
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
@@ -52,7 +53,7 @@ public class ViewBillFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-        List<Segment> segmentList = null;
+        List<Segment> segmentList = new ArrayList<>();
 
         if(dataDownloadController.connectionType() < 2){
             try {
@@ -67,8 +68,17 @@ public class ViewBillFragment extends Fragment {
                 e.printStackTrace();
             }
         }else {
-            segmentList = BillController.getSegmentsFromIdOfBill(idBill);
+            SegmentController segmentController = SegmentController.getInstance(getContext());
+
+            try {
+                segmentList = segmentController.getSegmentsByIdBill(idBill);
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
         Log.d("TAMANHO15000", segmentList.size() + "");
 
         RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(segmentList, getContext());

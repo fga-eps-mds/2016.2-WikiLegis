@@ -19,7 +19,6 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.SegmentsOfBill;
 
 public class BillController {
 
@@ -83,33 +82,6 @@ public class BillController {
                 SegmentController.getAllSegments());
     }
 
-
-    public static List<Segment> getSegmentsFromIdOfBill(final int idBill) {
-        List<Segment> listSegment;
-        List<SegmentsOfBill> segmentsOfBillList;
-
-        listSegment = new ArrayList<Segment>();
-
-        segmentsOfBillList = SegmentsOfBillController.getAllSegmentsOfBill(idBill);
-
-        Log.d("HAHAHA", segmentsOfBillList.size() + "");
-
-        for (int i = 0; i < segmentsOfBillList.size(); i++) {
-            try {
-                Segment segmentAux = SegmentController.getSegmentById(segmentsOfBillList.get(i)
-                        .getIdSegment());
-                if (segmentAux.getOrder() != 0)
-                    listSegment.add(segmentAux);
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            }
-        }
-
-        SegmentComparatorOrder segmentComparatorOrder = new SegmentComparatorOrder();
-        Collections.sort(listSegment, segmentComparatorOrder);
-
-        return listSegment;
-    }
 
     public static int countedTheNumberOfProposals(final List<Segment> segmentList,
                                                   final int idBill) {

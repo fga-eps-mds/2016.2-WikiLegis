@@ -38,7 +38,8 @@ public class SegmentController {
         return segmentList;
     }
 
-    public static Segment getSegmentById(final Integer id) throws SegmentException {
+    public static Segment getSegmentById(final Integer id, Context context) throws SegmentException {
+        segmentDAO = SegmentDAO.getInstance(context);
         return segmentDAO.getSegmentById(id);
     }
 
@@ -67,7 +68,9 @@ public class SegmentController {
         String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
         Log.d("data", date);
 
-        List<Segment> newSegments = JSONHelper.segmentListFromJSON("?created=" + date);
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON(
+                "http://wikilegis-staging.labhackercd.net/api/segments/",
+                "?created=" + date);
 
         segmentDAO.insertAllSegments(newSegments);
 
@@ -78,8 +81,33 @@ public class SegmentController {
         Log.d("TAMANHO", segmentList.size() + "");
     }
 
-    public void downloadSegmentFromBill(int idBill) throws SegmentException, JSONException {
-        segmentList = JSONHelper.segmentListFromJSON("");
+    public List<Segment> getSegmentsByIdBill(Integer idBill)
+            throws SegmentException, JSONException {
+        segmentDAO = SegmentDAO.getInstance(context);
+
+        List<Segment> segmentList = segmentDAO.getSegmentsByIdBill(idBill);
+
+        return segmentList;
+    }
+
+    public void initModifiedSegments() throws SegmentException, JSONException {
+        segmentDAO = SegmentDAO.getInstance(context);
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+
+        Log.d("data", date);
+
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON(
+                "http://wikilegis-staging.labhackercd.net/api/segments/",
+                "?modified=" + date);
+
+        segmentDAO.modifiedAllSegments(newSegments);
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
     }
 
     public static int getMinDate(final int id) {

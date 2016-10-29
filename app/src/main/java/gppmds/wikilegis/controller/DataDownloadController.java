@@ -25,7 +25,7 @@ import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.Vote;
 
 /**
- * Created by marcelo on 10/17/16.
+ * Created by marcelo on 10/17/16
  */
 public class DataDownloadController {
     private static Context context;
@@ -66,57 +66,57 @@ public class DataDownloadController {
         }
         return connectionType;
     }
-    public void updateData() throws SegmentException, JSONException, BillException {
+
+    public void updateData() throws SegmentException, JSONException, BillException, VotesException {
 
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
 
         final String keyPreferencesConnection = context.getResources().getString(R.string.network_settings);
 
-        Log.d("keyPreferencesConnectio", keyPreferencesConnection);
-
         int preferencesConnection = session.getInt(keyPreferencesConnection, 0);
         int actualConnection  = connectionType();
-        if((preferencesConnection <= 1 && actualConnection == 0)||(preferencesConnection == 1 && actualConnection == 1)){
-            Log.d("TO BAIXANDO AS COISAS", "updateData ");
 
-            SegmentController segmentController = SegmentController.getInstance(context);
-            segmentController.initControllerSegments();
+        if((preferencesConnection <= 1 && actualConnection == 0)
+                || (preferencesConnection == 1 && actualConnection == 1)){
+            Log.d("TO BAIXANDO AS COISAS", "updateData");
 
-            BillController billController = BillController.getInstance(context);
-            billController.initControllerBills();
+            updateSegments();
 
-            SegmentsOfBillController segmentsOfBillController =
-                    SegmentsOfBillController.getInstance(context);
+            updateModifiedSegments();
 
-            segmentsOfBillController.initControllerSegmentsOfBill();
-
-
-            VotesController votesController = VotesController.getInstance(context);
-            try {
-                votesController.initControllerVotes();
-            } catch (VotesException e) {
-                e.printStackTrace();
-            }
+            updateBills();
 
             SharedPreferences.Editor editor = session.edit();
             editor.putString("date", getLocalTime());
-                    editor.commit();
+            editor.commit();
 
-            Log.d("Data salva", session.getString("date", getLocalTime()));
-        }else{
-            //TOAST
+            Log.d("Data salva", session.getString("date", "Nada salvo"));
         }
     }
-    private String getLocalTime(){
+
+    public void updateSegments() throws SegmentException, JSONException {
+        SegmentController segmentController = SegmentController.getInstance(context);
+        segmentController.initControllerSegments();
+    }
+
+    public void updateModifiedSegments() throws SegmentException, JSONException{
+        SegmentController segmentController = SegmentController.getInstance(context);
+        segmentController.initModifiedSegments();
+    }
+
+    public void updateBills() throws BillException, JSONException, SegmentException {
+        BillController billController = BillController.getInstance(context);
+        billController.initControllerBills();
+    }
+
+    public static String getLocalTime(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
         String formatted = format1.format(cal.getTime());
-        System.out.println(formatted);
 
         return formatted;
-
     }
 
     public static Bill getBillById(int id) throws JSONException, BillException {

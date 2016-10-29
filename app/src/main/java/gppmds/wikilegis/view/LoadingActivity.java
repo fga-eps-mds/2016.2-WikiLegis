@@ -12,11 +12,8 @@ import android.widget.Button;
 import org.json.JSONException;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.SegmentsOfBillController;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
@@ -57,7 +54,11 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
     private void updateDataWithDatabase() {
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getApplicationContext());
         try {
-            dataDownloadController.updateData();
+            try {
+                dataDownloadController.updateData();
+            } catch (VotesException e) {
+                e.printStackTrace();
+            }
 
             Intent intent = new Intent(LoadingActivity.this, LoginActivity.class);
             startActivity(intent);

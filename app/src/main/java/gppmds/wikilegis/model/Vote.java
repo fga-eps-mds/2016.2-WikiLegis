@@ -21,6 +21,11 @@ public class Vote {
         setVote(vote);
     }
 
+    public boolean equals(Vote votes){
+        return this.contentType == votes.getContentType() && this.userId == votes.getUserId() &&
+                this.objectId  == votes.getObjectId() && this.vote == votes.getVote();
+    }
+
     public Integer getUserId() {
         return userId;
     }
@@ -63,6 +68,10 @@ public class Vote {
 
     private void setVote(final boolean vote) {
         this.vote = vote;
+    }
+
+    public boolean getVote () {
+        return this.vote;
     }
 
     //Validation methods
