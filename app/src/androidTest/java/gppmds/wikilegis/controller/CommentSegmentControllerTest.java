@@ -37,12 +37,22 @@ public class CommentSegmentControllerTest {
     }
 
     @Test
-    public void testRegisterCommentJsonFail () {
+    public void testRegisterCommentWithEmptyComment () {
+        String expectedStatus = "Por favor, digite um comentário";
+        String receivedStatus = "";
 
+        CommentSegmentController commentSegmentController = CommentSegmentController
+                .getInstance(context);
+
+        try {
+            receivedStatus = commentSegmentController.registerComment(1, "", context);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (CommentsException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(expectedStatus, receivedStatus);
     }
 
-    @Test
-    public void testRegisterCommentFail () {
-
-    }
 }
