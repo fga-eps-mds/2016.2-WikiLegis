@@ -48,7 +48,7 @@ public class SegmentController {
     public void setSegmentList(List<Segment> segmentList) {
         SegmentController.segmentList = segmentList;
     }
-    //TODO TESTAR
+
     public Segment getSegmentByIdFromList(final Integer id ){
         for (Segment segment : segmentList){
             if(segment.getId() == id){
@@ -57,12 +57,12 @@ public class SegmentController {
         }
         return null;
     }
-    //TODO TESTAR
-    public List<Segment> getSegmentsOfBillById(String billBill, String segmentBill, boolean isProposal)
+
+    public List<Segment> getSegmentsOfBillById(String billId, String segmentId, boolean isProposal)
             throws JSONException, BillException, SegmentException {
 
         List<Segment> segmentList = null;
-        segmentList = JSONHelper.getSegmentFromBill(billBill,segmentBill);
+        segmentList = JSONHelper.getSegmentFromBill(billId, segmentId);
 
         List<Segment> orderedSegment = new ArrayList<>();
 
@@ -86,7 +86,7 @@ public class SegmentController {
 
         return orderedSegment;
     }
-    //TODO TESTAR
+
     private List<Segment> orderSegments(List<Segment> orderedSegment) {
         SegmentComparatorOrder comparator = new SegmentComparatorOrder();
         Collections.sort(orderedSegment, comparator);
