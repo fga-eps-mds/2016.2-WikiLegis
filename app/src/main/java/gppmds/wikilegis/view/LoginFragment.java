@@ -2,7 +2,9 @@ package gppmds.wikilegis.view;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.LoginController;
+import gppmds.wikilegis.model.User;
 
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
@@ -24,6 +27,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private Button button;
     private EditText personNameField;
     private EditText passwordField;
+    private TextView about;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -48,12 +52,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         this.button = (Button) view.findViewById(R.id.loginButton);
         this.personNameField = (EditText) view.findViewById(R.id.emailLoginField);
         this.passwordField = (EditText) view.findViewById(R.id.passwordLoginField);
+        this.about = (TextView) view.findViewById(R.id.aboutApp);
     }
 
     private void settingClickLitenersView() {
         visitor.setOnClickListener(this);
         register.setOnClickListener(this);
         button.setOnClickListener(this);
+        about.setOnClickListener(this);
     }
 
     @Override
@@ -61,7 +67,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         // Create new fragment and transaction
         switch (view.getId()) {
             case R.id.loginAsVisitorText:
-                //Change activity***
+                //Change activity
+                LoginController loginController = LoginController.getInstance(getContext());
+                SharedPreferences session = PreferenceManager.
+                        getDefaultSharedPreferences(getContext());
+                loginController.createSessionIsNotLogged(session);
+
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
                 break;
@@ -72,25 +83,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.loginButton :
-                activityLogin(String.valueOf(personNameField.getText()),
+                validateLoginInformation(String.valueOf(personNameField.getText()),
                         String.valueOf(passwordField.getText()));
+                break;
+            case R.id.aboutApp :
+                Fragment aboutFragment = new AboutFragment();
+                openFragment(aboutFragment);
                 break;
             default:
                 //nothing to do
-        }
-    }
-
-    private void activityLogin(final String email, final String password) {
-        LoginController loginController = LoginController.getInstance(getContext());
-
-        if(loginController.confirmLogin(email, password).equals("SUCESS")) {
-            personNameField.setText("");
-            passwordField.setText("");
-            Intent intent1 = new Intent(getContext(), MainActivity.class);
-            startActivity(intent1);
-        } else {
-            passwordField.setText("");
-            Toast.makeText(getContext(), "Usuário ou senha inválidos!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -108,5 +109,49 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.commit();
     }
 
+    private void validateLoginInformation(final String userName, final String password) {
 
+        LoginController login = LoginController.getInstance(getContext());
+
+        String feedbackRegisterMessage = login.confirmLogin(userName, password);
+
+        passwordField.setText("");
+
+        switch (feedbackRegisterMessage) {
+            case User.EMAIL_CANT_BE_EMPTY_EMAIL:
+                setMessageError(personNameField, feedbackRegisterMessage);
+                break;
+            case User.EMAIL_CANT_BE_HIGHER_THAN_150:
+                setMessageError(personNameField, feedbackRegisterMessage);
+                break;
+            case User.INVALID_EMAIL:
+                setMessageError(personNameField, feedbackRegisterMessage);
+                break;
+            case User.PASSWORD_CANT_BE_EMPTY:
+                setMessageError(passwordField, feedbackRegisterMessage);
+                break;
+            case User.PASSWORD_CANT_BE_LESS_THAN_6:
+                setMessageError(passwordField, feedbackRegisterMessage);
+                break;
+            case User.PASSWORD_CANT_BE_HIGHER_THAN_10:
+                setMessageError(passwordField, feedbackRegisterMessage);
+                break;
+            case "SUCESS":
+                personNameField.setText("");
+                Intent intent1 = new Intent(getContext(), MainActivity.class);
+                startActivity(intent1);
+                break;
+            case "FAIL":
+                Toast.makeText(getContext(), "Usuário ou senha inválidos!", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                //nothing to do
+                break;
+        }
+    }
+
+    private void setMessageError(final EditText editText, final String message) {
+        editText.requestFocus();
+        editText.setError(message);
+    }
 }

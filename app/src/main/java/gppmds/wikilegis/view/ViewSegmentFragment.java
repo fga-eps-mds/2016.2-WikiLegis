@@ -20,18 +20,19 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 public class ViewSegmentFragment extends Fragment implements View.OnClickListener{
@@ -46,7 +47,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private ImageView dislikesIcon;
     private List<Segment> segmentList;
     private SegmentController segmentController;
-    private List<Segment> segmentListAux= new ArrayList<>();
+    private List<Segment> proposalsList = new ArrayList<>();
     private View view;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -73,14 +74,32 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
 
-        segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
-        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+        //TODO TESTAR
+        if(dataDownloadController.connectionType() < 2){
+            Log.d("Entrou aqui no wifi...", "");
+            try {
+                proposalsList = segmentController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
+                Log.d("Numero de propostas",proposalsList.size()+"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            proposalsList = SegmentController.getProposalsOfSegment(segmentList, segmentId);
+        }
+
+            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList);
         recyclerView.setAdapter(content);
 
         return view;
     }
 
     private void setView(final LayoutInflater inflater, final ViewGroup container) {
+<<<<<<< HEAD
 
         view = inflater.inflate(R.layout.fragment_view_segment, container, false);
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
@@ -99,19 +118,58 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         dislikes.setOnClickListener(this);
         dislikesIcon.setOnClickListener(this);
+=======
+        DataDownloadController dataDownloadController =
+                DataDownloadController.getInstance(getContext());
+
+        final int WIFI = 0;
+        final int MOBILE_3G = 1;
+        final int NO_NETWORK = 2;
+
+        int connectionType = dataDownloadController.connectionType();
+
+        if(connectionType == WIFI || connectionType == MOBILE_3G) {
+            view = inflater.inflate(R.layout.fragment_view_segment, container, false);
+            likes = (TextView) view.findViewById(R.id.textViewNumberLike);
+            dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
+            billText = (TextView) view.findViewById(R.id.titleBill);
+            segmentText = (TextView) view.findViewById(R.id.contentSegment);
+        } else if (connectionType == NO_NETWORK){
+            view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
+            billText = (TextView) view.findViewById(R.id.titleBillOffline);
+            segmentText = (TextView) view.findViewById(R.id.contentSegmentOffline);
+        }
+
+        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
+>>>>>>> 2ba2ab2a9d0380dbfdbaa3ac467bb1184bcab24e
     }
 
     private void settingText() {
         try {
-            dislikes.setText(VotesController.getDislikesOfSegment(segmentId).toString());
-            likes.setText(VotesController.getLikesOfSegment(segmentId).toString());
-            segmentText.setText(SegmentController.getSegmentById(segmentId).getContent());
-            billText.setText(BillController.getBillById(billId).getTitle());
+            DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+            SegmentController segmentController = SegmentController.getInstance(getContext());
+            //TODO TESTAR
+            if(dataDownloadController.connectionType() < 2) {
+                final Segment SEGMENT = segmentController.getSegmentByIdFromList(segmentId);
+
+                segmentText.setText(SEGMENT.getContent());
+                billText.setText(BillController.getBillByIdFromList(billId).getTitle());
+                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
+                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
+            }else{
+                final Segment SEGMENT = SegmentController.getSegmentById(segmentId, getContext());
+
+                segmentText.setText(SEGMENT.getContent());
+                billText.setText(BillController.getBillById(billId).getTitle());
+            }
+
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (BillException e) {
             e.printStackTrace();
         } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

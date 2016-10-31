@@ -1,27 +1,16 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.api;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-
-import gppmds.wikilegis.model.User;
 
 public class PostRequest extends AsyncTask<String, String, String>{
 
@@ -68,13 +57,6 @@ public class PostRequest extends AsyncTask<String, String, String>{
 
     protected void onPostExecute(String bodyTextResponse) {
         super.onPostExecute(bodyTextResponse);
-
-        if (response == 201) {
-            Toast.makeText(context, "Cadastro feito com sucesso", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, "Email já cadastrado!", Toast.LENGTH_SHORT).show();
-        }
-        Log.i("INFO", ""+ response);
     }
 
     private HttpURLConnection setBody(String http, String requestType) throws IOException {

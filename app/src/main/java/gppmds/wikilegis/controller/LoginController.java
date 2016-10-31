@@ -1,13 +1,20 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.concurrent.ExecutionException;
 
-import gppmds.wikilegis.dao.PostRequest;
+import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.api.PostRequest;
+import gppmds.wikilegis.exception.UserException;
+import gppmds.wikilegis.model.User;
 
 /**
  * Created by marcelo on 10/6/16.
@@ -34,27 +41,59 @@ public class LoginController {
     public String confirmLogin(final String email, final String password) {
         PostRequest postRequest = new PostRequest(context,
                 "http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/");
+<<<<<<< HEAD
         
         Uri.Builder builder = new Uri.Builder();
         builder.appendQueryParameter("username", email);
         builder.appendQueryParameter("password", password);
         String authentication = builder.build().getEncodedQuery();
-
-        Log.v("TOKEN", authentication);
-        String token = null;
+=======
+>>>>>>> 2ba2ab2a9d0380dbfdbaa3ac467bb1184bcab24e
 
         try {
-            token = postRequest.execute(authentication,"application/x-www-form-urlencoded").get();
+
+            User userLogin = new User(email, password);
+
+            String authentication = createUserAuthentication(userLogin);
+
+            String userInformation = userInformationRequest(postRequest, authentication);
+
+            setUserAsSharedPreferences(userInformation);
+
+            return returnOfLogin(postRequest);
+
+        } catch (UserException exception) {
+            String exceptionMessage = exception.getMessage();
+            return exceptionMessage;
+        }
+    }
+
+    private String userInformationRequest(PostRequest postRequest, String authentication) {
+        String userInformation = null;
+
+        try {
+            userInformation = postRequest.execute(authentication,
+                    "application/x-www-form-urlencoded").get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        Log.v("Status",postRequest.getResponse()+"");
 
+        return userInformation;
+    }
+
+    private String createUserAuthentication(User userLogin) {
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendQueryParameter("username", userLogin.getEmail());
+        builder.appendQueryParameter("password", userLogin.getPassword());
+
+        return builder.build().getEncodedQuery();
+    }
+
+    private String returnOfLogin(PostRequest postRequest) {
         //Reponse is 200 if authentication is correct.
         if(postRequest.getResponse() == 200) {
-            Log.v("Token", token);
             return "SUCESS";
         }
         //Reponse is 400 if authentication is incorrect.
@@ -63,4 +102,63 @@ public class LoginController {
         }
     }
 
+    private void setUserAsSharedPreferences(String userInformation) {
+
+        JSONObject userJson = null;
+        String token = null;
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        try {
+            if (userInformation != null) {
+                userJson = new JSONObject(userInformation);
+                token = userJson.getString("token");
+
+                JSONObject user = userJson.getJSONObject("user");
+                parserUserInformation(user, token, session);
+            } else {
+                Log.i("Info", "UserInformation is not valid");
+
+                createSessionIsNotLogged(session);
+            }
+
+        } catch (JSONException e) {
+            Log.e("Error", "JSONException");
+            e.printStackTrace();
+        }
+    }
+
+    private void parserUserInformation(JSONObject user, String token, SharedPreferences session)
+            throws JSONException {
+        String firstName = user.getString("first_name");
+        String lastName = user.getString("last_name");
+        String email = user.getString("email");
+
+        createLoginSession(email, token, firstName, lastName, session);
+    }
+
+    public void createLoginSession(final String email,
+                                   final String token,
+                                   final String firstName,
+                                   final String lastName,
+                                   SharedPreferences session) {
+
+        SharedPreferences.Editor editor = session.edit();
+
+        editor.putBoolean(context.getResources().getString(R.string.is_logged_in), true);
+        editor.putString(context.getResources().getString(R.string.email), email);
+        editor.putString(context.getResources().getString(R.string.token), token);
+        editor.putString(context.getResources().getString(R.string.first_name), firstName);
+        editor.putString(context.getResources().getString(R.string.last_name), lastName);
+        editor.commit();
+    }
+
+    public void createSessionIsNotLogged(SharedPreferences session) {
+        SharedPreferences.Editor editor = session.edit();
+
+        editor.putBoolean(context.getResources().getString(R.string.is_logged_in), false);
+        editor.putString(context.getResources().getString(R.string.token), null);
+        editor.commit();
+    }
 }
