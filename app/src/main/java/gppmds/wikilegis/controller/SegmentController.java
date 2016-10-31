@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;

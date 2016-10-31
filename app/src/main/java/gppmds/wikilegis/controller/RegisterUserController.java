@@ -48,14 +48,11 @@ public class RegisterUserController {
             jsonParam.put("password", user.getPassword());
 
             JSONObject userJson = setJSON(user);
-<<<<<<< HEAD
 
             PostRequest postRequest = new PostRequest(context,
                     "http://wikilegis-staging.labhackercd.net/api/user/create/");
             postRequest.execute(userJson.toString(),"application/json");
-            return "SUCESS";
-=======
-            PostRequest postRequest = new PostRequest(context,"http://wikilegis-staging.labhackercd.net/api/user/create/");
+
 
             try {
                 String responseInformation = postRequest.execute(userJson.toString(),
@@ -69,7 +66,6 @@ public class RegisterUserController {
             Log.d("Response", postRequest.getResponse() + "");
 
             return String.valueOf(postRequest.getResponse());
->>>>>>> 2ba2ab2a9d0380dbfdbaa3ac467bb1184bcab24e
 
         } catch (UserException e) {
             String exceptionMessage = e.getMessage();

@@ -41,20 +41,18 @@ public class LoginController {
     public String confirmLogin(final String email, final String password) {
         PostRequest postRequest = new PostRequest(context,
                 "http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/");
-<<<<<<< HEAD
-        
+
         Uri.Builder builder = new Uri.Builder();
         builder.appendQueryParameter("username", email);
         builder.appendQueryParameter("password", password);
         String authentication = builder.build().getEncodedQuery();
-=======
->>>>>>> 2ba2ab2a9d0380dbfdbaa3ac467bb1184bcab24e
+
 
         try {
 
             User userLogin = new User(email, password);
 
-            String authentication = createUserAuthentication(userLogin);
+            authentication = createUserAuthentication(userLogin);
 
             String userInformation = userInformationRequest(postRequest, authentication);
 

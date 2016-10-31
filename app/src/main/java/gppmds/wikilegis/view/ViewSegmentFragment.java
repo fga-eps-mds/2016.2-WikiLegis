@@ -29,11 +29,13 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.Vote;
 
 public class ViewSegmentFragment extends Fragment implements View.OnClickListener{
 
@@ -99,7 +101,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     }
 
     private void setView(final LayoutInflater inflater, final ViewGroup container) {
-<<<<<<< HEAD
 
         view = inflater.inflate(R.layout.fragment_view_segment, container, false);
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
@@ -118,7 +119,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         dislikes.setOnClickListener(this);
         dislikesIcon.setOnClickListener(this);
-=======
+
         DataDownloadController dataDownloadController =
                 DataDownloadController.getInstance(getContext());
 
@@ -141,7 +142,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         }
 
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
->>>>>>> 2ba2ab2a9d0380dbfdbaa3ac467bb1184bcab24e
     }
 
     private void settingText() {
@@ -177,13 +177,46 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         final int idView = view.getId();
-
-        if(idView == R.id.imageViewLike || idView == R.id.textViewNumberLike) {
-            //likesIcon.setImageResource(R.drawable.dislike);
+        String result= "fail" ;
+        if(idView == R.id.imageViewLike ) {
+             VotesController votesController = VotesController.getInstance(getContext());
+            try {
+            result =  votesController.registerVote(billId, true);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if(result == "SUCCESS"){
+                Toast.makeText(getContext(), "like", Toast.LENGTH_SHORT)
+                        .show();
+            }else{
+                Toast.makeText(getContext(), "sua avaliação não foi efetuada", Toast.LENGTH_SHORT)
+                        .show();
+            }
             Log.d("LIKEI", "onClick ");
+            Log.d("resut:" , result);
+
         }
-        else if(idView == R.id.imageViewDislike || idView == R.id.textViewNumberDislike) {
-            Log.d("DISLIKEI", "onClick ");
+
+        else if(idView == R.id.imageViewDislike ) {
+            VotesController votesController = VotesController.getInstance(getContext());
+            try {
+                votesController.registerVote(billId, false);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if(result == "SUCCESS"){
+                Toast.makeText(getContext(), "deslike", Toast.LENGTH_SHORT)
+                        .show();
+            }else{
+                Toast.makeText(getContext(), "sua avaliação não foi efetuada", Toast.LENGTH_SHORT)
+                        .show();
+            }
+            Log.d("desLIKEI", "onClick ");
+            Log.d("resut:" , result);
         }
         else {
             final Dialog dialog = new Dialog(getContext());

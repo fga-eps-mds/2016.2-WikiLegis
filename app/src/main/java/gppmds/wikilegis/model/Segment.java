@@ -40,14 +40,6 @@ public class Segment {
         setContent(content);
         setDate(date);
     }
-
-<<<<<<< HEAD
-    public Segment(final Integer bill,final Integer replaced, final String content)
-            throws SegmentException{
-        setBill(bill);
-        setReplaced(replaced);
-        setContent(content);
-=======
     public Segment (final Integer id, final Integer order, final Integer bill, final int original,
                     final Integer replaced, final Integer parent, final Integer type,
                     final Integer number, final String content, final String date) throws SegmentException{
@@ -63,6 +55,15 @@ public class Segment {
         setDate(date);
     }
 
+
+    public Segment(final Integer bill,final Integer replaced, final String content)
+            throws SegmentException{
+        setBill(bill);
+        setReplaced(replaced);
+        setContent(content);
+
+    }
+
     public boolean equals(Segment segment) {
 
         boolean isEverythingEqual = ( this.id.equals(segment.getId()) &&
@@ -74,7 +75,6 @@ public class Segment {
                 this.content.equals(segment.getContent())  &&  this.date.equals(segment.getDate()) );
 
         return isEverythingEqual;
->>>>>>> 2ba2ab2a9d0380dbfdbaa3ac467bb1184bcab24e
     }
 
     public Integer getId() {

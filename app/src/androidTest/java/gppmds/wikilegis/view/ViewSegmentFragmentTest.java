@@ -122,4 +122,6 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
 
         onView(withId(R.id.imageViewDislike)).check(matches(isDisplayed()));
     }
+
+
 }
