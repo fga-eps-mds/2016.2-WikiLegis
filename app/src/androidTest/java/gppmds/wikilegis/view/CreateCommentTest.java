@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.filters.SmallTest;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import gppmds.wikilegis.R;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -110,13 +107,11 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        // FIXME: Clicar no imageViewProposalCard da posiçao 0 do adapter view
-        onData(withId(R.id.imageViewProposalCard)).inAdapterView(withId(R.id.frameCardViewSegment))
-                .atPosition(0).perform(click());
-        onView(withId(R.id.saveComment))
-                .perform(click());
-        onView(withId(R.id.suggestionProposalEditText)).check(matches(hasErrorText(getActivity()
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction
+                        .clickChildViewWithId(R.id.imageViewProposalCard)));
+        onView(withId(R.id.saveComment)).perform(click());
+        onView(withId(R.id.commentEditText)).check(matches(hasErrorText(getActivity()
                 .getApplicationContext().getResources().getString(R.string.empty_comment))));
 
     }
@@ -139,12 +134,12 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-        // FIXME: Clicar no imageViewProposalCard da posiçao 0 do adapter view
-        onData(withId(R.id.imageViewProposalCard)).inAdapterView(withId(R.id.frameCardViewSegment))
-                .atPosition(0).perform(click());
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction
+                        .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.commentEditText))
-                .perform(typeText("Não gostei da proposta! Seu Madruga, pra Presidente!"));
+                .perform(typeText("Nao gostei do comentario! Seu Madruga para Presidente!"));
+        onView(withId(R.id.saveComment)).perform(click());
         Thread.sleep(400);
         onView(withText("Obrigado pelo comentário!")).inRoot(withDecorView(not(is(getActivity()
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
