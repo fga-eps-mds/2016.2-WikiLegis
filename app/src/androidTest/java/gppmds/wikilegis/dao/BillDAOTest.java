@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.dao.database.BillDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 

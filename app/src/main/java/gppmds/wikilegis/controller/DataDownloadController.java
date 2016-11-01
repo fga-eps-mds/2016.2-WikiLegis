@@ -9,15 +9,20 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.GetRequest;
-import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.api.BillJsonHelper;
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.view.MainActivity;
+import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.Vote;
 
 /**
  * Created by marcelo on 10/17/16
@@ -111,4 +116,28 @@ public class DataDownloadController {
 
         return formatted;
     }
+
+    public static List<Vote> getVoteBySegmentId(String id) throws JSONException, BillException, VotesException {
+        List<Vote> listVotes = null;
+        listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+id);
+        return listVotes;
+    }
+
+    public static int getNumberOfVotesbySegment(int id, Boolean isLike) throws BillException, VotesException, JSONException {
+        List<Vote> votes = getVoteBySegmentId(""+id);
+        int numberOfVotes = 0;
+        for(Vote vote : votes) {
+            if (isLike) {
+                if (vote.isVote()) {
+                    numberOfVotes++;
+                }
+            }else{
+                if(!vote.isVote()){
+                    numberOfVotes++;
+                }
+            }
+        }
+        return numberOfVotes;
+    }
+
 }

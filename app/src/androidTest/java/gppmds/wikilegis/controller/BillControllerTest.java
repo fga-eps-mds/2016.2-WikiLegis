@@ -14,9 +14,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import gppmds.wikilegis.dao.BillDAO;
-import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.dao.SegmentDAO;
+import gppmds.wikilegis.dao.api.BillJsonHelper;
+import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.database.BillDAO;
+import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -142,7 +143,7 @@ public class BillControllerTest {
 
 
         try {
-            billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
+            billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
                             ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
                     SegmentController.getAllSegments());
 
@@ -424,5 +425,56 @@ public class BillControllerTest {
         assertEquals(filteredBillList.get(2).getNumberOfPrposals(),3);
         assertEquals(filteredBillList.get(3).getNumberOfPrposals(),2);
         assertEquals(filteredBillList.get(4).getNumberOfPrposals(),2);
+    }
+
+    @Test
+    public void testGetAllBillsFromApi() {
+        BillController billController = BillController.getInstance(context);
+
+        List<Bill> billsFromApi = new ArrayList<>();
+
+        try {
+            billsFromApi = BillJsonHelper.getAllBillFromApi();
+            BillController.getAllBillsFromApi();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        List<Bill> bills = billController.getAllBills();
+
+        int countEquals = 0;
+
+        for(Bill bill : bills) {
+            for(Bill billFromApi : billsFromApi) {
+                if(bill.equals(billFromApi)) {
+                    countEquals++;
+                }
+            }
+        }
+
+        Log.d("Size", billsFromApi.size() + "");
+
+        assertTrue(countEquals == billsFromApi.size());
+    }
+
+    @Test
+    public void testGetBillByIdFromApi() {
+        List<Bill> bills = new ArrayList<>();
+        int idBill = -1;
+        Bill bill = null;
+        try {
+            bills = BillJsonHelper.getAllBillFromApi();
+            BillController.getAllBillsFromApi();
+            idBill = bills.get(0).getId();
+            bill = BillController.getBillByIdFromApi(idBill);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(idBill == bill.getId());
     }
 }

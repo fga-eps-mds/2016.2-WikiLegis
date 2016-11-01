@@ -78,5 +78,6 @@ public class LoadingActivity extends AppCompatActivity implements View.OnClickLi
 
 
     }
+
 }
 

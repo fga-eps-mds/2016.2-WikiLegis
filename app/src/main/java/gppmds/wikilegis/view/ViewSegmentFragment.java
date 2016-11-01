@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private TextView billText;
     private List<Segment> segmentList;
     private SegmentController segmentController;
-    private List<Segment> segmentListAux= new ArrayList<>();
+    private List<Segment> proposalsList = new ArrayList<>();
     private View view;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -80,9 +82,25 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
 
-        segmentListAux= SegmentController.getProposalsOfSegment(segmentList, segmentId);
-        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(segmentListAux);
-        Log.d("TAMANHO2", segmentListAux.size() + "");
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+        //TODO TESTAR
+        if(dataDownloadController.connectionType() < 2){
+            Log.d("Entrou aqui no wifi...", "");
+            try {
+                proposalsList = segmentController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
+                Log.d("Numero de propostas",proposalsList.size()+"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            proposalsList = SegmentController.getProposalsOfSegment(segmentList, segmentId);
+        }
+
+            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList);
         recyclerView.setAdapter(content);
 
         return view;
@@ -115,24 +133,31 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     }
 
     private void settingText() {
-        DataDownloadController dataDownloadController =
-                DataDownloadController.getInstance(getContext());
-
-        final int WIFI = 0;
-        final int MOBILE_3G = 1;
-        final int NO_NETWORK = 2;
-
-        int connectionType = dataDownloadController.connectionType();
-
         try {
-            //FIXME
-            dislikes.setText("7");
-            likes.setText("13");
-            segmentText.setText(SegmentController.getSegmentById(segmentId, getContext()).getContent());
-            billText.setText(BillController.getBillById(billId).getTitle());
+            DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
+            SegmentController segmentController = SegmentController.getInstance(getContext());
+            //TODO TESTAR
+            if(dataDownloadController.connectionType() < 2) {
+                final Segment SEGMENT = segmentController.getSegmentByIdFromList(segmentId);
+
+                segmentText.setText(SEGMENT.getContent());
+                billText.setText(BillController.getBillByIdFromList(billId).getTitle());
+                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
+                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
+            }else{
+                final Segment SEGMENT = SegmentController.getSegmentById(segmentId, getContext());
+
+                segmentText.setText(SEGMENT.getContent());
+                billText.setText(BillController.getBillById(billId).getTitle());
+            }
+
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }

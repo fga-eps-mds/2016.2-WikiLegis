@@ -1,4 +1,4 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.database;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -6,16 +6,16 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.BillDAO;
-import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.dao.PostRequest;
-import gppmds.wikilegis.dao.SegmentDAO;
+import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.api.PostRequest;
+import gppmds.wikilegis.dao.database.SegmentDAO;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.Segment;
@@ -47,6 +47,56 @@ public class SegmentController {
         segmentDAO = SegmentDAO.getInstance(context);
         return segmentDAO.getSegmentById(id);
     }
+
+    public void setSegmentList(List<Segment> segmentList) {
+        SegmentController.segmentList = segmentList;
+    }
+
+    public Segment getSegmentByIdFromList(final Integer id ){
+        for (Segment segment : segmentList){
+            if(segment.getId() == id){
+                return segment;
+            }
+        }
+        return null;
+    }
+
+    public List<Segment> getSegmentsOfBillById(String billId, String segmentId, boolean isProposal)
+            throws JSONException, BillException, SegmentException {
+
+        List<Segment> segmentList = null;
+        segmentList = JSONHelper.getSegmentFromBill(billId, segmentId);
+
+        List<Segment> orderedSegment = new ArrayList<>();
+
+        for (Segment segment : segmentList) {
+            if(!isProposal) {
+                if (segment.getReplaced() == 0) {
+
+                    orderedSegment.add(segment);
+                }
+            }else{
+                if (segment.getReplaced() > 0) {
+
+                    orderedSegment.add(segment);
+                }
+            }
+        }
+
+        orderSegments(orderedSegment);
+
+        this.segmentList = segmentList;
+
+        return orderedSegment;
+    }
+
+    private List<Segment> orderSegments(List<Segment> orderedSegment) {
+        SegmentComparatorOrder comparator = new SegmentComparatorOrder();
+        Collections.sort(orderedSegment, comparator);
+
+        return orderedSegment;
+    }
+
 
     public void initControllerSegments() throws SegmentException, JSONException {
 

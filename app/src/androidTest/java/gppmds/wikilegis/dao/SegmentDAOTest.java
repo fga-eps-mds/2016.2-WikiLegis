@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 

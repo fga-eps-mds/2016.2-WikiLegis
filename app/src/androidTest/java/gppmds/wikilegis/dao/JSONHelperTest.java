@@ -15,6 +15,8 @@ import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.dao.api.GetRequest;
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
@@ -53,7 +55,7 @@ public class JSONHelperTest {
 
     @Test
     public void billListFromJSONTest() {
-        String billList = JSONHelper.getJSONObjectApi("http://wikilegis.labhackercd.net/api/bills/");
+        String billList = JSONHelper.requestJsonObjectFromApi("http://wikilegis.labhackercd.net/api/bills/");
         List<Bill> billListApi = new ArrayList<>();
         JSONObject bills = null;
 

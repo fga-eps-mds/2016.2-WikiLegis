@@ -12,8 +12,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import gppmds.wikilegis.dao.SegmentDAO;
+import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.database.SegmentDAO;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 import static junit.framework.Assert.assertEquals;
@@ -310,6 +313,75 @@ public class SegmentControllerTest {
         roman = SegmentController.convertRoman(100);
         assertEquals(roman, "C");
     }
+
+    @Test
+    public void testGetSegmentsOfBillById() {
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        List<Segment> segmentList = new ArrayList<>();
+
+        try {
+            segmentList = segmentController.getSegmentsOfBillById(10 + "", "", false);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("size", segmentList.size() + "");
+
+        assertTrue(segmentList.size() == 3);
+    }
+
+    @Test
+    public void testGetProposalsOfBillById() {
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        List<Segment> segmentList = new ArrayList<>();
+
+        try {
+            segmentList = segmentController.getSegmentsOfBillById("10", "75", true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("size", segmentList.size() + "");
+
+        assertTrue(segmentList.size() == 1);
+    }
+
+    @Test
+    public void testGetSegmentByIdFromList() {
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        final String DATE = "2010-01-01";
+        List<Segment> newSegments = new ArrayList<>();
+
+        try {
+            newSegments = JSONHelper.segmentListFromJSON(
+                    "http://wikilegis-staging.labhackercd.net/api/segments/",
+                    "?created=" + DATE);
+
+            segmentController.setSegmentList(newSegments);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        final int SEGMENT_ID = newSegments.get(0).getId();
+
+        Segment segment = segmentController.getSegmentByIdFromList(SEGMENT_ID);
+
+        assert (segment.getId() == SEGMENT_ID);
+    }
+
     //FIXME
     /*
     @Test

@@ -18,6 +18,7 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
@@ -29,6 +30,8 @@ public class ViewBillFragment extends Fragment {
     private TextView titleBillTextView = null;
     private TextView textAbstractTextView = null;
     private TextView numberProposalsTextView = null;
+    private BillController billController = null;
+    private SegmentController segmentController = null;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -51,16 +54,33 @@ public class ViewBillFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
+        billController = BillController.getInstance(getContext());
+        segmentController = SegmentController.getInstance(getContext());
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
         List<Segment> segmentList = new ArrayList<>();
+        //TODO TESTAR 
+        if(dataDownloadController.connectionType() < 2){
+            try {
+                segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
+                SegmentController segmentController = SegmentController.getInstance(getContext());
+                segmentController.setSegmentList(segmentList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            SegmentController segmentController = SegmentController.getInstance(getContext());
 
-        SegmentController segmentController = SegmentController.getInstance(getContext());
-
-        try {
-            segmentList = segmentController.getSegmentsByIdBill(idBill);
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
+            try {
+                segmentList = segmentController.getSegmentsByIdBill(idBill);
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         Log.d("TAMANHO15000", segmentList.size() + "");
@@ -80,11 +100,22 @@ public class ViewBillFragment extends Fragment {
     private void settingTypeText(final int id) {
 
         Bill bill = null;
-
-        try {
-            bill = BillController.getBillById(id);
-        } catch (BillException e) {
-            e.printStackTrace();
+        DataDownloadController dataCenter = DataDownloadController.getInstance(getContext());
+        //TODO TESTAR
+        if(dataCenter.connectionType() < 2) {
+            try {
+                bill = billController.getBillByIdFromApi(id);
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                bill = BillController.getBillById(id);
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
         }
 
         this.titleBillTextView.setText(bill.getTitle());

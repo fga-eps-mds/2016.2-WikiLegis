@@ -20,8 +20,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.LoginController;
+
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Bill;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +46,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        BillController billController = BillController.getInstance(getApplicationContext());
+        DataDownloadController dataCenter = DataDownloadController.getInstance(getBaseContext());
 
+        if(dataCenter.connectionType() < 2) {
+            try {
+                billController.getAllBillsFromApi();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                billController.DownloadBills();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }
         settingView();
     }
 

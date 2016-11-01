@@ -8,7 +8,7 @@ import android.util.Log;
 import org.json.JSONException;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.PostRequest;
+import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.model.Comments;
 

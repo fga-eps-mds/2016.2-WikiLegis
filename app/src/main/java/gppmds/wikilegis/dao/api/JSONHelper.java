@@ -1,4 +1,4 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.api;
 
 import android.util.Log;
 
@@ -17,11 +17,11 @@ import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.Votes;
+import gppmds.wikilegis.model.Vote;
 
 public class JSONHelper {
 
-    public static String getJSONObjectApi(final String URL) {
+    public static String requestJsonObjectFromApi(final String URL) {
         String getApi = null;
 
         GetRequest request = new GetRequest();
@@ -35,6 +35,7 @@ public class JSONHelper {
         } catch (InterruptedException e){
             Log.d("InterruptedException", URL);
         }
+        Log.d("JSON",getApi);
         return getApi;
     }
 
@@ -49,13 +50,44 @@ public class JSONHelper {
         return billListApi;
     }
 
+    public static List<Vote> votesListFromJSON(String urlDate) throws JSONException, VotesException {
+        String url = "http://wikilegis-staging.labhackercd.net/api/votes/"+urlDate;
+        List<Vote> voteListApi = new ArrayList<>();
+
+        do {
+            String votesList = requestJsonObjectFromApi(url);
+
+            JSONObject votes = new JSONObject(votesList);
+            JSONArray results = votes.getJSONArray("results");
+
+            populateListVotes(results, voteListApi);
+
+            String nextUrl = votes.getString("next");
+            url = nextUrl; //updateDomain(nextUrl);
+
+            Log.d("Url", url);
+
+        } while (!url.equals("null"));
+
+        return voteListApi;
+    }
+
+    public static void populateListVotes(JSONArray results, List<Vote> voteListApi)
+            throws JSONException, VotesException {
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject jsonObject = results.getJSONObject(i);
+
+            voteListApi.add(setVotesAttributes(jsonObject));
+        }
+    }
+
+
     public static List<Segment> segmentListFromJSON(String urlDomain, String urlDate) throws JSONException, SegmentException {
         String url = urlDomain + urlDate;
-
         List<Segment> segmentListApi = new ArrayList<>();
 
         do {
-            String segmentList = getJSONObjectApi(url);
+            String segmentList = requestJsonObjectFromApi(url);
 
             JSONObject segment = new JSONObject(segmentList);
             JSONArray results = segment.getJSONArray("results");
@@ -74,6 +106,31 @@ public class JSONHelper {
         return segmentListApi;
     }
 
+    public static List<Segment> getSegmentFromBill(String billId, String replaced) throws JSONException, SegmentException {
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/?bill="+billId+"&replaced="+replaced;
+        List<Segment> segmentListApi = new ArrayList<>();
+
+        do {
+        String segmentList = requestJsonObjectFromApi(url);
+
+        JSONObject segment = new JSONObject(segmentList);
+        JSONArray results = segment.getJSONArray("results");
+
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject jsonObject = results.getJSONObject(i);
+
+            segmentListApi.add(setSegmentAttributes(jsonObject));
+        }
+
+        String nextUrl = segment.getString("next");
+        url = nextUrl; //updateDomain(nextUrl);
+        Log.d("URL",nextUrl);
+
+        } while (!url.equals("null"));
+
+        return segmentListApi;
+    }
+
     public static String updateDomain(final String nextUrl){
         if (nextUrl.equals("null"))
             return "null";
@@ -82,6 +139,15 @@ public class JSONHelper {
         Log.d("Aqui", correctDomain);
         return correctDomain;
     };
+
+    private static Vote setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
+        Vote voteAux = new Vote(jsonObject.getInt("id"),
+                1,//jsonObject.getInt("user"),
+                1,//jsonObject.getInt("content_type"),
+                jsonObject.getInt("object_id"),
+                jsonObject.getString("vote").equals("false") ? false : true);
+        return voteAux;
+    }
 
     private static Segment setSegmentAttributes(JSONObject jsonObject) throws JSONException, SegmentException {
         Segment segmentAux = new Segment(jsonObject.getInt("id"),
@@ -107,9 +173,11 @@ public class JSONHelper {
 
         for (int index = 0; index < results.length(); index++){
             JSONObject jsonObject = results.getJSONObject(index);
+
             id = jsonObject.getInt("id");
             numberOfProposals = BillController.countedTheNumberOfProposals(aux, id);
             date= SegmentController.getMinDate(id);
+
             Bill billAux = BillController.getBill(numberOfProposals, date, jsonObject);
             JSONArray segments = jsonObject.getJSONArray("segments");
 
@@ -124,5 +192,6 @@ public class JSONHelper {
 
         return billListApi;
     }
+
 
 }

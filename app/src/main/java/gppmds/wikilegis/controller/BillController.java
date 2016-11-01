@@ -13,8 +13,9 @@ import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.BillDAO;
-import gppmds.wikilegis.dao.JSONHelper;
+import gppmds.wikilegis.dao.api.BillJsonHelper;
+import gppmds.wikilegis.dao.database.BillDAO;
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -37,6 +38,10 @@ public class BillController {
             instance = new BillController(context);
         }
         return  instance;
+    }
+
+    public void setBillList(List<Bill> billList) {
+        this.billList = billList;
     }
 
     public List<Bill> getAllBills(){
@@ -64,7 +69,7 @@ public class BillController {
                 getDefaultSharedPreferences(context);
         String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
 
-        List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.getJSONObjectApi
+        List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
                         ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
                 SegmentController.getAllSegments());
         Log.d("data", date);
@@ -73,6 +78,11 @@ public class BillController {
 
         billList = billDao.getAllBills();
     }
+    public void DownloadBills() throws BillException, JSONException, SegmentException {
+        billList = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi("http://wikilegis.labhackercd.net/api/bills/"),
+                SegmentController.getAllSegments());
+    }
+
 
     public static int countedTheNumberOfProposals(final List<Segment> segmentList,
                                                   final int idBill) {
@@ -87,6 +97,27 @@ public class BillController {
             }
         }
         return numberOfProposals;
+    }
+
+    public static Bill getBillByIdFromList(final int id){
+        for (Bill bill : billList){
+            if(bill.getId() == id){
+                return bill;
+            }
+        }
+        return null;
+    }
+
+    public static void getAllBillsFromApi() throws JSONException, BillException {
+        List<Bill> allBills = null;
+        allBills = BillJsonHelper.getAllBillFromApi();
+        billList = allBills;
+    }
+
+    public static Bill getBillByIdFromApi(int id) throws JSONException, BillException {
+        Bill bill = null;
+        bill = BillJsonHelper.getBillFromApiById(id);
+        return bill;
     }
 
     public static Bill getBillById(final int id) throws BillException {

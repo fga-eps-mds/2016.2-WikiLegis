@@ -14,11 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.DataDownloadController;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
 
@@ -122,9 +126,17 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
         int connectionType = dataDownloadController.connectionType();
 
-        //FIXME
-        holder.likes.setText("7");
-        holder.dislikes.setText("13");
+        int proposalId = listSegment.get(position).getId();
+        try {
+            holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(proposalId,false)+"");
+            holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(proposalId,true) +"");
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.api;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
