@@ -120,12 +120,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
         dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
 
-        likes.setOnClickListener(this);
-        likesIcon.setOnClickListener(this);
-
-        dislikes.setOnClickListener(this);
-        dislikesIcon.setOnClickListener(this);
-
         DataDownloadController dataDownloadController =
                 DataDownloadController.getInstance(getContext());
 
@@ -148,6 +142,11 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         }
 
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
+        likes.setOnClickListener(this);
+        likesIcon.setOnClickListener(this);
+
+        dislikes.setOnClickListener(this);
+        dislikesIcon.setOnClickListener(this);
     }
 
     private void settingText() {
