@@ -138,7 +138,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             SegmentController segmentController = SegmentController.getInstance(getContext());
             //TODO TESTAR
             if(dataDownloadController.connectionType() < 2) {
-                final Segment SEGMENT = segmentController.getSegmentByIdFromList(segmentId);
+                final Segment SEGMENT =
+                        segmentController.getSegmentById(segmentId, getContext());
 
                 segmentText.setText(SEGMENT.getContent());
                 billText.setText(BillController.getBillByIdFromList(billId).getTitle());
@@ -146,7 +147,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
             }else{
                 final Segment SEGMENT = SegmentController.getSegmentById(segmentId, getContext());
-
                 segmentText.setText(SEGMENT.getContent());
                 billText.setText(BillController.getBillById(billId).getTitle());
             }
@@ -171,8 +171,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
-
 
     @Override
     public void onClick(View view) {
