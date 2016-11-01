@@ -117,13 +117,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
         segmentText = (TextView) view.findViewById(R.id.contentSegment);
         billText = (TextView) view.findViewById(R.id.titleBill);
-        likes = (TextView) view.findViewById(R.id.textViewNumberLike);
-        dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
-        proposalButon = (Button)view.findViewById(R.id.saveSuggestion);
         likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
         dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
-
-        proposalButon.setOnClickListener(this);
 
         likes.setOnClickListener(this);
         likesIcon.setOnClickListener(this);
