@@ -1,11 +1,17 @@
 package gppmds.wikilegis.view;
 
 
-import android.app.Dialog;
+
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -54,6 +60,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private Button proposalButon;
+    FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -70,6 +77,10 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         recyclerView.setLayoutManager(linearLayoutManager);
         segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
+
+        floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.floatingButton);
+        floatingActionButton.setVisibility(View.VISIBLE);
+        floatingActionButton.setOnClickListener(this);
 
         settingText();
 
@@ -108,7 +119,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         billText = (TextView) view.findViewById(R.id.titleBill);
         likes = (TextView) view.findViewById(R.id.textViewNumberLike);
         dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
-        proposalButon = (Button)view.findViewById(R.id.buttonGreen);
+        proposalButon = (Button)view.findViewById(R.id.saveSuggestion);
         likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
         dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
 
@@ -219,43 +230,40 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             Log.d("resut:" , result);
         }
         else {
-            final Dialog dialog = new Dialog(getContext());
-            dialog.setContentView(R.layout.fragment_proposal);
-            dialog.show();
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
 
-            Button saveProposalButton = (Button) dialog.findViewById(R.id.save);
+            if(session.getBoolean(getContext().getString(R.string.is_logged_in), false)){
 
-            saveProposalButton.setOnClickListener(new View.OnClickListener() {
+                Bundle segmentAndBillId = new Bundle();
+                segmentAndBillId.putInt("billId", billId);
+                segmentAndBillId.putInt("segmentId", segmentId);
 
-                String result = "FAIL";
+                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
+                createSuggestProposal.setArguments(segmentAndBillId);
 
-                @Override
-                public void onClick(View v) {
-                    EditText proposalField = (EditText) dialog.findViewById(R.id.proposal);
-                    String proposalTyped = proposalField.getText().toString();
-
-                    SegmentController segmentController = SegmentController.getInstance(getContext());
-
-                    try {
-                        result = segmentController.registerSegment(billId, 1, proposalTyped);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (SegmentException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (result == "SUCCESS") {
-                        Toast.makeText(getContext(), "Obrigado pela sugestão!", Toast.LENGTH_SHORT)
-                                .show();
-                        dialog.dismiss();
-
-                    } else {
-                        Toast.makeText(getContext(), "Desculpe, um problema ocorreu",
-                                Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                }
-            });
+                openFragment(createSuggestProposal);
+            }
+            else{
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
         }
+    }
+
+        private void openFragment(Fragment fragmentToBeOpen){
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getActivity().getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.view_segment_fragment, fragmentToBeOpen,
+                "SUGGEST_PROPOSAL");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        floatingActionButton.setVisibility(View.INVISIBLE);
     }
 }

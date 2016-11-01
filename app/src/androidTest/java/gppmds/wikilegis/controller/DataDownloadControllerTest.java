@@ -35,9 +35,6 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by marcelo on 10/20/16.
- */
 public class DataDownloadControllerTest {
     Context context;
     SegmentDAO segmentDAO;
@@ -195,16 +192,6 @@ public class DataDownloadControllerTest {
     }
 
     @Test
-    public void testConnectionTypeWithWifiConnected() {
-        final int CONNECTION_TYPE = dataDownloadController.connectionType();
-        final int EXPECTED_CONNECTION_TYPE = 0;
-
-        Log.d(CONNECTION_TYPE + "", "testConnectionTypeWithWifiConnected ");
-
-        assertEquals(CONNECTION_TYPE, EXPECTED_CONNECTION_TYPE);
-    }
-
-    @Test
     public void testGetLocalDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, 1);
@@ -217,46 +204,6 @@ public class DataDownloadControllerTest {
     }
 
     @Test
-    public void testConnectionTypeWithWifiDisconnected() {
-        final ConnectivityManager conman = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        final Class conmanClass;
-        try {
-            conmanClass = Class.forName(conman.getClass().getName());
-            final Field iConnectivityManagerField = conmanClass.getDeclaredField("mService");
-            iConnectivityManagerField.setAccessible(true);
-            final Object iConnectivityManager = iConnectivityManagerField.get(conman);
-            final Class iConnectivityManagerClass = Class.forName(iConnectivityManager.getClass().getName());
-            final Method setMobileDataEnabledMethod = iConnectivityManagerClass.getDeclaredMethod("setMobileDataEnabled", Boolean.TYPE);
-            setMobileDataEnabledMethod.setAccessible(false);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
-
-        final boolean STATUS = false;
-
-        wifiManager.setWifiEnabled(STATUS);
-
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        final int CONNECTION_TYPE = dataDownloadController.connectionType();
-        final int EXPECTED_CONNECTION_TYPE = 2;
-
-        assertEquals(CONNECTION_TYPE, EXPECTED_CONNECTION_TYPE);
-    }
-
-    @Test
     public void testUpdateDataWithConnectionPreferenceToOnlyWifiAndWifiEnabled() {
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
@@ -265,38 +212,6 @@ public class DataDownloadControllerTest {
 
         final String keyConnection = "NetworkSettings";
         editor.putInt(keyConnection, 0);
-
-        final String keyDate = "date";
-        editor.putString(keyDate, "2010-01-01");
-
-        editor.commit();
-
-        try {
-            dataDownloadController.updateData();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(session.getString(keyDate, "2010-01-01"),
-                DataDownloadController.getLocalTime());
-    }
-
-
-    @Test
-    public void testUpdateDataWithConnectionPreferenceToWifiAndMobileDataAndWifiEnabled() {
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(context);
-
-        SharedPreferences.Editor editor = session.edit();
-
-        final String keyConnection = "NetworkSettings";
-        editor.putInt(keyConnection, 1);
 
         final String keyDate = "date";
         editor.putString(keyDate, "2010-01-01");
@@ -357,6 +272,7 @@ public class DataDownloadControllerTest {
         Log.d("Session String", session.getString(keyDate, "seiLa"));
 
     }
+<<<<<<< HEAD
 
     @Test
     public void testUpdateDataWithWifiDisabled() {
@@ -497,4 +413,6 @@ public class DataDownloadControllerTest {
 
         assertTrue(countDislikes == likes);
     }
+=======
+>>>>>>> 6e76a9a8d6a662117858bfad814dd2002c27e0d9
 }

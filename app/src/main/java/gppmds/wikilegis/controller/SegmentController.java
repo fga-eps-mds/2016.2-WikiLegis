@@ -367,22 +367,38 @@ public class SegmentController {
 
     public String registerSegment(final int idBill,
                                   final int replaced,
-                                  String content) throws JSONException,
-            SegmentException{
+                                  String content,
+                                  Context context) throws JSONException, SegmentException{
 
-        Segment segment = new Segment(idBill, replaced, content);
 
-        JSONObject jsonParam = new JSONObject();
-        jsonParam.put("billl", segment.getBill());
-        jsonParam.put("replaced", segment.getReplaced());
-        jsonParam.put("content", segment.getContent());
+        String result ;
 
-        String url = "wikilegis-staging.labhackercd.net/api/segments/";
+        if(content.isEmpty()){
+            result = context.getResources().getString(R.string.empty_segment);
 
-        PostRequest postRequest = new PostRequest(context,
-                "http://wikilegis-staging.labhackercd.net/api/user/create/");
-        postRequest.execute(jsonParam.toString(),"application/json");
+        }else{
 
-        return "SUCESS";
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+
+            String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
+            String json = "{" +
+                    "\"bill\": " +idBill+","+
+                    "\"replaced\": " + replaced+","+
+                    "\"content\": \"" +content+"\","+
+                    "\"token\": \""+session.getString("token",null) +"\""+
+                    "}";
+
+
+            Log.d("URL", url);
+            Log.d("URL PARAMS", json);
+
+            PostRequest postRequest = new PostRequest(context, url);
+            postRequest.execute(json, "application/json");
+            result = "SUCCESS";
+
+        }
+        return result;
     }
+
+
 }

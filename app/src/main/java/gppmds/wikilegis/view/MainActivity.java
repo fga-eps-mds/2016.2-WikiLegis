@@ -1,11 +1,14 @@
 package gppmds.wikilegis.view;
 
+import android.support.design.widget.FloatingActionButton;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,12 +18,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
@@ -29,12 +32,12 @@ import gppmds.wikilegis.controller.LoginController;
 
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.model.Bill;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabs = null;
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -64,12 +67,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         settingView();
-
     }
 
     private void settingView() {
         Toolbar toolbar = (Toolbar) this.findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        floatingActionButton = (FloatingActionButton)findViewById
+                (R.id.floatingButton);
+        floatingActionButton.setVisibility(View.INVISIBLE);
 
         // Create the adapter that will return a fragment for each of the two tabs
         TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager());
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabs = (TabLayout) this.findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
     }
 
     @Override
@@ -96,12 +103,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true;
-    }
-
-    @Override
-    public void onBackPressed(){
-        tabs.setVisibility(View.VISIBLE);
-        super.onBackPressed();
     }
 
     public boolean onOptionsItemSelected(final MenuItem item) {
@@ -133,19 +134,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void actionDialogNetworkSettings() {
-        showDialogNetworkSettings(MainActivity.this, "Download de dados", new String[] { "Confirmar" },
-                new DialogInterface.OnClickListener() {
+        showDialogNetworkSettings(MainActivity.this, "Download de dados", new String[]{"Confirmar"},
+                new DialogInterface.OnClickListener(){
 
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(DialogInterface dialog, int which){
                         //Do your functionality here
-                        int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
 
                         SharedPreferences session = PreferenceManager.
                                 getDefaultSharedPreferences(MainActivity.this);
                         SharedPreferences.Editor editor = session.edit();
 
-                        switch (selectedPosition) {
+                        switch(selectedPosition){
 
                             case 0:
                                 editor.putInt(MainActivity.this.getResources()
@@ -202,5 +203,85 @@ public class MainActivity extends AppCompatActivity {
             builder.setNegativeButton(btnText[1], listener);
         }
         builder.show();
+    }
+
+    @Override
+    public void onBackPressed(){
+        final CreateSuggestProposal createSuggestProposal = (CreateSuggestProposal)
+                getSupportFragmentManager().findFragmentByTag("SUGGEST_PROPOSAL");
+
+        final CreateComment createComment = (CreateComment)
+                getSupportFragmentManager().findFragmentByTag("COMMENT_FRAGMENT");
+
+        if(createSuggestProposal != null){
+            if(createSuggestProposal.isVisible()){
+
+                EditText proposalSuggestionEditText = (EditText) createSuggestProposal.getView()
+                        .findViewById(R.id.suggestionProposalEditText);
+                String suggestionTyped = proposalSuggestionEditText.getText().toString();
+
+                if(!suggestionTyped.isEmpty()){
+
+                    confirmDiscard(createSuggestProposal, " sua sugestão?");
+                }
+                else{
+                    super.onBackPressed();
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+        else if(createComment != null){
+            if(createComment.isVisible()){
+
+                EditText commentEditText = (EditText) createComment.getView()
+                        .findViewById(R.id.commentEditText);
+                String commentTyped = commentEditText.getText().toString();
+
+                if(!commentTyped.isEmpty()){
+
+                    confirmDiscard(createComment, " seu comentário?");
+                }
+                else{
+                    super.onBackPressed();
+                    floatingActionButton.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
+
+    private void confirmDiscard(final Fragment fragment,
+                                String message){
+
+        final AlertDialog.Builder alertDialogProposalBuilder = new AlertDialog.Builder
+                (fragment.getContext());
+
+        alertDialogProposalBuilder.setMessage("Você tem certeza que deseja descartar" +
+                message);
+
+        alertDialogProposalBuilder.setPositiveButton("Sim", new DialogInterface
+                .OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                dialog.dismiss();
+                getSupportFragmentManager().beginTransaction().remove(fragment)
+                        .commit();
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        alertDialogProposalBuilder.setNegativeButton("Não", new DialogInterface
+                .OnClickListener(){
+
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                dialog.dismiss();
+            }
+        });
+
+        alertDialogProposalBuilder.show();
     }
 }

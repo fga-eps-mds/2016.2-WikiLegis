@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.junit.Before;
@@ -25,9 +24,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by shammyz on 9/30/16.
- */
 public class SegmentControllerTest {
     Context context;
 
@@ -191,6 +187,16 @@ public class SegmentControllerTest {
     @Test
     public void testIsSegmentDatabaseIsEmptyWithDatabaseIsNotEmpty() throws SegmentException,
             JSONException {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = session.edit();
+
+        final String keyDate = "date";
+        editor.putString(keyDate, "2010-01-01");
+
+        editor.commit();
+
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
@@ -420,6 +426,24 @@ public class SegmentControllerTest {
                 1);
 
         assertTrue(proposalList.size() == 3);
+    }*/
+
+    @Test
+    public void testRegisterSegmentWithEmptySuggestion() throws SegmentException, JSONException{
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String status= segmentController.registerSegment(13, 131, "", context);
+
+        assertEquals(status, "Por favor, digite uma sugestão");
     }
-    */
+
+    @Test
+    public void testRegisterSegmentWithValidSuggestion() throws SegmentException, JSONException{
+
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String status = segmentController.registerSegment(13, 121, "Testando", context);
+
+        assertEquals(status, "SUCCESS");
+    }
 }

@@ -1,0 +1,105 @@
+package gppmds.wikilegis.view;
+
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import org.json.JSONException;
+
+import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.CommentSegmentController;
+import gppmds.wikilegis.exception.CommentsException;
+
+
+public class CreateComment extends Fragment implements View.OnClickListener {
+
+    private EditText commentEditText;
+    private FloatingActionButton floatingActionButton;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view  = inflater.inflate(R.layout.fragment_create_comment, container, false);
+
+        Button saveButton = (Button) view.findViewById(R.id.saveComment);
+        saveButton.setOnClickListener(this);
+
+        floatingActionButton = (FloatingActionButton) getActivity()
+                .findViewById(R.id.floatingButton);
+        floatingActionButton.setVisibility(View.INVISIBLE);
+
+        commentEditText = (EditText) view.findViewById(R.id.commentEditText);
+
+        TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
+        tabs.setVisibility(View.GONE);
+
+        return view;
+    }
+
+    private String saveComment(Integer segmentId){
+
+        CommentSegmentController commentSegmentController = CommentSegmentController.getInstance
+                (getContext());
+
+        String proposalTyped = commentEditText.getText().toString();
+
+        String result = null;
+
+        try{
+            result = commentSegmentController.registerComment(segmentId, proposalTyped,
+                    getContext());
+
+        } catch(JSONException e){
+            e.printStackTrace();
+        } catch(CommentsException e){
+            e.printStackTrace();
+        }
+
+        if(result.equals("SUCCESS")){
+            result =  getContext().getResources().getString(R.string.success_comment);
+        }
+        else if(result.equals(getContext().getResources().getString(R.string.empty_comment))){
+            commentEditText.requestFocus();
+            commentEditText.setError(result);
+        }
+        else{
+            result = getContext().getResources().getString(R.string.connection_problem);
+            Log.d("Connection problem ", result);
+        }
+
+        return result;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.saveComment){
+
+            Integer idSegment = getArguments().getInt("idSegment");
+
+            Log.d("ID SEGMENT", idSegment + "");
+            String savingStatus = saveComment(idSegment);
+
+            if(savingStatus.equals(getContext().getResources().getString(
+                    R.string.success_comment))){
+                Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
+
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        floatingActionButton.setVisibility(View.INVISIBLE);
+    }
+}

@@ -5,7 +5,8 @@
     android:orientation="vertical"
     tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
     android:background="@drawable/background"
-    android:layout_marginTop="50dp">
+    android:layout_marginTop="50dp"
+    android:id="@+id/view_segment_fragment">
 
     <FrameLayout
         android:layout_width="350dp"
@@ -96,19 +97,12 @@
         </RelativeLayout>
 
     </FrameLayout>
-    <Button
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="@drawable/button_green"
-        android:text="Sugerir alteração"
-        android:id="@+id/buttonGreen"
-        android:layout_below="@id/frameLayoutSegment"/>
 
     <FrameLayout
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:id="@+id/frameLayoutProposal"
-        android:layout_below="@+id/buttonGreen"
+        android:layout_below="@+id/frameLayoutSegment"
         android:layout_alignStart="@+id/frameLayoutSegment"
         android:layout_marginTop="1dp"
         android:clickable="true"

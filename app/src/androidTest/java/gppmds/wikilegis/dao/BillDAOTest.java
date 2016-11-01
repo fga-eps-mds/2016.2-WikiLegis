@@ -33,6 +33,8 @@ public class BillDAOTest {
     @Test
     public void deleteAllBillsTest(){
         BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
+
         List<Bill> billList = new ArrayList<>();
 
         Bill bill1 = null;
@@ -40,12 +42,13 @@ public class BillDAOTest {
         Bill bill3 = null;
         Bill bill4 = null;
         Bill bill5 = null;
+
         try {
             bill1 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
-            bill2 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
-            bill3 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
-            bill4 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
-            bill5 = new Bill(1, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill2 = new Bill(2, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill3 = new Bill(3, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill4 = new Bill(4, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
+            bill5 = new Bill(5, "Teste", "teste", "closed", "description", "Meio Ambiente", 666, 13);
         } catch (BillException e) {
             e.printStackTrace();
         }

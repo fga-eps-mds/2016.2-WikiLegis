@@ -35,45 +35,45 @@ public class RegisterUserController {
                                final String lastName,
                                final String email,
                                final String password,
-                               final String passwordConfirmation) throws UserException, JSONException{
+                               final String passwordConfirmation) throws UserException,
+            JSONException{
 
-        try {
+        String registerStatus;
+
+        try{
 
             User user = new User(firstName, lastName, email, password, passwordConfirmation);
-
-            JSONObject jsonParam = new JSONObject();
-            jsonParam.put("email", user.getEmail());
-            jsonParam.put("first_name", user.getFirstName());
-            jsonParam.put("last_name", user.getLastName());
-            jsonParam.put("password", user.getPassword());
 
             JSONObject userJson = setJSON(user);
 
             PostRequest postRequest = new PostRequest(context,
                     "http://wikilegis-staging.labhackercd.net/api/user/create/");
+
             postRequest.execute(userJson.toString(),"application/json");
 
-
-            try {
+            try{
                 String responseInformation = postRequest.execute(userJson.toString(),
                         "application/json").get();
-            } catch (InterruptedException e) {
+            } catch(InterruptedException e){
                 e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch(ExecutionException e){
                 e.printStackTrace();
             }
 
             Log.d("Response", postRequest.getResponse() + "");
 
-            return String.valueOf(postRequest.getResponse());
+
+            registerStatus = String.valueOf(postRequest.getResponse());
 
         } catch (UserException e) {
             String exceptionMessage = e.getMessage();
-            return exceptionMessage;
+            registerStatus = exceptionMessage;
         } catch (JSONException e) {
             String exceptionMessage = e.getMessage();
-            return exceptionMessage;
+            registerStatus = exceptionMessage;
         }
+
+        return  registerStatus;
     }
 
     private JSONObject setJSON(User user) throws JSONException {

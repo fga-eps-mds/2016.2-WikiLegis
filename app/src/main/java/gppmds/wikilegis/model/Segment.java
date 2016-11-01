@@ -40,6 +40,8 @@ public class Segment {
         setContent(content);
         setDate(date);
     }
+
+
     public Segment (final Integer id, final Integer order, final Integer bill, final int original,
                     final Integer replaced, final Integer parent, final Integer type,
                     final Integer number, final String content, final String date) throws SegmentException{
@@ -210,7 +212,7 @@ public class Segment {
     }
 
     private boolean validateStringEmpty(final String string) {
-        if (string == null) {
+        if (string == null ) {
             return false;
         }
         return true;
@@ -223,5 +225,4 @@ public class Segment {
             return 0;
         }
     }
-
 }

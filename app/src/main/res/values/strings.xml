@@ -47,4 +47,13 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
+    <!-- Proposal suggestion strings -->
+    <string name="connection_problem">Desculpe, um problema ocorreu</string>
+    <string name="empty_segment">Por favor, digite uma sugestão</string>
+    <string name="success_proposal">Obrigado pela sugestão!</string>
+
+    <!-- Proposal comment strings -->
+    <string name="empty_comment">Por favor, digite um comentário</string>
+    <string name="success_comment">Obrigado pelo comentário!</string>
+
 </resources>
