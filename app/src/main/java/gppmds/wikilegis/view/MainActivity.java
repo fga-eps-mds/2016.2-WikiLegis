@@ -20,11 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-
 import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
@@ -33,8 +29,6 @@ import gppmds.wikilegis.controller.LoginController;
 
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.model.Bill;
-
 
 public class MainActivity extends AppCompatActivity {
 

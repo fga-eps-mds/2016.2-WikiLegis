@@ -329,9 +329,7 @@ public class SegmentControllerTest {
         } catch (SegmentException e) {
             e.printStackTrace();
         }
-
-        Log.d("size", segmentList.size() + "");
-
+        
         assertTrue(segmentList.size() == 3);
     }
 
@@ -350,8 +348,6 @@ public class SegmentControllerTest {
         } catch (SegmentException e) {
             e.printStackTrace();
         }
-
-        Log.d("size", segmentList.size() + "");
 
         assertTrue(segmentList.size() == 1);
     }
