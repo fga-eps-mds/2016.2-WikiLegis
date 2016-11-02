@@ -81,10 +81,10 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         }
     }
 
-    public void testImageProposalIsDisplayed(){
+    /*public void testImageProposalIsDisplayed(){
 
         onView(withId(R.id.imageViewProposal)).check(matches(isDisplayed()));
-    }
+    }*/
 
 
     public void testProposalIsDisplayed(){

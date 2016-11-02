@@ -329,7 +329,7 @@ public class SegmentControllerTest {
         } catch (SegmentException e) {
             e.printStackTrace();
         }
-        
+
         assertTrue(segmentList.size() == 3);
     }
 
