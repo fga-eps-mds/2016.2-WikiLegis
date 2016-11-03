@@ -112,14 +112,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     }
 
     private void setView(final LayoutInflater inflater, final ViewGroup container) {
-
-        view = inflater.inflate(R.layout.fragment_view_segment, container, false);
-        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
-        segmentText = (TextView) view.findViewById(R.id.contentSegment);
-        billText = (TextView) view.findViewById(R.id.titleBill);
-        likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
-        dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
-
         DataDownloadController dataDownloadController =
                 DataDownloadController.getInstance(getContext());
 
@@ -135,6 +127,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
             billText = (TextView) view.findViewById(R.id.titleBill);
             segmentText = (TextView) view.findViewById(R.id.contentSegment);
+            likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
+            dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
         } else if (connectionType == NO_NETWORK){
             view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
             billText = (TextView) view.findViewById(R.id.titleBillOffline);
@@ -142,6 +136,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         }
 
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
+
         likes.setOnClickListener(this);
         likesIcon.setOnClickListener(this);
 
