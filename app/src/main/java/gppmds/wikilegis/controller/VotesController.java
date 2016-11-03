@@ -38,16 +38,22 @@ public class VotesController {
         SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
         String url ="http://wikilegis-staging.labhackercd.net/api/votes/";
+        JSONObject jsonObject =  new JSONObject();
+        jsonObject.put("object_id" ,object_id);
+        jsonObject.put("vote" , " \" " + vote + " \" ");
+        jsonObject.put("token",session.getString("token",null));
 
         String json = "{" +
-                "\"object_id\": " +object_id+","+
-                "\"vote\": " + vote+","+
-                "\"token\": \""+session.getString("token",null) +"\""+
+                "object_id: " +object_id+","+
+                "vote: \"" + vote+"\","+
+                "token: "+session.getString("token",null) +""+
                 "}";
-        Log.d("URL PARAMS", json);
+
+        Log.d("hahaha1", json);
+        Log.d("hahaha2", jsonObject.toString());
 
         PostRequest postRequest = new PostRequest(context, url);
-        postRequest.execute(json, "application/json");
+        postRequest.execute(jsonObject.toString(), "application/json");
         return "SUCCESS";
     }
 }
