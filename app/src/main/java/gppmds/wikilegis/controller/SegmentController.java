@@ -381,6 +381,7 @@ public class SegmentController {
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
             String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
+
             String json = "{" +
                     "\"bill\": " +idBill+","+
                     "\"replaced\": " + replaced+","+

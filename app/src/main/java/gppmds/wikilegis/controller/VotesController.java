@@ -1,6 +1,9 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,21 +33,22 @@ public class VotesController {
         }
         return  instance;
     }
-    public String registerVote(final int object_id , boolean op) throws VotesException, JSONException {
-        Vote vote = new Vote(object_id, op);
+    public String registerVote(final int object_id , boolean vote) throws VotesException, JSONException {
 
-        JSONObject jsonParam = new JSONObject();
-        jsonParam.put("object_id", vote.getObjectId());
-        jsonParam.put("vote", vote.getVote());
+        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String json = "{" +
+                "\"object_id\": " + object_id +","+
+                "\"vote\": \"" + vote +"\","+
+                "\"token\": \""+session.getString("token",null) +"\""+
+                "}";
 
 
-        String url = "wikilegis-staging.labhackercd.net/api/segments/";
+        Log.d("URL PARAMS", json);
 
-        PostRequest postRequest = new PostRequest(context,
-                "http://wikilegis-staging.labhackercd.net/api/user/create/");
-        postRequest.execute(jsonParam.toString(),"application/json");
-
-        return " SUCCESS";
+        PostRequest postRequest = new PostRequest(context, "http://wikilegis-staging.labhackercd.net/api/votes/");
+        postRequest.execute(json, "application/json");
+        return "SUCCESS";
     }
 }
 

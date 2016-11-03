@@ -174,14 +174,17 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         }
     }
 
+
     @Override
     public void onClick(View view) {
         final int idView = view.getId();
         String result= "fail" ;
         if(idView == R.id.imageViewLike ) {
-             VotesController votesController = VotesController.getInstance(getContext());
+            VotesController votesController = VotesController.getInstance(getContext());
+
+           // Integer idSegment = getArguments().getInt("segmentId");
             try {
-            result =  votesController.registerVote(billId, true);
+                result =  votesController.registerVote(segmentId, true);
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -196,13 +199,16 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             }
             Log.d("LIKEI", "onClick ");
             Log.d("resut:" , result);
-
+            Log.d("ID SEGMENT" , segmentId + "");
         }
 
         else if(idView == R.id.imageViewDislike ) {
             VotesController votesController = VotesController.getInstance(getContext());
+
+          //  Integer idSegment = getArguments().getInt("segmentId");
+
             try {
-                votesController.registerVote(billId, false);
+               result =  votesController.registerVote(segmentId, false);
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
