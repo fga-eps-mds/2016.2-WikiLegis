@@ -1,37 +1,34 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
-
-import android.content.Intent;
-import android.support.test.InstrumentationRegistry;
-
+import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
-
-import org.junit.After;
-
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
-
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by thiago on 9/30/16.
  */
-public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
 
+public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
+    Activity activityOnTest;
     public ViewSegmentFragmentTest(){
         super(LoadingActivity.class);
     }
@@ -122,6 +119,57 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
 
         onView(withId(R.id.imageViewDislike)).check(matches(isDisplayed()));
     }
+    public void testLikeButton(){
+        closeSoftKeyboard();
 
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
 
+        if(!isLoggedIn){
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.recycler_view_open))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.imageViewLike))
+                .perform((click()));
+        onView(withText("like")).inRoot(withDecorView(not(is(getActivity()
+                .getWindow().getDecorView())))).check(matches(isDisplayed()));
+
+    }
+    public void testDesLikeButton(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+
+        if(!isLoggedIn){
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.recycler_view_open))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.imageViewDislike))
+                .perform((click()));
+        onView(withText("deslike")).inRoot(withDecorView(not(is(getActivity()
+                .getWindow().getDecorView())))).check(matches(isDisplayed()));
+
+    }
 }

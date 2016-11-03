@@ -16,8 +16,9 @@ import org.junit.Test;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import gppmds.wikilegis.dao.BillDAO;
-import gppmds.wikilegis.dao.SegmentDAO;
+
+import gppmds.wikilegis.dao.database.BillDAO;
+import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
@@ -31,6 +32,7 @@ public class WifiConnectionTest{
     DataDownloadController dataDownloadController;
     SegmentController segmentController;
     BillDAO billDAO;
+
     BillController billController;
 
     @Before

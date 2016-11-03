@@ -272,7 +272,6 @@ public class DataDownloadControllerTest {
         Log.d("Session String", session.getString(keyDate, "seiLa"));
 
     }
-<<<<<<< HEAD
 
     @Test
     public void testUpdateDataWithWifiDisabled() {
@@ -413,6 +412,4 @@ public class DataDownloadControllerTest {
 
         assertTrue(countDislikes == likes);
     }
-=======
->>>>>>> 6e76a9a8d6a662117858bfad814dd2002c27e0d9
 }

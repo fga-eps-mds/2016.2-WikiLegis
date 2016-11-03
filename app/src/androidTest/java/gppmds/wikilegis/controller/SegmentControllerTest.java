@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.junit.Before;

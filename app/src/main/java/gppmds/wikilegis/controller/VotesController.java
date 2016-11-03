@@ -37,16 +37,16 @@ public class VotesController {
 
         SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
+        String url ="http://wikilegis-staging.labhackercd.net/api/votes/";
+
         String json = "{" +
-                "\"object_id\": " + object_id +","+
-                "\"vote\": \"" + vote +"\","+
+                "\"object_id\": " +object_id+","+
+                "\"vote\": " + vote+","+
                 "\"token\": \""+session.getString("token",null) +"\""+
                 "}";
-
-
         Log.d("URL PARAMS", json);
 
-        PostRequest postRequest = new PostRequest(context, "http://wikilegis-staging.labhackercd.net/api/votes/");
+        PostRequest postRequest = new PostRequest(context, url);
         postRequest.execute(json, "application/json");
         return "SUCCESS";
     }
