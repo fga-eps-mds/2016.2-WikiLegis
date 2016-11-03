@@ -181,8 +181,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         String result= "fail" ;
         if(idView == R.id.imageViewLike ) {
             VotesController votesController = VotesController.getInstance(getContext());
-
-           // Integer idSegment = getArguments().getInt("segmentId");
             try {
                 result =  votesController.registerVote(segmentId, true);
             } catch (VotesException e) {
@@ -190,11 +188,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if(result == "SUCCESS"){
+            if(result == "SUCCESS") {
                 Toast.makeText(getContext(), "like", Toast.LENGTH_SHORT)
-                        .show();
-            }else{
-                Toast.makeText(getContext(), "sua avaliação não foi efetuada", Toast.LENGTH_SHORT)
                         .show();
             }
             Log.d("LIKEI", "onClick ");
@@ -205,8 +200,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         else if(idView == R.id.imageViewDislike ) {
             VotesController votesController = VotesController.getInstance(getContext());
 
-          //  Integer idSegment = getArguments().getInt("segmentId");
-
             try {
                result =  votesController.registerVote(segmentId, false);
             } catch (VotesException e) {
@@ -214,11 +207,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if(result == "SUCCESS"){
+            if(result == "SUCCESS") {
                 Toast.makeText(getContext(), "deslike", Toast.LENGTH_SHORT)
-                        .show();
-            }else{
-                Toast.makeText(getContext(), "sua avaliação não foi efetuada", Toast.LENGTH_SHORT)
                         .show();
             }
             Log.d("desLIKEI", "onClick ");
