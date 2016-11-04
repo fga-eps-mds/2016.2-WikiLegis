@@ -52,7 +52,6 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
-    @After
     public void tearDown() throws Exception {
         goBackN();
         super.tearDown();
