@@ -8,13 +8,11 @@
                 android:id="@+id/view_segment_fragment">
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler_viewSegment"
-        android:background="@android:color/transparent"
-        android:layout_alignStart="@+id/frameLayoutProposal"
-        android:layout_alignEnd="@+id/frameLayoutProposal"
-        android:layout_below="@+id/frameLayoutProposal"/>
+        android:background="@android:color/transparent"/>
 
 
 </RelativeLayout>

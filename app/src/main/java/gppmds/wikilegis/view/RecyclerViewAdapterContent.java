@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -47,7 +48,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         TextView contentSegment;
         ImageView commentSegment;
 
-        ContentViewHolder(final View itemView) {
+        ContentViewHolder(final View itemView, final List<Segment> listSegment) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.frameCardViewSegment);
@@ -72,9 +73,11 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         Bundle bundle = new Bundle();
                         bundle.putInt("idSegment", Integer.parseInt(cardView.getTag(R.id.idSegment)
                                 .toString()));
+                        bundle.putInt("idBill", Integer.parseInt(cardView.getTag(R.id.idBill)
+                                .toString()));
 
                         if(session.getBoolean("IsLoggedIn", false)){
-                            CreateComment createComment = new CreateComment();
+                            CreateComment createComment = new CreateComment(listSegment);
                             createComment.setArguments(bundle);
 
                             AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
@@ -83,6 +86,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                                     .commit();
                         }
                         else{
+                            Toast.makeText(itemView.getContext(), "Entre para sugerir alterações!",
+                                    Toast.LENGTH_LONG).show();
+
                             Intent intent = new Intent(view.getContext(), LoginActivity.class);
                             view.getContext().startActivity(intent);
                         }
@@ -127,6 +133,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(final ContentViewHolder holder, final int position) {
 
         holder.cardView.setTag(R.id.idSegment, segmentId);
+        holder.cardView.setTag(R.id.idBill, billId);
 
         DataDownloadController dataDownloadController =
                 DataDownloadController.getInstance(context);
@@ -195,15 +202,15 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         final int NO_NETWORK = 2;
 
         if(connectionType == WIFI || connectionType == MOBILE_3G){
-            View v = LayoutInflater.from(parent.getContext()).inflate(onlineLayoutId,
+            View view = LayoutInflater.from(parent.getContext()).inflate(onlineLayoutId,
                     parent, false);
-            contentViewHolder = new ContentViewHolder(v);
+            contentViewHolder = new ContentViewHolder(view, listSegment);
         }
         else {
             if(connectionType == NO_NETWORK){
-                View v = LayoutInflater.from(parent.getContext()).inflate(offlineLayoutId, parent,
+                View view = LayoutInflater.from(parent.getContext()).inflate(offlineLayoutId, parent,
                         false);
-                contentViewHolder = new ContentViewHolder(v);
+                contentViewHolder = new ContentViewHolder(view, listSegment);
             }
         }
 

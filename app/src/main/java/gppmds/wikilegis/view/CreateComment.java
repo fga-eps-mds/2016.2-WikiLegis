@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,24 +16,32 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.exception.CommentsException;
+import gppmds.wikilegis.model.Segment;
 
 
 public class CreateComment extends Fragment implements View.OnClickListener {
 
     private EditText commentEditText;
     private FloatingActionButton floatingActionButton;
+    private List<Segment> listSegment;
+
+    public CreateComment(){
+    }
+
+    public CreateComment(List<Segment> listSegment){
+        this.listSegment = listSegment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view  = inflater.inflate(R.layout.fragment_create_comment, container, false);
-
-        Button saveButton = (Button) view.findViewById(R.id.saveComment);
-        saveButton.setOnClickListener(this);
 
         floatingActionButton = (FloatingActionButton) getActivity()
                 .findViewById(R.id.floatingButton);
@@ -41,6 +51,16 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
+
+        RecyclerView recyclerView= (RecyclerView) view.findViewById(R.id.recyclerViewComment);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(listSegment,
+                getArguments().getInt("idBill"), getArguments().getInt("idSegment"));
+        recyclerView.setAdapter(content);
 
         return view;
     }
@@ -81,7 +101,7 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if(view.getId() == R.id.saveComment){
+        /*if(view.getId() == R.id.saveComment){
 
             Integer idSegment = getArguments().getInt("idSegment");
 
@@ -94,7 +114,7 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
             }
-        }
+        }*/
     }
 
     @Override

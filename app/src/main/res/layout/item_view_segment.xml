@@ -13,9 +13,7 @@ android:layout_marginTop="1px">
     android:layout_below="@+id/frameLayout"
     android:background="@color/cardview_light_background"
     android:layout_alignStart="@+id/frameLayout"
-    android:layout_alignEnd="@+id/frameLayout"
-    >
-
+    android:layout_alignEnd="@+id/frameLayout">
 
     <RelativeLayout
         android:layout_width="match_parent"
