@@ -132,7 +132,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             //TODO TESTAR
             if(dataDownloadController.connectionType() < 2) {
                 final Segment SEGMENT =
-                        segmentController.getSegmentById(segmentId, getContext());
+                        segmentController.getSegmentByIdFromList(segmentId);
 
                 segmentText.setText(SEGMENT.getContent());
                 billText.setText(BillController.getBillByIdFromList(billId).getTitle());

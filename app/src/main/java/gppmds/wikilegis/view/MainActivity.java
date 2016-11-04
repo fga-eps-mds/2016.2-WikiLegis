@@ -1,6 +1,11 @@
 package gppmds.wikilegis.view;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.SearchManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -33,7 +39,7 @@ import gppmds.wikilegis.exception.SegmentException;
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabs = null;
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -98,7 +104,52 @@ public class MainActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.menu_deslogged, menu);
         }
 
-        return true;
+        // Retrieve the SearchView and plug it into SearchManager
+        final SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager =
+                (SearchManager) getSystemService(SEARCH_SERVICE);
+
+        if (null != searchView) {
+            searchView.setSearchableInfo(searchManager
+                    .getSearchableInfo(getComponentName()));
+            searchView.setIconifiedByDefault(false);
+        }
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                // this is your adapter that will be filtered
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                //Here u can get the value "query" which is entered in the search box.
+                Bundle bundle = new Bundle();
+                bundle.putString("searchQuery", query);
+
+                SearchBillFragment searchBillFragment = new SearchBillFragment();
+                searchBillFragment.setArguments(bundle);
+
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+
+                for (int i = 0; i < fm.getBackStackEntryCount(); i++) {
+                    fm.popBackStack();
+                }
+
+                android.support.v4.app.FragmentTransaction fragmentTransaction =
+                        fm.beginTransaction();
+
+                fragmentTransaction.replace(R.id.main_content, searchBillFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                return true;
+
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(final MenuItem item) {

@@ -28,12 +28,10 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/action_search"
-        android:title="@string/action_search"
-        android:icon="@drawable/search"
-        app:showAsAction="always"
-        android:orderInCategory="2">
-    </item>
+    <item android:id="@+id/action_search"
+          android:title="Search"
+          android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+          app:showAsAction="ifRoom|collapseActionView"
+          app:actionViewClass="android.support.v7.widget.SearchView" />
 
 </menu>

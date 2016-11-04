@@ -3,6 +3,7 @@ package gppmds.wikilegis.view;
 import android.app.Activity;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
@@ -75,7 +76,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
 
         closeSoftKeyboard();
 
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
