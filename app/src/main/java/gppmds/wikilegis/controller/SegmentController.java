@@ -111,13 +111,15 @@ public class SegmentController {
                 "http://wikilegis-staging.labhackercd.net/api/segments/",
                 "?created=" + date);
 
+        Log.d("TAMANHO NEW", newSegments.size() + "");
+
         segmentDAO.insertAllSegments(newSegments);
 
         SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
 
         segmentList = segmentDAO.getAllSegments();
 
-        Log.d("TAMANHO", segmentList.size() + "");
+        Log.d("TAMANHO SEGMENTS", segmentList.size() + "");
     }
 
     public List<Segment> getSegmentsByIdBill(Integer idBill)
@@ -146,6 +148,12 @@ public class SegmentController {
 
         SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
 
+        segmentList = segmentDAO.getAllSegments();
+    }
+
+    public void initSegmentsWithDatabase() throws SegmentException {
+        segmentList = new ArrayList<>();
+        segmentDAO = SegmentDAO.getInstance(context);
         segmentList = segmentDAO.getAllSegments();
     }
 

@@ -76,10 +76,22 @@ public class BillController {
         billDao.insertAllBills(newBills);
 
         billList = billDao.getAllBills();
+
+        Log.d("Bills", billList.size() + "");
     }
 
-    public void DownloadBills() throws BillException, JSONException, SegmentException {
-        billList = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi("http://wikilegis.labhackercd.net/api/bills/"));
+    public void initBillsWithDatabase() throws BillException {
+        billList = new ArrayList<>();
+        billDao = BillDAO.getInstance(context);
+
+        billList = billDao.getAllBills();
+    }
+
+    public void downloadBills() throws BillException, JSONException, SegmentException {
+        billList =
+                JSONHelper.billListFromJSON(
+                        JSONHelper.requestJsonObjectFromApi(
+                                "http://wikilegis-staging.labhackercd.net/api/bills/"));
     }
 
     public List<Bill> searchBills(String querySearch) throws BillException, JSONException, SegmentException {

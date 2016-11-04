@@ -1,7 +1,5 @@
 package gppmds.wikilegis.view;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -23,8 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -59,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             try {
-                billController.DownloadBills();
+                billController.downloadBills();
             } catch (BillException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -109,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager =
                 (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setQueryHint("Pesquisar projetos...");
 
         if (null != searchView) {
             searchView.setSearchableInfo(searchManager
@@ -129,6 +128,13 @@ public class MainActivity extends AppCompatActivity {
 
                 SearchBillFragment searchBillFragment = new SearchBillFragment();
                 searchBillFragment.setArguments(bundle);
+
+                // Check if no view has focus:
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
