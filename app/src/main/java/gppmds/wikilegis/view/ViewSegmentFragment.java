@@ -176,7 +176,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 segmentAndBillId.putInt("billId", billId);
                 segmentAndBillId.putInt("segmentId", segmentId);
 
-                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
+                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal(
+                        proposalsList);
                 createSuggestProposal.setArguments(segmentAndBillId);
 
                 openFragment(createSuggestProposal);
