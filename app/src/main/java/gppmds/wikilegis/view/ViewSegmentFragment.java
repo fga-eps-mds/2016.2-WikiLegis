@@ -158,11 +158,9 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
             }else{
                 final Segment SEGMENT = SegmentController.getSegmentById(segmentId, getContext());
-
                 segmentText.setText(SEGMENT.getContent());
                 billText.setText(BillController.getBillById(billId).getTitle());
             }
-
         } catch (SegmentException e) {
             e.printStackTrace();
         } catch (BillException e) {
@@ -181,16 +179,22 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         String result= "fail" ;
         if(idView == R.id.imageViewLike ) {
             VotesController votesController = VotesController.getInstance(getContext());
+
             try {
                 result =  votesController.registerVote(segmentId, true);
+                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
+
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
                 e.printStackTrace();
             }
             if(result == "SUCCESS") {
                 Toast.makeText(getContext(), "like", Toast.LENGTH_SHORT)
                         .show();
+
             }
             Log.d("LIKEI", "onClick ");
             Log.d("resut:" , result);
@@ -202,9 +206,13 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
             try {
                result =  votesController.registerVote(segmentId, false);
+                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
+
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
                 e.printStackTrace();
             }
             if(result == "SUCCESS") {
