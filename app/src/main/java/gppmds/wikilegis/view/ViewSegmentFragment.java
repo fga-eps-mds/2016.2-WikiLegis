@@ -38,10 +38,8 @@ import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.Vote;
 
 public class ViewSegmentFragment extends Fragment implements View.OnClickListener{
 
@@ -59,8 +57,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private View view;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private Button proposalButon;
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -253,11 +250,10 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 Bundle segmentAndBillId = new Bundle();
                 segmentAndBillId.putInt("billId", billId);
                 segmentAndBillId.putInt("segmentId", segmentId);
-
                 CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
                 createSuggestProposal.setArguments(segmentAndBillId);
-
                 openFragment(createSuggestProposal);
+
             }
             else{
                 Intent intent = new Intent(getContext(), LoginActivity.class);
