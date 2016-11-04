@@ -70,17 +70,22 @@ public class BillController {
         String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
 
         List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
-                        ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date),
-                SegmentController.getAllSegments());
+                        ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date));
         Log.d("data", date);
 
         billDao.insertAllBills(newBills);
 
         billList = billDao.getAllBills();
     }
+
     public void DownloadBills() throws BillException, JSONException, SegmentException {
-        billList = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi("http://wikilegis.labhackercd.net/api/bills/"),
-                SegmentController.getAllSegments());
+        billList = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi("http://wikilegis.labhackercd.net/api/bills/"));
+    }
+
+    public List<Bill> searchBills(String querySearch) throws BillException, JSONException, SegmentException {
+       return JSONHelper.billListFromJSON
+               (JSONHelper.requestJsonObjectFromApi(
+                       "http://wikilegis-staging.labhackercd.net/api/bills/?search=" + querySearch));
     }
 
 
