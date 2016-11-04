@@ -50,6 +50,39 @@ public class JSONHelper {
         return billListApi;
     }
 
+    public static boolean getVoteByUserAndIdSegment(Integer idUser, Integer idSegment,
+                                                    boolean vote) {
+        String url;
+
+        if(vote == true) {
+            url = "http://wikilegis-staging.labhackercd.net/api/votes/?user="+idUser+
+                    "8&object_id="+idSegment+"&vote=True";
+        }else {
+            url = "http://wikilegis-staging.labhackercd.net/api/votes/?user="+idUser+
+                    "8&object_id="+idSegment+"&vote=False";
+        }
+
+        String votesList = requestJsonObjectFromApi(url);
+
+        JSONArray results = null;
+
+        try {
+            JSONObject votes = new JSONObject(votesList);
+            results = votes.getJSONArray("results");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        boolean returnValue;
+        if(results != null) {
+            returnValue = true;
+        }else {
+            returnValue = false;
+        }
+
+        return returnValue;
+    }
+
     public static List<Vote> votesListFromJSON(String urlDate) throws JSONException, VotesException {
         String url = "http://wikilegis-staging.labhackercd.net/api/votes/"+urlDate;
         List<Vote> voteListApi = new ArrayList<>();

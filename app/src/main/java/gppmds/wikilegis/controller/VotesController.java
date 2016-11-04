@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
@@ -55,6 +56,12 @@ public class VotesController {
         PostRequest postRequest = new PostRequest(context, url);
         postRequest.execute(jsonObject.toString(), "application/json");
         return "SUCCESS";
+    }
+
+    public boolean getVoteByUserAndIdSegment(Integer idUser, Integer idSegment, boolean vote) {
+        boolean returnValue = JSONHelper.getVoteByUserAndIdSegment(idUser, idSegment, vote);
+
+        return returnValue;
     }
 }
 
