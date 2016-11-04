@@ -56,10 +56,10 @@ public class JSONHelper {
 
         if(vote == true) {
             url = "http://wikilegis-staging.labhackercd.net/api/votes/?user="+idUser+
-                    "8&object_id="+idSegment+"&vote=True";
+                    "&object_id="+idSegment+"&vote=True";
         }else {
             url = "http://wikilegis-staging.labhackercd.net/api/votes/?user="+idUser+
-                    "8&object_id="+idSegment+"&vote=False";
+                    "&object_id="+idSegment+"&vote=False";
         }
 
         String votesList = requestJsonObjectFromApi(url);
@@ -74,7 +74,7 @@ public class JSONHelper {
         }
 
         boolean returnValue;
-        if(results != null) {
+        if(results.length()!=0) {
             returnValue = true;
         }else {
             returnValue = false;

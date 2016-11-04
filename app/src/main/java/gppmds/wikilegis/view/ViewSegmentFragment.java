@@ -129,6 +129,10 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             segmentText = (TextView) view.findViewById(R.id.contentSegment);
             likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
             dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
+
+            setLikedAndDislikedIcon(true);
+            setLikedAndDislikedIcon(false);
+
         } else if (connectionType == NO_NETWORK){
             view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
             billText = (TextView) view.findViewById(R.id.titleBillOffline);
@@ -154,7 +158,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
                 segmentText.setText(SEGMENT.getContent());
                 billText.setText(BillController.getBillByIdFromList(billId).getTitle());
-                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
+                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                 likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
             }else{
                 final Segment SEGMENT = SegmentController.getSegmentById(segmentId, getContext());
@@ -172,6 +176,25 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    public void setLikedAndDislikedIcon(boolean vote) {
+        VotesController votesController = VotesController.getInstance(getContext());
+
+        boolean evaluated = votesController.getVoteByUserAndIdSegment(118, segmentId, vote);
+
+        if(evaluated && vote == true) {
+            Log.d("BLA", "JÁ LIKEI ESSE SEGMENT");
+
+            //TODO: Change the dislike icon for a highlighted like icon
+            likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
+        }
+
+        if(evaluated && vote == false) {
+            Log.d("BLA", "JÁ DISLIKEI ESSE SEGMENT");
+
+            //TODO: Change the like icon for a highlighted dislike icon
+            dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
+        }
+    }
 
     @Override
     public void onClick(View view) {
@@ -182,8 +205,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
             try {
                 result =  votesController.registerVote(segmentId, true);
-                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
-
+                setLikedAndDislikedIcon(true);
+                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -205,9 +228,9 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             VotesController votesController = VotesController.getInstance(getContext());
 
             try {
-               result =  votesController.registerVote(segmentId, false);
+                result =  votesController.registerVote(segmentId, false);
+                setLikedAndDislikedIcon(false);
                 dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
-
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
