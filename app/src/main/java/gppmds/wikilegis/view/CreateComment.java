@@ -47,6 +47,9 @@ public class CreateComment extends Fragment implements View.OnClickListener {
                 .findViewById(R.id.floatingButton);
         floatingActionButton.setVisibility(View.INVISIBLE);
 
+        Button saveComment = (Button) view.findViewById(R.id.saveComment);
+        saveComment.setOnClickListener(this);
+
         commentEditText = (EditText) view.findViewById(R.id.commentEditText);
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
@@ -101,7 +104,7 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        /*if(view.getId() == R.id.saveComment){
+        if(view.getId() == R.id.saveComment){
 
             Integer idSegment = getArguments().getInt("idSegment");
 
@@ -114,7 +117,7 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
             }
-        }*/
+        }
     }
 
     @Override

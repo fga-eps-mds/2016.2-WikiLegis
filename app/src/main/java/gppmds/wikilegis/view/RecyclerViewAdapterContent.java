@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,7 +28,6 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
-
 
 public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerViewAdapterContent
         .ContentViewHolder> {
@@ -67,8 +65,8 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                     @Override
                     public void onClick(View view){
 
-                        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(view
-                                .getContext());
+                        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(
+                                view.getContext());
 
                         Bundle bundle = new Bundle();
                         bundle.putInt("idSegment", Integer.parseInt(cardView.getTag(R.id.idSegment)
@@ -86,7 +84,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                                     .commit();
                         }
                         else{
-                            Toast.makeText(itemView.getContext(), "Entre para sugerir alterações!",
+                            Toast.makeText(itemView.getContext(), "Entre para comentar!",
                                     Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(view.getContext(), LoginActivity.class);

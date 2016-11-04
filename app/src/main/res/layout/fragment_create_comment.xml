@@ -17,18 +17,34 @@
         android:layout_alignStart="@+id/frameLayoutProposal"
         android:layout_alignEnd="@+id/frameLayoutProposal"
         android:layout_below="@+id/frameLayoutProposal"/>
-    
-    <EditText
-        android:layout_height="0dp"
-        android:isScrollContainer="true"
-        android:minHeight="120dp"
-        android:inputType="textMultiLine"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/commentEditText"
+        android:layout_height="wrap_content"
         android:background="@color/cardview_light_background"
-        android:padding="5dp"
-        android:hint="Digite seu comentário"
-        android:layout_margin="1dp"
-        android:layout_weight="0.1"/>
+        android:layout_margin="1px"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:isScrollContainer="true"
+            android:inputType="textMultiLine"
+            android:id="@+id/commentEditText"
+            android:background="@color/cardview_light_background"
+            android:padding="5dp"
+            android:hint="Digite seu comentário"/>
+
+        <Button
+            android:background="#2AC9AA"
+            android:layout_margin="1dp"
+            android:text="OK"
+            android:id="@+id/saveComment"
+            android:textColor="#FFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </LinearLayout>
