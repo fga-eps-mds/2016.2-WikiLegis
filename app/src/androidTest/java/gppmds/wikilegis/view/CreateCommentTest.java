@@ -109,7 +109,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.saveComment)).perform(click());
         onView(withId(R.id.commentEditText)).check(matches(hasErrorText(getActivity()
@@ -136,7 +136,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.commentEditText))
                 .perform(typeText("Nao gostei do comentario! Seu Madruga para Presidente!"));
