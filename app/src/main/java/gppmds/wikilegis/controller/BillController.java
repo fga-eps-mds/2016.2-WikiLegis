@@ -100,6 +100,11 @@ public class BillController {
                        "http://wikilegis-staging.labhackercd.net/api/bills/?search=" + querySearch));
     }
 
+    public List<Bill> searchBillsDatabase(String querySearch) throws BillException, JSONException, SegmentException {
+        billDao = BillDAO.getInstance(context);
+        return billDao.getSearchBills(querySearch);
+    }
+
 
     public static int countedTheNumberOfProposals(final List<Segment> segmentList,
                                                   final int idBill) {
