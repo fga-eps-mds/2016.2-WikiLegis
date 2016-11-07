@@ -64,11 +64,20 @@
                 android:layout_height="30dp"
                 android:id="@+id/imageViewDislike"
                 android:src="@drawable/dislike"
-                android:layout_marginStart="130dp"
                 android:clickable="false"
-                android:layout_alignTop="@+id/imageViewLike"
-                android:layout_toEndOf="@+id/imageViewLike"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="5dp"
+                android:layout_alignTop="@+id/textViewNumberDislike"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewShare"
+                android:clickable="false"
+                android:src="@drawable/share"
+                android:layout_marginStart="40dp"
+                android:layout_alignTop="@+id/textViewNumberDislike"
+                android:layout_toEndOf="@+id/titleBill" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,15 +133,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/imageViewProposal"
-                android:src="@drawable/chat"
-                android:clickable="false"
-                android:layout_alignBottom="@+id/textViewProposal"
-                android:layout_toStartOf="@+id/textViewProposal"
-                android:layout_marginEnd="30dp" />
         </RelativeLayout>
 
     </FrameLayout>
