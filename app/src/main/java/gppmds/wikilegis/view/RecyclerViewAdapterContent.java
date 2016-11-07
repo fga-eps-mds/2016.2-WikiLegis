@@ -38,7 +38,6 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         TextView likes;
         TextView dislikes;
         ImageView commentSegment;
-        ImageView share;
 
         ContentViewHolder(final View itemView) {
             super(itemView);
@@ -48,7 +47,6 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
             likes = (TextView) itemView.findViewById(R.id.textViewNumberLikeCard);
             dislikes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCard);
             commentSegment = (ImageView) itemView.findViewById(R.id.imageViewProposalCard);
-            share = (ImageView) itemView.findViewById(R.id.imageViewShare);
 
             commentSegment.setOnClickListener(new View.OnClickListener(){
 

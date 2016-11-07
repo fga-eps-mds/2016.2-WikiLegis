@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -47,6 +48,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private LinearLayoutManager linearLayoutManager;
     private Button proposalButon;
     FloatingActionButton floatingActionButton;
+    private ImageView share;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -114,6 +116,13 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
             billText = (TextView) view.findViewById(R.id.titleBill);
             segmentText = (TextView) view.findViewById(R.id.contentSegment);
+            share = (ImageView) view.findViewById(R.id.imageViewShare);
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    shareTextUrl();
+                }
+            });
         } else if (connectionType == NO_NETWORK){
             view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
             billText = (TextView) view.findViewById(R.id.titleBillOffline);
@@ -191,4 +200,18 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         super.onDestroy();
         floatingActionButton.setVisibility(View.INVISIBLE);
     }
+
+    private void shareTextUrl() {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        // Add data to the intent, the receiving app will decide
+        // what to do with it.
+        share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
+        share.putExtra(Intent.EXTRA_TEXT, "http://www.codeofaninja.com");
+
+        startActivity(Intent.createChooser(share, "Share link!"));
+    }
 }
+
