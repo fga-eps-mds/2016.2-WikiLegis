@@ -8,14 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 
 /**
@@ -58,6 +63,7 @@ public class OpenBillsListFragment extends Fragment implements MaterialSpinner.O
 
     private void initBillList() {
         BillController billController = BillController.getInstance(getContext());
+
         billListInitial = billController.getAllBills();
 
         billListInitial = billController.filteringForNumberOfProposals(billListInitial);
@@ -89,12 +95,21 @@ public class OpenBillsListFragment extends Fragment implements MaterialSpinner.O
     }
 
     @Override
+    public void onPause() {
+
+        Log.d("DEBUG", "onPause");
+        super.onPause();
+    }
+
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
         // Initialize list if the tab is visible
         if (this.isVisible()) {
-            initBillList();
+            recyclerViewAdapter.getData().clear();
+            recyclerViewAdapter.getData().addAll(billListRelevantsAndOpened);
+            recyclerViewAdapter.notifyDataSetChanged();
         }
     }
 }

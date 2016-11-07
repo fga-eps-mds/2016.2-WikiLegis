@@ -145,8 +145,7 @@ public class DataDownloadControllerTest {
 
         try {
             billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
-                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created=" + date),
-                    SegmentController.getAllSegments());
+                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created=" + date));
 
             SharedPreferences session = PreferenceManager.
                     getDefaultSharedPreferences(context);
