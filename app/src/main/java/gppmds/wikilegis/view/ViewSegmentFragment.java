@@ -205,13 +205,13 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
         share.setType("text/plain");
         share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        String link = getString(R.string.edemocracia_domain) + getString(R.string.edemocracia_bill)
+                + billId + getString(R.string.edemocracia_segment) + segmentId;
 
-        // Add data to the intent, the receiving app will decide
-        // what to do with it.
-        share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
-        share.putExtra(Intent.EXTRA_TEXT, "http://www.codeofaninja.com");
+        share.putExtra(Intent.EXTRA_SUBJECT, "Dê uma olhada nessa proposta de Lei:");
+        share.putExtra(Intent.EXTRA_TEXT, link);
 
-        startActivity(Intent.createChooser(share, "Share link!"));
+        startActivity(Intent.createChooser(share, "Compartilhar no Aplicativo:"));
     }
 }
 
