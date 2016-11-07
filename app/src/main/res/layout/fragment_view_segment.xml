@@ -23,7 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal|top"
+            android:layout_gravity="left|top"
             >
 
             <TextView
@@ -33,7 +33,7 @@
                 android:id="@+id/titleBill"
                 android:autoText="false"
                 android:hint="Texto da bill"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
@@ -75,9 +75,9 @@
                 android:id="@+id/imageViewShare"
                 android:clickable="false"
                 android:src="@drawable/share"
-                android:layout_marginStart="40dp"
                 android:layout_alignTop="@+id/textViewNumberDislike"
-                android:layout_toEndOf="@+id/titleBill" />
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="41dp" />
 
             <TextView
                 android:layout_width="wrap_content"
