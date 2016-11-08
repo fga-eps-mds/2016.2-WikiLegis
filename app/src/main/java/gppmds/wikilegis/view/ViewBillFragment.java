@@ -1,5 +1,6 @@
 package gppmds.wikilegis.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -32,6 +34,7 @@ public class ViewBillFragment extends Fragment {
     private TextView numberProposalsTextView = null;
     private BillController billController = null;
     private SegmentController segmentController = null;
+    private ImageView share;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -64,6 +67,13 @@ public class ViewBillFragment extends Fragment {
                 segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
                 SegmentController segmentController = SegmentController.getInstance(getContext());
                 segmentController.setSegmentList(segmentList);
+                share = (ImageView) view.findViewById(R.id.imageViewShare);
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        shareTextUrl();
+                    }
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (BillException e) {
@@ -121,5 +131,21 @@ public class ViewBillFragment extends Fragment {
         this.titleBillTextView.setText(bill.getTitle());
         this.textAbstractTextView.setText(bill.getDescription());
         this.numberProposalsTextView.setText(bill.getNumberOfPrposals() + "");
+    }
+
+    private void shareTextUrl() {
+        int idBill;
+        idBill = getArguments().getInt("id");
+
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        String link = getString(R.string.edemocracia_domain) + getString(R.string.edemocracia_bill)
+                + idBill;
+
+        share.putExtra(Intent.EXTRA_SUBJECT, "Dê uma olhada nesse projeto de Lei:");
+        share.putExtra(Intent.EXTRA_TEXT, link);
+
+        startActivity(Intent.createChooser(share, "Compartilhar no Aplicativo:"));
     }
 }
