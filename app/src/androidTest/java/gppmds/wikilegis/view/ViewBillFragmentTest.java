@@ -32,11 +32,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
+public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
 
     public ViewBillFragmentTest(){
-        super(LoadingActivity.class);
+        super(LoginActivity.class);
     }
 
     public void setUp() throws Exception {

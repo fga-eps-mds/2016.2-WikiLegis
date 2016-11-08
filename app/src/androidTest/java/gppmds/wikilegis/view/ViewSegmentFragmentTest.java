@@ -30,10 +30,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
  * Created by thiago on 9/30/16.
  */
-public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
+public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     public ViewSegmentFragmentTest(){
-        super(LoadingActivity.class);
+        super(LoginActivity.class);
     }
 
     public void setUp() throws Exception {
