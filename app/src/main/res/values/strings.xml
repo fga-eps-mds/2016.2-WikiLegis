@@ -38,7 +38,7 @@
     <string name="email">email</string>
     <string name="network_settings">NetworkSettings</string>
     <string name="last_downloaded_date">date</string>
-
+    <string name="share_url">shareUrl</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

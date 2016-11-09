@@ -48,7 +48,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private LinearLayoutManager linearLayoutManager;
     private Button proposalButon;
     FloatingActionButton floatingActionButton;
-    private ImageView share;
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -56,6 +56,15 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain)
+                + getString(R.string.edemocracia_bill) + billId +
+                getString(R.string.edemocracia_segment) + segmentId);
+        editor.commit();
 
         setView(inflater, container);
 
@@ -116,13 +125,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
             billText = (TextView) view.findViewById(R.id.titleBill);
             segmentText = (TextView) view.findViewById(R.id.contentSegment);
-            share = (ImageView) view.findViewById(R.id.imageViewShare);
-            share.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    shareTextUrl();
-                }
-            });
         } else if (connectionType == NO_NETWORK){
             view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
             billText = (TextView) view.findViewById(R.id.titleBillOffline);
@@ -199,19 +201,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     public void onDestroy(){
         super.onDestroy();
         floatingActionButton.setVisibility(View.INVISIBLE);
-    }
-
-    private void shareTextUrl() {
-        Intent share = new Intent(android.content.Intent.ACTION_SEND);
-        share.setType("text/plain");
-        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        String link = getString(R.string.edemocracia_domain) + getString(R.string.edemocracia_bill)
-                + billId + getString(R.string.edemocracia_segment) + segmentId;
-
-        share.putExtra(Intent.EXTRA_SUBJECT, "Dê uma olhada nessa proposta de Lei:");
-        share.putExtra(Intent.EXTRA_TEXT, link);
-
-        startActivity(Intent.createChooser(share, "Compartilhar no Aplicativo:"));
     }
 }
 

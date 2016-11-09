@@ -65,19 +65,10 @@
                 android:id="@+id/imageViewDislike"
                 android:src="@drawable/dislike"
                 android:clickable="false"
-                android:layout_marginBottom="5dp"
-                android:layout_alignTop="@+id/textViewNumberDislike"
-                android:layout_centerHorizontal="true" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/imageViewShare"
-                android:clickable="true"
-                android:src="@drawable/share"
-                android:layout_alignTop="@+id/textViewNumberDislike"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="41dp" />
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/contentSegment"
+                android:layout_alignParentEnd="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -97,9 +88,9 @@
                 android:text=""
                 android:clickable="false"
                 android:id="@+id/textViewNumberDislike"
-                android:layout_marginStart="5dp"
-                android:layout_alignTop="@+id/textViewNumberLike"
-                android:layout_toEndOf="@+id/imageViewDislike" />
+                android:layout_alignTop="@+id/imageViewDislike"
+                android:layout_alignStart="@+id/imageViewDislike"
+                android:layout_marginStart="40dp" />
 
         </RelativeLayout>
 
