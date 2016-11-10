@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -27,7 +28,6 @@ import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
@@ -47,6 +47,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private LinearLayoutManager linearLayoutManager;
     private Button proposalButon;
     FloatingActionButton floatingActionButton;
+    private ImageView imageViewProposalCard;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -116,6 +117,9 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
             billText = (TextView) view.findViewById(R.id.titleBill);
             segmentText = (TextView) view.findViewById(R.id.contentSegment);
+            imageViewProposalCard = (ImageView) view.findViewById(R.id.imageViewProposalCard);
+
+            imageViewProposalCard.setOnClickListener(this);
         } else if (connectionType == NO_NETWORK){
             view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
             billText = (TextView) view.findViewById(R.id.titleBillOffline);
@@ -186,6 +190,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
             }
+        }else if(view.getId() == R.id.imageViewProposalCard) {
+
         }
     }
 
