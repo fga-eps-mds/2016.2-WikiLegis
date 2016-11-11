@@ -117,12 +117,14 @@ public class DataDownloadController {
         return formatted;
     }
 
+    //Pq esse metodo esta estatico?
     public static List<Vote> getVoteBySegmentId(String id) throws JSONException, BillException, VotesException {
         List<Vote> listVotes = null;
         listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+id);
         return listVotes;
     }
 
+    //Pq esse metodo esta estatico?
     public static int getNumberOfVotesbySegment(int id, Boolean isLike) throws BillException, VotesException, JSONException {
         List<Vote> votes = getVoteBySegmentId(""+id);
         int numberOfVotes = 0;

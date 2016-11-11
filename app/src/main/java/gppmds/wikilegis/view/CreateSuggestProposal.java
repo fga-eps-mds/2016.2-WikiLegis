@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +16,26 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Segment;
 
 
 public class CreateSuggestProposal extends Fragment implements View.OnClickListener {
 
     private EditText suggestionTyped;
     private FloatingActionButton floatingActionButton;
+    private List<Segment> listSegment;
+
+    public CreateSuggestProposal(){
+    }
+
+    public CreateSuggestProposal(List<Segment> listSegment){
+        this.listSegment = listSegment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +54,16 @@ public class CreateSuggestProposal extends Fragment implements View.OnClickListe
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
+
+        RecyclerView recyclerView= (RecyclerView) view.findViewById(R.id.recyclerViewComment);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(listSegment,
+                getArguments().getInt("billId"), getArguments().getInt("segmentId"));
+        recyclerView.setAdapter(content);
 
         return view;
     }

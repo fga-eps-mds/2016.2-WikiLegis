@@ -53,7 +53,10 @@ public class SegmentController {
     }
 
     public Segment getSegmentByIdFromList(final Integer id ){
+        Log.d("Seg controller Size", segmentList.size() + "");
+
         for (Segment segment : segmentList){
+            Log.d("Segment do get", segment.getContent());
             if(segment.getId() == id){
                 return segment;
             }
@@ -85,7 +88,7 @@ public class SegmentController {
 
         orderSegments(orderedSegment);
 
-        this.segmentList = segmentList;
+        Log.d("Segment size1", this.segmentList.size() + "");
 
         return orderedSegment;
     }

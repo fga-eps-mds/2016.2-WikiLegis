@@ -55,7 +55,9 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
 
-        setView(inflater, container);
+        //setView(inflater, container);
+        view = inflater.inflate(R.layout.fragment_view_segment, container, false);
+        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
 
         recyclerView.setHasFixedSize(true);
 
@@ -68,7 +70,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         floatingActionButton.setVisibility(View.VISIBLE);
         floatingActionButton.setOnClickListener(this);
 
-        settingText();
+        //settingText();
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
@@ -91,7 +93,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             proposalsList = SegmentController.getProposalsOfSegment(segmentList, segmentId);
         }
 
-            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList);
+            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList,
+                    billId, segmentId);
         recyclerView.setAdapter(content);
 
         return view;
@@ -109,7 +112,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         int connectionType = dataDownloadController.connectionType();
 
         if(connectionType == WIFI || connectionType == MOBILE_3G) {
-            view = inflater.inflate(R.layout.fragment_view_segment, container, false);
             likes = (TextView) view.findViewById(R.id.textViewNumberLike);
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
             billText = (TextView) view.findViewById(R.id.titleBill);
@@ -174,7 +176,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 segmentAndBillId.putInt("billId", billId);
                 segmentAndBillId.putInt("segmentId", segmentId);
 
-                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
+                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal(
+                        proposalsList);
                 createSuggestProposal.setArguments(segmentAndBillId);
 
                 openFragment(createSuggestProposal);
