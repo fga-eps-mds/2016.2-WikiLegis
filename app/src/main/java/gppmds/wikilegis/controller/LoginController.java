@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -105,7 +106,7 @@ public class LoginController {
 
         JSONObject userJson = null;
         String token = null;
-
+        int userId = 0;
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
 
@@ -113,7 +114,7 @@ public class LoginController {
             if (userInformation != null) {
                 userJson = new JSONObject(userInformation);
                 token = userJson.getString("token");
-
+                userId = userJson.getInt("");
                 JSONObject user = userJson.getJSONObject("user");
                 parserUserInformation(user, token, session);
             } else {

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
@@ -225,6 +226,13 @@ public class JSONHelper {
 
         return billListApi;
     }
+    public int getUserIdByIdVote(String id) throws BillException, VotesException, JSONException {
+        List<Vote> voteList = new ArrayList<>();
+        voteList = DataDownloadController.getVoteBySegmentId(id);
+        for(int index =0 ; index < voteList.size(); index++){
+            if()
+        }
 
+    }
 
 }
