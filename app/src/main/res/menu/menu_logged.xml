@@ -25,6 +25,12 @@
                 android:title="@string/action_config">
             </item>
 
+            <item
+                android:id="@+id/action_notification_logged"
+                app:showAsAction="always"
+                android:orderInCategory="3"
+                android:title="@string/action_notify">
+            </item>
         </menu>
     </item>
 

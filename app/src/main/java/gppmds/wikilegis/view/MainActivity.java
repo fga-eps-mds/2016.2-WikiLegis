@@ -176,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_config_logged:
                 actionDialogNetworkSettings();
                 break;
+            case R.id.action_notification_logged:
+                showDialogConfirmNotificationRequest(getBaseContext());
+                break;
         }
         return true;
     }
@@ -250,6 +253,29 @@ public class MainActivity extends AppCompatActivity {
             builder.setNegativeButton(btnText[1], listener);
         }
         builder.show();
+    }
+
+    public void showDialogConfirmNotificationRequest(Context context) {
+
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        //Yes button clicked
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     @Override

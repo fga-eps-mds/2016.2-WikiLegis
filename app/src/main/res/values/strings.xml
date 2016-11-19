@@ -53,5 +53,6 @@
     <!-- Proposal comment strings -->
     <string name="empty_comment">Por favor, digite um comentário</string>
     <string name="success_comment">Obrigado pelo comentário!</string>
+    <string name="action_notify">Ativar Notificação</string>
 
 </resources>
