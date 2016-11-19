@@ -87,7 +87,7 @@ public class ViewBillFragment extends Fragment {
 
         RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(segmentList, getContext());
         recyclerView.setAdapter(adapter);
-
+        billController.setClickedBill(idBill);
         return view;
     }
 

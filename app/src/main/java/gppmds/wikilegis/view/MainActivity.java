@@ -177,10 +177,36 @@ public class MainActivity extends AppCompatActivity {
                 actionDialogNetworkSettings();
                 break;
             case R.id.action_notification_logged:
-                showDialogConfirmNotificationRequest(getBaseContext());
+                actionDialogNotification();
+
                 break;
         }
         return true;
+    }
+
+    private void actionDialogNotification() {
+        showDialogConfirmNotificationRequest(MainActivity.this,"Ativar notificação deste projeto",new String[]{"Confirmar"},
+                new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        //Do your functionality here
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        BillController billcontroller = BillController.getInstance(MainActivity.this);
+                        switch(selectedPosition){
+
+                            case 0:
+                                billcontroller.activiteNotification("weekly");
+                                break;
+                            case 1:
+                                billcontroller.activiteNotification("monthly");
+                                break;
+
+                            default:
+                                //Nothing to do
+                        }
+                    }
+                });
     }
 
     private void actionDialogNetworkSettings() {
@@ -255,27 +281,35 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void showDialogConfirmNotificationRequest(Context context) {
+    public void showDialogConfirmNotificationRequest(Context context, String title, String[] btnText,
+                                                     DialogInterface.OnClickListener listener) {
 
+        final CharSequence[] items = { "semanalmente","diariamente"};
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which){
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked
-                        break;
+        if (listener == null)
+            listener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    paramDialogInterface.dismiss();
                 }
-            }
-        };
+            };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+
+        builder.setSingleChoiceItems(items, 1,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                    }
+                });
+
+        builder.setPositiveButton(btnText[0], listener);
+
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], listener);
+        }
+        builder.show();
     }
 
     @Override
