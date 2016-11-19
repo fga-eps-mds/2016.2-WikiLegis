@@ -22,6 +22,7 @@
     <string name="action_logout">Sair</string>
     <string name="action_login">Entrar</string>
     <string name="action_config">Configurações de download</string>
+    <string name="action_report">Relatar Erro</string>
     <string name="sucessfull_registration_message">Cadastro efetuado com sucesso!</string>
     <string name="about_app">O Wikilegis é uma iniciativa da câmara dos deputados, que visa
         aproximar a sociedade e seus representantes políticos através de interação digital.

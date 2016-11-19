@@ -183,8 +183,19 @@ public class MainActivity extends AppCompatActivity {
                 actionDialogNetworkSettings();
                 break;
             case R.id.action_share_deslogged:
+                shareTextUrl();
+                break;
             case R.id.action_share_logged:
                 shareTextUrl();
+                break;
+            case R.id.action_report_logged:
+                ReportFragment reportFragmentFragment = new ReportFragment();
+                openFragment(reportFragmentFragment);
+                break;
+            case R.id.action_report_deslogged:
+                reportFragmentFragment = new ReportFragment();
+                openFragment(reportFragmentFragment);
+                break;
         }
         return true;
     }
@@ -357,5 +368,16 @@ public class MainActivity extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_TEXT, link);
 
         startActivity(Intent.createChooser(share, "Compartilhar no Aplicativo:"));
+    }
+
+    private void openFragment(final Fragment fragmentToBeOpen){
+
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.content_panel, fragmentToBeOpen);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

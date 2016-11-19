@@ -25,6 +25,13 @@
                 android:title="@string/action_config">
             </item>
 
+            <item
+                android:id="@+id/action_report_logged"
+                app:showAsAction="always"
+                android:orderInCategory="3"
+                android:title="@string/action_report">
+            </item>
+
         </menu>
     </item>
 
