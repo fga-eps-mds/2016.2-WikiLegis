@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 actionDialogNetworkSettings();
                 break;
             case R.id.action_notification_logged:
+
                 actionDialogNotification();
 
                 break;
@@ -193,17 +194,30 @@ public class MainActivity extends AppCompatActivity {
                         //Do your functionality here
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                         BillController billcontroller = BillController.getInstance(MainActivity.this);
-                        switch(selectedPosition){
+                        if("-1".equals(billcontroller.getClickedBill())) {
+                            Toast.makeText(getBaseContext(), "Selecione um projeto.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            String response = "";
+                            switch (selectedPosition) {
 
-                            case 0:
-                                billcontroller.activiteNotification("weekly");
-                                break;
-                            case 1:
-                                billcontroller.activiteNotification("monthly");
-                                break;
+                                case 0:
+                                    response = billcontroller.activiteNotification("weekly");
 
-                            default:
-                                //Nothing to do
+                                    break;
+                                case 1:
+                                    response = billcontroller.activiteNotification("monthly");
+
+
+                                    break;
+
+                                default:
+                                    //Nothing to do
+                            }
+                            if ("200".equals(response)) {
+                                Toast.makeText(getBaseContext(), "Você receberá informações deste projeto.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getBaseContext(), "Houve um erro com a requisição.", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
@@ -391,4 +405,6 @@ public class MainActivity extends AppCompatActivity {
 
         alertDialogProposalBuilder.show();
     }
+
+
 }

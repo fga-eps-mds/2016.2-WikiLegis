@@ -476,4 +476,12 @@ public class BillControllerTest {
 
         assertTrue(idBill == bill.getId());
     }
+
+    /*@Test
+    public void testActivateNotification() {
+
+        BillController billController = BillController.getInstance(context);
+        String test = billController.activiteNotification("weekly")
+        assertTrue("200".equals(test));
+    }*/
 }

@@ -42,6 +42,10 @@ public class BillController {
         return  instance;
     }
 
+    public int getClickedBill() {
+        return clickedBill;
+    }
+
     public void setClickedBill(int bill){
         clickedBill = bill;
     }
