@@ -117,6 +117,19 @@ public class DataDownloadController {
         return formatted;
     }
 
+    public static Vote getVoteBySegmentAndUserID(Integer idSegment, Integer idUser)
+            throws JSONException, BillException, VotesException {
+        List<Vote> listVotes = null;
+        listVotes = JSONHelper.votesListFromJSON("?user="+ idUser +"&object_id="+idSegment);
+
+        Vote vote = null;
+        if(listVotes != null) {
+            vote = listVotes.get(0);
+        }
+
+        return vote;
+    }
+
     public static List<Vote> getVoteBySegmentId(String id) throws JSONException, BillException, VotesException {
         List<Vote> listVotes = null;
         listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+id);

@@ -226,13 +226,5 @@ public class JSONHelper {
 
         return billListApi;
     }
-    public int getUserIdByIdVote(String id) throws BillException, VotesException, JSONException {
-        List<Vote> voteList = new ArrayList<>();
-        voteList = DataDownloadController.getVoteBySegmentId(id);
-        for(int index =0 ; index < voteList.size(); index++){
-            if()
-        }
-
-    }
 
 }
