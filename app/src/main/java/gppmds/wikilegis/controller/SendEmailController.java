@@ -2,6 +2,7 @@ package gppmds.wikilegis.controller;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ public class SendEmailController extends AsyncTask<Void,Void,Void> {
     protected void onPreExecute() {
         super.onPreExecute();
         //Showing progress dialog while sending email
-        progressDialog = ProgressDialog.show(context,"Sending message","Please wait...",false,false);
+        progressDialog = ProgressDialog.show(context,"Relatando erro","Aguarde...",false,false);
     }
 
     @Override
@@ -54,7 +55,8 @@ public class SendEmailController extends AsyncTask<Void,Void,Void> {
         //Dismissing the progress dialog
         progressDialog.dismiss();
         //Showing a success message
-        Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
+        Toast.makeText(context,"Reportado",Toast.LENGTH_LONG).show();
+        
     }
 
     @Override

@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent reportActivity = new Intent(MainActivity.this, ReportActivity.class);
 
         switch(item.getItemId()) {
             case R.id.action_login:
@@ -189,12 +190,10 @@ public class MainActivity extends AppCompatActivity {
                 shareTextUrl();
                 break;
             case R.id.action_report_logged:
-                ReportFragment reportFragmentFragment = new ReportFragment();
-                openFragment(reportFragmentFragment);
+                startActivity(reportActivity);
                 break;
             case R.id.action_report_deslogged:
-                reportFragmentFragment = new ReportFragment();
-                openFragment(reportFragmentFragment);
+                startActivity(reportActivity);
                 break;
         }
         return true;
@@ -370,14 +369,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(share, "Compartilhar no Aplicativo:"));
     }
 
-    private void openFragment(final Fragment fragmentToBeOpen){
-
+    private void openFragment(final Fragment fragmentToBeOpen) {
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.content_panel, fragmentToBeOpen);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.replace(R.id.main_content, fragmentToBeOpen);
         fragmentTransaction.commit();
     }
 }
