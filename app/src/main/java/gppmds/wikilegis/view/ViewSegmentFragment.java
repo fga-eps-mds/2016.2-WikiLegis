@@ -66,6 +66,10 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
 
+        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        Log.d("id do segmento", segmentId + "");
+
         setView(inflater, container);
 
         recyclerView.setHasFixedSize(true);
@@ -176,6 +180,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     public void setLikedAndDislikedIcon(boolean vote) {
         VotesController votesController = VotesController.getInstance(getContext());
 
+        //TODO: TIRAR NÚMERO MÁGICO
         boolean evaluated = votesController.getVoteByUserAndIdSegment(118, segmentId, vote);
 
         if(evaluated && vote == true) {
@@ -197,50 +202,140 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         final int idView = view.getId();
         String resultPost= "fail" ;
-        String resultDelete = "Fail";
         if(idView == R.id.imageViewLike ) {
             VotesController votesController = VotesController.getInstance(getContext());
 
+            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(118, segmentId, true);
+            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(118, segmentId, false);
+
+            if(evaluatedTrue) {
+                try {
+                    try {
+                        votesController.deleteVote(segmentId, 118);
+                        dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                        likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                    } catch (BillException e) {
+                        e.printStackTrace();
+                    }
+                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
+                } catch (VotesException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if(evaluatedFalse) {
+                try {
+                    votesController.updateVote(segmentId, 118, true);
+                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                } catch (BillException e) {
+                    e.printStackTrace();
+                } catch (VotesException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    resultPost = votesController.registerVote(segmentId, true);
+                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                    setLikedAndDislikedIcon(true);
+                } catch (VotesException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (BillException e) {
+                    e.printStackTrace();
+                }
+
+                if (resultPost == "SUCCESS") {
+                    Toast.makeText(getContext(), "like", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                Log.d("LIKEI", "onClick ");
+                Log.d("resut:", resultPost);
+                Log.d("ID SEGMENT", segmentId + "");
+            }
+
             try {
-
-                resultPost = votesController.registerVote(segmentId, true);
-                setLikedAndDislikedIcon(true);
                 likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-
+                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+            } catch (BillException e) {
+                e.printStackTrace();
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (BillException e) {
-                e.printStackTrace();
             }
-            if (resultPost == "SUCCESS") {
-                Toast.makeText(getContext(), "like", Toast.LENGTH_SHORT)
-                        .show();
-            }
-            Log.d("LIKEI", "onClick ");
-            Log.d("resut:", resultPost);
-            Log.d("ID SEGMENT", segmentId + "");
         }else if(idView == R.id.imageViewDislike ) {
             VotesController votesController = VotesController.getInstance(getContext());
 
+            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(118, segmentId, true);
+            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(118, segmentId, false);
+
+            Log.d("evaluatedTrue: ", evaluatedTrue + "");
+            Log.d("evaluatedFalse", evaluatedFalse + "");
+
+            if(evaluatedFalse) {
+                try {
+                    try {
+                        votesController.deleteVote(segmentId, 118);
+                        dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                        likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                    } catch (BillException e) {
+                        e.printStackTrace();
+                    }
+                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
+                } catch (VotesException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if(evaluatedTrue) {
+                try {
+                    votesController.updateVote(segmentId, 118, false);
+                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                } catch (BillException e) {
+                    e.printStackTrace();
+                } catch (VotesException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    resultPost = votesController.registerVote(segmentId, false);
+                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                    setLikedAndDislikedIcon(false);
+                } catch (VotesException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (BillException e) {
+                    e.printStackTrace();
+                }
+                if (resultPost == "SUCCESS") {
+                    Toast.makeText(getContext(), "deslike", Toast.LENGTH_SHORT)
+                            .show();
+                }
+                Log.d("desLIKEI", "onClick ");
+                Log.d("resut:", resultPost);
+            }
+
             try {
-                resultPost =  votesController.registerVote(segmentId, false);
-                setLikedAndDislikedIcon(false);
-                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
+                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+
+            } catch (BillException e) {
+                e.printStackTrace();
             } catch (VotesException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
-            } catch (BillException e) {
-                e.printStackTrace();
             }
-            if(resultPost == "SUCCESS") {
-                Toast.makeText(getContext(), "deslike", Toast.LENGTH_SHORT)
-                        .show();
-            }
-            Log.d("desLIKEI", "onClick ");
-            Log.d("resut:" , resultPost);
         }
         else {
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());

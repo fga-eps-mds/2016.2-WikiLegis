@@ -51,6 +51,7 @@ public class LoginController {
 
 
         try {
+            Log.d("LoginController", "confirmLogin ");
 
             User userLogin = new User(email, password);
 
@@ -71,6 +72,8 @@ public class LoginController {
     private String userInformationRequest(PostRequest postRequest, String authentication) {
         String userInformation = null;
 
+        Log.d("LoginController", "userInformationRequest ");
+
         try {
             userInformation = postRequest.execute(authentication,
                     "application/x-www-form-urlencoded").get();
@@ -87,6 +90,8 @@ public class LoginController {
         Uri.Builder builder = new Uri.Builder();
         builder.appendQueryParameter("username", userLogin.getEmail());
         builder.appendQueryParameter("password", userLogin.getPassword());
+
+        Log.d("LoginController", "createUserAuthentication ");
 
         return builder.build().getEncodedQuery();
     }
@@ -110,11 +115,14 @@ public class LoginController {
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
 
+        Log.d("LoginController", "setUserAsSharedPreferences ");
+
         try {
             if (userInformation != null) {
                 userJson = new JSONObject(userInformation);
                 token = userJson.getString("token");
-                userId = userJson.getInt("");
+                //TODO: Colocar o nome certo para o campo
+                //userId = userJson.getInt("id");
                 JSONObject user = userJson.getJSONObject("user");
                 parserUserInformation(user, token, session);
             } else {
