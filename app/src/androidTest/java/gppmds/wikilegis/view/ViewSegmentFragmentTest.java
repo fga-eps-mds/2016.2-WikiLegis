@@ -2,7 +2,11 @@ package gppmds.wikilegis.view;
 
 import android.app.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 
 import android.support.test.espresso.Espresso;
@@ -50,6 +54,25 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
 
         activityOnTest.runOnUiThread(wakeUpDevice);
 
+        WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (session.getBoolean("IsLoggedIn", false)){
+            onView(withId(R.id.action_profile_logged)).perform(click());
+            onView(withText("Sair")).perform(click());
+        }
         SegmentController segmentController =
                 SegmentController.getInstance(getActivity().getBaseContext());
 
@@ -81,14 +104,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         }
     }
 
-    /*public void testImageProposalIsDisplayed(){
-
-        onView(withId(R.id.imageViewProposal)).check(matches(isDisplayed()));
-    }*/
-
-
     public void testProposalIsDisplayed(){
-
 
         onView(withId(R.id.textViewProposal)).check(matches(isDisplayed()));
     }
@@ -98,18 +114,8 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         onView(withId(R.id.titleBill)).check(matches(isDisplayed()));
     }
 
-    public void testConstentSegmentIsDisplayed(){
+    public void testContentSegmentIsDisplayed(){
 
         onView(withId(R.id.contentSegment)).check(matches(isDisplayed()));
-    }
-
-    public void testNumberOfLikeIsDisplayed(){
-
-        onView(withId(R.id.textViewNumberLike)).check(matches(isDisplayed()));
-    }
-
-    public void testNumberOfDislikeIsDisplayed(){
-
-        onView(withId(R.id.textViewNumberLike)).check(matches(isDisplayed()));
     }
 }

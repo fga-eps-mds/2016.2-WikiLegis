@@ -310,6 +310,7 @@ public class DataDownloadControllerTest {
                 "2010-01-01");
     }
 
+    /*
     @Test
     public void testListOfVotes() {
         List<Vote> listVotes = null;
@@ -340,7 +341,7 @@ public class DataDownloadControllerTest {
         Log.d("Count",""+count);
         assertTrue(count == listVotes.size());
     }
-
+    */
     @Test
     public void testNumberOfLikes() {
         List<Vote> listVotes = null;

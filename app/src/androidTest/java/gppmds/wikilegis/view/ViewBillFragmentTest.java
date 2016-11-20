@@ -1,7 +1,9 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -53,9 +55,29 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Login
         SegmentController segmentController =
                 SegmentController.getInstance(getActivity().getBaseContext());
 
+        /*WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (session.getBoolean("IsLoggedIn", false)){
+            onView(withId(R.id.action_profile_logged)).perform(click());
+            onView(withText("Sair")).perform(click());
+        }
+
         if(segmentController.isSegmentDatabaseIsEmpty()) {
             onView(withId(R.id.button)).perform(click());
-        }
+        }*/
     }
 
     //FIXME

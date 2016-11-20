@@ -2,6 +2,7 @@ package gppmds.wikilegis.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
@@ -54,9 +55,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
                         WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         };
-        activityOnTest.runOnUiThread(wakeUpDevice);
-
-        WifiManager wifiManager = (WifiManager)getActivity().getBaseContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
 
         final boolean STATUS = true;
 
@@ -67,6 +66,16 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (session.getBoolean("IsLoggedIn", false)){
+            onView(withId(R.id.action_profile_logged)).perform(click());
+            onView(withText("Sair")).perform(click());
+        }
+
+        activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
     public void testResultSearchExistWithInternet() {
