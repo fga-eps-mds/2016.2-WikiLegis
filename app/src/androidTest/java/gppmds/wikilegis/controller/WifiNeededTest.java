@@ -28,7 +28,7 @@ import static junit.framework.Assert.assertEquals;
  * Created by marcelo on 11/20/16.
  */
 public class WifiNeededTest {
-    Context context;
+    /*Context context;
     SegmentDAO segmentDAO;
     DataDownloadController dataDownloadController;
     SegmentController segmentController;
@@ -230,6 +230,6 @@ public class WifiNeededTest {
 
         assertEquals(session.getString(keyDate, "2010-01-01"),
                 DataDownloadController.getLocalTime());
-    }
+    }*/
 
 }

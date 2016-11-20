@@ -54,7 +54,8 @@ task jacocoTestReportAndroidTest(type: JacocoReport, dependsOn: "connectedAndroi
         }
     }
     classDirectories = fileTree(
-            dir: 'build/intermediates/classes'
+            dir: 'build/intermediates/classes',
+            exclude: 'build/intermediates/classes/androidTest/debug/gppmds/wikilegis/controller/WifiNeededTest.java'
     )
     sourceDirectories = files(coverageSourceDirs)
     additionalSourceDirs = files(coverageSourceDirs)
