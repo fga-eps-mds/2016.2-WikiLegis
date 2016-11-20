@@ -12,15 +12,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by josue on 11/16/16.
- */
-public class DeleteRequest  extends AsyncTask<String, String, String> {
+public class PutRequest extends AsyncTask<String, String, String>{
+
     private String url = "";
     private Context context;
     private int response = 400;
 
-    public DeleteRequest(Context context, String url){
+    public PutRequest(Context context, String url){
         this.url = url;
         this.context = context;
     }
@@ -45,7 +43,7 @@ public class DeleteRequest  extends AsyncTask<String, String, String> {
         } catch (MalformedURLException e) {
             Log.d("Error", "URL com problema");
         } catch (IOException e) {
-            Log.d("Error", "Houve no erro no delete");
+            Log.d("Error", "Houve no erro put");
         } catch (Exception e) {
             Log.e("ERROR", e.getMessage(), e);
             return null;
@@ -67,7 +65,7 @@ public class DeleteRequest  extends AsyncTask<String, String, String> {
         urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setDoOutput(true);
         urlConnection.setDoInput(true);
-        urlConnection.setRequestMethod("DELETE");
+        urlConnection.setRequestMethod("PUT");
         urlConnection.setRequestProperty("Content-Type", requestType);
         urlConnection.connect();
 
@@ -94,5 +92,4 @@ public class DeleteRequest  extends AsyncTask<String, String, String> {
     public int getResponse() {
         return response;
     }
-
 }
