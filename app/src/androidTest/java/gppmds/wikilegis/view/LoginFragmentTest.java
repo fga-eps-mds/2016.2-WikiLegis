@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
@@ -272,7 +273,7 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         assertTrue(session.getInt("NetworkSettings", -1) == 0);
     }
 
-    public void testWithWifiAndMobileDataIfSelectedInActionBarWithUserDislogged() {
+   /*public void testWithWifiAndMobileDataIfSelectedInActionBarWithUserDislogged() {
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.action_profile_deslogged)).perform(click());
@@ -285,7 +286,7 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
                 getDefaultSharedPreferences(getActivity().getBaseContext());
 
         assertTrue(session.getInt("NetworkSettings", -1) == 1);
-    }
+    }*/
 
     public void testWithNeverDownloadIfSelectedInActionBarWithUserDislogged() {
         closeSoftKeyboard();

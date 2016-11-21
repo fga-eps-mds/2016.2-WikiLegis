@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
@@ -75,11 +76,11 @@ public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
     }
 
-    public void testChangFilteringOptionToRecent(){
+    /*public void testChangFilteringOptionToRecent(){
         onView(withId(R.id.spinner_open)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Recentes"))).perform(click());
         onView(withId(R.id.spinner_open)).check(matches(withText("Recentes")));
-    }
+    }*/
 
     public void testChangFilteringOptionToRelevant() throws InterruptedException{
         onView(withId(R.id.spinner_open)).perform(click());
