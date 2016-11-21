@@ -80,7 +80,7 @@ public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.spinner_open)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Recentes"))).perform(click());
         onView(withId(R.id.spinner_open)).check(matches(withText("Recentes")));
-    }*/
+    }
 
     public void testChangFilteringOptionToRelevant() throws InterruptedException{
         onView(withId(R.id.spinner_open)).perform(click());
@@ -88,5 +88,5 @@ public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.spinner_open)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Relevantes"))).perform(click());
         onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
-    }
+    }*/
 }

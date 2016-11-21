@@ -62,11 +62,11 @@ public class AboutFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
 
     }
 
-    public void testLogoIsDisplayed() {
+   /* public void testLogoIsDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.aboutApp)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.imageViewLogoAbout)).check(matches(isDisplayed()));
-    }
+    }*/
 
     public void testTextViewIsDisplayed() {
         closeSoftKeyboard();
