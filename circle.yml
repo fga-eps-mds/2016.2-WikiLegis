@@ -29,5 +29,5 @@ test:
     # copy the test results to the test results directory.
     - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
     - gradle check jacocoTestReport
-    post:
+  post:
     - cp -R build/reports/* $CIRCLE_ARTIFACTS
