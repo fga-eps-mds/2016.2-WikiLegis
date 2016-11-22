@@ -228,6 +228,9 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     votesController.updateVote(segmentId, 118, true);
                     dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                     likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+
+                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
+                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
                 } catch (BillException e) {
                     e.printStackTrace();
                 } catch (VotesException e) {
@@ -297,6 +300,9 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     votesController.updateVote(segmentId, 118, false);
                     dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                     likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+
+                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
+                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
                 } catch (BillException e) {
                     e.printStackTrace();
                 } catch (VotesException e) {
