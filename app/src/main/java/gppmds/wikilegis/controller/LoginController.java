@@ -39,8 +39,9 @@ public class LoginController {
     }
 
     public String confirmLogin(final String email, final String password) {
+
         PostRequest postRequest = new PostRequest(context,
-                "http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/");
+                context.getString(R.string.user_auth_url));
         try {
 
             User userLogin = new User(email, password);

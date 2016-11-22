@@ -42,7 +42,7 @@ public class CommentSegmentController {
 
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
-            String url = "http://wikilegis-staging.labhackercd.net/api/comments/";
+            String url = context.getString(R.string.comments_url);
             String json = "{" +
                     "\"object_id\": " + segment.getObjectPk() + "," +
                     "\"comment\": \"" + segment.getComment() + "\"" + "," +

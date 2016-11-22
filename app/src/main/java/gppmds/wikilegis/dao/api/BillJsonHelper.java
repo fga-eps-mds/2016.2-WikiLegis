@@ -1,5 +1,7 @@
 package gppmds.wikilegis.dao.api;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -9,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
@@ -18,8 +21,9 @@ import gppmds.wikilegis.model.Segment;
  */
 public class BillJsonHelper {
 
-    public static List<Bill> getAllBillFromApi() throws JSONException, BillException {
-        String url = "http://wikilegis-staging.labhackercd.net/api/bills/";
+    public static List<Bill> getAllBillFromApi(Context context) throws JSONException, BillException {
+
+        String url = context.getString(R.string.bills_url);
 
         List<Bill> billListApi = new ArrayList<>();
 
@@ -45,8 +49,8 @@ public class BillJsonHelper {
 
     }
 
-    public static Bill getBillFromApiById(int id) throws JSONException, BillException {
-        List<Bill> list = getAllBillFromApi();
+    public static Bill getBillFromApiById(Context context, int id) throws JSONException, BillException {
+        List<Bill> list = getAllBillFromApi(context);
         Bill foundBill = null;
         for(Bill bill:list){
             if(bill.getId() == id){

@@ -110,9 +110,7 @@ public class SegmentController {
         String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
         Log.d("data", date);
 
-        List<Segment> newSegments = JSONHelper.segmentListFromJSON(
-                "http://wikilegis-staging.labhackercd.net/api/segments/",
-                "?created=" + date);
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON(context.getString(R.string.created_segments_url), date);
 
         segmentDAO.insertAllSegments(newSegments);
 
@@ -141,9 +139,7 @@ public class SegmentController {
 
         Log.d("data", date);
 
-        List<Segment> newSegments = JSONHelper.segmentListFromJSON(
-                "http://wikilegis-staging.labhackercd.net/api/segments/",
-                "?modified=" + date);
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON(context.getString(R.string.modified_segments_url), date);
 
         segmentDAO.modifiedAllSegments(newSegments);
 
@@ -382,7 +378,8 @@ public class SegmentController {
 
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
-            String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
+            String url = context.getString(R.string.segments_url);
+            Log.d("TAMOAQUI OU N ", url);
             String json = "{" +
                     "\"bill\": " +idBill+","+
                     "\"replaced\": " + replaced+","+
