@@ -78,7 +78,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
     }
 
     private void goBackN() {
-        final int N = 10; // how many times to hit back button
+        final int N = 20; // how many times to hit back button
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();
