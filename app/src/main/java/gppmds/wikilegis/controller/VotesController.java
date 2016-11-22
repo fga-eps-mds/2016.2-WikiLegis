@@ -94,12 +94,12 @@ public class VotesController {
 
         String url ="http://wikilegis-staging.labhackercd.net/api/votes/update/" + idVote;
         JSONObject jsonObject =  new JSONObject();
-        jsonObject.put("object_id" ,idSegment);
+        jsonObject.put("object_id", idSegment);
         jsonObject.put("vote", voteObject.getVote() ? "True" : "False");
         jsonObject.put("token", session.getString("token",null));
 
         DeleteRequest deleteRequest= new DeleteRequest(context, url);
-        deleteRequest.execute("", "application/json");
+        deleteRequest.execute(jsonObject.toString(), "application/json");
         return "SUCCESS";
     }
 
