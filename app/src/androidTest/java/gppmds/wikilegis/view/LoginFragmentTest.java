@@ -7,8 +7,10 @@ import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.NoActivityResumedException;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -59,7 +61,7 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -70,6 +72,24 @@ public class LoginFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         if (session.getBoolean("IsLoggedIn", false)){
             onView(withId(R.id.action_profile_logged)).perform(click());
             onView(withText("Sair")).perform(click());
+        }
+    }
+
+    public void tearDown() throws Exception {
+        Log.d("TAG", "TEARDOWN");
+
+        goBackN();
+
+        super.tearDown();
+    }
+
+    private void goBackN() {
+        final int N = 10; // how many times to hit back button
+        try {
+            for (int i = 0; i < N; i++)
+                Espresso.pressBack();
+        } catch (NoActivityResumedException e) {
+            Log.e("TAG", "Closed all activities", e);
         }
     }
 

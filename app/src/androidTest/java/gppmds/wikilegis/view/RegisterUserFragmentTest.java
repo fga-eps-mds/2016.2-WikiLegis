@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.NoActivityResumedException;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.WindowManager;
 
 import org.junit.Before;
@@ -50,7 +53,7 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -64,6 +67,24 @@ public class RegisterUserFragmentTest extends ActivityInstrumentationTestCase2<L
         }
 
         activityOnTest.runOnUiThread(wakeUpDevice);
+    }
+
+    public void tearDown() throws Exception {
+        Log.d("TAG", "TEARDOWN");
+
+        goBackN();
+
+        super.tearDown();
+    }
+
+    private void goBackN() {
+        final int N = 10; // how many times to hit back button
+        try {
+            for (int i = 0; i < N; i++)
+                Espresso.pressBack();
+        } catch (NoActivityResumedException e) {
+            Log.e("TAG", "Closed all activities", e);
+        }
     }
 
     public void testIButtonRegisterIsDisplayed() {

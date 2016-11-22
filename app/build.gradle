@@ -92,6 +92,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'recyclerview-v7:23.4.0'
         exclude group: 'com.android.support', module: 'cardview-v7:23.4.0'
+        exclude group: 'com.jaredrummler', module: 'material-spinner:1.1.0'
         exclude module: 'recyclerview-v7'
     }
 
@@ -102,4 +103,11 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.jaredrummler:material-spinner:1.1.0'
+}
+
+configurations.compile.dependencies.each { compileDependency ->
+    println "Excluding compile dependency: ${compileDependency.getName()}"
+    configurations.androidTestCompile.dependencies.each { androidTestCompileDependency ->
+        configurations.androidTestCompile.exclude module: "${compileDependency.getName()}"
+    }
 }
