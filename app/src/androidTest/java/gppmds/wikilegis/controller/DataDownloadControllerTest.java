@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.database.BillDAO;
 import gppmds.wikilegis.dao.database.SegmentDAO;
@@ -86,8 +87,8 @@ public class DataDownloadControllerTest {
 
         List<Segment> segmentsFromAPI = new ArrayList<>();
         try {
-            segmentsFromAPI = JSONHelper.segmentListFromJSON("http://wikilegis-staging.labhackercd.net/api/segments/",
-                    "?created=" + date);
+
+            segmentsFromAPI = JSONHelper.segmentListFromJSON(context.getString(R.string.created_segments_url), date);
 
             SharedPreferences session = PreferenceManager.
                     getDefaultSharedPreferences(context);
@@ -144,8 +145,10 @@ public class DataDownloadControllerTest {
         List<Bill> billsFromAPI = new ArrayList<>();
 
         try {
+
             billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
-                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created=" + date));
+                    (context.getString(R.string.created_bills_url) + date));
+
 
             SharedPreferences session = PreferenceManager.
                     getDefaultSharedPreferences(context);

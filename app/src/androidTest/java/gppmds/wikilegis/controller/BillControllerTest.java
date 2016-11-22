@@ -14,6 +14,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.BillJsonHelper;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.database.BillDAO;
@@ -143,8 +144,9 @@ public class BillControllerTest {
 
 
         try {
+
             billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
-                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date));
+                    (context.getString(R.string.created_bills_url)+date));
 
             SharedPreferences session = PreferenceManager.
                     getDefaultSharedPreferences(context);
@@ -433,7 +435,7 @@ public class BillControllerTest {
         List<Bill> billsFromApi = new ArrayList<>();
 
         try {
-            billsFromApi = BillJsonHelper.getAllBillFromApi();
+            billsFromApi = BillJsonHelper.getAllBillFromApi(context);
             BillController.getAllBillsFromApi();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -464,7 +466,7 @@ public class BillControllerTest {
         int idBill = -1;
         Bill bill = null;
         try {
-            bills = BillJsonHelper.getAllBillFromApi();
+            bills = BillJsonHelper.getAllBillFromApi(context);
             BillController.getAllBillsFromApi();
             idBill = bills.get(0).getId();
             bill = BillController.getBillByIdFromApi(idBill);
