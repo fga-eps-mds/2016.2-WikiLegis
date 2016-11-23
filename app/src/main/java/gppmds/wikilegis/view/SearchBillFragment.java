@@ -60,7 +60,7 @@ public class SearchBillFragment extends Fragment {
     private void initBillList() {
         BillController billController = BillController.getInstance(getContext());
         try {
-            billListSearch = billController.searchBills(searchQuery);
+            billListSearch = billController.searchBillsDatabase(searchQuery);
         } catch (BillException e) {
             e.printStackTrace();
         } catch (JSONException e) {

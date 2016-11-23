@@ -47,5 +47,4 @@ public class AboutFragmentTest extends ActivityInstrumentationTestCase2<LoginAct
         onView(withId(R.id.aboutApp)).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.aboutText)).check(matches(isDisplayed()));
     }
-
 }

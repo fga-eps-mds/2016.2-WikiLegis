@@ -26,11 +26,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
+public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     Activity activityOnTest;
 
     public CreateCommentTest() {
-        super(LoadingActivity.class);
+        super(LoginActivity.class);
 
     }
 

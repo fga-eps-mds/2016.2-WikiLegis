@@ -29,12 +29,12 @@ import static org.hamcrest.Matchers.not;
 /**
  * Created by josue on 10/20/16.
  */
-public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
+public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     Activity activityOnTest;
 
     public CreateSuggestProposalTest() {
-        super(LoadingActivity.class);
+        super(LoginActivity.class);
 
     }
     @Before
