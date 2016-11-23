@@ -57,7 +57,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

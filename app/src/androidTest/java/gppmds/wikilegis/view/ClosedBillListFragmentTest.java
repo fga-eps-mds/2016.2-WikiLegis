@@ -65,13 +65,13 @@ public class ClosedBillListFragmentTest extends ActivityInstrumentationTestCase2
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         onView(withId(R.id.main_content)).perform(swipeLeft());
-            Thread.sleep(2000);
+            Thread.sleep(400);
 
 
     }

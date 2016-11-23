@@ -62,7 +62,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -155,7 +155,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -61,7 +61,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
