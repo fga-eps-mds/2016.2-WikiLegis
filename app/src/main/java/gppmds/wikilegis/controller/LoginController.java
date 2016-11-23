@@ -111,7 +111,6 @@ public class LoginController {
 
         JSONObject userJson = null;
         String token = null;
-        int userId = 0;
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
 
@@ -121,8 +120,6 @@ public class LoginController {
             if (userInformation != null) {
                 userJson = new JSONObject(userInformation);
                 token = userJson.getString("token");
-                //TODO: Colocar o nome certo para o campo
-                //userId = userJson.getInt("id");
                 JSONObject user = userJson.getJSONObject("user");
                 parserUserInformation(user, token, session);
             } else {
@@ -139,14 +136,16 @@ public class LoginController {
 
     private void parserUserInformation(JSONObject user, String token, SharedPreferences session)
             throws JSONException {
+        Integer userId = user.getInt("id");
         String firstName = user.getString("first_name");
         String lastName = user.getString("last_name");
         String email = user.getString("email");
 
-        createLoginSession(email, token, firstName, lastName, session);
+        createLoginSession(userId, email, token, firstName, lastName, session);
     }
 
-    public void createLoginSession(final String email,
+    public void createLoginSession(final Integer idUser,
+                                   final String email,
                                    final String token,
                                    final String firstName,
                                    final String lastName,
@@ -155,6 +154,7 @@ public class LoginController {
         SharedPreferences.Editor editor = session.edit();
 
         editor.putBoolean(context.getResources().getString(R.string.is_logged_in), true);
+        editor.putInt(context.getResources().getString(R.string.id), idUser);
         editor.putString(context.getResources().getString(R.string.email), email);
         editor.putString(context.getResources().getString(R.string.token), token);
         editor.putString(context.getResources().getString(R.string.first_name), firstName);

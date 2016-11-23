@@ -45,6 +45,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
     private static Integer segmentId;
     private static Integer billId;
+    private static Integer userId;
     private TextView likes;
     private TextView dislikes;
     private TextView segmentText;
@@ -68,7 +69,10 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
 
+        userId = session.getInt(getContext().getResources().getString(R.string.id), 0);
+
         Log.d("id do segmento", segmentId + "");
+        Log.d("id do usuario", userId + "");
 
         setView(inflater, container);
 
@@ -181,7 +185,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         VotesController votesController = VotesController.getInstance(getContext());
 
         //TODO: TIRAR NÚMERO MÁGICO
-        boolean evaluated = votesController.getVoteByUserAndIdSegment(118, segmentId, vote);
+        boolean evaluated = votesController.getVoteByUserAndIdSegment(userId, segmentId, vote);
 
         if(evaluated && vote == true) {
             Log.d("BLA", "JÁ LIKEI ESSE SEGMENT");
@@ -205,13 +209,13 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         if(idView == R.id.imageViewLike ) {
             VotesController votesController = VotesController.getInstance(getContext());
 
-            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(118, segmentId, true);
-            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(118, segmentId, false);
+            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
+            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
 
             if(evaluatedTrue) {
                 try {
                     try {
-                        votesController.deleteVote(segmentId, 118);
+                        votesController.deleteVote(segmentId, userId);
                         dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                         likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
                     } catch (BillException e) {
@@ -225,7 +229,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 }
             } else if(evaluatedFalse) {
                 try {
-                    votesController.updateVote(segmentId, 118, true);
+                    votesController.updateVote(segmentId, userId, true);
                     dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                     likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
@@ -274,8 +278,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         }else if(idView == R.id.imageViewDislike ) {
             VotesController votesController = VotesController.getInstance(getContext());
 
-            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(118, segmentId, true);
-            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(118, segmentId, false);
+            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
+            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
 
             Log.d("evaluatedTrue: ", evaluatedTrue + "");
             Log.d("evaluatedFalse", evaluatedFalse + "");
@@ -283,7 +287,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             if(evaluatedFalse) {
                 try {
                     try {
-                        votesController.deleteVote(segmentId, 118);
+                        votesController.deleteVote(segmentId, userId);
                         dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                         likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
                     } catch (BillException e) {
@@ -297,7 +301,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                 }
             } else if(evaluatedTrue) {
                 try {
-                    votesController.updateVote(segmentId, 118, false);
+                    votesController.updateVote(segmentId, userId, false);
                     dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                     likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
