@@ -356,6 +356,6 @@ public class MainActivity extends AppCompatActivity {
         share.putExtra(Intent.EXTRA_SUBJECT, "Dê uma olhada nisso e fique por dentro das leis:");
         share.putExtra(Intent.EXTRA_TEXT, link);
 
-        startActivity(Intent.createChooser(share, "Compartilhar no Aplicativo:"));
+        startActivity(Intent.createChooser(share, "Compartilhar via"));
     }
 }
