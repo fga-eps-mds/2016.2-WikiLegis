@@ -1,34 +1,21 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.api;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
-import gppmds.wikilegis.model.User;
-
 public class PostRequest extends AsyncTask<String, String, String>{
+
     private String url = "";
     private Context context;
-
-
-
     private int response = 400;
 
     public PostRequest(Context context, String url){
@@ -43,6 +30,7 @@ public class PostRequest extends AsyncTask<String, String, String>{
     protected String doInBackground(String... params) {
         String httpResult = null;
         HttpURLConnection urlConnection = null;
+
         try {
             String http = url;
             urlConnection = setBody(http,params[1]);
@@ -51,6 +39,7 @@ public class PostRequest extends AsyncTask<String, String, String>{
 
             httpResult = makeResult(urlConnection, params[0]);
             Log.d("Info", "RESULT: " + httpResult);
+
         } catch (MalformedURLException e) {
             Log.d("Error", "URL com problema");
         } catch (IOException e) {
@@ -82,11 +71,7 @@ public class PostRequest extends AsyncTask<String, String, String>{
 
         return urlConnection;
     }
-
-
-
     private String makeResult(HttpURLConnection urlConnection, String bodyMessage) throws IOException {
-
 
         OutputStream out = urlConnection.getOutputStream();
 

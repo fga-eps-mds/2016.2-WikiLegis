@@ -1,10 +1,10 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
-
-import gppmds.wikilegis.controller.BillController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +14,10 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import gppmds.wikilegis.dao.BillDAO;
+import gppmds.wikilegis.dao.api.BillJsonHelper;
+import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.database.BillDAO;
+import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -38,51 +41,150 @@ public class BillControllerTest {
     }
 
     @Test
-    public void testGetSegmentsFromIdOfBill() throws BillException, JSONException, SegmentException{
+    public void testGetSegmentsFromIdOfBill() throws BillException, JSONException, SegmentException {
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO.deleteAllSegments();
+
+
         SegmentController segmentController = SegmentController.getInstance(context);
-        segmentController.initControllerSegments();
 
         BillController billController = BillController.getInstance(context);
+
+        Bill billToInsert = new Bill(1, "Titulo", "Epigraph", "status", "Description", "theme",
+                1, 20160008);
+
+        billDAO.insertBill(billToInsert);
+
+        final int BILL_ID = 1;
+
+        List<Integer> segmentsList = new ArrayList<>();
+
+        for (int i = 1; i <= 5; i++) {
+            Segment newSegment = new Segment(i, i, BILL_ID, 1, 0, 1, 1, 1, "Content", "2015-07-09");
+            segmentDAO.insertSegment(newSegment);
+            billToInsert.setSegments(newSegment.getId());
+        }
+
+        segmentsList = billToInsert.getSegments();
+
+        segmentController.initControllerSegments();
         billController.initControllerBills();
 
-        SegmentsOfBillController segmentsOfBillController = SegmentsOfBillController
-                .getInstance(context);
-        segmentsOfBillController.initControllerSegmentsOfBill();
+        List<Segment> foundSegments = segmentController.getSegmentsByIdBill(BILL_ID);
 
-        final int BILL_ID = 25;
+        int countEquals = 0;
 
-        List<Segment> foundSegments = billController.getSegmentsFromIdOfBill(BILL_ID);
+        for(int i = 0; i < segmentsList.size(); i++) {
+            for(int j = 0; j < foundSegments.size(); j++) {
+                if(segmentsList.get(i) == foundSegments.get(j).getId()) {
+                    countEquals++;
+                }
+            }
+        }
 
-        final Integer NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25 = 3;
+        final Integer NUMBER_OF_SEGMENTS_OF_BILL = 5;
 
-        assertTrue(foundSegments.size() == NUMBER_OF_SEGMENTS_OF_BILL_WITH_ID_25);
+        Log.d("segmentL s", segmentsList.size() + "");
+        Log.d("foundS s", foundSegments.size() + "");
+        Log.d("countEq", countEquals + "");
+
+        assertTrue(segmentsList.size() == foundSegments.size()
+                && NUMBER_OF_SEGMENTS_OF_BILL == countEquals);
+
+        billDAO.deleteAllBills();
     }
+
 
     @Test
     public void testGetBillByValidId() throws BillException, SegmentException, JSONException{
-        BillController billController = BillController.getInstance(context);
-        billController.initControllerBills();
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
 
-        Bill bill = billController.getBillById(53);
-        assertEquals(bill.getId()+"", "53");
+        Bill billToInsert = new Bill(1, "Titulo", "Epigraph", "status", "Description", "theme",
+        1, 20160008);
+
+        billDAO.insertBill(billToInsert);
+
+        BillController billController = BillController.getInstance(context);
+
+        Bill bill = billController.getBillById(1);
+        assertEquals(bill.getId()+"", "1");
     }
 
     @Test
     public void testGetBillByInvalidId() throws BillException, SegmentException, JSONException{
-        BillController billController = BillController.getInstance(context);
-        billController.initControllerBills();
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
 
-        Bill bill = billController.getBillById(7);
+        Bill billToInsert = new Bill(1, "Titulo", "Epigraph", "status", "Description", "theme",
+                1, 20160008);
+
+        billDAO.insertBill(billToInsert);
+
+        BillController billController = BillController.getInstance(context);
+
+        Bill bill = billController.getBillById(666);
 
         assertNull(bill);
+        billDAO.deleteAllBills();
     }
 
     @Test
     public void testGetAllBills() throws BillException, JSONException, SegmentException{
-        BillController billController = BillController.getInstance(context);
-        billController.initControllerBills();
+        final String date = "2010-01-01";
+        List<Bill> billsFromAPI = new ArrayList<>();
+        BillController billController;
+        billController = BillController.getInstance(context);
+        BillDAO billDAO = BillDAO.getInstance(context);
+        billDAO.deleteAllBills();
 
-        assertTrue(billController.getAllBills().size() > 0);
+
+        try {
+            billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
+                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date));
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            SharedPreferences.Editor editor = session.edit();
+            editor.putString("date", date);
+            editor.commit();
+
+            DataDownloadController dataDownloadController = DataDownloadController.getInstance(context);
+            dataDownloadController.updateBills();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        List<Bill> billsFromDB = billController.getAllBills();
+
+        int numberOfEqualsBills = 0;
+        for(int i = 0; i < billsFromDB.size(); i++) {
+            for(int j = 0; j < billsFromAPI.size(); j++) {
+                Bill billFromAPI = billsFromAPI.get(j);
+                Bill billFromDB = billsFromDB.get(i);
+
+                if(billFromAPI.equals(billFromDB)) {
+                    numberOfEqualsBills++;
+                }
+            }
+        }
+
+        Log.d("bill api", billsFromAPI.size() + "");
+        Log.d("bill db", billsFromDB.size() + "");
+        Log.d("nb eql", numberOfEqualsBills + "");
+
+        assertTrue(billsFromDB.size() > 0);
+
+        assertTrue(billsFromAPI.size() == billsFromDB.size() &&
+                numberOfEqualsBills == billsFromDB.size());
     }
 
     @Test
@@ -322,5 +424,56 @@ public class BillControllerTest {
         assertEquals(filteredBillList.get(2).getNumberOfPrposals(),3);
         assertEquals(filteredBillList.get(3).getNumberOfPrposals(),2);
         assertEquals(filteredBillList.get(4).getNumberOfPrposals(),2);
+    }
+
+    @Test
+    public void testGetAllBillsFromApi() {
+        BillController billController = BillController.getInstance(context);
+
+        List<Bill> billsFromApi = new ArrayList<>();
+
+        try {
+            billsFromApi = BillJsonHelper.getAllBillFromApi();
+            BillController.getAllBillsFromApi();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        List<Bill> bills = billController.getAllBills();
+
+        int countEquals = 0;
+
+        for(Bill bill : bills) {
+            for(Bill billFromApi : billsFromApi) {
+                if(bill.equals(billFromApi)) {
+                    countEquals++;
+                }
+            }
+        }
+
+        Log.d("Size", billsFromApi.size() + "");
+
+        assertTrue(countEquals == billsFromApi.size());
+    }
+
+    @Test
+    public void testGetBillByIdFromApi() {
+        List<Bill> bills = new ArrayList<>();
+        int idBill = -1;
+        Bill bill = null;
+        try {
+            bills = BillJsonHelper.getAllBillFromApi();
+            BillController.getAllBillsFromApi();
+            idBill = bills.get(0).getId();
+            bill = BillController.getBillByIdFromApi(idBill);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(idBill == bill.getId());
     }
 }

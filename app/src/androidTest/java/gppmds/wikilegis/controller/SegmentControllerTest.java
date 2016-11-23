@@ -1,8 +1,9 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.junit.Before;
@@ -11,7 +12,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.database.SegmentDAO;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 import static junit.framework.Assert.assertEquals;
@@ -19,9 +24,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by shammyz on 9/30/16.
- */
 public class SegmentControllerTest {
     Context context;
 
@@ -185,6 +187,16 @@ public class SegmentControllerTest {
     @Test
     public void testIsSegmentDatabaseIsEmptyWithDatabaseIsNotEmpty() throws SegmentException,
             JSONException {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = session.edit();
+
+        final String keyDate = "date";
+        editor.putString(keyDate, "2010-01-01");
+
+        editor.commit();
+
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
@@ -223,10 +235,28 @@ public class SegmentControllerTest {
     @Test
     public void testGetSegmentByValidId() throws SegmentException, JSONException{
         SegmentController segmentController = SegmentController.getInstance(context);
-        segmentController.initControllerSegments();
+        List<Segment> proposalList = new ArrayList<>();
 
-        Segment segment = segmentController.getSegmentById(3927);
-        assertTrue(segment.getId() == 3927);
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO.deleteAllSegments();
+
+        final Integer TYPE = 11;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da subsecao.";
+        Segment segment = null;
+
+        try {
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+
+            segmentDAO.insertSegment(segment);
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        Segment segmentById = segmentController.getSegmentById(1, context);
+        assertTrue(segmentById.getId() == 1);
+
+        segmentDAO.deleteAllSegments();
     }
 
     @Test
@@ -234,7 +264,7 @@ public class SegmentControllerTest {
         SegmentController segmentController = SegmentController.getInstance(context);
         segmentController.initControllerSegments();
 
-        Segment segment = segmentController.getSegmentById(0);
+        Segment segment = segmentController.getSegmentById(0, context);
         assertNull(segment);
     }
 
@@ -285,19 +315,131 @@ public class SegmentControllerTest {
     }
 
     @Test
+    public void testGetSegmentsOfBillById() {
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        List<Segment> segmentList = new ArrayList<>();
+
+        try {
+            segmentList = segmentController.getSegmentsOfBillById(10 + "", "", false);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(segmentList.size() == 3);
+    }
+
+    @Test
+    public void testGetProposalsOfBillById() {
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        List<Segment> segmentList = new ArrayList<>();
+
+        try {
+            segmentList = segmentController.getSegmentsOfBillById("10", "75", true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(segmentList.size() == 1);
+    }
+
+    @Test
+    public void testGetSegmentByIdFromList() {
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        final String DATE = "2010-01-01";
+        List<Segment> newSegments = new ArrayList<>();
+
+        try {
+            newSegments = JSONHelper.segmentListFromJSON(
+                    "http://wikilegis-staging.labhackercd.net/api/segments/",
+                    "?created=" + DATE);
+
+            segmentController.setSegmentList(newSegments);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        }
+
+        final int SEGMENT_ID = newSegments.get(0).getId();
+
+        Segment segment = segmentController.getSegmentByIdFromList(SEGMENT_ID);
+
+        assert (segment.getId() == SEGMENT_ID);
+    }
+
+    //FIXME
+    /*
+    @Test
     public void testGetProposalsOfSegment(){
         SegmentController segmentController = SegmentController.getInstance(context);
         List<Segment> proposalList = new ArrayList<>();
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+        segmentDAO.deleteAllSegments();
+
+        final Integer TYPE = 11;
+        final Integer NUMBER = 1;
+        final String CONTENT = "Content da subsecao.";
+        Segment segment = null;
+        Segment sugestedOne = null;
+        Segment sugestedTwo = null;
+        Segment sugestedThree = null;
+
         try {
-            segmentController.initControllerSegments();
+            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
+
+            sugestedOne = new Segment(2, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
+            sugestedTwo = new Segment(3, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
+            sugestedThree = new Segment(4, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
+
+            segmentDAO.insertSegment(segment);
+            segmentDAO.insertSegment(sugestedOne);
+            segmentDAO.insertSegment(sugestedTwo);
+            segmentDAO.insertSegment(sugestedThree);
+
         } catch (SegmentException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
+        }
+
+        try {
+            segmentController.initControllerSegmentsOffline();
+        } catch (SegmentException e) {
             e.printStackTrace();
         }
-        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(),
-                3946);
 
-        assertTrue(proposalList.size() == 4);
+        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(),
+                1);
+
+        assertTrue(proposalList.size() == 3);
+    }*/
+
+    @Test
+    public void testRegisterSegmentWithEmptySuggestion() throws SegmentException, JSONException{
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String status= segmentController.registerSegment(13, 131, "", context);
+
+        assertEquals(status, "Por favor, digite uma sugestão");
+    }
+
+    @Test
+    public void testRegisterSegmentWithValidSuggestion() throws SegmentException, JSONException{
+
+        SegmentController segmentController = SegmentController.getInstance(context);
+
+        String status = segmentController.registerSegment(13, 121, "Testando", context);
+
+        assertEquals(status, "SUCCESS");
     }
 }

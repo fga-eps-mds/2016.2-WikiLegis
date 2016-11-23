@@ -44,11 +44,11 @@ task jacocoTestReportAndroidTest(type: JacocoReport, dependsOn: "connectedAndroi
     description = "Generates Jacoco coverage reports"
     reports {
         csv.enabled false
-        xml{
+        xml {
             enabled = true
             destination "${buildDir}/reports/jacoco/jacoco.xml"
         }
-        html{
+        html {
             enabled true
             destination "${buildDir}/jacocoHtml"
         }
@@ -63,8 +63,7 @@ task jacocoTestReportAndroidTest(type: JacocoReport, dependsOn: "connectedAndroi
         // multiple coverage.ec files
         def coverageFilesArray = coverageFiles.split(',')
         executionData = files(coverageFilesArray)
-    }
-    else {
+    } else {
         executionData = files('build/outputs/code-coverage/connected/coverage.ec')
     }
 }
@@ -79,7 +78,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     // Intent mocking support
-    androidTestCompile ('com.android.support.test.espresso:espresso-intents:2.2.2'){
+    androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.2') {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
@@ -90,6 +89,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'recyclerview-v7:23.4.0'
+        exclude group: 'com.android.support', module: 'cardview-v7:23.4.0'
         exclude module: 'recyclerview-v7'
     }
 

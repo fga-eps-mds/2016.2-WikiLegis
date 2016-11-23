@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_weight="1"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="gppmds.wikilegis.view.CreateSuggestProposal"
+              android:background="@drawable/background">
+
+<android.support.v7.widget.RecyclerView
+    android:layout_marginTop="50dp"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.9"
+    android:id="@+id/recyclerViewComment"
+    android:background="@android:color/transparent"
+    android:layout_alignStart="@+id/frameLayoutProposal"
+    android:layout_alignEnd="@+id/frameLayoutProposal"
+    android:layout_below="@+id/frameLayoutProposal"/>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:layout_margin="1px"
+    android:orientation="horizontal">
+
+    <EditText
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:isScrollContainer="true"
+        android:inputType="textMultiLine"
+        android:id="@+id/suggestionProposalEditText"
+        android:background="@color/cardview_light_background"
+        android:padding="5dp"
+        android:hint="Digite sua sugestão"/>
+
+    <Button
+        android:background="#2AC9AA"
+        android:layout_margin="1dp"
+        android:text="OK"
+        android:id="@+id/saveSuggestion"
+        android:textColor="#FFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+</LinearLayout>
+

@@ -5,7 +5,7 @@
     tools:context=".view.MainActivity">
 
     <item
-        android:id="@+id/action_profile"
+        android:id="@+id/action_profile_logged"
         android:title="@string/action_profile"
         android:icon="@drawable/reorder"
         app:showAsAction="always"
@@ -17,15 +17,21 @@
                 android:orderInCategory="1"
                 android:title="@string/action_logout">
             </item>
+
+            <item
+                android:id="@+id/action_config_logged"
+                app:showAsAction="always"
+                android:orderInCategory="2"
+                android:title="@string/action_config">
+            </item>
+
         </menu>
     </item>
 
-    <item
-        android:id="@+id/action_search"
-        android:title="@string/action_search"
-        android:icon="@drawable/search"
-        app:showAsAction="always"
-        android:orderInCategory="2">
-    </item>
+    <item android:id="@+id/action_search"
+          android:title="Search"
+          android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+          app:showAsAction="ifRoom|collapseActionView"
+          app:actionViewClass="android.support.v7.widget.SearchView" />
 
 </menu>

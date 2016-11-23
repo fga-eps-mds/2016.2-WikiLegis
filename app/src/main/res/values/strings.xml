@@ -21,6 +21,7 @@
     <string name="action_exit_account">Exit Account</string>
     <string name="action_logout">Sair</string>
     <string name="action_login">Entrar</string>
+    <string name="action_config">Configurações de download</string>
     <string name="sucessfull_registration_message">Cadastro efetuado com sucesso!</string>
     <string name="about_app">O Wikilegis é uma iniciativa da câmara dos deputados, que visa
         aproximar a sociedade e seus representantes políticos através de interação digital.
@@ -35,13 +36,22 @@
     <string name="first_name">firstName</string>
     <string name="last_name">lastName</string>
     <string name="email">email</string>
-
-
+    <string name="network_settings">NetworkSettings</string>
+    <string name="last_downloaded_date">date</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- Proposal suggestion strings -->
+    <string name="connection_problem">Desculpe, um problema ocorreu</string>
+    <string name="empty_segment">Por favor, digite uma sugestão</string>
+    <string name="success_proposal">Obrigado pela sugestão!</string>
+
+    <!-- Proposal comment strings -->
+    <string name="empty_comment">Por favor, digite um comentário</string>
+    <string name="success_comment">Obrigado pelo comentário!</string>
 
 </resources>

@@ -32,6 +32,13 @@ public class Comments {
 
     }
 
+    public Comments(final Integer objectPk, final String comment)
+            throws CommentsException {
+        setObjectPk(objectPk);
+        setComment(comment);
+
+    }
+
     public Integer getId() {
         return id;
     }

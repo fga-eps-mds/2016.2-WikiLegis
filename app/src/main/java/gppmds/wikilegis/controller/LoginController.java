@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.PostRequest;
+import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
@@ -41,7 +41,6 @@ public class LoginController {
     public String confirmLogin(final String email, final String password) {
         PostRequest postRequest = new PostRequest(context,
                 "http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/");
-
         try {
 
             User userLogin = new User(email, password);

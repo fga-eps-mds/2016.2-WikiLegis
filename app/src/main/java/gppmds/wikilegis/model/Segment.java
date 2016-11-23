@@ -1,5 +1,7 @@
 package gppmds.wikilegis.model;
 
+import android.util.Log;
+
 import gppmds.wikilegis.exception.SegmentException;
 
 public class Segment {
@@ -37,6 +39,42 @@ public class Segment {
         setNumber(number);
         setContent(content);
         setDate(date);
+    }
+
+
+    public Segment(final Integer bill,final Integer replaced, final String content)
+            throws SegmentException{
+        setBill(bill);
+        setReplaced(replaced);
+        setContent(content);
+    }
+
+    public Segment (final Integer id, final Integer order, final Integer bill, final int original,
+                    final Integer replaced, final Integer parent, final Integer type,
+                    final Integer number, final String content, final String date) throws SegmentException{
+        setId(id);
+        setOrder(order);
+        setBill(bill);
+        setOriginal(original);
+        setReplaced(replaced);
+        setParent(parent);
+        setType(type);
+        setNumber(number);
+        setContent(content);
+        setDate(date);
+    }
+
+    public boolean equals(Segment segment) {
+
+        boolean isEverythingEqual = ( this.id.equals(segment.getId()) &&
+                this.order.equals(segment.getOrder()) && this.bill.equals(segment.getBill())
+                && this.original == segment.isOriginal() &&
+                this.replaced.equals(segment.getReplaced()) &&
+                this.parent.equals(segment.getParent()) && this.type.equals(segment.getType())
+                && this.number.equals(segment.getNumber())  &&
+                this.content.equals(segment.getContent())  &&  this.date.equals(segment.getDate()) );
+
+        return isEverythingEqual;
     }
 
     public Integer getId() {
@@ -81,8 +119,18 @@ public class Segment {
         return original;
     }
 
+
     private void setOriginal(final boolean original) {
         this.original = original;
+    }
+
+    private void setOriginal (final int original){
+        if (original == 1){
+            this.original = true;
+        }
+        else {
+            this.original = false;
+        }
     }
 
     public Integer getReplaced() {
@@ -162,9 +210,17 @@ public class Segment {
     }
 
     private boolean validateStringEmpty(final String string) {
-        if (string == null) {
+        if (string == null ) {
             return false;
         }
         return true;
+    }
+
+    public int booleanToInt(boolean bool) {
+        if (bool == true){
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }

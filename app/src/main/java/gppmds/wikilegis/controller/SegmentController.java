@@ -1,19 +1,25 @@
 package gppmds.wikilegis.controller;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import gppmds.wikilegis.dao.JSONHelper;
-import gppmds.wikilegis.dao.PostRequest;
-import gppmds.wikilegis.dao.SegmentDAO;
+import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.api.JSONHelper;
+import gppmds.wikilegis.dao.api.PostRequest;
+import gppmds.wikilegis.dao.database.SegmentDAO;
+import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.Segment;
+import gppmds.wikilegis.model.User;
 
 public class SegmentController {
 
@@ -37,19 +43,113 @@ public class SegmentController {
         return segmentList;
     }
 
-    public static Segment getSegmentById(final Integer id) throws SegmentException {
+    public static Segment getSegmentById(final Integer id, Context context) throws SegmentException {
+        segmentDAO = SegmentDAO.getInstance(context);
         return segmentDAO.getSegmentById(id);
     }
+
+    public void setSegmentList(List<Segment> segmentList) {
+        SegmentController.segmentList = segmentList;
+    }
+
+    public Segment getSegmentByIdFromList(final Integer id ){
+        Log.d("Seg controller Size", segmentList.size() + "");
+
+        for (Segment segment : segmentList){
+            Log.d("Segment do get", segment.getContent());
+            if(segment.getId() == id){
+                return segment;
+            }
+        }
+        return null;
+    }
+
+    public List<Segment> getSegmentsOfBillById(String billId, String segmentId, boolean isProposal)
+            throws JSONException, BillException, SegmentException {
+
+        List<Segment> segmentList = null;
+        segmentList = JSONHelper.getSegmentFromBill(billId, segmentId);
+
+        List<Segment> orderedSegment = new ArrayList<>();
+
+        for (Segment segment : segmentList) {
+            if(!isProposal) {
+                if (segment.getReplaced() == 0) {
+
+                    orderedSegment.add(segment);
+                }
+            }else{
+                if (segment.getReplaced() > 0) {
+
+                    orderedSegment.add(segment);
+                }
+            }
+        }
+
+        orderSegments(orderedSegment);
+
+        Log.d("Segment size1", this.segmentList.size() + "");
+
+        return orderedSegment;
+    }
+
+    private List<Segment> orderSegments(List<Segment> orderedSegment) {
+        SegmentComparatorOrder comparator = new SegmentComparatorOrder();
+        Collections.sort(orderedSegment, comparator);
+
+        return orderedSegment;
+    }
+
 
     public void initControllerSegments() throws SegmentException, JSONException {
 
         segmentDAO = SegmentDAO.getInstance(context);
-        if (segmentDAO.isDatabaseEmpty()) {
-            segmentList = JSONHelper.segmentListFromJSON();
-            segmentDAO.insertAllSegments(segmentList);
-        } else {
-            segmentList = segmentDAO.getAllSegments();
-        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+        Log.d("data", date);
+
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON(
+                "http://wikilegis-staging.labhackercd.net/api/segments/",
+                "?created=" + date);
+
+        segmentDAO.insertAllSegments(newSegments);
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
+
+        Log.d("TAMANHO", segmentList.size() + "");
+    }
+
+    public List<Segment> getSegmentsByIdBill(Integer idBill)
+            throws SegmentException, JSONException {
+        segmentDAO = SegmentDAO.getInstance(context);
+
+        List<Segment> segmentList = segmentDAO.getSegmentsByIdBill(idBill);
+
+        return segmentList;
+    }
+
+    public void initModifiedSegments() throws SegmentException, JSONException {
+        segmentDAO = SegmentDAO.getInstance(context);
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+        String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
+
+        Log.d("data", date);
+
+        List<Segment> newSegments = JSONHelper.segmentListFromJSON(
+                "http://wikilegis-staging.labhackercd.net/api/segments/",
+                "?modified=" + date);
+
+        segmentDAO.modifiedAllSegments(newSegments);
+
+        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
+
+        segmentList = segmentDAO.getAllSegments();
     }
 
     public static int getMinDate(final int id) {
@@ -266,4 +366,41 @@ public class SegmentController {
             }
         return aux;
     }
+
+    public String registerSegment(final int idBill,
+                                  final int replaced,
+                                  String content,
+                                  Context context) throws JSONException, SegmentException{
+
+
+        String result ;
+
+        if(content.isEmpty()){
+            result = context.getResources().getString(R.string.empty_segment);
+
+        }else{
+
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+
+            String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
+            String json = "{" +
+                    "\"bill\": " +idBill+","+
+                    "\"replaced\": " + replaced+","+
+                    "\"content\": \"" +content+"\","+
+                    "\"token\": \""+session.getString("token",null) +"\""+
+                    "}";
+
+
+            Log.d("URL", url);
+            Log.d("URL PARAMS", json);
+
+            PostRequest postRequest = new PostRequest(context, url);
+            postRequest.execute(json, "application/json");
+            result = "SUCCESS";
+
+        }
+        return result;
+    }
+
+
 }

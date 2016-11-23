@@ -1,4 +1,4 @@
-package gppmds.wikilegis.dao;
+package gppmds.wikilegis.dao.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -152,5 +152,4 @@ public class BillDAO extends DaoUtilities{
 
         return bill;
     }
-
 }
