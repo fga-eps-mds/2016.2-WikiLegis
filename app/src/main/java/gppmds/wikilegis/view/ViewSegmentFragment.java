@@ -188,17 +188,11 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         boolean evaluated = votesController.getVoteByUserAndIdSegment(userId, segmentId, vote);
 
         if(evaluated && vote == true) {
-            Log.d("BLA", "JÁ LIKEI ESSE SEGMENT");
-
-            //TODO: Change the dislike icon for a highlighted like icon
-            likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
+            likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up));
         }
 
         if(evaluated && vote == false) {
-            Log.d("BLA", "JÁ DISLIKEI ESSE SEGMENT");
-
-            //TODO: Change the like icon for a highlighted dislike icon
-            dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
+            dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down));
         }
     }
 
@@ -221,7 +215,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     } catch (BillException e) {
                         e.printStackTrace();
                     }
-                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
+                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up_outline));
                 } catch (VotesException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -233,8 +227,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                     likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
-                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
-                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
+                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up));
+                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down_outline));
                 } catch (BillException e) {
                     e.printStackTrace();
                 } catch (VotesException e) {
@@ -293,7 +287,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     } catch (BillException e) {
                         e.printStackTrace();
                     }
-                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.dislike));
+                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down_outline));
                 } catch (VotesException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -305,8 +299,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                     likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
-                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
-                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.like));
+                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up_outline));
+                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down));
                 } catch (BillException e) {
                     e.printStackTrace();
                 } catch (VotesException e) {

@@ -54,7 +54,7 @@
                 android:layout_height="30dp"
                 android:id="@+id/imageViewLike"
                 android:clickable="true"
-                android:src="@drawable/like"
+                android:src="@drawable/thumb_up_outline"
                 android:layout_marginStart="50dp"
                 android:layout_below="@+id/contentSegment"
                 android:layout_alignParentStart="true" />
@@ -63,7 +63,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:id="@+id/imageViewDislike"
-                android:src="@drawable/dislike"
+                android:src="@drawable/thumb_down_outline"
                 android:layout_marginStart="130dp"
                 android:clickable="true"
                 android:layout_alignTop="@+id/imageViewLike"
