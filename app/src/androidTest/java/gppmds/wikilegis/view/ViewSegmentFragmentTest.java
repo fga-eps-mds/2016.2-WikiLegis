@@ -1,14 +1,26 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+
+import org.json.JSONException;
+
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.LoginController;
 import gppmds.wikilegis.controller.SegmentController;
+import gppmds.wikilegis.controller.VotesController;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.VotesException;
+
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -29,6 +41,8 @@ import static org.hamcrest.Matchers.not;
 
 public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
     Activity activityOnTest;
+    Context context;
+
     public ViewSegmentFragmentTest(){
         super(LoadingActivity.class);
     }
@@ -37,6 +51,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         super.setUp();
 
         final Activity activityOnTest = getActivity();
+        context = getInstrumentation().getContext();
         Runnable wakeUpDevice = new Runnable() {
             public void run() {
                 activityOnTest.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
@@ -58,9 +73,9 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
     }
 
     public void tearDown() throws Exception {
@@ -123,22 +138,43 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         closeSoftKeyboard();
 
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
-                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+                (getInstrumentation().getContext()).getBoolean("IsLoggedIn", false);
+
+
+        final Integer idUser = 118;
 
         if(!isLoggedIn){
-            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
-            closeSoftKeyboard();
-            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
-            closeSoftKeyboard();
-            onView(withId(R.id.loginButton)).perform(click());
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email,token, firstName, lastName, session);
         }
 
-        onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.recycler_viewSegment))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
         onView(withId(R.id.imageViewLike))
                 .perform((click()));
         onView(withText("like")).inRoot(withDecorView(not(is(getActivity()
@@ -150,22 +186,42 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         closeSoftKeyboard();
 
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
-                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+                (context).getBoolean("IsLoggedIn", false);
+
+        final Integer idUser = 118;
 
         if(!isLoggedIn){
-            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
-            closeSoftKeyboard();
-            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
-            closeSoftKeyboard();
-            onView(withId(R.id.loginButton)).perform(click());
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email, token, firstName, lastName, session);
         }
 
-        onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.recycler_viewSegment))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
         onView(withId(R.id.imageViewDislike))
                 .perform((click()));
         onView(withText("deslike")).inRoot(withDecorView(not(is(getActivity()

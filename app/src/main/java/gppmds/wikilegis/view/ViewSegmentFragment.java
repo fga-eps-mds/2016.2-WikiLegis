@@ -254,9 +254,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     Toast.makeText(getContext(), "like", Toast.LENGTH_SHORT)
                             .show();
                 }
-                Log.d("LIKEI", "onClick ");
-                Log.d("resut:", resultPost);
-                Log.d("ID SEGMENT", segmentId + "");
             }
 
             try {
@@ -325,7 +322,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
                     Toast.makeText(getContext(), "deslike", Toast.LENGTH_SHORT)
                             .show();
                 }
-                Log.d("desLIKEI", "onClick ");
                 Log.d("resut:", resultPost);
             }
 
