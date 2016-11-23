@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.LoginController;
 import gppmds.wikilegis.model.User;
 
@@ -115,6 +116,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         String feedbackRegisterMessage = login.confirmLogin(userName, password);
 
+        DataDownloadController dataDownloadController =
+                DataDownloadController.getInstance(getContext());
+
         passwordField.setText("");
 
         switch (feedbackRegisterMessage) {
@@ -142,7 +146,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent1);
                 break;
             case "FAIL":
-                Toast.makeText(getContext(), "Usuário ou senha inválidos!", Toast.LENGTH_SHORT).show();
+                if(dataDownloadController.connectionType() == 2){
+                    Toast.makeText(getContext(), "Sem conexão de internet", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Usuário ou senha inválidos!", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 //nothing to do
