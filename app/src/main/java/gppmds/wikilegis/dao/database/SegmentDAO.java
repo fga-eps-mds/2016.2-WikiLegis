@@ -73,9 +73,9 @@ public class SegmentDAO extends DaoUtilities{
 
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        String contentWhitType = segmentController.addingTypeContent(segment);
+        //String contentWhitType = segmentController.addingTypeContent(segment);
 
-        ContentValues values = setContentValues(segment, contentWhitType);
+        ContentValues values = setContentValues(segment, segment.getContent());
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
 
@@ -88,9 +88,7 @@ public class SegmentDAO extends DaoUtilities{
 
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        String contentWhitType = segmentController.addingTypeContent(segment);
-
-        ContentValues values = setContentValues(segment, contentWhitType);
+        ContentValues values = setContentValues(segment, segment.getContent());
 
         deleteSegment(segment.getId());
 

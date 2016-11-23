@@ -111,6 +111,7 @@ public class DataDownloadControllerTest {
             String contentWithType = segmentController.addingTypeContent(segment);
 
             Segment newSegment = null;
+
             try {
                 newSegment = new Segment(segment.getId(), segment.getOrder(), segment.getBill(),
                         segment.isOriginal(), segment.getReplaced(), segment.getParent(), segment.getType(),

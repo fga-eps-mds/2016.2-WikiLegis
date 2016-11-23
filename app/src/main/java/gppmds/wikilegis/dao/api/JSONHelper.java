@@ -1,5 +1,6 @@
 package gppmds.wikilegis.dao.api;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -110,25 +111,25 @@ public class JSONHelper {
     }
 
     public static List<Segment> getSegmentFromBill(String billId, String replaced) throws JSONException, SegmentException {
-        String url = "http://wikilegis-staging.labhackercd.net/api/segments/?bill="+billId+"&replaced="+replaced;
+        String url = "http://wikilegis-staging.labhackercd.net/api/segments/?bill="
+                + billId + "&replaced=" + replaced;
         List<Segment> segmentListApi = new ArrayList<>();
 
         do {
-        String segmentList = requestJsonObjectFromApi(url);
+            String segmentList = requestJsonObjectFromApi(url);
 
-        JSONObject segment = new JSONObject(segmentList);
-        JSONArray results = segment.getJSONArray("results");
+            JSONObject segment = new JSONObject(segmentList);
+            JSONArray results = segment.getJSONArray("results");
 
-        for (int i = 0; i < results.length(); i++) {
-            JSONObject jsonObject = results.getJSONObject(i);
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject jsonObject = results.getJSONObject(i);
 
-            segmentListApi.add(setSegmentAttributes(jsonObject));
-        }
+                segmentListApi.add(setSegmentAttributes(jsonObject));
+            }
 
-        String nextUrl = segment.getString("next");
-        url = nextUrl; //updateDomain(nextUrl);
-        Log.d("URL",nextUrl);
-
+            String nextUrl = segment.getString("next");
+            url = nextUrl; //updateDomain(nextUrl);
+            Log.d("URL",nextUrl);
         } while (!url.equals("null"));
 
         return segmentListApi;
@@ -152,7 +153,9 @@ public class JSONHelper {
         return voteAux;
     }
 
-    private static Segment setSegmentAttributes(JSONObject jsonObject) throws JSONException, SegmentException {
+    private static Segment setSegmentAttributes(JSONObject jsonObject)
+            throws JSONException, SegmentException {
+
         Segment segmentAux = new Segment(jsonObject.getInt("id"),
                 jsonObject.getInt("order"),
                 jsonObject.getInt("bill"),
@@ -163,7 +166,14 @@ public class JSONHelper {
                 jsonObject.getString("number").equals("null") ? 0 : jsonObject.getInt("number"),
                 jsonObject.getString("content"),
                 jsonObject.getString("created"));
-        return segmentAux;
+
+        String contentWithType = SegmentController.addingTypeContent(segmentAux);
+
+        Segment segmentWithTypeContent = new Segment(segmentAux.getId(), segmentAux.getOrder(), segmentAux.getBill(),
+                segmentAux.isOriginal() ? 1 : 0, segmentAux.getReplaced(), segmentAux.getId(), segmentAux.getType(),
+                segmentAux.getNumber(), contentWithType, segmentAux.getDate());
+
+        return segmentWithTypeContent;
     }
 
     private static List<Bill> getListBill(JSONArray results)
