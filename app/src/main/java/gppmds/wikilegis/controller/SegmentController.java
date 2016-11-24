@@ -391,12 +391,7 @@ public class SegmentController {
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
             String url = "http://wikilegis-staging.labhackercd.net/api/segments/";
-            String json = "{" +
-                    "\"bill\": " +idBill+","+
-                    "\"replaced\": " + replaced+","+
-                    "\"content\": \"" +content+"\","+
-                    "\"token\": \""+session.getString("token",null) +"\""+
-                    "}";
+            String json = buildJson(idBill, replaced, content, session);
 
 
             Log.d("URL", url);
@@ -410,5 +405,12 @@ public class SegmentController {
         return result;
     }
 
-
+    private String buildJson(final int idBill, final int replaced, String content, SharedPreferences session){
+        return "{" +
+                "\"bill\": " +idBill+","+
+                "\"replaced\": " + replaced+","+
+                "\"content\": \"" +content+"\","+
+                "\"token\": \""+session.getString("token",null) +"\""+
+                "}";
+    }
 }
