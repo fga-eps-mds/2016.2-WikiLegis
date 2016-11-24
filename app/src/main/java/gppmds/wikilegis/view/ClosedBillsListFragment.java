@@ -1,20 +1,27 @@
 package gppmds.wikilegis.view;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 
 /**
@@ -57,6 +64,7 @@ public class ClosedBillsListFragment extends Fragment implements MaterialSpinner
 
     private void initBillList() {
         BillController billController = BillController.getInstance(getContext());
+
         billListInitial = billController.getAllBills();
 
         billListInitial = billController.filteringForNumberOfProposals(billListInitial);
@@ -94,6 +102,15 @@ public class ClosedBillsListFragment extends Fragment implements MaterialSpinner
 
         // Clear and reinitialize list if the tab is visible
         if (this.isVisible()) {
+            final String HOME_PAGE = "http://wikilegis-staging.labhackercd.net/";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(getContext());
+
+            SharedPreferences.Editor editor = session.edit();
+            editor.putString(getString(R.string.share_url), HOME_PAGE);
+            editor.commit();
+
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRelevantsAndClosed);
             recyclerViewAdapter.notifyDataSetChanged();

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,13 +113,15 @@ public class SegmentController {
 
         List<Segment> newSegments = JSONHelper.segmentListFromJSON(context.getString(R.string.created_segments_url), date);
 
+        Log.d("TAMANHO NEW", newSegments.size() + "");
+
         segmentDAO.insertAllSegments(newSegments);
 
         SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
 
         segmentList = segmentDAO.getAllSegments();
 
-        Log.d("TAMANHO", segmentList.size() + "");
+        Log.d("TAMANHO SEGMENTS", segmentList.size() + "");
     }
 
     public List<Segment> getSegmentsByIdBill(Integer idBill)
@@ -145,6 +148,12 @@ public class SegmentController {
 
         SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
 
+        segmentList = segmentDAO.getAllSegments();
+    }
+
+    public void initSegmentsWithDatabase() throws SegmentException {
+        segmentList = new ArrayList<>();
+        segmentDAO = SegmentDAO.getInstance(context);
         segmentList = segmentDAO.getAllSegments();
     }
 
@@ -379,7 +388,7 @@ public class SegmentController {
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
             String url = context.getString(R.string.segments_url);
-            Log.d("TAMOAQUI OU N ", url);
+
             String json = "{" +
                     "\"bill\": " +idBill+","+
                     "\"replaced\": " + replaced+","+

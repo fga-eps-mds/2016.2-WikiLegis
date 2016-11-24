@@ -32,13 +32,14 @@
 
     <!-- all SharedPreferences keys-->
     <string name="token">token</string>
+    <string name="id">id</string>
     <string name="is_logged_in">IsLoggedIn</string>
     <string name="first_name">firstName</string>
     <string name="last_name">lastName</string>
     <string name="email">email</string>
     <string name="network_settings">NetworkSettings</string>
     <string name="last_downloaded_date">date</string>
-
+    <string name="share_url">shareUrl</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -69,6 +70,8 @@
     <string name="user_auth_url">http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/</string>
     <string name="user_create_url">http://wikilegis-staging.labhackercd.net/api/user/create/</string>
 
-
-
+    <!-- Sharing Edemocracia Links -->
+    <string name="edemocracia_domain">http://wikilegis-staging.labhackercd.net</string>
+    <string name="edemocracia_bill">/bill/</string>
+    <string name="edemocracia_segment">/segments/</string>
 </resources>

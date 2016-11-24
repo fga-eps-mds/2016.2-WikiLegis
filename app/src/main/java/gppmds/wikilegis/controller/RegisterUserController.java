@@ -61,6 +61,7 @@ public class RegisterUserController {
 
             Log.d("Response", postRequest.getResponse() + "");
 
+
             registerStatus = String.valueOf(postRequest.getResponse());
 
         } catch (UserException e) {

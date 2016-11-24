@@ -77,16 +77,31 @@ public class BillController {
         billDao.insertAllBills(newBills);
 
         billList = billDao.getAllBills();
+
+        Log.d("Bills", billList.size() + "");
     }
+
 
     public void DownloadBills() throws BillException, JSONException, SegmentException {
         billList = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi(context.getString(R.string.bills_url)));
     }
+    public void initBillsWithDatabase() throws BillException {
+        billList = new ArrayList<>();
+        billDao = BillDAO.getInstance(context);
+
+        billList = billDao.getAllBills();
+    }
+
 
     public List<Bill> searchBills(String querySearch) throws BillException, JSONException, SegmentException {
         return JSONHelper.billListFromJSON
                 (JSONHelper.requestJsonObjectFromApi(
                         context.getString(R.string.search_bills_url) + querySearch));
+    }
+
+    public List<Bill> searchBillsDatabase(String querySearch) throws BillException, JSONException, SegmentException {
+        billDao = BillDAO.getInstance(context);
+        return billDao.getSearchBills(querySearch);
     }
 
 

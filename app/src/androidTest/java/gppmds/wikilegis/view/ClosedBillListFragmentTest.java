@@ -1,6 +1,10 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
@@ -46,9 +50,30 @@ public class ClosedBillListFragmentTest extends ActivityInstrumentationTestCase2
         activityOnTest.runOnUiThread(wakeUpDevice);
 
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (!session.getBoolean("IsLoggedIn", false)){
+            onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        }
+
+        WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(400);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         onView(withId(R.id.main_content)).perform(swipeLeft());
-        Thread.sleep(2000);
+            Thread.sleep(400);
+
+
     }
 
     public void testDefaultFilteringOption(){
