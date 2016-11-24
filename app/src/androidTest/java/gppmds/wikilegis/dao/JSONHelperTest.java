@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.dao.api.GetRequest;
@@ -36,7 +37,7 @@ public class JSONHelperTest {
     public void getJSONObjectApiTest() {
         // return String, http://wikilegis.labhackercd.net/api/bills/
         String getApi = "";
-        String url = "http://wikilegis.labhackercd.net/api/bills/";
+        String url = context.getString(R.string.bills_url);
         GetRequest request = new GetRequest();
         boolean result = false;
         getApi = request.execute(url).toString();
@@ -55,7 +56,7 @@ public class JSONHelperTest {
 
     @Test
     public void billListFromJSONTest() {
-        String billList = JSONHelper.requestJsonObjectFromApi("http://wikilegis.labhackercd.net/api/bills/");
+        String billList = JSONHelper.requestJsonObjectFromApi(context.getString(R.string.bills_url));
         List<Bill> billListApi = new ArrayList<>();
         JSONObject bills = null;
 

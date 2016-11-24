@@ -32,6 +32,7 @@
 
     <!-- all SharedPreferences keys-->
     <string name="token">token</string>
+    <string name="id">id</string>
     <string name="is_logged_in">IsLoggedIn</string>
     <string name="first_name">firstName</string>
     <string name="last_name">lastName</string>
@@ -53,6 +54,21 @@
     <!-- Proposal comment strings -->
     <string name="empty_comment">Por favor, digite um comentário</string>
     <string name="success_comment">Obrigado pelo comentário!</string>
+
+
+    <!-- Download API URL's -->
+    <string name="bills_url">http://wikilegis-staging.labhackercd.net/api/bills/</string>
+    <string name="created_bills_url">http://wikilegis-staging.labhackercd.net/api/bills/?created=</string>
+    <string name="search_bills_url">http://wikilegis-staging.labhackercd.net/api/bills/?search=</string>
+
+    <string name="segments_url">http://wikilegis-staging.labhackercd.net/api/segments/</string>
+    <string name="created_segments_url">http://wikilegis-staging.labhackercd.net/api/segments/?created=</string>
+    <string name="modified_segments_url">http://wikilegis-staging.labhackercd.net/api/segments/?modified=</string>
+
+    <string name="comments_url">http://wikilegis-staging.labhackercd.net/api/comments/</string>
+
+    <string name="user_auth_url">http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/</string>
+    <string name="user_create_url">http://wikilegis-staging.labhackercd.net/api/user/create/</string>
 
     <!-- Sharing Edemocracia Links -->
     <string name="edemocracia_domain">http://wikilegis-staging.labhackercd.net</string>

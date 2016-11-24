@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.database.BillDAO;
 import gppmds.wikilegis.dao.database.SegmentDAO;
@@ -86,8 +87,8 @@ public class DataDownloadControllerTest {
 
         List<Segment> segmentsFromAPI = new ArrayList<>();
         try {
-            segmentsFromAPI = JSONHelper.segmentListFromJSON("http://wikilegis-staging.labhackercd.net/api/segments/",
-                    "?created=" + date);
+
+            segmentsFromAPI = JSONHelper.segmentListFromJSON(context.getString(R.string.created_segments_url), date);
 
             SharedPreferences session = PreferenceManager.
                     getDefaultSharedPreferences(context);
@@ -144,8 +145,10 @@ public class DataDownloadControllerTest {
         List<Bill> billsFromAPI = new ArrayList<>();
 
         try {
+
             billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
-                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created=" + date));
+                    (context.getString(R.string.created_bills_url) + date));
+
 
             SharedPreferences session = PreferenceManager.
                     getDefaultSharedPreferences(context);
@@ -265,6 +268,49 @@ public class DataDownloadControllerTest {
 
         Log.d("Session String", session.getString(keyDate, "seiLa"));
 
+    }
+
+    @Test
+    public void testUpdateDataWithWifiDisabled() {
+        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = false;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = session.edit();
+
+        final String keyConnection = "NetworkSettings";
+        editor.putInt(keyConnection, 1);
+
+        final String keyDate = "date";
+        editor.putString(keyDate, "2010-01-01");
+
+        editor.commit();
+
+        try {
+            dataDownloadController.updateData();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(session.getString(keyDate, "2010-01-01"),
+                "2010-01-01");
     }
 
     /*

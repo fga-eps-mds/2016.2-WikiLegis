@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             try {
-                billController.downloadBills();
+                billController.DownloadBills();
             } catch (BillException e) {
                 e.printStackTrace();
             } catch (JSONException e) {

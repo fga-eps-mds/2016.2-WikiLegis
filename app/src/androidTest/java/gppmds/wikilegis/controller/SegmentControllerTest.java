@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
@@ -360,9 +362,9 @@ public class SegmentControllerTest {
         List<Segment> newSegments = new ArrayList<>();
 
         try {
+
             newSegments = JSONHelper.segmentListFromJSON(
-                    "http://wikilegis-staging.labhackercd.net/api/segments/",
-                    "?created=" + DATE);
+                    context.getString(R.string.created_segments_url), DATE);
 
             segmentController.setSegmentList(newSegments);
         } catch (JSONException e) {

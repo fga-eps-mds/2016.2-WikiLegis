@@ -7,7 +7,10 @@ import android.util.Log;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.model.Comments;
@@ -28,6 +31,13 @@ public class CommentSegmentController {
         return  instance;
     }
 
+    public List<Comments> getCommentsByIdOfSegment(Integer idSegment) throws JSONException,
+            CommentsException {
+        List<Comments> commentsList = JSONHelper.getCommentsByIdOfSegment(idSegment);
+
+        return commentsList;
+    }
+
     public String registerComment (int objectPK, String comment, Context context)
             throws JSONException, CommentsException {
 
@@ -42,7 +52,7 @@ public class CommentSegmentController {
 
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
-            String url = "http://wikilegis-staging.labhackercd.net/api/comments/";
+            String url = context.getString(R.string.comments_url);
             String json = "{" +
                     "\"object_id\": " + segment.getObjectPk() + "," +
                     "\"comment\": \"" + segment.getComment() + "\"" + "," +

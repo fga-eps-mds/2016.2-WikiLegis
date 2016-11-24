@@ -85,9 +85,11 @@ public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
     }
 
+    /*
     public void testDefaultFilteringOption(){
         onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
     }
+    */
 
     public void testChangFilteringOptionToRecent(){
         onView(withId(R.id.spinner_open)).perform(click());

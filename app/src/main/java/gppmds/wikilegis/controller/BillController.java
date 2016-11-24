@@ -70,7 +70,8 @@ public class BillController {
         String date = session.getString(context.getResources().getString(R.string.last_downloaded_date), "2010-01-01");
 
         List<Bill> newBills = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
-                        ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date));
+                (context.getString(R.string.created_bills_url)+date));
+
         Log.d("data", date);
 
         billDao.insertAllBills(newBills);
@@ -80,6 +81,10 @@ public class BillController {
         Log.d("Bills", billList.size() + "");
     }
 
+
+    public void DownloadBills() throws BillException, JSONException, SegmentException {
+        billList = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi(context.getString(R.string.bills_url)));
+    }
     public void initBillsWithDatabase() throws BillException {
         billList = new ArrayList<>();
         billDao = BillDAO.getInstance(context);
@@ -87,17 +92,11 @@ public class BillController {
         billList = billDao.getAllBills();
     }
 
-    public void downloadBills() throws BillException, JSONException, SegmentException {
-        billList =
-                JSONHelper.billListFromJSON(
-                        JSONHelper.requestJsonObjectFromApi(
-                                "http://wikilegis-staging.labhackercd.net/api/bills/"));
-    }
 
     public List<Bill> searchBills(String querySearch) throws BillException, JSONException, SegmentException {
-       return JSONHelper.billListFromJSON
-               (JSONHelper.requestJsonObjectFromApi(
-                       "http://wikilegis-staging.labhackercd.net/api/bills/?search=" + querySearch));
+        return JSONHelper.billListFromJSON
+                (JSONHelper.requestJsonObjectFromApi(
+                        context.getString(R.string.search_bills_url) + querySearch));
     }
 
     public List<Bill> searchBillsDatabase(String querySearch) throws BillException, JSONException, SegmentException {
@@ -132,13 +131,13 @@ public class BillController {
 
     public static void getAllBillsFromApi() throws JSONException, BillException {
         List<Bill> allBills = null;
-        allBills = BillJsonHelper.getAllBillFromApi();
+        allBills = BillJsonHelper.getAllBillFromApi(context);
         billList = allBills;
     }
 
     public static Bill getBillByIdFromApi(int id) throws JSONException, BillException {
         Bill bill = null;
-        bill = BillJsonHelper.getBillFromApiById(id);
+        bill = BillJsonHelper.getBillFromApiById(context, id);
         return bill;
     }
 

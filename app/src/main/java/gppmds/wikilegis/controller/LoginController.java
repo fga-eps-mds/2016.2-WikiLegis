@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -39,13 +40,22 @@ public class LoginController {
     }
 
     public String confirmLogin(final String email, final String password) {
+
         PostRequest postRequest = new PostRequest(context,
-                "http://wikilegis-staging.labhackercd.net/accounts/api-token-auth/");
+                context.getString(R.string.user_auth_url));
+
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.appendQueryParameter("username", email);
+        builder.appendQueryParameter("password", password);
+        String authentication = builder.build().getEncodedQuery();
+
         try {
+            Log.d("LoginController", "confirmLogin ");
 
             User userLogin = new User(email, password);
 
-            String authentication = createUserAuthentication(userLogin);
+            authentication = createUserAuthentication(userLogin);
 
             String userInformation = userInformationRequest(postRequest, authentication);
 
@@ -61,6 +71,8 @@ public class LoginController {
 
     private String userInformationRequest(PostRequest postRequest, String authentication) {
         String userInformation = null;
+
+        Log.d("LoginController", "userInformationRequest ");
 
         try {
             userInformation = postRequest.execute(authentication,
@@ -78,6 +90,8 @@ public class LoginController {
         Uri.Builder builder = new Uri.Builder();
         builder.appendQueryParameter("username", userLogin.getEmail());
         builder.appendQueryParameter("password", userLogin.getPassword());
+
+        Log.d("LoginController", "createUserAuthentication ");
 
         return builder.build().getEncodedQuery();
     }
@@ -97,15 +111,15 @@ public class LoginController {
 
         JSONObject userJson = null;
         String token = null;
-
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
+
+        Log.d("LoginController", "setUserAsSharedPreferences ");
 
         try {
             if (userInformation != null) {
                 userJson = new JSONObject(userInformation);
                 token = userJson.getString("token");
-
                 JSONObject user = userJson.getJSONObject("user");
                 parserUserInformation(user, token, session);
             } else {
@@ -122,14 +136,16 @@ public class LoginController {
 
     private void parserUserInformation(JSONObject user, String token, SharedPreferences session)
             throws JSONException {
+        Integer userId = user.getInt("id");
         String firstName = user.getString("first_name");
         String lastName = user.getString("last_name");
         String email = user.getString("email");
 
-        createLoginSession(email, token, firstName, lastName, session);
+        createLoginSession(userId, email, token, firstName, lastName, session);
     }
 
-    public void createLoginSession(final String email,
+    public void createLoginSession(final Integer idUser,
+                                   final String email,
                                    final String token,
                                    final String firstName,
                                    final String lastName,
@@ -138,6 +154,7 @@ public class LoginController {
         SharedPreferences.Editor editor = session.edit();
 
         editor.putBoolean(context.getResources().getString(R.string.is_logged_in), true);
+        editor.putInt(context.getResources().getString(R.string.id), idUser);
         editor.putString(context.getResources().getString(R.string.email), email);
         editor.putString(context.getResources().getString(R.string.token), token);
         editor.putString(context.getResources().getString(R.string.first_name), firstName);
