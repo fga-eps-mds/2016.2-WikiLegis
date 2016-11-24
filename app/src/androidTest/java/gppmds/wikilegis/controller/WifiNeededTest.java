@@ -24,9 +24,11 @@ import gppmds.wikilegis.exception.VotesException;
 
 import static junit.framework.Assert.assertEquals;
 
-public class WifiConnectionTest{
-
-    Context context;
+/**
+ * Created by marcelo on 11/20/16.
+ */
+public class WifiNeededTest {
+    /*Context context;
     SegmentDAO segmentDAO;
     DataDownloadController dataDownloadController;
     SegmentController segmentController;
@@ -76,13 +78,77 @@ public class WifiConnectionTest{
     }
 
     @Test
-    public void testConnectionTypeWithWifiConnected() {
-        final int CONNECTION_TYPE = dataDownloadController.connectionType();
-        final int EXPECTED_CONNECTION_TYPE = 0;
+    public void testUpdateDataWithWifiDisabled() {
+        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
 
-        Log.d(CONNECTION_TYPE + "", "testConnectionTypeWithWifiConnected ");
+        final boolean STATUS = false;
 
-        assertEquals(CONNECTION_TYPE, EXPECTED_CONNECTION_TYPE);
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = session.edit();
+
+        final String keyConnection = "NetworkSettings";
+        editor.putInt(keyConnection, 1);
+
+        final String keyDate = "date";
+        editor.putString(keyDate, "2010-01-01");
+
+        editor.commit();
+
+        try {
+            dataDownloadController.updateData();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(session.getString(keyDate, "2010-01-01"),
+                "2010-01-01");
+    }
+
+    @Test
+    public void testUpdateDataWithConnectionPreferenceToOnlyWifiAndWifiEnabled() {
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(context);
+
+        SharedPreferences.Editor editor = session.edit();
+
+        final String keyConnection = "NetworkSettings";
+        editor.putInt(keyConnection, 0);
+
+        final String keyDate = "date";
+        editor.putString(keyDate, "2010-01-01");
+
+        editor.commit();
+
+        try {
+            dataDownloadController.updateData();
+        } catch (SegmentException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(session.getString(keyDate, "2010-01-01"),
+                DataDownloadController.getLocalTime());
     }
 
     @Test
@@ -126,6 +192,16 @@ public class WifiConnectionTest{
     }
 
     @Test
+    public void testConnectionTypeWithWifiConnected() {
+        final int CONNECTION_TYPE = dataDownloadController.connectionType();
+        final int EXPECTED_CONNECTION_TYPE = 0;
+
+        Log.d(CONNECTION_TYPE + "", "testConnectionTypeWithWifiConnected ");
+
+        assertEquals(CONNECTION_TYPE, EXPECTED_CONNECTION_TYPE);
+    }
+
+    @Test
     public void testUpdateDataWithConnectionPreferenceToWifiAndMobileDataAndWifiEnabled() {
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
@@ -154,48 +230,6 @@ public class WifiConnectionTest{
 
         assertEquals(session.getString(keyDate, "2010-01-01"),
                 DataDownloadController.getLocalTime());
-    }
+    }*/
 
-    @Test
-    public void testUpdateDataWithWifiDisabled() {
-        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
-
-        final boolean STATUS = false;
-
-        wifiManager.setWifiEnabled(STATUS);
-
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(context);
-
-        SharedPreferences.Editor editor = session.edit();
-
-        final String keyConnection = "NetworkSettings";
-        editor.putInt(keyConnection, 1);
-
-        final String keyDate = "date";
-        editor.putString(keyDate, "2010-01-01");
-
-        editor.commit();
-
-        try {
-            dataDownloadController.updateData();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(session.getString(keyDate, "2010-01-01"),
-                "2010-01-01");
-    }
 }

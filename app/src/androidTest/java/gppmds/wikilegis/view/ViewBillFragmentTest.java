@@ -2,8 +2,6 @@ package gppmds.wikilegis.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
@@ -18,12 +16,6 @@ import org.junit.Rule;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.DataDownloadController;
-import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.exception.BillException;
-import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Segment;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -61,9 +53,29 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Login
         SegmentController segmentController =
                 SegmentController.getInstance(getActivity().getBaseContext());
 
+        /*WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (session.getBoolean("IsLoggedIn", false)){
+            onView(withId(R.id.action_profile_logged)).perform(click());
+            onView(withText("Sair")).perform(click());
+        }
+
         if(segmentController.isSegmentDatabaseIsEmpty()) {
             onView(withId(R.id.button)).perform(click());
-        }
+        }*/
     }
 
     //FIXME
@@ -110,13 +122,13 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Login
         return allOf(hasAction(Intent.ACTION_CHOOSER), hasExtra(is(Intent.EXTRA_INTENT), matcher));
     }
 
-    public void testShareIntent () throws InterruptedException {
+    /*public void testShareIntent () throws InterruptedException {
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
         onView(withId(R.id.action_share_deslogged)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(400);
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
@@ -128,6 +140,6 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Login
                 hasAction(Intent.ACTION_SEND),
                 hasExtra(Intent.EXTRA_TEXT, "Expected url")
         )));
-    }
+    }*/
 
 }
