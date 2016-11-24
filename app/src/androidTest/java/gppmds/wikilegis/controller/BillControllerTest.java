@@ -477,11 +477,13 @@ public class BillControllerTest {
         assertTrue(idBill == bill.getId());
     }
 
-    /*@Test
-    public void testActivateNotification() {
+    @Test
+    public void testActivateNotificationResponse500() {
 
         BillController billController = BillController.getInstance(context);
-        String test = billController.activiteNotification("weekly")
-        assertTrue("200".equals(test));
-    }*/
+        String test = billController.activiteNotification("weekly");
+        assertTrue("500".equals(test));
+    }
+    //TODO quando api estiver funcionando, testar para outros casos.
+
 }

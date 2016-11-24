@@ -11,6 +11,7 @@ import android.view.WindowManager;
 
 import org.json.JSONException;
 import org.junit.Before;
+import org.junit.Test;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.SegmentController;
@@ -27,6 +28,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -34,14 +36,14 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
 
-
+    Activity activityOnTest;
     public ViewBillFragmentTest(){
         super(LoadingActivity.class);
     }
 
     public void setUp() throws Exception {
         super.setUp();
-        final Activity activityOnTest = getActivity();
+        activityOnTest = getActivity();
         Runnable wakeUpDevice = new Runnable() {
             public void run() {
                 activityOnTest.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
@@ -58,6 +60,27 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
         }
     }
 
+    @Test
+    public void testActiveNotificationViewMessageIsDisplayed(){
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+
+        if(!isLoggedIn){
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.recycler_view_open))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.action_profile_logged)).perform(click());
+        onView(withId(R.id.action_notification_logged)).perform(click());
+        //onView(withId(R.id.))
+    }
     //FIXME
     /*
     public void testByClickASegmentThatShouldNotBeClickable() throws InterruptedException {

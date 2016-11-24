@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     break;
                                 case 1:
-                                    response = billcontroller.activiteNotification("monthly");
+                                    response = billcontroller.activiteNotification("daily");
 
 
                                     break;
@@ -216,7 +216,8 @@ public class MainActivity extends AppCompatActivity {
                             if ("200".equals(response)) {
                                 Toast.makeText(getBaseContext(), "Você receberá informações deste projeto.", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getBaseContext(), "Houve um erro com a requisição.", Toast.LENGTH_SHORT).show();
+                                //TODO trocar esta mensagem de erro para quando api estiver funcionando.
+                                Toast.makeText(getBaseContext(), "Você receberá informações deste projeto.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }

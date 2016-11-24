@@ -203,6 +203,8 @@ public class BillController {
                     "    \"status\": true,\n" +
                     "    \"token\":\"" + token + "\"\n" +
                     "}";
+
+            Log.d("JSON",json);
             PostRequest request = new PostRequest(context, "http://wikilegis-staging.labhackercd.net/api/newsletter/");
 
             try {
