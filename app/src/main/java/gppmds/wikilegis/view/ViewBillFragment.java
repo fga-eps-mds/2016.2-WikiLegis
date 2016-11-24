@@ -71,31 +71,9 @@ public class ViewBillFragment extends Fragment {
         billController = BillController.getInstance(getContext());
         segmentController = SegmentController.getInstance(getContext());
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-        List<Segment> segmentList = new ArrayList<>();
-        //TODO TESTAR 
-        if(dataDownloadController.connectionType() < 2){
-            try {
-                segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
-                SegmentController segmentController = SegmentController.getInstance(getContext());
-                segmentController.setSegmentList(segmentList);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (BillException e) {
-                e.printStackTrace();
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            }
-        }else {
-            SegmentController segmentController = SegmentController.getInstance(getContext());
+        List<Segment> segmentList;
 
-            try {
-                segmentList = segmentController.getSegmentsByIdBill(idBill);
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        segmentList = getSegmentList(dataDownloadController, idBill);
 
         Log.d("TAMANHO15000", segmentList.size() + "");
 
@@ -137,5 +115,32 @@ public class ViewBillFragment extends Fragment {
         this.numberProposalsTextView.setText(bill.getNumberOfPrposals() + "");
     }
 
+    private List<Segment> getSegmentList(DataDownloadController dataDownloadController, final int idBill){
+        List<Segment> segmentList = new ArrayList<>();
+        if(dataDownloadController.connectionType() < 2){
+            try {
+                segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
+                SegmentController segmentController = SegmentController.getInstance(getContext());
+                segmentController.setSegmentList(segmentList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            SegmentController segmentController = SegmentController.getInstance(getContext());
+
+            try {
+                segmentList = segmentController.getSegmentsByIdBill(idBill);
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return segmentList;
+    }
 
 }
