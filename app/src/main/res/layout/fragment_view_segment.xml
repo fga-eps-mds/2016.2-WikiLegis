@@ -7,6 +7,126 @@
                 android:background="@drawable/background"
                 android:id="@+id/view_segment_fragment">
 
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:layout_alignParentStart="false"
+        android:background="@color/cardview_light_background"
+        android:id="@+id/frameLayoutSegment"
+        android:layout_alignParentEnd="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|top"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/titleBill"
+                android:autoText="false"
+                android:hint="Texto da bill"
+                android:layout_marginTop="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/contentSegment"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/titleBill"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewLike"
+                android:clickable="false"
+                android:src="@drawable/like"
+                android:layout_marginStart="50dp"
+                android:layout_below="@+id/contentSegment"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewDislike"
+                android:src="@drawable/dislike"
+                android:clickable="false"
+                android:layout_marginEnd="70dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/contentSegment"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginStart="5dp"
+                android:clickable="false"
+                android:text=""
+                android:id="@+id/textViewNumberLike"
+                android:layout_alignBottom="@+id/imageViewLike"
+                android:layout_toEndOf="@+id/imageViewLike" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text=""
+                android:clickable="false"
+                android:id="@+id/textViewNumberDislike"
+                android:layout_alignTop="@+id/imageViewDislike"
+                android:layout_alignStart="@+id/imageViewDislike"
+                android:layout_marginStart="40dp" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayoutProposal"
+        android:layout_below="@+id/frameLayoutSegment"
+        android:layout_alignStart="@+id/frameLayoutSegment"
+        android:layout_marginTop="1dp"
+        android:clickable="true"
+
+        android:background="#ffffff">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Propostas"
+                android:clickable="false"
+                android:id="@+id/textViewProposal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="50dp"
         android:layout_width="match_parent"

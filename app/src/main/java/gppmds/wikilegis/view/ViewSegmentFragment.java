@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -48,6 +49,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private Button proposalButon;
     FloatingActionButton floatingActionButton;
 
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
@@ -55,9 +57,20 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
 
+
         //setView(inflater, container);
         view = inflater.inflate(R.layout.fragment_view_segment, container, false);
         recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain)
+                + getString(R.string.edemocracia_bill) + billId +
+                getString(R.string.edemocracia_segment) + segmentId);
+        editor.commit();
+
+        setView(inflater, container);
 
         recyclerView.setHasFixedSize(true);
 
@@ -195,3 +208,4 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         floatingActionButton.setVisibility(View.INVISIBLE);
     }
 }
+

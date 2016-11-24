@@ -90,6 +90,8 @@ public class JSONHelper {
         do {
             String segmentList = requestJsonObjectFromApi(url);
 
+            Log.d("ASDFAAA", url);
+
             JSONObject segment = new JSONObject(segmentList);
             JSONArray results = segment.getJSONArray("results");
 

@@ -17,6 +17,7 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
@@ -59,8 +60,15 @@ public class SearchBillFragment extends Fragment {
 
     private void initBillList() {
         BillController billController = BillController.getInstance(getContext());
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
         try {
-            billListSearch = billController.searchBills(searchQuery);
+            final int CONNECTION_TYPE = dataDownloadController.connectionType();
+
+            if (CONNECTION_TYPE < 2) {
+                billListSearch = billController.searchBills(searchQuery);
+            } else {
+                billListSearch = billController.searchBillsDatabase(searchQuery);
+            }
         } catch (BillException e) {
             e.printStackTrace();
         } catch (JSONException e) {
