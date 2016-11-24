@@ -43,7 +43,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private Button proposalButon;
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
+    //private TabLayout tabs;
 
 
     @Override
@@ -53,14 +54,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
 
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(getContext());
-
-        SharedPreferences.Editor editor = session.edit();
-        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain)
-                + getString(R.string.edemocracia_bill) + billId +
-                getString(R.string.edemocracia_segment) + segmentId);
-        editor.commit();
+        setSharedPreferences();
 
         setView(inflater, container);
 
@@ -181,6 +175,17 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.floatingButton);
         floatingActionButton.setVisibility(View.VISIBLE);
         floatingActionButton.setOnClickListener(this);
+    }
+
+    private void setSharedPreferences(){
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain)
+                + getString(R.string.edemocracia_bill) + billId +
+                getString(R.string.edemocracia_segment) + segmentId);
+        editor.commit();
     }
 }
 
