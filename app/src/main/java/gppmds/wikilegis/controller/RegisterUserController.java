@@ -48,9 +48,6 @@ public class RegisterUserController {
 
             PostRequest postRequest = new PostRequest(context,
                     "http://wikilegis-staging.labhackercd.net/api/user/create/");
-
-            postRequest.execute(userJson.toString(),"application/json");
-
             try{
                 String responseInformation = postRequest.execute(userJson.toString(),
                         "application/json").get();

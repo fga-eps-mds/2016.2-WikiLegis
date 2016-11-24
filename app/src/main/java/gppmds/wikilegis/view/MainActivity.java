@@ -182,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_config_logged:
                 actionDialogNetworkSettings();
                 break;
+            case R.id.action_share_deslogged:
+            case R.id.action_share_logged:
+                shareTextUrl();
         }
         return true;
     }
@@ -336,5 +339,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         alertDialogProposalBuilder.show();
+    }
+
+    private void shareTextUrl() {
+
+        final String HOME_PAGE = "http://wikilegis-staging.labhackercd.net/";
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getBaseContext());
+
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        String link = session.getString(getString(R.string.share_url), HOME_PAGE);
+
+        share.putExtra(Intent.EXTRA_SUBJECT, "Dê uma olhada nisso e fique por dentro das leis:");
+        share.putExtra(Intent.EXTRA_TEXT, link);
+
+        startActivity(Intent.createChooser(share, "Compartilhar via"));
     }
 }

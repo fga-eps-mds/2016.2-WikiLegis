@@ -141,6 +141,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
 
     }
 
+    /*
     public void testUserWriteValidComment () throws InterruptedException {
         closeSoftKeyboard();
 
@@ -169,4 +170,5 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
         onView(withText("Obrigado pelo comentário!")).inRoot(withDecorView(not(is(getActivity()
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
+    */
 }

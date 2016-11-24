@@ -39,7 +39,7 @@
     <string name="email">email</string>
     <string name="network_settings">NetworkSettings</string>
     <string name="last_downloaded_date">date</string>
-
+    <string name="share_url">shareUrl</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -55,4 +55,8 @@
     <string name="empty_comment">Por favor, digite um comentário</string>
     <string name="success_comment">Obrigado pelo comentário!</string>
 
+    <!-- Sharing Edemocracia Links -->
+    <string name="edemocracia_domain">http://wikilegis-staging.labhackercd.net</string>
+    <string name="edemocracia_bill">/bill/</string>
+    <string name="edemocracia_segment">/segments/</string>
 </resources>

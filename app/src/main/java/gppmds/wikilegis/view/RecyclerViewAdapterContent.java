@@ -5,11 +5,8 @@ import android.os.Bundle;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-
-import android.support.v7.widget.CardView;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -155,6 +152,17 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         final int HEADER = 0;
 
         if(position == HEADER){
+            final VotesController votesController = VotesController.getInstance(context);
+
+            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
+            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
+
+            if(evaluatedTrue) {
+                holder.likesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
+            } else if(evaluatedFalse) {
+                holder.dislikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
+            }
+
             try{
                 setHeaderInfo(holder, connectionType, segmentId, billId);
             } catch(BillException e){

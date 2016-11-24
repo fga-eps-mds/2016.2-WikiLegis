@@ -22,13 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.UserException;
-import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
 public class ViewSegmentFragment extends Fragment implements View.OnClickListener{
@@ -48,12 +45,22 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     private Button proposalButon;
     FloatingActionButton floatingActionButton;
 
+
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
 
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain)
+                + getString(R.string.edemocracia_bill) + billId +
+                getString(R.string.edemocracia_segment) + segmentId);
+        editor.commit();
 
         setView(inflater, container);
 
@@ -162,4 +169,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         super.onDestroy();
         floatingActionButton.setVisibility(View.INVISIBLE);
     }
+
 }
+
