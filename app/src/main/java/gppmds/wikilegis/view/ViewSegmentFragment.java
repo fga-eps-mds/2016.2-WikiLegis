@@ -72,16 +72,10 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         setView(inflater, container);
 
-        recyclerView.setHasFixedSize(true);
-
-        linearLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
         segmentController = SegmentController.getInstance(getContext());
         segmentList = SegmentController.getAllSegments();
 
-        floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.floatingButton);
-        floatingActionButton.setVisibility(View.VISIBLE);
-        floatingActionButton.setOnClickListener(this);
+        setLayout();
 
         //settingText();
 
@@ -89,22 +83,8 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         tabs.setVisibility(View.GONE);
 
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-        //TODO TESTAR
-        if(dataDownloadController.connectionType() < 2){
-            Log.d("Entrou aqui no wifi...", "");
-            try {
-                proposalsList = segmentController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
-                Log.d("Numero de propostas",proposalsList.size()+"");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (BillException e) {
-                e.printStackTrace();
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            }
-        }else {
-            proposalsList = SegmentController.getProposalsOfSegment(segmentList, segmentId);
-        }
+
+        proposalsList = getProposal(dataDownloadController);
 
             RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList,
                     billId, segmentId);
@@ -206,6 +186,37 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     public void onDestroy(){
         super.onDestroy();
         floatingActionButton.setVisibility(View.INVISIBLE);
+    }
+
+    private List<Segment> getProposal(DataDownloadController dataDownloadController){
+
+        if(dataDownloadController.connectionType() < 2){
+            Log.d("Entrou aqui no wifi...", "");
+            try {
+                proposalsList = segmentController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
+                Log.d("Numero de propostas",proposalsList.size()+"");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            proposalsList = SegmentController.getProposalsOfSegment(segmentList, segmentId);
+        }
+        return proposalsList;
+    }
+
+    private void setLayout(){
+        recyclerView.setHasFixedSize(true);
+
+        linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.floatingButton);
+        floatingActionButton.setVisibility(View.VISIBLE);
+        floatingActionButton.setOnClickListener(this);
     }
 }
 
