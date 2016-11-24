@@ -37,6 +37,11 @@ public class ViewBillFragment extends Fragment {
     private BillController billController = null;
     private SegmentController segmentController = null;
     private ImageView share;
+    private View view;
+    private TabLayout tabs;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerViewAdapterBill adapter;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -45,28 +50,7 @@ public class ViewBillFragment extends Fragment {
         Integer idBill;
         idBill = getArguments().getInt("id");
 
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(getContext());
-
-        SharedPreferences.Editor editor = session.edit();
-        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain) +
-                getString(R.string.edemocracia_bill) + idBill);
-        editor.commit();
-
-
-        View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
-
-        this.settingEditText(view);
-        this.settingTypeText(idBill);
-
-        TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
-        tabs.setVisibility(View.GONE);
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        setSharedPreferences(idBill);
 
         billController = BillController.getInstance(getContext());
         segmentController = SegmentController.getInstance(getContext());
@@ -75,10 +59,10 @@ public class ViewBillFragment extends Fragment {
 
         segmentList = getSegmentList(dataDownloadController, idBill);
 
+        setLayout(inflater, container, idBill, segmentList);
+
         Log.d("TAMANHO15000", segmentList.size() + "");
 
-        RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(segmentList, getContext());
-        recyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -141,6 +125,40 @@ public class ViewBillFragment extends Fragment {
             }
         }
         return segmentList;
+    }
+
+    private void setLayout(LayoutInflater inflater, ViewGroup container, final int idBill, List<Segment> segmentList) {
+
+        view = inflater.inflate(R.layout.fragment_view_bill, container, false);
+        this.settingEditText(view);
+        this.settingTypeText(idBill);
+
+        tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
+        tabs.setVisibility(View.GONE);
+
+        setRecyclerView(segmentList);
+
+    }
+
+    private void setRecyclerView(List<Segment> segmentList){
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
+        recyclerView.setHasFixedSize(true);
+
+        linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapterBill(segmentList, getContext());
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setSharedPreferences(final int idBill){
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain) +
+                getString(R.string.edemocracia_bill) + idBill);
+        editor.commit();
     }
 
 }
