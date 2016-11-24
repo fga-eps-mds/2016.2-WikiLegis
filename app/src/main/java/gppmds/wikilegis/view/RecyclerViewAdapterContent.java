@@ -24,14 +24,17 @@ import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.controller.DataDownloadController;
 
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 
+import gppmds.wikilegis.model.Comments;
 import gppmds.wikilegis.model.Segment;
 
 public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerViewAdapterContent
@@ -86,7 +89,23 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                                 .toString()));
 
                         if(session.getBoolean("IsLoggedIn", false)){
-                            CreateComment createComment = new CreateComment(listSegment);
+                            CommentSegmentController commentSegmentController =
+                                    CommentSegmentController.getInstance(view.getContext());
+
+                            Log.d("Id do segmento: ", cardView.getTag(R.id.idSegment).toString());
+
+                            List<Comments> commentsList = null;
+                            try {
+                                commentsList = commentSegmentController.
+                                        getCommentsByIdOfSegment(Integer.parseInt(
+                                                cardView.getTag(R.id.idSegment).toString()));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (CommentsException e) {
+                                e.printStackTrace();
+                            }
+
+                            CreateComment createComment = new CreateComment(commentsList);
                             createComment.setArguments(bundle);
 
                             AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
@@ -142,7 +161,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(final ContentViewHolder holder, final int position) {
 
-        holder.cardView.setTag(R.id.idSegment, segmentId);
+        holder.cardView.setTag(R.id.idSegment, listSegment.get(position).getId());
         holder.cardView.setTag(R.id.idBill, billId);
 
         DataDownloadController dataDownloadController =

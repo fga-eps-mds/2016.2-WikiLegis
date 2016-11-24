@@ -171,4 +171,3 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     }
 
 }
-
