@@ -1,6 +1,9 @@
 package gppmds.wikilegis.view;
 
+import android.app.SearchManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,12 +21,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-
 import org.json.JSONException;
-
-
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
@@ -33,11 +34,10 @@ import gppmds.wikilegis.controller.LoginController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private TabLayout tabs = null;
-    FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             try {
-                billController.DownloadBills();
+                billController.downloadBills();
             } catch (BillException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -102,7 +102,60 @@ public class MainActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.menu_deslogged, menu);
         }
 
-        return true;
+        // Retrieve the SearchView and plug it into SearchManager
+        final SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager =
+                (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setQueryHint("Pesquisar projetos...");
+
+        if (null != searchView) {
+            searchView.setSearchableInfo(searchManager
+                    .getSearchableInfo(getComponentName()));
+            searchView.setIconifiedByDefault(false);
+        }
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            public boolean onQueryTextChange(String newText) {
+                // this is your adapter that will be filtered
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) {
+                //Here u can get the value "query" which is entered in the search box.
+                Bundle bundle = new Bundle();
+                bundle.putString("searchQuery", query);
+
+                SearchBillFragment searchBillFragment = new SearchBillFragment();
+                searchBillFragment.setArguments(bundle);
+
+                // Check if no view has focus:
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+
+                for (int i = 0; i < fm.getBackStackEntryCount(); i++) {
+                    fm.popBackStack();
+                }
+
+                android.support.v4.app.FragmentTransaction fragmentTransaction =
+                        fm.beginTransaction();
+
+                fragmentTransaction.replace(R.id.main_content, searchBillFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                return true;
+
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(final MenuItem item) {

@@ -1,15 +1,17 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
+
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.view.View;
+
 import android.view.WindowManager;
 
 import org.json.JSONException;
@@ -24,27 +26,20 @@ import gppmds.wikilegis.exception.VotesException;
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by thiago on 9/30/16.
- */
-
-public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
+public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     Activity activityOnTest;
     Context context;
 
     public ViewSegmentFragmentTest(){
-        super(LoadingActivity.class);
+        super(LoginActivity.class);
     }
 
     public void setUp() throws Exception {
@@ -62,6 +57,25 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
 
         activityOnTest.runOnUiThread(wakeUpDevice);
 
+        WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(400);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (session.getBoolean("IsLoggedIn", false)){
+            onView(withId(R.id.action_profile_logged)).perform(click());
+            onView(withText("Sair")).perform(click());
+        }
         SegmentController segmentController =
                 SegmentController.getInstance(getActivity().getBaseContext());
 
@@ -93,14 +107,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         }
     }
 
-    public void testImageProposalIsDisplayed(){
-
-        onView(withId(R.id.imageViewProposal)).check(matches(isDisplayed()));
-    }
-
-
     public void testProposalIsDisplayed(){
-
 
         onView(withId(R.id.textViewProposal)).check(matches(isDisplayed()));
     }
@@ -110,7 +117,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         onView(withId(R.id.titleBill)).check(matches(isDisplayed()));
     }
 
-    public void testConstentSegmentIsDisplayed(){
+    public void testContentSegmentIsDisplayed(){
 
         onView(withId(R.id.contentSegment)).check(matches(isDisplayed()));
     }
@@ -228,4 +235,5 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
 
     }
+
 }

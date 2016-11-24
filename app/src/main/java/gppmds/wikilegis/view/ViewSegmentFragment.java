@@ -1,8 +1,5 @@
 package gppmds.wikilegis.view;
 
-
-
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,8 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,12 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.json.JSONException;
 
 import org.json.JSONException;
 
@@ -35,9 +25,9 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
+import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
@@ -45,20 +35,18 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
     private static Integer segmentId;
     private static Integer billId;
-    private static Integer userId;
     private TextView likes;
     private TextView dislikes;
     private TextView segmentText;
     private TextView billText;
-    private ImageView likesIcon;
-    private ImageView dislikesIcon;
     private List<Segment> segmentList;
     private SegmentController segmentController;
     private List<Segment> proposalsList = new ArrayList<>();
     private View view;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private FloatingActionButton floatingActionButton;
+    private Button proposalButon;
+    FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -66,13 +54,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
-
-        SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-        userId = session.getInt(getContext().getResources().getString(R.string.id), 0);
-
-        Log.d("id do segmento", segmentId + "");
-        Log.d("id do usuario", userId + "");
 
         setView(inflater, container);
 
@@ -87,8 +68,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         floatingActionButton.setVisibility(View.VISIBLE);
         floatingActionButton.setOnClickListener(this);
 
-        settingText();
-
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
 
@@ -97,7 +76,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         if(dataDownloadController.connectionType() < 2){
             Log.d("Entrou aqui no wifi...", "");
             try {
-                proposalsList = segmentController.getSegmentsOfBillById(billId+"" ,""+segmentId, true);
+                proposalsList = segmentController.getSegmentsOfBillById(billId + "", ""+segmentId, true);
                 Log.d("Numero de propostas",proposalsList.size()+"");
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -110,13 +89,15 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             proposalsList = SegmentController.getProposalsOfSegment(segmentList, segmentId);
         }
 
-            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList);
+        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList,
+                billId, segmentId);
         recyclerView.setAdapter(content);
 
         return view;
     }
 
     private void setView(final LayoutInflater inflater, final ViewGroup container) {
+
         DataDownloadController dataDownloadController =
                 DataDownloadController.getInstance(getContext());
 
@@ -132,232 +113,16 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
             billText = (TextView) view.findViewById(R.id.titleBill);
             segmentText = (TextView) view.findViewById(R.id.contentSegment);
-            likesIcon = (ImageView)view.findViewById(R.id.imageViewLike);
-            dislikesIcon = (ImageView)view.findViewById(R.id.imageViewDislike);
-
-            setLikedAndDislikedIcon(true);
-            setLikedAndDislikedIcon(false);
-
         } else if (connectionType == NO_NETWORK){
             view = inflater.inflate(R.layout.fragment_view_segment_offline, container, false);
             billText = (TextView) view.findViewById(R.id.titleBillOffline);
             segmentText = (TextView) view.findViewById(R.id.contentSegmentOffline);
         }
 
-        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
-
-        likes.setOnClickListener(this);
-        likesIcon.setOnClickListener(this);
-
-        dislikes.setOnClickListener(this);
-        dislikesIcon.setOnClickListener(this);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
     }
 
-    private void settingText() {
-        try {
-            DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-            SegmentController segmentController = SegmentController.getInstance(getContext());
-            //TODO TESTAR
-            if(dataDownloadController.connectionType() < 2) {
-                final Segment SEGMENT = segmentController.getSegmentByIdFromList(segmentId);
-
-                segmentText.setText(SEGMENT.getContent());
-                billText.setText(BillController.getBillByIdFromList(billId).getTitle());
-                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
-            }else{
-                final Segment SEGMENT = SegmentController.getSegmentById(segmentId, getContext());
-                segmentText.setText(SEGMENT.getContent());
-                billText.setText(BillController.getBillById(billId).getTitle());
-            }
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setLikedAndDislikedIcon(boolean vote) {
-        VotesController votesController = VotesController.getInstance(getContext());
-
-        //TODO: TIRAR NÚMERO MÁGICO
-        boolean evaluated = votesController.getVoteByUserAndIdSegment(userId, segmentId, vote);
-
-        if(evaluated && vote == true) {
-            likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up));
-        }
-
-        if(evaluated && vote == false) {
-            dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down));
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        final int idView = view.getId();
-        String resultPost= "fail" ;
-        if(idView == R.id.imageViewLike ) {
-            VotesController votesController = VotesController.getInstance(getContext());
-
-            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
-            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
-
-            if(evaluatedTrue) {
-                try {
-                    try {
-                        votesController.deleteVote(segmentId, userId);
-                        dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                        likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-                    } catch (BillException e) {
-                        e.printStackTrace();
-                    }
-                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up_outline));
-                } catch (VotesException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else if(evaluatedFalse) {
-                try {
-                    votesController.updateVote(segmentId, userId, true);
-                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-
-                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up));
-                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down_outline));
-                } catch (BillException e) {
-                    e.printStackTrace();
-                } catch (VotesException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    resultPost = votesController.registerVote(segmentId, true);
-                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-                    setLikedAndDislikedIcon(true);
-                } catch (VotesException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (BillException e) {
-                    e.printStackTrace();
-                }
-
-                if (resultPost == "SUCCESS") {
-                    Toast.makeText(getContext(), "like", Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
-
-            try {
-                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-            } catch (BillException e) {
-                e.printStackTrace();
-            } catch (VotesException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }else if(idView == R.id.imageViewDislike ) {
-            VotesController votesController = VotesController.getInstance(getContext());
-
-            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
-            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
-
-            Log.d("evaluatedTrue: ", evaluatedTrue + "");
-            Log.d("evaluatedFalse", evaluatedFalse + "");
-
-            if(evaluatedFalse) {
-                try {
-                    try {
-                        votesController.deleteVote(segmentId, userId);
-                        dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                        likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-                    } catch (BillException e) {
-                        e.printStackTrace();
-                    }
-                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down_outline));
-                } catch (VotesException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else if(evaluatedTrue) {
-                try {
-                    votesController.updateVote(segmentId, userId, false);
-                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-
-                    likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_up_outline));
-                    dislikesIcon.setImageDrawable(getResources().getDrawable(R.drawable.thumb_down));
-                } catch (BillException e) {
-                    e.printStackTrace();
-                } catch (VotesException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    resultPost = votesController.registerVote(segmentId, false);
-                    dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                    likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-                    setLikedAndDislikedIcon(false);
-                } catch (VotesException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (BillException e) {
-                    e.printStackTrace();
-                }
-                if (resultPost == "SUCCESS") {
-                    Toast.makeText(getContext(), "deslike", Toast.LENGTH_SHORT)
-                            .show();
-                }
-                Log.d("resut:", resultPost);
-            }
-
-            try {
-                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-
-            } catch (BillException e) {
-                e.printStackTrace();
-            } catch (VotesException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-            if(session.getBoolean(getContext().getString(R.string.is_logged_in), false)){
-
-                Bundle segmentAndBillId = new Bundle();
-                segmentAndBillId.putInt("billId", billId);
-                segmentAndBillId.putInt("segmentId", segmentId);
-                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal();
-                createSuggestProposal.setArguments(segmentAndBillId);
-                openFragment(createSuggestProposal);
-
-            }
-            else{
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-            }
-        }
-    }
-
-        private void openFragment(Fragment fragmentToBeOpen){
+    private void openFragment(Fragment fragmentToBeOpen){
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =
                 getActivity().getSupportFragmentManager().beginTransaction();
@@ -369,7 +134,31 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onDestroy() {
+    public void onClick(View view) {
+        if(view.getId() == R.id.floatingButton){
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+            if(session.getBoolean(getContext().getString(R.string.is_logged_in), false)){
+
+                Bundle segmentAndBillId = new Bundle();
+                segmentAndBillId.putInt("billId", billId);
+                segmentAndBillId.putInt("segmentId", segmentId);
+
+                CreateSuggestProposal createSuggestProposal = new CreateSuggestProposal(
+                        proposalsList);
+                createSuggestProposal.setArguments(segmentAndBillId);
+
+                openFragment(createSuggestProposal);
+            }
+            else{
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy(){
         super.onDestroy();
         floatingActionButton.setVisibility(View.INVISIBLE);
     }

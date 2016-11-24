@@ -36,17 +36,18 @@ public class JSONHelper {
         } catch (InterruptedException e){
             Log.d("InterruptedException", URL);
         }
+
         Log.d("JSON",getApi);
         return getApi;
     }
 
-    public static List<Bill> billListFromJSON(final String billList, final List<Segment> aux)
+    public static List<Bill> billListFromJSON(final String billListJson)
             throws JSONException, BillException, SegmentException {
 
-        JSONObject bills = new JSONObject(billList);
+        JSONObject bills = new JSONObject(billListJson);
         JSONArray results = bills.getJSONArray("results");
 
-        List<Bill> billListApi = getListBill(results, aux);
+        List<Bill> billListApi = getListBill(results);
 
         return billListApi;
     }
@@ -123,6 +124,8 @@ public class JSONHelper {
         do {
             String segmentList = requestJsonObjectFromApi(url);
 
+            Log.d("ASDFAAA", url);
+
             JSONObject segment = new JSONObject(segmentList);
             JSONArray results = segment.getJSONArray("results");
 
@@ -197,7 +200,7 @@ public class JSONHelper {
         return segmentAux;
     }
 
-    private static List<Bill> getListBill(JSONArray results, List<Segment> aux)
+    private static List<Bill> getListBill(JSONArray results)
             throws JSONException, BillException {
         int id;
         Integer numberOfProposals;
@@ -209,8 +212,8 @@ public class JSONHelper {
             JSONObject jsonObject = results.getJSONObject(index);
 
             id = jsonObject.getInt("id");
-            numberOfProposals = BillController.countedTheNumberOfProposals(aux, id);
-            date= SegmentController.getMinDate(id);
+            numberOfProposals = jsonObject.getInt("proposals_count");
+            date = SegmentController.getMinDate(id);
 
             Bill billAux = BillController.getBill(numberOfProposals, date, jsonObject);
             JSONArray segments = jsonObject.getJSONArray("segments");

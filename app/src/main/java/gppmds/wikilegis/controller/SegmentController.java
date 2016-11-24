@@ -54,7 +54,10 @@ public class SegmentController {
     }
 
     public Segment getSegmentByIdFromList(final Integer id ){
+        Log.d("Seg controller Size", segmentList.size() + "");
+
         for (Segment segment : segmentList){
+            Log.d("Segment do get", segment.getContent());
             if(segment.getId() == id){
                 return segment;
             }
@@ -86,7 +89,7 @@ public class SegmentController {
 
         orderSegments(orderedSegment);
 
-        this.segmentList = segmentList;
+        Log.d("Segment size1", this.segmentList.size() + "");
 
         return orderedSegment;
     }
@@ -112,13 +115,15 @@ public class SegmentController {
                 "http://wikilegis-staging.labhackercd.net/api/segments/",
                 "?created=" + date);
 
+        Log.d("TAMANHO NEW", newSegments.size() + "");
+
         segmentDAO.insertAllSegments(newSegments);
 
         SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
 
         segmentList = segmentDAO.getAllSegments();
 
-        Log.d("TAMANHO", segmentList.size() + "");
+        Log.d("TAMANHO SEGMENTS", segmentList.size() + "");
     }
 
     public List<Segment> getSegmentsByIdBill(Integer idBill)
@@ -147,6 +152,12 @@ public class SegmentController {
 
         SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
 
+        segmentList = segmentDAO.getAllSegments();
+    }
+
+    public void initSegmentsWithDatabase() throws SegmentException {
+        segmentList = new ArrayList<>();
+        segmentDAO = SegmentDAO.getInstance(context);
         segmentList = segmentDAO.getAllSegments();
     }
 

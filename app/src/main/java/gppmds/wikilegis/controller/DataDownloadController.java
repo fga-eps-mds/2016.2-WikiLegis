@@ -24,9 +24,6 @@ import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.Vote;
 
-/**
- * Created by marcelo on 10/17/16
- */
 public class DataDownloadController {
     private static Context context;
     private static DataDownloadController instance = null;

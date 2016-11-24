@@ -1,8 +1,12 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
@@ -25,11 +29,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
+public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     Activity activityOnTest;
 
     public CreateCommentTest() {
-        super(LoadingActivity.class);
+        super(LoginActivity.class);
 
     }
 
@@ -45,6 +49,27 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
                         WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             }
         };
+
+        WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(400);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (session.getBoolean("IsLoggedIn", false)){
+            onView(withId(R.id.action_profile_logged)).perform(click());
+            onView(withText("Sair")).perform(click());
+        }
+
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
@@ -75,11 +100,11 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
 
         closeSoftKeyboard();
 
-        onView(withText("Visitante")).perform(click());
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton))
@@ -104,11 +129,11 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.recycler_viewSegment))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.saveComment)).perform(click());
         onView(withId(R.id.commentEditText)).check(matches(hasErrorText(getActivity()
@@ -131,11 +156,11 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoadingA
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.recycler_viewSegment))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.commentEditText))
                 .perform(typeText("Nao gostei do comentario! Seu Madruga para Presidente!"));

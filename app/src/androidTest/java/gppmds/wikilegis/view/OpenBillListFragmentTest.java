@@ -1,8 +1,15 @@
 package gppmds.wikilegis.view;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
+import android.preference.PreferenceManager;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.NoActivityResumedException;
 import android.support.test.espresso.action.ViewActions;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.WindowManager;
 
 import org.junit.Before;
@@ -44,15 +51,52 @@ public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<L
         };
         activityOnTest.runOnUiThread(wakeUpDevice);
 
+        WifiManager wifiManager = (WifiManager)getActivity().getSystemService(Context.WIFI_SERVICE);
+
+        final boolean STATUS = true;
+
+        wifiManager.setWifiEnabled(STATUS);
+
+        try {
+            Thread.sleep(400);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getActivity());
+
+        if (session.getBoolean("IsLoggedIn", false)){
+            onView(withId(R.id.action_profile_logged)).perform(click());
+            onView(withText("Sair")).perform(click());
+        }
         closeSoftKeyboard();
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+    }
+
+    public void tearDown() throws Exception {
+        Log.d("TAG", "TEARDOWN");
+
+        goBackN();
+
+        super.tearDown();
+    }
+
+    private void goBackN() {
+        final int N = 100; // how many times to hit back button
+        try {
+            for (int i = 0; i < N; i++)
+                Espresso.pressBack();
+        } catch (NoActivityResumedException e) {
+            Log.e("TAG", "Closed all activities", e);
+        }
     }
 
     public void testDefaultFilteringOption(){
         onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
     }
 
-    public void testChangFilteringOptionToRecent(){
+   /* public void testChangFilteringOptionToRecent(){
         onView(withId(R.id.spinner_open)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Recentes"))).perform(click());
         onView(withId(R.id.spinner_open)).check(matches(withText("Recentes")));
@@ -64,5 +108,5 @@ public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withId(R.id.spinner_open)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Relevantes"))).perform(click());
         onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
-    }
+    }*/
 }
