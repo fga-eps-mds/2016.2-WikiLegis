@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -23,13 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.controller.BillController;
 import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.UserException;
-import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Segment;
 
 public class ViewSegmentFragment extends Fragment implements View.OnClickListener{
@@ -57,10 +53,6 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         segmentId = getArguments().getInt("segmentId");
         billId = getArguments().getInt("billId");
 
-
-        //setView(inflater, container);
-        view = inflater.inflate(R.layout.fragment_view_segment, container, false);
-        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(getContext());
 
@@ -77,17 +69,17 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
 
         setLayout();
 
-        //settingText();
-
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
 
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
 
+
         proposalsList = getProposal(dataDownloadController);
 
-            RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList,
-                    billId, segmentId);
+
+        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(proposalsList,
+                billId, segmentId);
         recyclerView.setAdapter(content);
 
         return view;
@@ -105,6 +97,7 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
         int connectionType = dataDownloadController.connectionType();
 
         if(connectionType == WIFI || connectionType == MOBILE_3G) {
+            view = inflater.inflate(R.layout.fragment_view_segment, container, false);
             likes = (TextView) view.findViewById(R.id.textViewNumberLike);
             dislikes = (TextView) view.findViewById(R.id.textViewNumberDislike);
             billText = (TextView) view.findViewById(R.id.titleBill);
@@ -115,38 +108,9 @@ public class ViewSegmentFragment extends Fragment implements View.OnClickListene
             segmentText = (TextView) view.findViewById(R.id.contentSegmentOffline);
         }
 
-        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_viewSegment);
     }
 
-    private void settingText() {
-        try {
-            DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-            SegmentController segmentController = SegmentController.getInstance(getContext());
-            //TODO TESTAR
-            if(dataDownloadController.connectionType() < 2) {
-                final Segment SEGMENT =
-                        segmentController.getSegmentByIdFromList(segmentId);
-
-                segmentText.setText(SEGMENT.getContent());
-                billText.setText(BillController.getBillByIdFromList(billId).getTitle());
-                dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,false)+"");
-                likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true) +"");
-            }else{
-                final Segment SEGMENT = SegmentController.getSegmentById(segmentId, getContext());
-                segmentText.setText(SEGMENT.getContent());
-                billText.setText(BillController.getBillById(billId).getTitle());
-            }
-
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
     private void openFragment(Fragment fragmentToBeOpen){
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =

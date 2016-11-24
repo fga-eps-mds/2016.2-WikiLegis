@@ -7,7 +7,10 @@ import android.util.Log;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.model.Comments;
@@ -26,6 +29,13 @@ public class CommentSegmentController {
             instance = new CommentSegmentController(context);
         }
         return  instance;
+    }
+
+    public List<Comments> getCommentsByIdOfSegment(Integer idSegment) throws JSONException,
+            CommentsException {
+        List<Comments> commentsList = JSONHelper.getCommentsByIdOfSegment(idSegment);
+
+        return commentsList;
     }
 
     public String registerComment (int objectPK, String comment, Context context)

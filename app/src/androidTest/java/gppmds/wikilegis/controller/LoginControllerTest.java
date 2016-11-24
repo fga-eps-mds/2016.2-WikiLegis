@@ -130,6 +130,7 @@ public class LoginControllerTest {
     @Test
     public void testCreateLoginSession() {
 
+        final int id = 1000;
         final String email = "augusto.vilarins@gmail.com";
         final String token = "abcd";
         final String firstName = "Augusto";
@@ -139,8 +140,9 @@ public class LoginControllerTest {
                 getDefaultSharedPreferences(context);
 
         LoginController loginController = LoginController.getInstance(context);
-        loginController.createLoginSession(email,token, firstName, lastName, session);
+        loginController.createLoginSession(id, email,token, firstName, lastName, session);
 
+        assertEquals(session.getInt("id", 0), id);
         assertTrue(session.getBoolean("IsLoggedIn", false));
         assertEquals(session.getString("email", null), email);
         assertEquals(session.getString("token", null), token);

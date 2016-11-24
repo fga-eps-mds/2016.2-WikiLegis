@@ -32,6 +32,7 @@
 
     <!-- all SharedPreferences keys-->
     <string name="token">token</string>
+    <string name="id">id</string>
     <string name="is_logged_in">IsLoggedIn</string>
     <string name="first_name">firstName</string>
     <string name="last_name">lastName</string>

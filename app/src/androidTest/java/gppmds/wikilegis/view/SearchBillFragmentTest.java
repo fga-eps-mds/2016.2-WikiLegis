@@ -78,6 +78,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
+    /*
     public void testResultSearchExistWithInternet() {
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
                 (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
@@ -213,4 +214,5 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 
+    */
 }
