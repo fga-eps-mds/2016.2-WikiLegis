@@ -43,11 +43,7 @@ public class CommentSegmentController {
             SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
 
             String url = "http://wikilegis-staging.labhackercd.net/api/comments/";
-            String json = "{" +
-                    "\"object_id\": " + segment.getObjectPk() + "," +
-                    "\"comment\": \"" + segment.getComment() + "\"" + "," +
-                    "\"token\": \"" + session.getString("token", null) + "\"" +
-                    "}";
+            String json = buildJson(segment, session);
 
             Log.d("URL", url);
             Log.d("URL PARAMS", json);
@@ -59,5 +55,13 @@ public class CommentSegmentController {
         }
 
         return status;
+    }
+
+    private String buildJson(Comments segment, SharedPreferences session){
+         return  "{" +
+                "\"object_id\": " + segment.getObjectPk() + "," +
+                "\"comment\": \"" + segment.getComment() + "\"" + "," +
+                "\"token\": \"" + session.getString("token", null) + "\"" +
+                "}";
     }
 }
