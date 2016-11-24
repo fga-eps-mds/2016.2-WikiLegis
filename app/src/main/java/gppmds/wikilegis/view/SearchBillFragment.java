@@ -48,12 +48,7 @@ public class SearchBillFragment extends Fragment {
 
         initBillList();
 
-        if (billListSearch.size() == 0) {
-            Toast.makeText(getContext(), "Nenhum resultado encontrado!", Toast.LENGTH_SHORT).show();
-        }
-
-        recyclerViewAdapter = new RecyclerViewAdapter(billListSearch);
-        recyclerView.setAdapter(recyclerViewAdapter);
+        setRecyclerView(recyclerView);
 
         return view;
     }
@@ -76,5 +71,14 @@ public class SearchBillFragment extends Fragment {
         } catch (SegmentException e) {
             e.printStackTrace();
         }
+    }
+
+    private void setRecyclerView(RecyclerView recyclerView){
+        if (billListSearch.size() == 0) {
+            Toast.makeText(getContext(), "Nenhum resultado encontrado!", Toast.LENGTH_SHORT).show();
+        }
+
+        recyclerViewAdapter = new RecyclerViewAdapter(billListSearch);
+        recyclerView.setAdapter(recyclerViewAdapter);
     }
 }
