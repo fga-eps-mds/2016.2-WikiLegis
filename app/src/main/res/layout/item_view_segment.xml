@@ -45,7 +45,7 @@ android:layout_marginTop="1px">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/dislike"
+            android:src="@drawable/thumb_down_outline"
             android:id="@+id/imageViewDislikeCard"
             android:layout_marginEnd="100dp"
             android:layout_alignBottom="@+id/imageViewProposalCard"
@@ -54,7 +54,7 @@ android:layout_marginTop="1px">
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/like"
+            android:src="@drawable/thumb_up_outline"
             android:id="@+id/imageViewLikeCard"
             android:layout_alignTop="@+id/imageViewDislikeCard"
             android:layout_alignParentStart="true"

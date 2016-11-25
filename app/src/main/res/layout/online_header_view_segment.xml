@@ -74,7 +74,7 @@
                 android:layout_marginStart="5dp"
                 android:clickable="false"
                 android:text=""
-                android:id="@+id/textViewNumberLikeCard"
+                android:id="@+id/textViewNumberLike"
                 android:layout_alignBottom="@+id/imageViewLike"
                 android:layout_toEndOf="@+id/imageViewLike" />
 
@@ -84,9 +84,9 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text=""
                 android:clickable="false"
-                android:id="@+id/textViewNumberDislikeCard"
+                android:id="@+id/textViewNumberDislike"
                 android:layout_marginStart="5dp"
-                android:layout_alignTop="@+id/textViewNumberLikeCard"
+                android:layout_alignTop="@+id/textViewNumberLike"
                 android:layout_toEndOf="@+id/imageViewDislike" />
 
         </RelativeLayout>

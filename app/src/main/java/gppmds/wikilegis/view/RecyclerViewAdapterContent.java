@@ -50,8 +50,13 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
         View cardView;
         TextView proposals;
+
         TextView likes;
         TextView dislikes;
+
+        TextView likesHeader;
+        TextView dislikesHeader;
+
         TextView billText;
         TextView contentSegment;
         ImageView commentSegment;
@@ -65,8 +70,13 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
             cardView = itemView.findViewById(R.id.frameCardViewSegment);
             proposals = (TextView) itemView.findViewById(R.id.textViewSegment);
+
             likes = (TextView) itemView.findViewById(R.id.textViewNumberLikeCard);
             dislikes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCard);
+
+            likesHeader = (TextView) itemView.findViewById(R.id.textViewNumberLike);
+            dislikesHeader = (TextView) itemView.findViewById(R.id.textViewNumberDislike);
+
             billText = (TextView) itemView.findViewById(R.id.titleBill);
             contentSegment = (TextView) itemView.findViewById(R.id.contentSegment);
             commentSegment = (ImageView) itemView.findViewById(R.id.imageViewProposalCard);
@@ -170,14 +180,23 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         final ImageView likeIcon;
         final ImageView dislikeIcon;
 
+        final TextView like;
+        final TextView dislike;
+
         final int HEADER = 0;
 
         if(position == HEADER) {
             likeIcon = holder.likesIconHeader;
             dislikeIcon = holder.dislikesIconHeader;
+
+            like = holder.likesHeader;
+            dislike = holder.dislikesHeader;
         } else {
             likeIcon = holder.likesIcon;
             dislikeIcon = holder.dislikesIcon;
+
+            like = holder.likes;
+            dislike = holder.dislikes;
         }
 
         holder.cardView.setTag(R.id.idSegment, listSegment.get(position).getId());
@@ -189,6 +208,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
         if(position == HEADER){
             final VotesController votesController = VotesController.getInstance(context);
+
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+            userId = session.getInt(context.getResources().getString(R.string.id), 0);
 
             boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
             boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
@@ -212,14 +234,29 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
             }
         }
         else{
+            SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
+            userId = session.getInt(context.getResources().getString(R.string.id), 0);
+
+            final VotesController votesController = VotesController.getInstance(context);
+
+            boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId,
+                    listSegment.get(position).getId(), true);
+            boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId,
+                    listSegment.get(position).getId(), false);
+
+            if(evaluatedTrue) {
+                likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
+            } else if(evaluatedFalse) {
+                dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
+            }
 
             holder.proposals.setText(listSegment.get(position).getContent());
 
             try{
-                holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,
-                        false) + "");
-                holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,
-                        true) + "");
+                dislike.setText(DataDownloadController.getNumberOfVotesbySegment(listSegment.
+                                get(position).getId(), false) + "");
+                like.setText(DataDownloadController.getNumberOfVotesbySegment(listSegment.
+                        get(position).getId(), true) + "");
             } catch(BillException e){
                 e.printStackTrace();
             } catch(VotesException e){
@@ -237,33 +274,59 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         likeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
-                boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
+                ImageView imageViewLikeUsed;
+                ImageView imageViewDislikeUsed;
+
+                TextView textViewLikeUsed;
+                TextView textViewDislikeUsed;
+
+                Integer idSegmentUsed;
+
+                if(v.getId() == R.id.imageViewLike) {
+                    imageViewLikeUsed = holder.likesIconHeader;
+                    imageViewDislikeUsed = holder.dislikesIconHeader;
+
+                    textViewLikeUsed = holder.likesHeader;
+                    textViewDislikeUsed = holder.dislikesHeader;
+
+                    idSegmentUsed = segmentId;
+                }else{
+                    imageViewLikeUsed = holder.likesIcon;
+                    imageViewDislikeUsed = holder.dislikesIcon;
+
+                    textViewLikeUsed = holder.likes;
+                    textViewDislikeUsed = holder.dislikes;
+
+                    idSegmentUsed = listSegment.get(position).getId();
+                }
+
+                boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, idSegmentUsed, true);
+                boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, idSegmentUsed, false);
 
                 String resultPost = "";
-                if(evaluatedTrue) {
+                if (evaluatedTrue) {
                     try {
                         try {
-                            votesController.deleteVote(segmentId, userId);
-                            holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                            holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                            votesController.deleteVote(idSegmentUsed, userId);
+                            textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
+                            textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
                         } catch (BillException e) {
                             e.printStackTrace();
                         }
-                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
+                        imageViewLikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } else if(evaluatedFalse) {
+                } else if (evaluatedFalse) {
                     try {
-                        votesController.updateVote(segmentId, userId, true);
-                        holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                        holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                        votesController.updateVote(idSegmentUsed, userId, true);
+                        textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
+                        textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
 
-                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
-                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
+                        imageViewLikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
+                        imageViewDislikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
                     } catch (BillException e) {
                         e.printStackTrace();
                     } catch (VotesException e) {
@@ -273,11 +336,11 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                     }
                 } else {
                     try {
-                        resultPost = votesController.registerVote(segmentId, true);
-                        holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                        holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                        resultPost = votesController.registerVote(idSegmentUsed, true);
+                        textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
+                        textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
 
-                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
+                        imageViewLikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -287,14 +350,13 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                     }
 
                     if (resultPost == "SUCCESS") {
-                        Toast.makeText(context, "like", Toast.LENGTH_SHORT)
-                                .show();
+
                     }
                 }
 
                 try {
-                    holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
-                    holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
+                    textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
+                    textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
                 } catch (BillException e) {
                     e.printStackTrace();
                 } catch (VotesException e) {
@@ -308,33 +370,59 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         dislikeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
-                boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
+                ImageView imageViewLikeUsed;
+                ImageView imageViewDislikeUsed;
+
+                TextView textViewLikeUsed;
+                TextView textViewDislikeUsed;
+
+                Integer idSegmentUsed;
+
+                if(v.getId() == R.id.imageViewDislike) {
+                    imageViewLikeUsed = holder.likesIconHeader;
+                    imageViewDislikeUsed = holder.dislikesIconHeader;
+
+                    textViewLikeUsed = holder.likesHeader;
+                    textViewDislikeUsed = holder.dislikesHeader;
+
+                    idSegmentUsed = segmentId;
+                }else{
+                    imageViewLikeUsed = holder.likesIcon;
+                    imageViewDislikeUsed = holder.dislikesIcon;
+
+                    textViewLikeUsed = holder.likes;
+                    textViewDislikeUsed = holder.dislikes;
+
+                    idSegmentUsed = listSegment.get(position).getId();
+                }
+
+                boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, idSegmentUsed, true);
+                boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, idSegmentUsed, false);
 
                 String resultPost = "";
-                if(evaluatedFalse) {
+                if (evaluatedFalse) {
                     try {
                         try {
-                            votesController.deleteVote(segmentId, userId);
-                            holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                            holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                            votesController.deleteVote(idSegmentUsed, userId);
+                            textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
+                            textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
                         } catch (BillException e) {
                             e.printStackTrace();
                         }
-                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
+                        imageViewDislikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                } else if(evaluatedTrue) {
+                } else if (evaluatedTrue) {
                     try {
-                        votesController.updateVote(segmentId, userId, false);
-                        holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                        holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                        votesController.updateVote(idSegmentUsed, userId, false);
+                        textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
+                        textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
 
-                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
-                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
+                        imageViewLikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
+                        imageViewDislikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
                     } catch (BillException e) {
                         e.printStackTrace();
                     } catch (VotesException e) {
@@ -344,12 +432,12 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                     }
                 } else {
                     try {
-                        resultPost = votesController.registerVote(segmentId, false);
+                        resultPost = votesController.registerVote(idSegmentUsed, false);
 
-                        holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                        holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                        textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
+                        textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
 
-                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
+                        imageViewDislikeUsed.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -358,15 +446,14 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         e.printStackTrace();
                     }
                     if (resultPost == "SUCCESS") {
-                        Toast.makeText(context, "deslike", Toast.LENGTH_SHORT)
-                                .show();
+
                     }
-                    Log.d("resut:", resultPost);
+                    Log.d("result:", resultPost);
                 }
 
                 try {
-                    holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
-                    holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
+                    textViewDislikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, false) + "");
+                    textViewLikeUsed.setText(DataDownloadController.getNumberOfVotesbySegment(idSegmentUsed, true) + "");
 
                 } catch (BillException e) {
                     e.printStackTrace();
@@ -392,9 +479,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         holder.contentSegment.setText(segmentController.getSegmentByIdFromList(segmentId).getContent());
 
         if(connectionType == WIFI || connectionType == MOBILE_3G) {
-            holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true)
+            holder.likesHeader.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true)
                     +"");
-            holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,
+            holder.dislikesHeader.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,
                     false)+"");
         }
     }
