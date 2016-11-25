@@ -17,6 +17,7 @@ public class RegisterUserController {
 
     private static RegisterUserController instance = null;
     private final Context context;
+    private PostRequest postRequest;
 
     private RegisterUserController(final Context contextParameter) {
         this.context = contextParameter;
@@ -46,19 +47,10 @@ public class RegisterUserController {
 
             JSONObject userJson = setJSON(user);
 
-            PostRequest postRequest = new PostRequest(context,
-                    "http://wikilegis-staging.labhackercd.net/api/user/create/");
-
-            try{
-                String responseInformation = postRequest.execute(userJson.toString(),
-                        "application/json").get();
-            } catch(InterruptedException e){
-                e.printStackTrace();
-            } catch(ExecutionException e){
-                e.printStackTrace();
-            }
+            executePostRequest(userJson);
 
             Log.d("Response", postRequest.getResponse() + "");
+
 
             registerStatus = String.valueOf(postRequest.getResponse());
 
@@ -80,5 +72,18 @@ public class RegisterUserController {
         jsonParam.put("last_name", user.getLastName());
         jsonParam.put("password", user.getPassword());
         return jsonParam;
+    }
+
+    private void executePostRequest(JSONObject userJson){
+        postRequest = new PostRequest(context,
+                "http://wikilegis-staging.labhackercd.net/api/user/create/");
+        try{
+            String responseInformation = postRequest.execute(userJson.toString(),
+                    "application/json").get();
+        } catch(InterruptedException e){
+            e.printStackTrace();
+        } catch(ExecutionException e){
+            e.printStackTrace();
+        }
     }
 }

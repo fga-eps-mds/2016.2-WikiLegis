@@ -15,12 +15,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.w3c.dom.Comment;
 
 import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.exception.CommentsException;
+import gppmds.wikilegis.model.Comments;
 import gppmds.wikilegis.model.Segment;
 
 
@@ -28,13 +30,13 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
     private EditText commentEditText;
     private FloatingActionButton floatingActionButton;
-    private List<Segment> listSegment;
+    private List<Comments> listComments;
 
     public CreateComment(){
     }
 
-    public CreateComment(List<Segment> listSegment){
-        this.listSegment = listSegment;
+    public CreateComment(List<Comments> listComments){
+        this.listComments = listComments;
     }
 
     @Override
@@ -61,7 +63,7 @@ public class CreateComment extends Fragment implements View.OnClickListener {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        RecyclerViewAdapterContent content = new RecyclerViewAdapterContent(listSegment,
+        RecyclerViewAdapterComment content = new RecyclerViewAdapterComment(listComments,
                 getArguments().getInt("idBill"), getArguments().getInt("idSegment"));
         recyclerView.setAdapter(content);
 

@@ -11,11 +11,14 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.controller.BillController;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
+import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Bill;
+import gppmds.wikilegis.model.Comments;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.Vote;
 
@@ -49,6 +52,68 @@ public class JSONHelper {
         List<Bill> billListApi = getListBill(results);
 
         return billListApi;
+    }
+
+    public static boolean getVoteByUserAndIdSegment(Integer idUser, Integer idSegment,
+                                                    boolean vote) {
+        String url;
+
+        if (vote == true) {
+            url = "http://wikilegis-staging.labhackercd.net/api/votes/?user=" + idUser +
+                    "&object_id=" + idSegment + "&vote=True";
+        } else {
+            url = "http://wikilegis-staging.labhackercd.net/api/votes/?user=" + idUser +
+                    "&object_id=" + idSegment + "&vote=False";
+        }
+
+        String votesList = requestJsonObjectFromApi(url);
+
+        JSONArray results = null;
+
+        try {
+            JSONObject votes = new JSONObject(votesList);
+            results = votes.getJSONArray("results");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        boolean returnValue;
+        if (results.length() != 0) {
+            returnValue = true;
+        } else {
+            returnValue = false;
+        }
+
+        return returnValue;
+    }
+
+    public static List<Comments>getCommentsByIdOfSegment(Integer idSegment) throws JSONException,
+            CommentsException{
+        String url = "http://wikilegis-staging.labhackercd.net/api/comments/?object_pk=" + idSegment;
+
+        List<Comments> commentsListAPI = new ArrayList<>();
+
+        String commentsListJSON = requestJsonObjectFromApi(url);
+
+        try {
+            JSONObject commentsJSONObject = new JSONObject(commentsListJSON);
+            JSONArray results = commentsJSONObject.getJSONArray("results");
+
+
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject jsonObject = results.getJSONObject(i);
+
+                Comments comments = new Comments(idSegment, jsonObject.getString("comment"));
+                commentsListAPI.add(comments);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (CommentsException e) {
+            e.printStackTrace();
+        }
+
+        return commentsListAPI;
     }
 
     public static List<Vote> votesListFromJSON(String urlDate) throws JSONException, VotesException {
@@ -195,6 +260,5 @@ public class JSONHelper {
 
         return billListApi;
     }
-
 
 }

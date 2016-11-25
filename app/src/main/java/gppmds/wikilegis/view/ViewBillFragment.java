@@ -37,6 +37,11 @@ public class ViewBillFragment extends Fragment {
     private BillController billController = null;
     private SegmentController segmentController = null;
     private ImageView share;
+    private View view;
+    private TabLayout tabs;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private RecyclerViewAdapterBill adapter;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -45,62 +50,19 @@ public class ViewBillFragment extends Fragment {
         Integer idBill;
         idBill = getArguments().getInt("id");
 
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(getContext());
-
-        SharedPreferences.Editor editor = session.edit();
-        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain) +
-                getString(R.string.edemocracia_bill) + idBill);
-        editor.commit();
-
-
-        View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
-
-        this.settingEditText(view);
-        this.settingTypeText(idBill);
-
-        TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
-        tabs.setVisibility(View.GONE);
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        setSharedPreferences(idBill);
 
         billController = BillController.getInstance(getContext());
         segmentController = SegmentController.getInstance(getContext());
         DataDownloadController dataDownloadController = DataDownloadController.getInstance(getContext());
-        List<Segment> segmentList = new ArrayList<>();
-        //TODO TESTAR 
-        if(dataDownloadController.connectionType() < 2){
-            try {
-                segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
-                SegmentController segmentController = SegmentController.getInstance(getContext());
-                segmentController.setSegmentList(segmentList);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (BillException e) {
-                e.printStackTrace();
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            }
-        }else {
-            SegmentController segmentController = SegmentController.getInstance(getContext());
+        List<Segment> segmentList;
 
-            try {
-                segmentList = segmentController.getSegmentsByIdBill(idBill);
-            } catch (SegmentException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        segmentList = getSegmentList(dataDownloadController, idBill);
+
+        setLayout(inflater, container, idBill, segmentList);
 
         Log.d("TAMANHO15000", segmentList.size() + "");
 
-        RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(segmentList, getContext());
-        recyclerView.setAdapter(adapter);
 
         return view;
     }
@@ -137,5 +99,66 @@ public class ViewBillFragment extends Fragment {
         this.numberProposalsTextView.setText(bill.getNumberOfPrposals() + "");
     }
 
+    private List<Segment> getSegmentList(DataDownloadController dataDownloadController, final int idBill){
+        List<Segment> segmentList = new ArrayList<>();
+        if(dataDownloadController.connectionType() < 2){
+            try {
+                segmentList = segmentController.getSegmentsOfBillById(""+idBill,"", false);
+                SegmentController segmentController = SegmentController.getInstance(getContext());
+                segmentController.setSegmentList(segmentList);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            }
+        }else {
+            SegmentController segmentController = SegmentController.getInstance(getContext());
+
+            try {
+                segmentList = segmentController.getSegmentsByIdBill(idBill);
+            } catch (SegmentException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return segmentList;
+    }
+
+    private void setLayout(LayoutInflater inflater, ViewGroup container, final int idBill, List<Segment> segmentList) {
+
+        view = inflater.inflate(R.layout.fragment_view_bill, container, false);
+        this.settingEditText(view);
+        this.settingTypeText(idBill);
+
+        tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
+        tabs.setVisibility(View.GONE);
+
+        setRecyclerView(segmentList);
+
+    }
+
+    private void setRecyclerView(List<Segment> segmentList){
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_viewBill);
+        recyclerView.setHasFixedSize(true);
+
+        linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapterBill(segmentList, getContext());
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setSharedPreferences(final int idBill){
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain) +
+                getString(R.string.edemocracia_bill) + idBill);
+        editor.commit();
+    }
 
 }
