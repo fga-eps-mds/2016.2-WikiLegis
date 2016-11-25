@@ -93,7 +93,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
 
         //Redirecting to ViewSegmentFragment
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 

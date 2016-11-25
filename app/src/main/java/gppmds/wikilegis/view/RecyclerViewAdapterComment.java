@@ -20,6 +20,7 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Comments;
+import gppmds.wikilegis.model.Segment;
 
 public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerViewAdapterComment
         .ContentViewHolder> {
@@ -120,7 +121,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    private void setHeaderInfo(final ContentViewHolder holder, Integer connectionType,Integer
+    private void setHeaderInfo(final ContentViewHolder holder, Integer connectionType, Integer
             segmentId, Integer billId) throws BillException,
             JSONException, VotesException, SegmentException{
         final int WIFI = 0;
@@ -128,14 +129,31 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
 
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        Log.d("SEGMENT ID ON LIST", segmentId + "");
-        holder.contentProposal.setText(segmentController.getSegmentById(segmentId, context).getContent());
-
         if(connectionType == WIFI || connectionType == MOBILE_3G) {
+
+            List<Segment> listSegments =
+                    segmentController.getSegmentsOfBillById(billId + "", "", true);
+
+
+            Segment segment = null;
+
+            for(Segment segmentAux : listSegments) {
+                Log.d(segmentAux.getId() + "", segmentId + "");
+
+                if((segmentAux.getId() + "").equals(segmentId + "")) {
+                    segment = segmentAux;
+                    break;
+                }
+            }
+
+            holder.contentProposal.setText(segment.getContent());
+
             holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true)
                     +"");
             holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,
                     false)+"");
+        } else {
+            holder.contentProposal.setText(segmentController.getSegmentById(segmentId, context).getContent());
         }
     }
 
