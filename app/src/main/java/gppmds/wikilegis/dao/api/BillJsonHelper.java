@@ -29,7 +29,7 @@ public class BillJsonHelper {
             }
 
             String nextUrl = jsonBill.getString("next");
-            url = nextUrl; //updateDomain(nextUrl);
+            url = nextUrl;
             Log.d("URL", nextUrl);
 
         } while (!url.equals("null"));

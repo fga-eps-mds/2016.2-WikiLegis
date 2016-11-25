@@ -26,7 +26,6 @@ public class BillDAO extends DaoUtilities{
 
     public static BillDAO getInstance(final Context context) {
         if (BillDAO.instance != null) {
-            //nothing to do
         } else {
             BillDAO.instance = new BillDAO(context);
         }

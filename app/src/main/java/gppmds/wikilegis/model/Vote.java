@@ -24,10 +24,6 @@ public class Vote {
         setId(id);
     }
 
-    public Vote (int objectId , boolean vote) throws VotesException {
-        setObjectId(objectId);
-        setVote(vote);
-    }
     public boolean equals(Vote votes){
         return this.id == votes.getId() && this.contentType == votes.getContentType() && this.userId == votes.getUserId() &&
                 this.objectId  == votes.getObjectId() && this.vote == votes.getVote();

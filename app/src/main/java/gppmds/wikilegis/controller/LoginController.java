@@ -16,9 +16,7 @@ import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.User;
 
-/**
- * Created by marcelo on 10/6/16.
- */
+
 
 public class LoginController {
 
@@ -33,7 +31,6 @@ public class LoginController {
         if (instance == null) {
             instance = new LoginController(context);
         } else {
-			/* ! Nothing To Do. */
         }
         return instance;
     }
