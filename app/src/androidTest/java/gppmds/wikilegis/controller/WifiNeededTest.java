@@ -33,6 +33,7 @@ public class WifiNeededTest {
     DataDownloadController dataDownloadController;
     SegmentController segmentController;
     BillDAO billDAO;
+
     BillController billController;
 
     @Before

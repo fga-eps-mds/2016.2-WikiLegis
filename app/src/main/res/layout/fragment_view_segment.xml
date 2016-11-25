@@ -1,11 +1,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
-                android:background="@drawable/background"
-                android:id="@+id/view_segment_fragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
+    android:background="@drawable/background"
+    android:id="@+id/view_segment_fragment">
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:layout_alignParentStart="false"
+        android:background="@color/cardview_light_background"
+        android:id="@+id/frameLayoutSegment"
+        android:layout_alignParentEnd="false">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayoutProposal"
+        android:layout_below="@+id/frameLayoutSegment"
+        android:layout_alignStart="@+id/frameLayoutSegment"
+        android:layout_marginTop="1dp"
+        android:clickable="true"
+
+        android:background="#ffffff">
+
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="50dp"

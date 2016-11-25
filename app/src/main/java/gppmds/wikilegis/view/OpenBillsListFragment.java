@@ -1,6 +1,8 @@
 package gppmds.wikilegis.view;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -107,6 +109,15 @@ public class OpenBillsListFragment extends Fragment implements MaterialSpinner.O
 
         // Initialize list if the tab is visible
         if (this.isVisible()) {
+            final String HOME_PAGE = "http://wikilegis-staging.labhackercd.net/";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(getContext());
+
+            SharedPreferences.Editor editor = session.edit();
+            editor.putString(getString(R.string.share_url), HOME_PAGE);
+            editor.commit();
+
             recyclerViewAdapter.getData().clear();
             recyclerViewAdapter.getData().addAll(billListRelevantsAndOpened);
             recyclerViewAdapter.notifyDataSetChanged();

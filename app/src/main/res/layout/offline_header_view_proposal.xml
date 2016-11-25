@@ -1,9 +1,9 @@
-                           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
-                android:id="@+id/segment_header">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
+    android:id="@+id/offline_proposal_header">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -14,21 +14,21 @@
         android:clickable="true"
         android:layout_alignParentStart="false"
         android:background="@color/cardview_light_background"
-        android:id="@+id/frameCardViewSegment"
+        android:id="@+id/frameCardViewProposal"
         android:layout_alignParentEnd="false">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="left|bottom">
+            android:layout_gravity="center_horizontal|top">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/titleBill"
+                android:id="@+id/titleProposal"
                 android:autoText="false"
-                android:hint="Texto da bill"
+                android:hint="Texto da proposta"
                 android:gravity="center"
                 android:layout_marginTop="15dp"
                 android:layout_alignParentTop="true"
@@ -38,33 +38,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text"
-                android:id="@+id/contentSegment"
+                android:id="@+id/contentProposal"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/titleBill"
+                android:layout_below="@+id/titleProposal"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"/>
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/imageViewLike"
+                android:id="@+id/imageViewLikeCardViewProposal"
                 android:clickable="false"
-                android:src="@drawable/thumb_up_outline"
+                android:src="@drawable/like"
                 android:layout_marginStart="50dp"
-                android:layout_below="@+id/contentSegment"
+                android:layout_below="@+id/contentProposal"
                 android:layout_alignParentStart="true" />
 
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/imageViewDislike"
-                android:src="@drawable/thumb_down_outline"
+                android:id="@+id/imageViewDislikeCardViewProposal"
+                android:src="@drawable/dislike"
                 android:layout_marginStart="130dp"
                 android:clickable="false"
-                android:layout_alignTop="@+id/imageViewLike"
-                android:layout_toEndOf="@+id/imageViewLike"
+                android:layout_alignTop="@+id/imageViewLikeCardViewProposal"
+                android:layout_toEndOf="@+id/imageViewLikeCardViewProposal"
                 android:layout_marginBottom="15dp"/>
 
             <TextView
@@ -74,9 +74,9 @@
                 android:layout_marginStart="5dp"
                 android:clickable="false"
                 android:text=""
-                android:id="@+id/textViewNumberLikeCard"
-                android:layout_alignBottom="@+id/imageViewLike"
-                android:layout_toEndOf="@+id/imageViewLike" />
+                android:id="@+id/textViewNumberLikeCardViewProposal"
+                android:layout_alignBottom="@+id/imageViewLikeCardViewProposal"
+                android:layout_toEndOf="@+id/imageViewLikeCardViewProposal" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -84,10 +84,10 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text=""
                 android:clickable="false"
-                android:id="@+id/textViewNumberDislikeCard"
+                android:id="@+id/textViewNumberDislikeCardViewProposal"
                 android:layout_marginStart="5dp"
-                android:layout_alignTop="@+id/textViewNumberLikeCard"
-                android:layout_toEndOf="@+id/imageViewDislike" />
+                android:layout_alignTop="@+id/textViewNumberLikeCardViewProposal"
+                android:layout_toEndOf="@+id/imageViewDislikeCardViewProposal" />
 
         </RelativeLayout>
 
@@ -97,8 +97,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/frameLayoutProposal"
-        android:layout_below="@+id/frameCardViewSegment"
-        android:layout_alignStart="@+id/frameCardViewSegment"
+        android:layout_below="@+id/frameCardViewProposal"
+        android:layout_alignStart="@+id/frameCardViewProposal"
         android:layout_marginTop="1dp"
         android:background="#ffffff">
 
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Propostas"
+                android:text="Comentários"
                 android:clickable="false"
                 android:id="@+id/textViewProposal"
                 android:layout_marginTop="15dp"

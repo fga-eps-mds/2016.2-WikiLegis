@@ -1,6 +1,9 @@
 package gppmds.wikilegis.view;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -32,13 +36,23 @@ public class ViewBillFragment extends Fragment {
     private TextView numberProposalsTextView = null;
     private BillController billController = null;
     private SegmentController segmentController = null;
+    private ImageView share;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        int idBill;
+        Integer idBill;
         idBill = getArguments().getInt("id");
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = session.edit();
+        editor.putString(getString(R.string.share_url), getString(R.string.edemocracia_domain) +
+                getString(R.string.edemocracia_bill) + idBill);
+        editor.commit();
+
 
         View view = inflater.inflate(R.layout.fragment_view_bill, container, false);
 
@@ -87,7 +101,7 @@ public class ViewBillFragment extends Fragment {
 
         RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(segmentList, getContext());
         recyclerView.setAdapter(adapter);
-
+        billController.setClickedBill(idBill);
         return view;
     }
 
@@ -122,4 +136,6 @@ public class ViewBillFragment extends Fragment {
         this.textAbstractTextView.setText(bill.getDescription());
         this.numberProposalsTextView.setText(bill.getNumberOfPrposals() + "");
     }
+
+
 }

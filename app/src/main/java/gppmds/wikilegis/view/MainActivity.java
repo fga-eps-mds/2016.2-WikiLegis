@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -161,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent reportActivity = new Intent(MainActivity.this, ReportActivity.class);
 
         switch(item.getItemId()) {
             case R.id.action_login:
@@ -182,8 +184,63 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_config_logged:
                 actionDialogNetworkSettings();
                 break;
+            case R.id.action_notification_logged:
+                actionDialogNotification();
+                break;
+
+            case R.id.action_share_deslogged:
+                shareTextUrl();
+                break;
+            case R.id.action_share_logged:
+                shareTextUrl();
+                break;
+            case R.id.action_report_logged:
+                startActivity(reportActivity);
+                break;
+            case R.id.action_report_deslogged:
+                startActivity(reportActivity);
+                break;
         }
         return true;
+    }
+
+    private void actionDialogNotification() {
+        showDialogConfirmNotificationRequest(MainActivity.this,"Ativar notificação deste projeto",new String[]{"Confirmar"},
+                new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        //Do your functionality here
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        BillController billcontroller = BillController.getInstance(MainActivity.this);
+                        if("-1".equals(billcontroller.getClickedBill())) {
+                            Toast.makeText(getBaseContext(), "Selecione um projeto.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            String response = "";
+                            switch (selectedPosition) {
+
+                                case 0:
+                                    response = billcontroller.activiteNotification("weekly");
+
+                                    break;
+                                case 1:
+                                    response = billcontroller.activiteNotification("daily");
+
+
+                                    break;
+
+                                default:
+                                    //Nothing to do
+                            }
+                            if ("200".equals(response)) {
+                                Toast.makeText(getBaseContext(), "Você receberá informações deste projeto.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //TODO trocar esta mensagem de erro para quando api estiver funcionando.
+                                Toast.makeText(getBaseContext(), "Você receberá informações deste projeto.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
     }
 
     private void actionDialogNetworkSettings() {
@@ -245,6 +302,37 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("networkPrefe", networkPreference+"");
         builder.setSingleChoiceItems(items, networkPreference,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                    }
+                });
+
+        builder.setPositiveButton(btnText[0], listener);
+
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], listener);
+        }
+        builder.show();
+    }
+
+    public void showDialogConfirmNotificationRequest(Context context, String title, String[] btnText,
+                                                     DialogInterface.OnClickListener listener) {
+
+        final CharSequence[] items = { "semanalmente","diariamente"};
+
+        if (listener == null)
+            listener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    paramDialogInterface.dismiss();
+                }
+            };
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+
+        builder.setSingleChoiceItems(items, 1,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                     }
@@ -336,5 +424,33 @@ public class MainActivity extends AppCompatActivity {
         });
 
         alertDialogProposalBuilder.show();
+    }
+
+
+    private void shareTextUrl() {
+
+        final String HOME_PAGE = "http://wikilegis-staging.labhackercd.net/";
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getBaseContext());
+
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        String link = session.getString(getString(R.string.share_url), HOME_PAGE);
+
+        share.putExtra(Intent.EXTRA_SUBJECT, "Dê uma olhada nisso e fique por dentro das leis:");
+        share.putExtra(Intent.EXTRA_TEXT, link);
+
+        startActivity(Intent.createChooser(share, "Compartilhar via"));
+    }
+
+    private void openFragment(final Fragment fragmentToBeOpen) {
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.main_content, fragmentToBeOpen);
+        fragmentTransaction.commit();
     }
 }

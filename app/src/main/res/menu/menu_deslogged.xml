@@ -25,8 +25,21 @@
                 android:title="@string/action_config">
             </item>
 
+            <item
+                android:id="@+id/action_report_deslogged"
+                app:showAsAction="always"
+                android:orderInCategory="3"
+                android:title="@string/action_report">
+            </item>
+
         </menu>
     </item>
+
+    <item
+        android:id="@+id/action_share_deslogged"
+        android:title="@string/action_profile"
+        android:icon="@drawable/share"
+        app:showAsAction="always" />
 
     <item android:id="@+id/action_search"
           android:title="Search"

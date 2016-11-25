@@ -57,7 +57,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -102,11 +102,11 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
 
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
-        onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.floatingButton))
                 .perform((click()));
         onView(withId(R.id.emailLoginField)).check(matches(isDisplayed()));
@@ -129,17 +129,17 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.saveComment)).perform(click());
         onView(withId(R.id.commentEditText)).check(matches(hasErrorText(getActivity()
                 .getApplicationContext().getResources().getString(R.string.empty_comment))));
-
     }
+
 
     public void testUserWriteValidComment () throws InterruptedException {
         closeSoftKeyboard();
@@ -156,16 +156,15 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.commentEditText))
                 .perform(typeText("Nao gostei do comentario! Seu Madruga para Presidente!"));
         onView(withId(R.id.saveComment)).perform(click());
-        Thread.sleep(400);
         onView(withText("Obrigado pelo comentário!")).inRoot(withDecorView(not(is(getActivity()
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }

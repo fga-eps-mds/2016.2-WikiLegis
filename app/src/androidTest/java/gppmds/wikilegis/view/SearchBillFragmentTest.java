@@ -62,7 +62,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -77,6 +77,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
 
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
+
 
     public void testResultSearchExistWithInternet() {
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
@@ -155,7 +156,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -212,5 +213,4 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         onView(withText("Nenhum resultado encontrado!")).inRoot(withDecorView(not(is(getActivity()
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
-
 }
