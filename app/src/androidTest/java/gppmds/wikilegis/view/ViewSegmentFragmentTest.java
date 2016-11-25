@@ -13,23 +13,30 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.LoginController;
 import gppmds.wikilegis.controller.VotesController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.VotesException;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static java.util.EnumSet.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -68,21 +75,31 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
             e.printStackTrace();
         }
 
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(getActivity());
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (getActivity().getBaseContext()).getBoolean("IsLoggedIn", false);
 
-        if (session.getBoolean("IsLoggedIn", false)){
+        if(isLoggedIn) {
             onView(withId(R.id.action_profile_logged)).perform(click());
             onView(withText("Sair")).perform(click());
         }
 
-        //Redirecting to ViewSegmentFragment
         closeSoftKeyboard();
-        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        onView(withId(R.id.emailLoginField)).perform(typeText("ab@gmail.com"));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordLoginField)).perform(typeText("123456"));
+        closeSoftKeyboard();
+        onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
+
+
+        //Redirecting to ViewSegmentFragment
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        //onView(withId(R.id.recycler_viewBill))
-          //      .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+
+        /*closeSoftKeyboard();
+        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
+        */
     }
 
     public void tearDown() throws Exception {
@@ -231,4 +248,454 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     }
     */
 
+    public void testLikeButton(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (context).getBoolean("IsLoggedIn", false);
+
+        final Integer idUser = 118;
+
+        if(!isLoggedIn){
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email, token, firstName, lastName, session);
+        }
+
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int numberOfLikesBefore=0;
+
+        try {
+            numberOfLikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, true);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.imageViewLike))
+                .perform((click()));
+
+        int numberOfLikesAfter=0;
+
+        try {
+            numberOfLikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, true);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ;
+
+        assertTrue(numberOfLikesAfter != numberOfLikesBefore);
+    }
+
+    public void testLikeButtonTwice(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (context).getBoolean("IsLoggedIn", false);
+
+        final Integer idUser = 118;
+
+        if(!isLoggedIn){
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email, token, firstName, lastName, session);
+        }
+
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int numberOfLikesBefore=0;
+
+        try {
+            numberOfLikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, true);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.imageViewLike))
+                .perform((click()));
+
+        onView(withId(R.id.imageViewLike))
+                .perform((click()));
+
+        int numberOfLikesAfter=0;
+
+        try {
+            numberOfLikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, true);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ;
+
+        assertTrue(numberOfLikesAfter == numberOfLikesBefore);
+    }
+
+    public void testLikeAndDislikeButton(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (context).getBoolean("IsLoggedIn", false);
+
+        final Integer idUser = 118;
+
+        if(!isLoggedIn){
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email, token, firstName, lastName, session);
+        }
+
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int numberOfLikesBefore = 0;
+        int numberOfDislikesBefore = 0;
+
+        try {
+            numberOfLikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, true);
+            numberOfDislikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.imageViewLike))
+                .perform((click()));
+        onView(withId(R.id.imageViewDislike))
+                .perform((click()));
+
+        int numberOfLikesAfter=0;
+        int numberOfDislikesAfter=0;
+
+        try {
+            numberOfLikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, true);
+            numberOfDislikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ;
+
+        assertTrue(numberOfLikesAfter == numberOfLikesBefore &&
+                numberOfDislikesAfter != numberOfDislikesBefore);
+    }
+
+    public void testDislikeButton(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (context).getBoolean("IsLoggedIn", false);
+
+        final Integer idUser = 118;
+
+        if(!isLoggedIn){
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email, token, firstName, lastName, session);
+        }
+
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int numberOfDislikesBefore=0;
+
+        try {
+            numberOfDislikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.imageViewDislike))
+                .perform((click()));
+
+        int numberOfDislikesAfter=0;
+
+        try {
+            numberOfDislikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(numberOfDislikesBefore != numberOfDislikesAfter);
+    }
+
+    public void testDislikeButtonTwice(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (context).getBoolean("IsLoggedIn", false);
+
+        final Integer idUser = 118;
+
+        if(!isLoggedIn){
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email, token, firstName, lastName, session);
+        }
+
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int numberOfDislikesBefore=0;
+
+        try {
+            numberOfDislikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.imageViewDislike))
+                .perform((click()));
+
+        onView(withId(R.id.imageViewDislike))
+                .perform((click()));
+
+        int numberOfDislikesAfter=0;
+
+        try {
+            numberOfDislikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(numberOfDislikesBefore == numberOfDislikesAfter);
+    }
+
+    public void testDislikeAndLikeButton(){
+
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (context).getBoolean("IsLoggedIn", false);
+
+        final Integer idUser = 118;
+
+        if(!isLoggedIn){
+            final String email = "ab@gmail.com";
+            final String token = "a9a22051724e71356331306a0b3c5b2184e58492";
+            final String firstName = "arbo";
+            final String lastName = "rigen";
+
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+
+            LoginController loginController = LoginController.getInstance(context);
+            loginController.createLoginSession(idUser, email, token, firstName, lastName, session);
+        }
+
+        final Integer idSegment = 30;
+
+        VotesController votesController = VotesController.getInstance(context);
+
+        boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(idUser, idSegment, true);
+        boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(idUser, idSegment, false);
+
+        if(evaluatedTrue || evaluatedFalse) {
+            try {
+                votesController.deleteVote(idSegment, idUser);
+            } catch (VotesException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int numberOfLikesBefore = 0;
+        int numberOfDislikesBefore = 0;
+
+        try {
+            numberOfLikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, true);
+            numberOfDislikesBefore = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.imageViewDislike))
+                .perform((click()));
+
+        onView(withId(R.id.imageViewLike))
+                .perform((click()));
+
+        int numberOfLikesAfter=0;
+        int numberOfDislikesAfter=0;
+
+        try {
+            numberOfLikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, true);
+            numberOfDislikesAfter = DataDownloadController.getNumberOfVotesbySegment(30, false);
+        } catch (BillException e) {
+            e.printStackTrace();
+        } catch (VotesException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ;
+
+        assertTrue(numberOfLikesAfter != numberOfLikesBefore &&
+                numberOfDislikesAfter == numberOfDislikesBefore);
+    }
 }

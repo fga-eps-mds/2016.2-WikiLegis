@@ -1,5 +1,6 @@
 package gppmds.wikilegis.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -55,7 +56,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         TextView contentSegment;
         ImageView commentSegment;
         ImageView likesIcon;
+        ImageView likesIconHeader;
         ImageView dislikesIcon;
+        ImageView dislikesIconHeader;
 
         ContentViewHolder(final View itemView, final List<Segment> listSegment) {
             super(itemView);
@@ -70,6 +73,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
 
             likesIcon = (ImageView) itemView.findViewById(R.id.imageViewLikeCard);
             dislikesIcon = (ImageView) itemView.findViewById(R.id.imageViewDislikeCard);
+
+            likesIconHeader = (ImageView) itemView.findViewById(R.id.imageViewLike);
+            dislikesIconHeader = (ImageView) itemView.findViewById(R.id.imageViewDislike);
 
             //If the view is the header, the comment segment will be null
             if(commentSegment != null){
@@ -161,14 +167,25 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(final ContentViewHolder holder, final int position) {
 
+        final ImageView likeIcon;
+        final ImageView dislikeIcon;
+
+        final int HEADER = 0;
+
+        if(position == HEADER) {
+            likeIcon = holder.likesIconHeader;
+            dislikeIcon = holder.dislikesIconHeader;
+        } else {
+            likeIcon = holder.likesIcon;
+            dislikeIcon = holder.dislikesIcon;
+        }
+
         holder.cardView.setTag(R.id.idSegment, listSegment.get(position).getId());
         holder.cardView.setTag(R.id.idBill, billId);
 
         DataDownloadController dataDownloadController =
                 DataDownloadController.getInstance(context);
         int connectionType = dataDownloadController.connectionType();
-
-        final int HEADER = 0;
 
         if(position == HEADER){
             final VotesController votesController = VotesController.getInstance(context);
@@ -177,9 +194,9 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
             boolean evaluatedFalse = votesController.getVoteByUserAndIdSegment(userId, segmentId, false);
 
             if(evaluatedTrue) {
-                holder.likesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
+                likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
             } else if(evaluatedFalse) {
-                holder.dislikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
+                dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
             }
 
             try{
@@ -217,7 +234,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
         SharedPreferences session = PreferenceManager.getDefaultSharedPreferences(context);
         final Integer userId = session.getInt(context.getResources().getString(R.string.id), 0);
 
-        holder.likesIcon.setOnClickListener(new View.OnClickListener() {
+        likeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
@@ -233,7 +250,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         } catch (BillException e) {
                             e.printStackTrace();
                         }
-                        holder.likesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
+                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -245,8 +262,8 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                         holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
-                        holder.likesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
-                        holder.dislikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
+                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
+                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
                     } catch (BillException e) {
                         e.printStackTrace();
                     } catch (VotesException e) {
@@ -260,7 +277,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                         holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
-                        holder.likesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
+                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -288,7 +305,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
             }
         });
 
-        holder.dislikesIcon.setOnClickListener(new View.OnClickListener() {
+        dislikeIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean evaluatedTrue = votesController.getVoteByUserAndIdSegment(userId, segmentId, true);
@@ -304,7 +321,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         } catch (BillException e) {
                             e.printStackTrace();
                         }
-                        holder.dislikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
+                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down_outline));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
@@ -316,8 +333,8 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                         holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
-                        holder.likesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
-                        holder.dislikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
+                        likeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_up_outline));
+                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
                     } catch (BillException e) {
                         e.printStackTrace();
                     } catch (VotesException e) {
@@ -332,7 +349,7 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
                         holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, false) + "");
                         holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId, true) + "");
 
-                        holder.dislikesIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
+                        dislikeIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.thumb_down));
                     } catch (VotesException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {

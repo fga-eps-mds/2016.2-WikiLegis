@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal|top">
+            android:layout_gravity="left|bottom">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/imageViewLikeCard"
+                android:id="@+id/imageViewLike"
                 android:clickable="false"
                 android:src="@drawable/thumb_up_outline"
                 android:layout_marginStart="50dp"
@@ -59,12 +59,12 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/imageViewDislikeCard"
+                android:id="@+id/imageViewDislike"
                 android:src="@drawable/thumb_down_outline"
                 android:layout_marginStart="130dp"
                 android:clickable="false"
-                android:layout_alignTop="@+id/imageViewLikeCard"
-                android:layout_toEndOf="@+id/imageViewLikeCard"
+                android:layout_alignTop="@+id/imageViewLike"
+                android:layout_toEndOf="@+id/imageViewLike"
                 android:layout_marginBottom="15dp"/>
 
             <TextView
@@ -75,8 +75,8 @@
                 android:clickable="false"
                 android:text=""
                 android:id="@+id/textViewNumberLikeCard"
-                android:layout_alignBottom="@+id/imageViewLikeCard"
-                android:layout_toEndOf="@+id/imageViewLikeCard" />
+                android:layout_alignBottom="@+id/imageViewLike"
+                android:layout_toEndOf="@+id/imageViewLike" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,7 +87,7 @@
                 android:id="@+id/textViewNumberDislikeCard"
                 android:layout_marginStart="5dp"
                 android:layout_alignTop="@+id/textViewNumberLikeCard"
-                android:layout_toEndOf="@+id/imageViewDislikeCard" />
+                android:layout_toEndOf="@+id/imageViewDislike" />
 
         </RelativeLayout>
 
