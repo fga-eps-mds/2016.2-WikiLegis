@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="gppmds.wikilegis.view.ViewSegmentFragment"
+    android:id="@+id/offline_proposal_header">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:clickable="true"
+        android:layout_alignParentStart="false"
+        android:background="@color/cardview_light_background"
+        android:id="@+id/frameCardViewProposal"
+        android:layout_alignParentEnd="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal|top">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/titleProposal"
+                android:autoText="false"
+                android:hint="Texto da proposta"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/contentProposal"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/titleProposal"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"/>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewLikeCardViewProposal"
+                android:clickable="false"
+                android:src="@drawable/like"
+                android:layout_marginStart="50dp"
+                android:layout_below="@+id/contentProposal"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/imageViewDislikeCardViewProposal"
+                android:src="@drawable/dislike"
+                android:layout_marginStart="130dp"
+                android:clickable="false"
+                android:layout_alignTop="@+id/imageViewLikeCardViewProposal"
+                android:layout_toEndOf="@+id/imageViewLikeCardViewProposal"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginStart="5dp"
+                android:clickable="false"
+                android:text=""
+                android:id="@+id/textViewNumberLikeCardViewProposal"
+                android:layout_alignBottom="@+id/imageViewLikeCardViewProposal"
+                android:layout_toEndOf="@+id/imageViewLikeCardViewProposal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text=""
+                android:clickable="false"
+                android:id="@+id/textViewNumberDislikeCardViewProposal"
+                android:layout_marginStart="5dp"
+                android:layout_alignTop="@+id/textViewNumberLikeCardViewProposal"
+                android:layout_toEndOf="@+id/imageViewDislikeCardViewProposal" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayoutProposal"
+        android:layout_below="@+id/frameCardViewProposal"
+        android:layout_alignStart="@+id/frameCardViewProposal"
+        android:layout_marginTop="1dp"
+        android:background="#ffffff">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Comentários"
+                android:clickable="false"
+                android:id="@+id/textViewProposal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

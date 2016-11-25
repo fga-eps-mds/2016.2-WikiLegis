@@ -1,28 +1,46 @@
 package gppmds.wikilegis.view;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.w3c.dom.Comment;
+
+import java.util.List;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.exception.CommentsException;
+import gppmds.wikilegis.model.Comments;
+import gppmds.wikilegis.model.Segment;
 
 
 public class CreateComment extends Fragment implements View.OnClickListener {
 
     private EditText commentEditText;
     private FloatingActionButton floatingActionButton;
+    private List<Comments> listComments;
+
+    public CreateComment(){
+    }
+
+    public CreateComment(List<Comments> listComments){
+        this.listComments = listComments;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,17 +48,27 @@ public class CreateComment extends Fragment implements View.OnClickListener {
 
         View view  = inflater.inflate(R.layout.fragment_create_comment, container, false);
 
-        Button saveButton = (Button) view.findViewById(R.id.saveComment);
-        saveButton.setOnClickListener(this);
-
         floatingActionButton = (FloatingActionButton) getActivity()
                 .findViewById(R.id.floatingButton);
         floatingActionButton.setVisibility(View.INVISIBLE);
+
+        Button saveComment = (Button) view.findViewById(R.id.saveComment);
+        saveComment.setOnClickListener(this);
 
         commentEditText = (EditText) view.findViewById(R.id.commentEditText);
 
         TabLayout tabs = (TabLayout) getActivity().findViewById(R.id.tabs);
         tabs.setVisibility(View.GONE);
+
+        RecyclerView recyclerView= (RecyclerView) view.findViewById(R.id.recyclerViewComment);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        RecyclerViewAdapterComment content = new RecyclerViewAdapterComment(listComments,
+                getArguments().getInt("idBill"), getArguments().getInt("idSegment"));
+        recyclerView.setAdapter(content);
 
         return view;
     }
@@ -91,8 +119,12 @@ public class CreateComment extends Fragment implements View.OnClickListener {
             if(savingStatus.equals(getContext().getResources().getString(
                     R.string.success_comment))){
                 Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
-
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                getFragmentManager().popBackStack();
+                //Closing softkeyboard
+                InputMethodManager inputMethodManager = (InputMethodManager)  this.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                //Going back to fragment
+                getFragmentManager().popBackStack();
             }
         }
     }

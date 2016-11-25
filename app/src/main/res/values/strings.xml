@@ -33,6 +33,7 @@
 
     <!-- all SharedPreferences keys-->
     <string name="token">token</string>
+    <string name="id">id</string>
     <string name="is_logged_in">IsLoggedIn</string>
     <string name="first_name">firstName</string>
     <string name="last_name">lastName</string>
@@ -54,6 +55,7 @@
     <!-- Proposal comment strings -->
     <string name="empty_comment">Por favor, digite um comentário</string>
     <string name="success_comment">Obrigado pelo comentário!</string>
+    <string name="action_notify">Ativar Notificação</string>
 
     <!-- Sharing Edemocracia Links -->
     <string name="edemocracia_domain">http://wikilegis-staging.labhackercd.net</string>

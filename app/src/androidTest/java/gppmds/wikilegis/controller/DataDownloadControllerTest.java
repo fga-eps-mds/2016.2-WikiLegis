@@ -59,7 +59,7 @@ public class DataDownloadControllerTest {
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class DataDownloadControllerTest {
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -198,37 +198,6 @@ public class DataDownloadControllerTest {
     }
 
     @Test
-    public void testUpdateDataWithConnectionPreferenceToOnlyWifiAndWifiEnabled() {
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(context);
-
-        SharedPreferences.Editor editor = session.edit();
-
-        final String keyConnection = "NetworkSettings";
-        editor.putInt(keyConnection, 0);
-
-        final String keyDate = "date";
-        editor.putString(keyDate, "2010-01-01");
-
-        editor.commit();
-
-        try {
-            dataDownloadController.updateData();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(session.getString(keyDate, "2010-01-01"),
-                DataDownloadController.getLocalTime());
-    }
-
-    @Test
     public void testUpdateDataWithConnectionPreferenceToNeverDownloadAndWifiEnabled() {
         SharedPreferences session = PreferenceManager.
                 getDefaultSharedPreferences(context);
@@ -267,49 +236,7 @@ public class DataDownloadControllerTest {
 
     }
 
-    @Test
-    public void testUpdateDataWithWifiDisabled() {
-        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
-
-        final boolean STATUS = false;
-
-        wifiManager.setWifiEnabled(STATUS);
-
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(context);
-
-        SharedPreferences.Editor editor = session.edit();
-
-        final String keyConnection = "NetworkSettings";
-        editor.putInt(keyConnection, 1);
-
-        final String keyDate = "date";
-        editor.putString(keyDate, "2010-01-01");
-
-        editor.commit();
-
-        try {
-            dataDownloadController.updateData();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(session.getString(keyDate, "2010-01-01"),
-                "2010-01-01");
-    }
-
+    /*
     @Test
     public void testListOfVotes() {
         List<Vote> listVotes = null;
@@ -340,7 +267,7 @@ public class DataDownloadControllerTest {
         Log.d("Count",""+count);
         assertTrue(count == listVotes.size());
     }
-
+    */
     @Test
     public void testNumberOfLikes() {
         List<Vote> listVotes = null;

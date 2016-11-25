@@ -24,9 +24,6 @@ import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.Vote;
 
-/**
- * Created by marcelo on 10/17/16
- */
 public class DataDownloadController {
     private static Context context;
     private static DataDownloadController instance = null;
@@ -115,6 +112,19 @@ public class DataDownloadController {
         String formatted = format1.format(cal.getTime());
 
         return formatted;
+    }
+
+    public static Vote getVoteBySegmentAndUserID(Integer idSegment, Integer idUser)
+            throws JSONException, BillException, VotesException {
+        List<Vote> listVotes = null;
+        listVotes = JSONHelper.votesListFromJSON("?user="+ idUser +"&object_id="+idSegment);
+
+        Vote vote = null;
+        if(listVotes != null) {
+            vote = listVotes.get(0);
+        }
+
+        return vote;
     }
 
     public static List<Vote> getVoteBySegmentId(String id) throws JSONException, BillException, VotesException {

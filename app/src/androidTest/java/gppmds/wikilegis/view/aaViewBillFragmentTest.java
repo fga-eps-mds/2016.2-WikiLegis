@@ -2,7 +2,6 @@ package gppmds.wikilegis.view;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -14,16 +13,11 @@ import android.view.WindowManager;
 import org.hamcrest.Matcher;
 import org.json.JSONException;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.Rule;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.controller.DataDownloadController;
-import gppmds.wikilegis.controller.SegmentController;
-import gppmds.wikilegis.exception.BillException;
-import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Segment;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -31,7 +25,15 @@ import static android.support.test.espresso.action.ViewActions.click;
 
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
@@ -40,16 +42,18 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
+public class aaViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
-public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
+    Activity activityOnTest;
 
-    public ViewBillFragmentTest(){
+
+    public aaViewBillFragmentTest(){
         super(LoginActivity.class);
     }
 
     public void setUp() throws Exception {
         super.setUp();
-        final Activity activityOnTest = getActivity();
+        activityOnTest = getActivity();
         Runnable wakeUpDevice = new Runnable() {
             public void run() {
                 activityOnTest.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
@@ -58,14 +62,31 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Login
             }
         };
         activityOnTest.runOnUiThread(wakeUpDevice);
-        SegmentController segmentController =
-                SegmentController.getInstance(getActivity().getBaseContext());
-
-        if(segmentController.isSegmentDatabaseIsEmpty()) {
-            onView(withId(R.id.button)).perform(click());
-        }
     }
 
+    @Test
+    public void testActiveNotificationViewMessageIsDisplayed(){
+        closeSoftKeyboard();
+
+        Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
+                (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
+
+        if(!isLoggedIn) {
+            onView(withId(R.id.emailLoginField)).perform(typeText("cizabelacristina@gmail.com"));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordLoginField)).perform(typeText("iza3bel"));
+            closeSoftKeyboard();
+            onView(withId(R.id.loginButton)).perform(click());
+        }
+
+        onView(withId(R.id.action_profile_logged)).perform(click());
+        onView(withText("Ativar Notificação")).perform(click());
+        onView(withText("diariamente")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+        onView(withText("Você receberá informações deste projeto.")).inRoot(withDecorView(not(is(getActivity()
+                .getWindow().getDecorView())))).check(matches(isDisplayed()));
+
+    }
     //FIXME
     /*
     public void testByClickASegmentThatShouldNotBeClickable() throws InterruptedException {
@@ -110,13 +131,13 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Login
         return allOf(hasAction(Intent.ACTION_CHOOSER), hasExtra(is(Intent.EXTRA_INTENT), matcher));
     }
 
-    public void testShareIntent () throws InterruptedException {
+    /*public void testShareIntent () throws InterruptedException {
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
 
         onView(withId(R.id.action_share_deslogged)).perform(click());
-        Thread.sleep(1000);
+        Thread.sleep(400);
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
@@ -128,6 +149,6 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Login
                 hasAction(Intent.ACTION_SEND),
                 hasExtra(Intent.EXTRA_TEXT, "Expected url")
         )));
-    }
+    }*/
 
 }
