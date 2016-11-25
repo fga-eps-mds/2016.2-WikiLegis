@@ -13,7 +13,6 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -25,20 +24,13 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.VotesException;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.hasFocus;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static java.util.EnumSet.allOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+
 
 public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     Activity activityOnTest;
@@ -91,15 +83,12 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
         onView(withId(R.id.loginButton)).perform(ViewActions.scrollTo()).perform(click());
 
 
-        //Redirecting to ViewSegmentFragment
+
         onView(withId(R.id.recycler_view_open))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
-        /*closeSoftKeyboard();
-        onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
-        */
     }
 
     public void tearDown() throws Exception {
@@ -109,7 +98,7 @@ public class ViewSegmentFragmentTest extends ActivityInstrumentationTestCase2<Lo
     }
 
     private void goBackN() {
-        final int N = 50; // how many times to hit back button
+        final int N = 50;
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();

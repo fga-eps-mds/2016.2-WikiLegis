@@ -2,9 +2,7 @@ package gppmds.wikilegis.model;
 
 import gppmds.wikilegis.exception.CommentsException;
 
-/**
- * Created by augusto on 11/09/16.
- */
+
 public class Comments {
 
     private static final String ID_CANT_BE_NULL = "Id não pode ser carregado";
@@ -13,6 +11,7 @@ public class Comments {
     private static final String CONTENT_CANT_BE_NULL = "Content nao pode ser carregado";
     private static final String OBJECT_CANT_BE_NULL = "Object nao pode ser carregado";
     private static final String COMMENT_CANT_BE_NULL = "Comment nao pode ser carregado";
+
     private Integer id;
     private Integer idUser;
     private String date;
@@ -110,8 +109,6 @@ public class Comments {
             throw  new CommentsException("COMMENT_CANT_BE_NULL");
         }
     }
-
-    //Validation methods
 
     private boolean validateIntegerNull(final Integer integer) {
         if (integer == null) {

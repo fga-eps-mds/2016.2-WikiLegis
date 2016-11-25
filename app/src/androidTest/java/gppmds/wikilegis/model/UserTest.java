@@ -2,17 +2,12 @@ package gppmds.wikilegis.model;
 
 import org.junit.Test;
 
-import java.io.IOException;
-
-import dalvik.annotation.TestTarget;
 import gppmds.wikilegis.exception.UserException;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by freemanpivo on 8/28/16.
- */
+
 public class UserTest {
 
 

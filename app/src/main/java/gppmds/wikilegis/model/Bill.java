@@ -1,10 +1,7 @@
 package gppmds.wikilegis.model;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import gppmds.wikilegis.exception.BillException;
-import gppmds.wikilegis.exception.SegmentException;
 
 public class Bill {
 
@@ -155,8 +152,6 @@ public class Bill {
             throw new BillException(DATE_CANT_BE_EMPTY);
         }
     }
-
-    //Methods of validation
 
     private boolean validateIntegerNull(final Integer integer) {
         if (integer == null) {

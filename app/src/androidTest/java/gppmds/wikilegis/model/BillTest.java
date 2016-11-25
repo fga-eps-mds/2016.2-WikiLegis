@@ -1,19 +1,15 @@
 package gppmds.wikilegis.model;
 
-import android.util.Log;
 
 import org.junit.Test;
 
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.UserException;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by augusto on 17/09/16.
- */
+
 public class BillTest {
 
 

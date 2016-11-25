@@ -32,25 +32,19 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
 
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
         View cardView;
-        //TextView proposals;
         TextView likes;
         TextView dislikes;
-        //TextView billText;
         TextView contentProposal;
         TextView comment;
-        //ImageView commentSegment;
 
         ContentViewHolder(final View itemView, final List<Comments> listComments) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.frameCardViewProposal);
-            //proposals = (TextView) itemView.findViewById(R.id.textViewSegment);
             likes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCardViewProposal);
             dislikes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCardViewProposal);
-            //billText = (TextView) itemView.findViewById(R.id.titleBill);
             contentProposal = (TextView) itemView.findViewById(R.id.contentProposal);
             comment = (TextView) itemView.findViewById(R.id.textViewComment);
-            //commentSegment = (ImageView) itemView.findViewById(R.id.imageViewProposalCard);
         }
     }
 
@@ -75,14 +69,12 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         final int HEADER = 0;
 
         if(viewType == HEADER){
-            /*contentViewHolder = renderItemViewHolder(connectionType, parent,
-                    R.layout.offline_header_view_segment, R.layout.online_header_view_segment);*/
+
             contentViewHolder = renderItemViewHolder(connectionType, parent,
                     R.layout.offline_header_view_proposal, R.layout.online_header_view_proposal);
         }
         else {
-            /*contentViewHolder = renderItemViewHolder(connectionType, parent,
-                    R.layout.item_view_segment_offline, R.layout.item_view_segment);*/
+
             contentViewHolder = renderItemViewHolder(connectionType, parent,
                     R.layout.item_view_proposal_comments, R.layout.item_view_proposal_comments);
         }

@@ -5,11 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
@@ -71,9 +69,7 @@ public class SegmentDAO extends DaoUtilities{
 
         SQLiteDatabase sqLiteDatabase = getDatabase().getReadableDatabase();
 
-        SegmentController segmentController = SegmentController.getInstance(context);
 
-        //String contentWhitType = segmentController.addingTypeContent(segment);
 
         ContentValues values = setContentValues(segment, segment.getContent());
 
@@ -86,14 +82,11 @@ public class SegmentDAO extends DaoUtilities{
 
         SQLiteDatabase sqLiteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
 
-        SegmentController segmentController = SegmentController.getInstance(context);
-
         ContentValues values = setContentValues(segment, segment.getContent());
 
         deleteSegment(segment.getId());
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
-        Log.d("booleanToInt(): ", ""+ segment.booleanToInt(segment.isOriginal()));
         return result;
     }
 

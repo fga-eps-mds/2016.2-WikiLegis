@@ -26,7 +26,6 @@ public class RegisterUserController {
         if (instance == null) {
             instance = new RegisterUserController(context);
         } else {
-			/* ! Nothing To Do. */
         }
         return instance;
     }

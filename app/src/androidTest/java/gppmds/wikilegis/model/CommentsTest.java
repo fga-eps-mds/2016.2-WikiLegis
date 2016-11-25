@@ -7,9 +7,7 @@ import gppmds.wikilegis.exception.CommentsException;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by augusto on 17/09/16.
- */
+
 
 public class CommentsTest {
 

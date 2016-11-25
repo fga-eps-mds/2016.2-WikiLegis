@@ -7,7 +7,7 @@
     <item
         android:id="@+id/action_profile_logged"
         android:title="@string/action_profile"
-        android:icon="@drawable/reorder"
+        android:icon="@drawable/settings"
         app:showAsAction="always"
         android:orderInCategory="1">
         <menu>

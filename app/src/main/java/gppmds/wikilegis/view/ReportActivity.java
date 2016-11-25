@@ -1,6 +1,5 @@
 package gppmds.wikilegis.view;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -41,15 +40,12 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void sendEmail() {
-        //Getting content for email
         final String EMAIL ="wikireport1@gmail.com";
         String subject = editTextSubject.getText().toString().trim();
         String message = editTextMessage.getText().toString().trim();
 
-        //Creating SendMail object
         SendEmailController sm = new SendEmailController(this, EMAIL, subject, message);
 
-        //Executing sendmail to send email
         sm.execute();
     }
 
