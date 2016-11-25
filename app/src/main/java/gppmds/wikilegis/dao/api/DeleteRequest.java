@@ -12,9 +12,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by josue on 11/16/16.
- */
 public class DeleteRequest  extends AsyncTask<String, String, String> {
     private String url = "";
     private Context context;
@@ -90,9 +87,6 @@ public class DeleteRequest  extends AsyncTask<String, String, String> {
 
 
         return result;
-    }
-    public int getResponse() {
-        return response;
     }
 
 }

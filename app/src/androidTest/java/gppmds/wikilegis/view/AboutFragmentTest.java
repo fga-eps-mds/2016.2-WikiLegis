@@ -21,9 +21,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-/**
- * Created by shammyz on 10/13/16.
- */
+
 public class AboutFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
     public AboutFragmentTest(){super(LoginActivity.class);}
 

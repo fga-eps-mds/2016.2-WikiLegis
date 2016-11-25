@@ -13,9 +13,7 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertFalse;
 
 
-/**
- * Created by marcelo on 10/13/16.
- */
+
 public class LoginControllerTest {
 
     Context context;

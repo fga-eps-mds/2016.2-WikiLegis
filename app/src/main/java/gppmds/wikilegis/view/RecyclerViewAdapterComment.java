@@ -20,6 +20,7 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
 import gppmds.wikilegis.model.Comments;
+import gppmds.wikilegis.model.Segment;
 
 public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerViewAdapterComment
         .ContentViewHolder> {
@@ -31,25 +32,19 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
 
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
         View cardView;
-        //TextView proposals;
         TextView likes;
         TextView dislikes;
-        //TextView billText;
         TextView contentProposal;
         TextView comment;
-        //ImageView commentSegment;
 
         ContentViewHolder(final View itemView, final List<Comments> listComments) {
             super(itemView);
 
             cardView = itemView.findViewById(R.id.frameCardViewProposal);
-            //proposals = (TextView) itemView.findViewById(R.id.textViewSegment);
             likes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCardViewProposal);
             dislikes = (TextView) itemView.findViewById(R.id.textViewNumberDislikeCardViewProposal);
-            //billText = (TextView) itemView.findViewById(R.id.titleBill);
             contentProposal = (TextView) itemView.findViewById(R.id.contentProposal);
             comment = (TextView) itemView.findViewById(R.id.textViewComment);
-            //commentSegment = (ImageView) itemView.findViewById(R.id.imageViewProposalCard);
         }
     }
 
@@ -74,14 +69,12 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         final int HEADER = 0;
 
         if(viewType == HEADER){
-            /*contentViewHolder = renderItemViewHolder(connectionType, parent,
-                    R.layout.offline_header_view_segment, R.layout.online_header_view_segment);*/
+
             contentViewHolder = renderItemViewHolder(connectionType, parent,
                     R.layout.offline_header_view_proposal, R.layout.online_header_view_proposal);
         }
         else {
-            /*contentViewHolder = renderItemViewHolder(connectionType, parent,
-                    R.layout.item_view_segment_offline, R.layout.item_view_segment);*/
+
             contentViewHolder = renderItemViewHolder(connectionType, parent,
                     R.layout.item_view_proposal_comments, R.layout.item_view_proposal_comments);
         }
@@ -120,7 +113,7 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    private void setHeaderInfo(final ContentViewHolder holder, Integer connectionType,Integer
+    private void setHeaderInfo(final ContentViewHolder holder, Integer connectionType, Integer
             segmentId, Integer billId) throws BillException,
             JSONException, VotesException, SegmentException{
         final int WIFI = 0;
@@ -128,14 +121,31 @@ public class RecyclerViewAdapterComment extends RecyclerView.Adapter<RecyclerVie
 
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        Log.d("SEGMENT ID ON LIST", segmentId + "");
-        holder.contentProposal.setText(segmentController.getSegmentById(segmentId, context).getContent());
-
         if(connectionType == WIFI || connectionType == MOBILE_3G) {
+
+            List<Segment> listSegments =
+                    segmentController.getSegmentsOfBillById(billId + "", "", true);
+
+
+            Segment segment = null;
+
+            for(Segment segmentAux : listSegments) {
+                Log.d(segmentAux.getId() + "", segmentId + "");
+
+                if((segmentAux.getId() + "").equals(segmentId + "")) {
+                    segment = segmentAux;
+                    break;
+                }
+            }
+
+            holder.contentProposal.setText(segment.getContent());
+
             holder.likes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,true)
                     +"");
             holder.dislikes.setText(DataDownloadController.getNumberOfVotesbySegment(segmentId,
                     false)+"");
+        } else {
+            holder.contentProposal.setText(segmentController.getSegmentById(segmentId, context).getContent());
         }
     }
 

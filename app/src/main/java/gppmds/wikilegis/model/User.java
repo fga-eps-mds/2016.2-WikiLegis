@@ -3,7 +3,6 @@ package gppmds.wikilegis.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import gppmds.wikilegis.exception.UserException;
 
 public class User {

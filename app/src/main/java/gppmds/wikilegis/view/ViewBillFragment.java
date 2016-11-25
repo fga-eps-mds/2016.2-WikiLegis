@@ -1,6 +1,5 @@
 package gppmds.wikilegis.view;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -63,6 +62,9 @@ public class ViewBillFragment extends Fragment {
 
         Log.d("TAMANHO15000", segmentList.size() + "");
 
+        RecyclerViewAdapterBill adapter = new RecyclerViewAdapterBill(segmentList, getContext());
+        recyclerView.setAdapter(adapter);
+        billController.setClickedBill(idBill);
 
         return view;
     }

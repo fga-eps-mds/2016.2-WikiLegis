@@ -7,7 +7,7 @@
     <item
         android:id="@+id/action_profile_deslogged"
         android:title="@string/action_profile"
-        android:icon="@drawable/reorder"
+        android:icon="@drawable/settings"
         app:showAsAction="always"
         android:orderInCategory="1">
         <menu>
@@ -23,6 +23,13 @@
                 app:showAsAction="always"
                 android:orderInCategory="2"
                 android:title="@string/action_config">
+            </item>
+
+            <item
+                android:id="@+id/action_report_deslogged"
+                app:showAsAction="always"
+                android:orderInCategory="3"
+                android:title="@string/action_report">
             </item>
 
         </menu>

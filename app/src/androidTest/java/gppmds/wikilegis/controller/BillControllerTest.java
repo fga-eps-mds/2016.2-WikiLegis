@@ -28,9 +28,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by freemanpivo on 8/28/16.
- */
+
 public class BillControllerTest {
 
     Context context;
@@ -40,64 +38,7 @@ public class BillControllerTest {
         context = InstrumentationRegistry.getTargetContext();
     }
 
-    /*
-    @Test
-    public void testGetSegmentsFromIdOfBill() throws BillException, JSONException, SegmentException {
-        BillDAO billDAO = BillDAO.getInstance(context);
-        billDAO.deleteAllBills();
 
-        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
-        segmentDAO.deleteAllSegments();
-
-
-        SegmentController segmentController = SegmentController.getInstance(context);
-
-        BillController billController = BillController.getInstance(context);
-
-        Bill billToInsert = new Bill(1, "Titulo", "Epigraph", "status", "Description", "theme",
-                1, 20160008);
-
-        billDAO.insertBill(billToInsert);
-
-        final int BILL_ID = 1;
-
-        List<Integer> segmentsList = new ArrayList<>();
-
-        for (int i = 1; i <= 5; i++) {
-            Segment newSegment = new Segment(i, i, BILL_ID, 1, 0, 1, 1, 1, "Content", "2015-07-09");
-            segmentDAO.insertSegment(newSegment);
-            billToInsert.setSegments(newSegment.getId());
-        }
-
-        segmentsList = billToInsert.getSegments();
-
-        segmentController.initControllerSegments();
-        billController.initControllerBills();
-
-        List<Segment> foundSegments = segmentController.getSegmentsByIdBill(BILL_ID);
-
-        int countEquals = 0;
-
-        for(int i = 0; i < segmentsList.size(); i++) {
-            for(int j = 0; j < foundSegments.size(); j++) {
-                if(segmentsList.get(i) == foundSegments.get(j).getId()) {
-                    countEquals++;
-                }
-            }
-        }
-
-        final Integer NUMBER_OF_SEGMENTS_OF_BILL = 5;
-
-        Log.d("segmentL s", segmentsList.size() + "");
-        Log.d("foundS s", foundSegments.size() + "");
-        Log.d("countEq", countEquals + "");
-
-        assertTrue(segmentsList.size() == foundSegments.size()
-                && NUMBER_OF_SEGMENTS_OF_BILL == countEquals);
-
-        billDAO.deleteAllBills();
-    }
-    */
 
     @Test
     public void testGetBillByValidId() throws BillException, SegmentException, JSONException{
@@ -133,62 +74,7 @@ public class BillControllerTest {
         billDAO.deleteAllBills();
     }
 
-    /*
-    @Test
-    public void testGetAllBills() throws BillException, JSONException, SegmentException{
-        final String date = "2010-01-01";
-        List<Bill> billsFromAPI = new ArrayList<>();
-        BillController billController;
-        billController = BillController.getInstance(context);
-        BillDAO billDAO = BillDAO.getInstance(context);
-        billDAO.deleteAllBills();
 
-
-        try {
-            billsFromAPI = JSONHelper.billListFromJSON(JSONHelper.requestJsonObjectFromApi
-                            ("http://wikilegis-staging.labhackercd.net/api/bills/?created="+date));
-
-            SharedPreferences session = PreferenceManager.
-                    getDefaultSharedPreferences(context);
-
-            SharedPreferences.Editor editor = session.edit();
-            editor.putString("date", date);
-            editor.commit();
-
-            DataDownloadController dataDownloadController = DataDownloadController.getInstance(context);
-            dataDownloadController.updateBills();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        }
-
-        List<Bill> billsFromDB = billController.getAllBills();
-
-        int numberOfEqualsBills = 0;
-        for(int i = 0; i < billsFromDB.size(); i++) {
-            for(int j = 0; j < billsFromAPI.size(); j++) {
-                Bill billFromAPI = billsFromAPI.get(j);
-                Bill billFromDB = billsFromDB.get(i);
-
-                if(billFromAPI.equals(billFromDB)) {
-                    numberOfEqualsBills++;
-                }
-            }
-        }
-
-        Log.d("bill api", billsFromAPI.size() + "");
-        Log.d("bill db", billsFromDB.size() + "");
-        Log.d("nb eql", numberOfEqualsBills + "");
-
-        assertTrue(billsFromDB.size() > 0);
-
-        assertTrue(billsFromAPI.size() == billsFromDB.size() &&
-                numberOfEqualsBills == billsFromDB.size());
-    }
-    */
 
     @Test
     public void testCountedNumberOfProposalsWithDifferentBills() {
@@ -461,24 +347,15 @@ public class BillControllerTest {
         assertTrue(countEquals == billsFromApi.size());
     }
 
-    /*
-    @Test
-    public void testGetBillByIdFromApi() {
-        List<Bill> bills = new ArrayList<>();
-        int idBill = -1;
-        Bill bill = null;
-        try {
-            bills = BillJsonHelper.getAllBillFromApi();
-            BillController.getAllBillsFromApi();
-            idBill = bills.get(0).getId();
-            bill = BillController.getBillByIdFromApi(idBill);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        }
 
-        assertTrue(idBill == bill.getId());
+    @Test
+    public void testActivateNotificationResponse500() {
+
+        BillController billController = BillController.getInstance(context);
+        String test = billController.activiteNotification("weekly");
+        assertTrue("500".equals(test));
     }
-    */
+    //TODO quando api estiver funcionando, testar para outros casos.
+
+
 }

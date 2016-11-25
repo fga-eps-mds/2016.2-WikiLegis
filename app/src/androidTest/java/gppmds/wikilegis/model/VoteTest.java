@@ -7,9 +7,7 @@ import gppmds.wikilegis.exception.VotesException;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by thiago on 9/20/16.
- */
+
 public class VoteTest {
 
     @Test

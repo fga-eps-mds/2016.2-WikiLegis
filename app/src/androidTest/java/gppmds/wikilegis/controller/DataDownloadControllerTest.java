@@ -59,7 +59,7 @@ public class DataDownloadControllerTest {
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class DataDownloadControllerTest {
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -108,9 +108,10 @@ public class DataDownloadControllerTest {
         for(int i = 0; i < segmentsFromAPI.size(); i++) {
             Segment segment = segmentsFromAPI.get(i);
 
-            String contentWithType = segmentController.addingTypeContent(segment);
+            String contentWithType = segment.getContent();
 
             Segment newSegment = null;
+
             try {
                 newSegment = new Segment(segment.getId(), segment.getOrder(), segment.getBill(),
                         segment.isOriginal(), segment.getReplaced(), segment.getParent(), segment.getType(),
@@ -197,37 +198,6 @@ public class DataDownloadControllerTest {
         assertEquals(formatted, localDate);
     }
 
-    /*@Test
-    public void testUpdateDataWithConnectionPreferenceToOnlyWifiAndWifiEnabled() {
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(context);
-
-        SharedPreferences.Editor editor = session.edit();
-
-        final String keyConnection = "NetworkSettings";
-        editor.putInt(keyConnection, 0);
-
-        final String keyDate = "date";
-        editor.putString(keyDate, "2010-01-01");
-
-        editor.commit();
-
-        try {
-            dataDownloadController.updateData();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(session.getString(keyDate, "2010-01-01"),
-                DataDownloadController.getLocalTime());
-    }*/
-
     @Test
     public void testUpdateDataWithConnectionPreferenceToNeverDownloadAndWifiEnabled() {
         SharedPreferences session = PreferenceManager.
@@ -267,81 +237,7 @@ public class DataDownloadControllerTest {
 
     }
 
-    @Test
-    public void testUpdateDataWithWifiDisabled() {
-        WifiManager wifiManager = (WifiManager)this.context.getSystemService(Context.WIFI_SERVICE);
 
-        final boolean STATUS = false;
-
-        wifiManager.setWifiEnabled(STATUS);
-
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        SharedPreferences session = PreferenceManager.
-                getDefaultSharedPreferences(context);
-
-        SharedPreferences.Editor editor = session.edit();
-
-        final String keyConnection = "NetworkSettings";
-        editor.putInt(keyConnection, 1);
-
-        final String keyDate = "date";
-        editor.putString(keyDate, "2010-01-01");
-
-        editor.commit();
-
-        try {
-            dataDownloadController.updateData();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals(session.getString(keyDate, "2010-01-01"),
-                "2010-01-01");
-    }
-
-    /*
-    @Test
-    public void testListOfVotes() {
-        List<Vote> listVotes = null;
-        try {
-            listVotes = JSONHelper.votesListFromJSON("?user=&object_id="+75);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }
-        List<Vote> listVotesToBeTested = null;
-        try {
-            listVotesToBeTested = DataDownloadController.getVoteBySegmentId(75+"");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (BillException e) {
-            e.printStackTrace();
-        } catch (VotesException e) {
-            e.printStackTrace();
-        }  int count = 0;
-       for(Vote vote : listVotesToBeTested){
-           for(Vote voteApi : listVotes){
-            if(vote.equals(voteApi)){
-                count++;
-            }
-        }
-       }
-        Log.d("Count",""+count);
-        assertTrue(count == listVotes.size());
-    }
-    */
     @Test
     public void testNumberOfLikes() {
         List<Vote> listVotes = null;

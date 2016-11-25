@@ -13,7 +13,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private static final String SEGMENTS_TABLE = "[Segments]";
 
 
-    //Bill
+
 
     private static final String BILL_ID = "[id]";
     private static final String BILL_TITLE = "[title]";
@@ -30,7 +30,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
             BILL_THEME + " VARCHAR(50), "+ BILL_AMOUNT_PROPOSALS + " INTEGER, " +
             BILL_STATUS + " VARCHAR(50), " + BILL_DATE + " INTEGER);";
 
-    //Segments
 
     private static final String SEGMENTS_ID = "[id]";
     private static final String SEGMENTS_ORDER = "[orderNaoPode]";

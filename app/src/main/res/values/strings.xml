@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">WikiLegis</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Wikilegis</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -22,6 +22,7 @@
     <string name="action_logout">Sair</string>
     <string name="action_login">Entrar</string>
     <string name="action_config">Configurações de download</string>
+    <string name="action_report">Relatar Erro</string>
     <string name="sucessfull_registration_message">Cadastro efetuado com sucesso!</string>
     <string name="about_app">O Wikilegis é uma iniciativa da câmara dos deputados, que visa
         aproximar a sociedade e seus representantes políticos através de interação digital.
@@ -54,6 +55,7 @@
     <!-- Proposal comment strings -->
     <string name="empty_comment">Por favor, digite um comentário</string>
     <string name="success_comment">Obrigado pelo comentário!</string>
+    <string name="action_notify">Ativar Notificação</string>
 
     <!-- Sharing Edemocracia Links -->
     <string name="edemocracia_domain">http://wikilegis-staging.labhackercd.net</string>

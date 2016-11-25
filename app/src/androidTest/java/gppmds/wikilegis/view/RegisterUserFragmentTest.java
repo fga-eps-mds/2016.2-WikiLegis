@@ -6,8 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.NoActivityResumedException;
+
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.core.deps.guava.base.Throwables;
 import android.support.test.espresso.core.deps.guava.collect.Sets;
@@ -15,7 +14,6 @@ import android.support.test.runner.lifecycle.ActivityLifecycleMonitor;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.support.test.runner.lifecycle.Stage;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.WindowManager;
 
 import org.junit.Before;

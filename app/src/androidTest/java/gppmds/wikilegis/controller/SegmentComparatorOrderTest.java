@@ -8,9 +8,7 @@ import gppmds.wikilegis.model.Segment;
 import static junit.framework.Assert.assertEquals;
 
 
-/**
- * Created by augusto on 20/09/16.
- */
+
 public class SegmentComparatorOrderTest {
 
     @Test

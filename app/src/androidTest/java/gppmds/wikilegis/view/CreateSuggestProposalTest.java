@@ -6,12 +6,10 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
-import org.junit.After;
 import org.junit.Before;
 
 import gppmds.wikilegis.R;
@@ -30,9 +28,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by josue on 10/20/16.
- */
 public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     Activity activityOnTest;
@@ -60,7 +55,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         wifiManager.setWifiEnabled(STATUS);
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(400);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -82,7 +77,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
     }
 
     private void goBackN() {
-        final int N = 20; // how many times to hit back button
+        final int N = 20;
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();
@@ -104,9 +99,9 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
 
         onView(withText("Visitante")).perform(scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton))
@@ -131,9 +126,9 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton))
@@ -160,12 +155,13 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
+        closeSoftKeyboard();
         Espresso.pressBack();
         onView(withId(R.id.floatingButton)).check(matches(isDisplayed()));
 
@@ -187,9 +183,9 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
@@ -216,9 +212,9 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
@@ -245,9 +241,9 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
