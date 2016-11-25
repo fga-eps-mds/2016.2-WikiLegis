@@ -166,6 +166,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.floatingButton)).perform((click()));
+        closeSoftKeyboard();
         Espresso.pressBack();
         onView(withId(R.id.floatingButton)).check(matches(isDisplayed()));
 

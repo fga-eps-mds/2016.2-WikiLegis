@@ -94,7 +94,7 @@ public class SegmentDAOTest {
         }
 
         boolean insertedSegment = segmentDAO.insertSegment(segment);
-        String contentWhitType = segmentController.addingTypeContent(segment);
+        String contentWhitType = segment.getContent();
 
         //Log.d("ContentWithType: ", "" + contentWhitType);
         try {
@@ -166,7 +166,7 @@ public class SegmentDAOTest {
 
             SegmentController segmentController = SegmentController.getInstance(context);
 
-            String contentWhitType = segmentController.addingTypeContent(segment);
+            String contentWhitType = segment.getContent();
 
             segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, contentWhitType, "13/12/2006");
 

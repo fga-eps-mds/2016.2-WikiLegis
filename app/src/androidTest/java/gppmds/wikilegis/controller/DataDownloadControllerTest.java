@@ -108,7 +108,7 @@ public class DataDownloadControllerTest {
         for(int i = 0; i < segmentsFromAPI.size(); i++) {
             Segment segment = segmentsFromAPI.get(i);
 
-            String contentWithType = segmentController.addingTypeContent(segment);
+            String contentWithType = segment.getContent();
 
             Segment newSegment = null;
 
