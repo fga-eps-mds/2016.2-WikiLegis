@@ -83,7 +83,6 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
     }
 
     public void settingClickableOfSegment(final BillViewHolder personViewHolder, final int i) {
-        //Types of segments that can NOT be clickable
         final int TITULO = 2;
         final int ITEM = 6;
         final int CAPITULO = 7;

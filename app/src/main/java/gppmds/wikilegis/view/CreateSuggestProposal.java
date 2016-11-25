@@ -14,11 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import org.json.JSONException;
-
 import java.util.List;
-
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.SegmentException;

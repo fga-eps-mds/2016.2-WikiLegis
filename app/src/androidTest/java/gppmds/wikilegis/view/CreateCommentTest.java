@@ -80,7 +80,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
     }
 
     private void goBackNFragments() {
-        final int N = 20; // how many times to hit back button
+        final int N = 20;
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();

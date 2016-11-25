@@ -7,9 +7,7 @@ import gppmds.wikilegis.model.Bill;
 
 import static junit.framework.Assert.assertEquals;
 
-/**
- * Created by augusto on 19/09/16.
- */
+
 public class BillComparatorDateTest {
 
     @Test

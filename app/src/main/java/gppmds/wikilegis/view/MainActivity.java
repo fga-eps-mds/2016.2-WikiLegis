@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 (R.id.floatingButton);
         floatingActionButton.setVisibility(View.INVISIBLE);
 
-        // Create the adapter that will return a fragment for each of the two tabs
         TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -103,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.menu_deslogged, menu);
         }
 
-        // Retrieve the SearchView and plug it into SearchManager
         final SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager =
@@ -118,19 +116,16 @@ public class MainActivity extends AppCompatActivity {
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             public boolean onQueryTextChange(String newText) {
-                // this is your adapter that will be filtered
                 return true;
             }
 
             public boolean onQueryTextSubmit(String query) {
-                //Here u can get the value "query" which is entered in the search box.
                 Bundle bundle = new Bundle();
                 bundle.putString("searchQuery", query);
 
                 SearchBillFragment searchBillFragment = new SearchBillFragment();
                 searchBillFragment.setArguments(bundle);
 
-                // Check if no view has focus:
                 View view = getCurrentFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -210,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which){
-                        //Do your functionality here
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                         BillController billcontroller = BillController.getInstance(MainActivity.this);
                         if("-1".equals(billcontroller.getClickedBill())) {
@@ -249,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which){
-                        //Do your functionality here
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
 
                         SharedPreferences session = PreferenceManager.
@@ -444,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(Intent.createChooser(share, "Compartilhar via"));
     }
-
+/*
     private void openFragment(final Fragment fragmentToBeOpen) {
 
         android.support.v4.app.FragmentTransaction fragmentTransaction =
@@ -453,4 +446,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.main_content, fragmentToBeOpen);
         fragmentTransaction.commit();
     }
+*/
 }

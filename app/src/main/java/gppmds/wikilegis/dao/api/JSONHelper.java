@@ -1,18 +1,14 @@
 package gppmds.wikilegis.dao.api;
 
-import android.content.Context;
-import android.util.Log;
 
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import gppmds.wikilegis.controller.BillController;
-import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.controller.SegmentController;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.CommentsException;
@@ -193,7 +189,7 @@ public class JSONHelper {
             }
 
             String nextUrl = segment.getString("next");
-            url = nextUrl; //updateDomain(nextUrl);
+            url = nextUrl;
             Log.d("URL",nextUrl);
         } while (!url.equals("null"));
 
@@ -211,8 +207,8 @@ public class JSONHelper {
 
     private static Vote setVotesAttributes(JSONObject jsonObject) throws JSONException, VotesException {
         Vote voteAux = new Vote(jsonObject.getInt("id"),
-                1,//jsonObject.getInt("user"),
-                1,//jsonObject.getInt("content_type"),
+                1,
+                1,
                 jsonObject.getInt("object_id"),
                 jsonObject.getString("vote").equals("false") ? false : true);
         return voteAux;

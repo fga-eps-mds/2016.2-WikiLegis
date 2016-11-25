@@ -1,7 +1,4 @@
 package gppmds.wikilegis.model;
-
-import android.util.Log;
-
 import gppmds.wikilegis.exception.SegmentException;
 
 public class Segment {

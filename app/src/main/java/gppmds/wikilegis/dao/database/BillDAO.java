@@ -4,11 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
 

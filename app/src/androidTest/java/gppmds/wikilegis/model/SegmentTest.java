@@ -8,9 +8,7 @@ import gppmds.wikilegis.exception.SegmentException;
 
 import static junit.framework.Assert.*;
 
-/**
- * Created by augusto on 18/09/16.
- */
+
 public class SegmentTest {
 
     @Test

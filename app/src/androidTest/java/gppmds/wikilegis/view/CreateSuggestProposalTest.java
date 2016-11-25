@@ -6,12 +6,10 @@ import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.WindowManager;
 
-import org.junit.After;
 import org.junit.Before;
 
 import gppmds.wikilegis.R;
@@ -30,9 +28,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by josue on 10/20/16.
- */
 public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
     Activity activityOnTest;
@@ -82,7 +77,7 @@ public class CreateSuggestProposalTest extends ActivityInstrumentationTestCase2<
     }
 
     private void goBackN() {
-        final int N = 20; // how many times to hit back button
+        final int N = 20;
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();

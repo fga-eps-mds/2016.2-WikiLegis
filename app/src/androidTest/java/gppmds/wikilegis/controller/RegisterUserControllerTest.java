@@ -8,14 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import gppmds.wikilegis.exception.UserException;
-import gppmds.wikilegis.model.User;
-
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by marcelo on 10/1/16.
- */
+
 public class RegisterUserControllerTest {
 
     Context context;

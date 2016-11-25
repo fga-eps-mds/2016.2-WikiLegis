@@ -1,6 +1,5 @@
 package gppmds.wikilegis.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -77,7 +76,6 @@ public class RecyclerViewAdapterContent extends RecyclerView.Adapter<RecyclerVie
             likesIconHeader = (ImageView) itemView.findViewById(R.id.imageViewLike);
             dislikesIconHeader = (ImageView) itemView.findViewById(R.id.imageViewDislike);
 
-            //If the view is the header, the comment segment will be null
             if(commentSegment != null){
 
                 commentSegment.setOnClickListener(new View.OnClickListener(){

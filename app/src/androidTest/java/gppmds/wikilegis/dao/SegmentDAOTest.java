@@ -1,7 +1,6 @@
 package gppmds.wikilegis.dao;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
@@ -16,13 +15,10 @@ import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Segment;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by shammyz on 10/5/16.
- */
+
 public class SegmentDAOTest {
     Context context;
     SegmentDAO segmentDAO;
@@ -59,7 +55,6 @@ public class SegmentDAOTest {
             e.printStackTrace();
         }
 
-        //Log.d("PRIMEIRO ASSERT: ", "HUEUEHEUHEUEHUE");
         assertTrue(deletedSegments == segmentList.size() && segments.isEmpty());
     }
 
@@ -96,7 +91,6 @@ public class SegmentDAOTest {
         boolean insertedSegment = segmentDAO.insertSegment(segment);
         String contentWhitType = segment.getContent();
 
-        //Log.d("ContentWithType: ", "" + contentWhitType);
         try {
             segment = new Segment(1, 2, 8, true, 55, 10, 1, 6, contentWhitType, "13/12/2006");
         } catch (SegmentException e) {
@@ -121,9 +115,7 @@ public class SegmentDAOTest {
                 countEqualsSegments++;
             }
         }
-        //Log.d("VALOR DO ORIGINAL: ", "" + segment.isOriginal());
 
-        //Log.d("AQUI", countEqualsSegments + "");
 
         assertTrue(insertedSegment && countEqualsSegments == 1);
     }
@@ -164,7 +156,6 @@ public class SegmentDAOTest {
 
             isSegmentInserted = segmentDAO.insertSegment(segment);
 
-            SegmentController segmentController = SegmentController.getInstance(context);
 
             String contentWhitType = segment.getContent();
 

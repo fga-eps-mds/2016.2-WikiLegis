@@ -34,9 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by marcelo on 11/4/16.
- */
+
 public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
 

@@ -94,8 +94,6 @@ public class Vote {
         return id;
     }
 
-    //Validation methods
-
     private boolean validateIntegerisNotNull(final Integer integer){
         if (integer == null) {
             return false;

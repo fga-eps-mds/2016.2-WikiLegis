@@ -1,21 +1,14 @@
 package gppmds.wikilegis.dao.api;
 
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.model.Bill;
-import gppmds.wikilegis.model.Segment;
 
-/**
- * Created by lucas on 10/19/16.
- */
 public class BillJsonHelper {
 
     public static List<Bill> getAllBillFromApi() throws JSONException, BillException {
