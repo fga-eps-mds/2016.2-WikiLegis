@@ -58,7 +58,7 @@ public class SegmentController {
 
         for (Segment segment : segmentList){
             Log.d("Segment do get", segment.getContent());
-            if(segment.getId() == id){
+            if((segment.getId() + "").equals(id + "")){
                 return segment;
             }
         }
