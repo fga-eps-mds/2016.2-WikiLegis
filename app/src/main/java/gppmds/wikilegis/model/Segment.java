@@ -42,13 +42,6 @@ public class Segment {
     }
 
 
-    public Segment(final Integer bill,final Integer replaced, final String content)
-            throws SegmentException{
-        setBill(bill);
-        setReplaced(replaced);
-        setContent(content);
-    }
-
     public Segment (final Integer id, final Integer order, final Integer bill, final int original,
                     final Integer replaced, final Integer parent, final Integer type,
                     final Integer number, final String content, final String date) throws SegmentException{
@@ -62,6 +55,15 @@ public class Segment {
         setNumber(number);
         setContent(content);
         setDate(date);
+    }
+
+
+    public Segment(final Integer bill,final Integer replaced, final String content)
+            throws SegmentException{
+        setBill(bill);
+        setReplaced(replaced);
+        setContent(content);
+
     }
 
     public boolean equals(Segment segment) {

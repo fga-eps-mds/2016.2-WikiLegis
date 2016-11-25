@@ -152,4 +152,32 @@ public class BillDAO extends DaoUtilities{
 
         return bill;
     }
+
+    public List<Bill> getSearchBills(String queryBill) throws BillException {
+
+        SQLiteDatabase sqliteDatabase = DaoUtilities.getDatabase().getReadableDatabase();
+
+        String query = "SELECT * FROM " + tableName + " WHERE [title] LIKE '%" + queryBill + "%' OR [description] LIKE '%" + queryBill +"%'";
+
+        Cursor cursor = sqliteDatabase.rawQuery(query, null);
+
+        List<Bill> billList = new ArrayList<Bill>();
+
+        while (cursor.moveToNext()) {
+
+            Bill bill = new Bill(Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[0]))),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[1])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[2])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[6])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[3])),
+                    cursor.getString(cursor.getColumnIndex(tableColumns[4])),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[5]))),
+                    Integer.parseInt(cursor.getString(cursor.getColumnIndex(tableColumns[7]))));
+
+
+            billList.add(bill);
+        }
+
+        return billList;
+    }
 }

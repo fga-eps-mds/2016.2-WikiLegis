@@ -1,7 +1,5 @@
 package gppmds.wikilegis.view;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -23,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             try {
-                billController.DownloadBills();
+                billController.downloadBills();
             } catch (BillException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
@@ -109,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager =
                 (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setQueryHint("Pesquisar projetos...");
 
         if (null != searchView) {
             searchView.setSearchableInfo(searchManager
@@ -129,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
 
                 SearchBillFragment searchBillFragment = new SearchBillFragment();
                 searchBillFragment.setArguments(bundle);
+
+                // Check if no view has focus:
+                View view = getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 
@@ -177,10 +184,13 @@ public class MainActivity extends AppCompatActivity {
                 actionDialogNetworkSettings();
                 break;
             case R.id.action_notification_logged:
-
                 actionDialogNotification();
-
                 break;
+
+            case R.id.action_share_deslogged:
+            case R.id.action_share_logged:
+                shareTextUrl();
+
         }
         return true;
     }
@@ -408,4 +418,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void shareTextUrl() {
+
+        final String HOME_PAGE = "http://wikilegis-staging.labhackercd.net/";
+
+        SharedPreferences session = PreferenceManager.
+                getDefaultSharedPreferences(getBaseContext());
+
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        String link = session.getString(getString(R.string.share_url), HOME_PAGE);
+
+        share.putExtra(Intent.EXTRA_SUBJECT, "Dê uma olhada nisso e fique por dentro das leis:");
+        share.putExtra(Intent.EXTRA_TEXT, link);
+
+        startActivity(Intent.createChooser(share, "Compartilhar via"));
+    }
 }

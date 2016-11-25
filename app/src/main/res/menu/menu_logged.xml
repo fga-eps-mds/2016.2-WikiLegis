@@ -34,6 +34,12 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/action_share_logged"
+        android:title="@string/action_profile"
+        android:icon="@drawable/share"
+        app:showAsAction="always" />
+
     <item android:id="@+id/action_search"
           android:title="Search"
           android:icon="@drawable/abc_ic_search_api_mtrl_alpha"

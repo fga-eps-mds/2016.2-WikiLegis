@@ -185,6 +185,7 @@ public class SegmentDAO extends DaoUtilities{
         List<Segment> segmentList = new ArrayList<Segment>();
 
         while (cursor.moveToNext()) {
+            Log.d("AAAAAAAAAA", "AAAAAAAA");
             Segment segment = setAllSegments(cursor);
             segmentList.add(segment);
         }
