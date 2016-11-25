@@ -429,7 +429,7 @@ public class SegmentControllerTest {
     public void testRegisterSegmentWithEmptySuggestion() throws SegmentException, JSONException{
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        String status= segmentController.registerSegment(13, 131, "", context);
+        String status= segmentController.registerSegment(7, 30, "", context);
 
         assertEquals(status, "Por favor, digite uma sugestão");
     }
@@ -439,7 +439,7 @@ public class SegmentControllerTest {
 
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        String status = segmentController.registerSegment(13, 121, "Testando", context);
+        String status = segmentController.registerSegment(7, 30, "Testando", context);
 
         assertEquals(status, "SUCCESS");
     }
