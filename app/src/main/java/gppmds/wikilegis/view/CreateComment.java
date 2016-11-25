@@ -26,8 +26,6 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.model.Comments;
-import gppmds.wikilegis.model.Segment;
-
 
 public class CreateComment extends Fragment implements View.OnClickListener {
 
