@@ -93,7 +93,6 @@ public class SegmentDAO extends DaoUtilities{
         deleteSegment(segment.getId());
 
         boolean result = insertAndClose(sqLiteDatabase, tableName, values) > 0;
-        Log.d("booleanToInt(): ", ""+ segment.booleanToInt(segment.isOriginal()));
         return result;
     }
 
