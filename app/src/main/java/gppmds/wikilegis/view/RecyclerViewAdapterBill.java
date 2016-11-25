@@ -17,9 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gppmds.wikilegis.R;
+import gppmds.wikilegis.controller.DataDownloadController;
 import gppmds.wikilegis.model.Segment;
 
 public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAdapterBill.BillViewHolder> {
+    public static Context context;
 
     public static class BillViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
@@ -28,6 +30,8 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
         BillViewHolder(final View itemView) {
 
             super(itemView);
+
+            context = itemView.getContext();
 
             cardView = (CardView) itemView.findViewById(R.id.frameCardViewSegment);
             segment = (TextView) itemView.findViewById(R.id.textViewSegment);
@@ -90,12 +94,20 @@ public class RecyclerViewAdapterBill extends RecyclerView.Adapter<RecyclerViewAd
         final int SECAO = 9;
         final int SUBSECAO = 10;
 
-        if (segments.get(i).getType() >= ITEM && segments.get(i).getType() <= SUBSECAO
-                || segments.get(i).getType() == TITULO) {
+        DataDownloadController dataDownloadController = DataDownloadController.getInstance(context);
+
+        int connectionType = dataDownloadController.connectionType();
+
+        if (connectionType < 2) {
+
+            if (segments.get(i).getType() >= ITEM && segments.get(i).getType() <= SUBSECAO
+                    || segments.get(i).getType() == TITULO) {
+                personViewHolder.cardView.setClickable(false);
+            } else {
+                personViewHolder.cardView.setClickable(true);
+            }
+        } else {
             personViewHolder.cardView.setClickable(false);
-        }
-        else {
-            personViewHolder.cardView.setClickable(true);
         }
     }
 
