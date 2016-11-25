@@ -4,23 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.exception.UserException;
 import gppmds.wikilegis.model.Segment;
-import gppmds.wikilegis.model.User;
 
 public class SegmentController {
 
@@ -58,7 +52,7 @@ public class SegmentController {
 
         for (Segment segment : segmentList){
             Log.d("Segment do get", segment.getContent());
-            if(segment.getId() == id){
+            if((segment.getId() + "").equals(id + "")){
                 return segment;
             }
         }

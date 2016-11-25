@@ -24,7 +24,6 @@ public class PutRequest extends AsyncTask<String, String, String>{
     }
 
     protected void onPreExecute() {
-        //Empty constructor;
     }
 
     protected String doInBackground(String... params) {
@@ -88,8 +87,5 @@ public class PutRequest extends AsyncTask<String, String, String>{
 
 
         return result;
-    }
-    public int getResponse() {
-        return response;
     }
 }

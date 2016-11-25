@@ -24,9 +24,7 @@ import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.model.Bill;
 
-/**
- * Created by izabela on 02/10/16.
- */
+
 public class ClosedBillsListFragment extends Fragment implements MaterialSpinner.OnItemSelectedListener{
 
     public static ClosedBillsListFragment newInstance(){
@@ -100,7 +98,6 @@ public class ClosedBillsListFragment extends Fragment implements MaterialSpinner
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        // Clear and reinitialize list if the tab is visible
         if (this.isVisible()) {
             final String HOME_PAGE = "http://wikilegis-staging.labhackercd.net/";
 

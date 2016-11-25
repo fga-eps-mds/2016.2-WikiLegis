@@ -80,7 +80,7 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
     }
 
     private void goBackNFragments() {
-        final int N = 20; // how many times to hit back button
+        final int N = 20;
         try {
             for (int i = 0; i < N; i++)
                 Espresso.pressBack();
@@ -102,11 +102,11 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
 
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
-        onView(withId(R.id.recycler_viewBill))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+        onView(withId(R.id.recycler_viewSegment))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.floatingButton))
                 .perform((click()));
         onView(withId(R.id.emailLoginField)).check(matches(isDisplayed()));
@@ -129,9 +129,9 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
@@ -156,18 +156,16 @@ public class CreateCommentTest extends ActivityInstrumentationTestCase2<LoginAct
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-        onView(withId(R.id.recycler_viewBill))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.recycler_viewBill))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recycler_viewSegment))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, MyViewAction
                         .clickChildViewWithId(R.id.imageViewProposalCard)));
         onView(withId(R.id.commentEditText))
                 .perform(typeText("Nao gostei do comentario! Seu Madruga para Presidente!"));
         onView(withId(R.id.saveComment)).perform(click());
-        Thread.sleep(400);
         onView(withText("Obrigado pelo comentário!")).inRoot(withDecorView(not(is(getActivity()
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
-
 }

@@ -7,9 +7,7 @@ import gppmds.wikilegis.exception.SegmentTypesException;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by augusto on 18/09/16.
- */
+
 public class SegmentTypesTest {
 
     @Test

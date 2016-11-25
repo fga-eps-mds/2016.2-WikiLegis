@@ -1,5 +1,7 @@
 package gppmds.wikilegis.view;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -23,8 +26,6 @@ import gppmds.wikilegis.R;
 import gppmds.wikilegis.controller.CommentSegmentController;
 import gppmds.wikilegis.exception.CommentsException;
 import gppmds.wikilegis.model.Comments;
-import gppmds.wikilegis.model.Segment;
-
 
 public class CreateComment extends Fragment implements View.OnClickListener {
 
@@ -42,6 +43,9 @@ public class CreateComment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
         View view  = inflater.inflate(R.layout.fragment_create_comment, container, false);
 
@@ -116,8 +120,12 @@ public class CreateComment extends Fragment implements View.OnClickListener {
             if(savingStatus.equals(getContext().getResources().getString(
                     R.string.success_comment))){
                 Toast.makeText(getContext(), savingStatus, Toast.LENGTH_SHORT).show();
-
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+                getFragmentManager().popBackStack();
+                //Closing softkeyboard
+                InputMethodManager inputMethodManager = (InputMethodManager)  this.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                //Going back to fragment
+                getFragmentManager().popBackStack();
             }
         }
     }

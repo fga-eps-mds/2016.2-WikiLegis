@@ -9,19 +9,14 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import gppmds.wikilegis.R;
-import gppmds.wikilegis.dao.api.BillJsonHelper;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Bill;
-import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.Vote;
 
 public class DataDownloadController {

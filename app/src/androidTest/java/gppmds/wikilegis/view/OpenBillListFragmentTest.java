@@ -6,8 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.NoActivityResumedException;
+
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.core.deps.guava.base.Throwables;
 import android.support.test.espresso.core.deps.guava.collect.Sets;
@@ -15,7 +14,6 @@ import android.support.test.runner.lifecycle.ActivityLifecycleMonitor;
 import android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.support.test.runner.lifecycle.Stage;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.WindowManager;
 
 import org.junit.Before;
@@ -33,16 +31,12 @@ import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-/**
- * Created by izabela on 06/10/16.
- */
+
 public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity>{
 
     public OpenBillListFragmentTest() {
@@ -85,11 +79,7 @@ public class OpenBillListFragmentTest extends ActivityInstrumentationTestCase2<L
         onView(withText("Visitante")).perform(ViewActions.scrollTo()).perform(click());
     }
 
-    /*
-    public void testDefaultFilteringOption(){
-        onView(withId(R.id.spinner_open)).check(matches(withText("Relevantes")));
-    }
-    */
+
 
     public void testChangFilteringOptionToRecent(){
         onView(withId(R.id.spinner_open)).perform(click());

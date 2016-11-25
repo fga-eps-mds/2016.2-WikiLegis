@@ -24,7 +24,6 @@ public class PostRequest extends AsyncTask<String, String, String>{
     }
 
     protected void onPreExecute() {
-        //Empty constructor;
     }
 
     protected String doInBackground(String... params) {

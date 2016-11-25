@@ -26,7 +26,7 @@ public class CommentSegmentControllerTest {
                 .getInstance(context);
 
         try {
-            receivedStatus = commentSegmentController.registerComment(1, "Testando comentario", context);
+            receivedStatus = commentSegmentController.registerComment(30, "Testando comentario", context);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (CommentsException e) {
@@ -45,7 +45,7 @@ public class CommentSegmentControllerTest {
                 .getInstance(context);
 
         try {
-            receivedStatus = commentSegmentController.registerComment(1, "", context);
+            receivedStatus = commentSegmentController.registerComment(30, "", context);
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (CommentsException e) {

@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -77,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
                 (R.id.floatingButton);
         floatingActionButton.setVisibility(View.INVISIBLE);
 
-        // Create the adapter that will return a fragment for each of the two tabs
         TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.menu_deslogged, menu);
         }
 
-        // Retrieve the SearchView and plug it into SearchManager
         final SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager =
@@ -117,19 +116,16 @@ public class MainActivity extends AppCompatActivity {
 
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             public boolean onQueryTextChange(String newText) {
-                // this is your adapter that will be filtered
                 return true;
             }
 
             public boolean onQueryTextSubmit(String query) {
-                //Here u can get the value "query" which is entered in the search box.
                 Bundle bundle = new Bundle();
                 bundle.putString("searchQuery", query);
 
                 SearchBillFragment searchBillFragment = new SearchBillFragment();
                 searchBillFragment.setArguments(bundle);
 
-                // Check if no view has focus:
                 View view = getCurrentFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -161,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
 
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent reportActivity = new Intent(MainActivity.this, ReportActivity.class);
 
         switch(item.getItemId()) {
             case R.id.action_login:
@@ -182,11 +179,62 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_config_logged:
                 actionDialogNetworkSettings();
                 break;
+            case R.id.action_notification_logged:
+                actionDialogNotification();
+                break;
+
             case R.id.action_share_deslogged:
+                shareTextUrl();
+                break;
             case R.id.action_share_logged:
                 shareTextUrl();
+                break;
+            case R.id.action_report_logged:
+                startActivity(reportActivity);
+                break;
+            case R.id.action_report_deslogged:
+                startActivity(reportActivity);
+                break;
         }
         return true;
+    }
+
+    private void actionDialogNotification() {
+        showDialogConfirmNotificationRequest(MainActivity.this,"Ativar notificação deste projeto",new String[]{"Confirmar"},
+                new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                        BillController billcontroller = BillController.getInstance(MainActivity.this);
+                        if("-1".equals(billcontroller.getClickedBill())) {
+                            Toast.makeText(getBaseContext(), "Selecione um projeto.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            String response = "";
+                            switch (selectedPosition) {
+
+                                case 0:
+                                    response = billcontroller.activiteNotification("weekly");
+
+                                    break;
+                                case 1:
+                                    response = billcontroller.activiteNotification("daily");
+
+
+                                    break;
+
+                                default:
+                                    //Nothing to do
+                            }
+                            if ("200".equals(response)) {
+                                Toast.makeText(getBaseContext(), "Você receberá informações deste projeto.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //TODO trocar esta mensagem de erro para quando api estiver funcionando.
+                                Toast.makeText(getBaseContext(), "Você receberá informações deste projeto.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
     }
 
     private void actionDialogNetworkSettings() {
@@ -195,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which){
-                        //Do your functionality here
                         int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
 
                         SharedPreferences session = PreferenceManager.
@@ -248,6 +295,37 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("networkPrefe", networkPreference+"");
         builder.setSingleChoiceItems(items, networkPreference,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                    }
+                });
+
+        builder.setPositiveButton(btnText[0], listener);
+
+        if (btnText.length != 1) {
+            builder.setNegativeButton(btnText[1], listener);
+        }
+        builder.show();
+    }
+
+    public void showDialogConfirmNotificationRequest(Context context, String title, String[] btnText,
+                                                     DialogInterface.OnClickListener listener) {
+
+        final CharSequence[] items = { "semanalmente","diariamente"};
+
+        if (listener == null)
+            listener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface,
+                                    int paramInt) {
+                    paramDialogInterface.dismiss();
+                }
+            };
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+
+        builder.setSingleChoiceItems(items, 1,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                     }
@@ -341,6 +419,7 @@ public class MainActivity extends AppCompatActivity {
         alertDialogProposalBuilder.show();
     }
 
+
     private void shareTextUrl() {
 
         final String HOME_PAGE = "http://wikilegis-staging.labhackercd.net/";
@@ -358,4 +437,14 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(Intent.createChooser(share, "Compartilhar via"));
     }
+/*
+    private void openFragment(final Fragment fragmentToBeOpen) {
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.main_content, fragmentToBeOpen);
+        fragmentTransaction.commit();
+    }
+*/
 }

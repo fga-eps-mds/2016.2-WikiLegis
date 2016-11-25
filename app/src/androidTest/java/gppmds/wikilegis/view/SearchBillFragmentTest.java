@@ -34,9 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-/**
- * Created by marcelo on 11/4/16.
- */
+
 public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
 
@@ -78,7 +76,7 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         activityOnTest.runOnUiThread(wakeUpDevice);
     }
 
-    /*
+
     public void testResultSearchExistWithInternet() {
         Boolean isLoggedIn = PreferenceManager.getDefaultSharedPreferences
                 (activityOnTest.getBaseContext()).getBoolean("IsLoggedIn", false);
@@ -213,6 +211,4 @@ public class SearchBillFragmentTest extends ActivityInstrumentationTestCase2<Log
         onView(withText("Nenhum resultado encontrado!")).inRoot(withDecorView(not(is(getActivity()
                 .getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
-
-    */
 }

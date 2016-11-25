@@ -34,7 +34,6 @@ public class JSONHelperTest {
 
     @Test
     public void getJSONObjectApiTest() {
-        // return String, http://wikilegis.labhackercd.net/api/bills/
         String getApi = "";
         String url = "http://wikilegis.labhackercd.net/api/bills/";
         GetRequest request = new GetRequest();

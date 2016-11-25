@@ -11,9 +11,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import gppmds.wikilegis.R;
 import gppmds.wikilegis.dao.api.BillJsonHelper;
+import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.dao.database.BillDAO;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.exception.BillException;
@@ -27,7 +29,7 @@ public class BillController {
     private static BillDAO billDao;
     private static Context context;
     private static BillController instance = null;
-
+    private static int clickedBill = -1;
 
     private BillController(final Context context) {
         this.context = context;
@@ -40,8 +42,12 @@ public class BillController {
         return  instance;
     }
 
-    public void setBillList(List<Bill> billList) {
-        this.billList = billList;
+    public int getClickedBill() {
+        return clickedBill;
+    }
+
+    public void setClickedBill(int bill){
+        clickedBill = bill;
     }
 
     public List<Bill> getAllBills(){
@@ -198,5 +204,35 @@ public class BillController {
         Collections.sort(billListAux, comparator);
 
         return billListAux;
+    }
+
+    public String activiteNotification(String periodicity) {
+
+        String response = "500";
+        if(clickedBill >=0 ) {
+            SharedPreferences session = PreferenceManager.
+                    getDefaultSharedPreferences(context);
+            String token = session.getString("token", "");
+
+            String json = "{\n" +
+                    "    \"bill\": " + clickedBill + ",\n" +
+                    "    \"periodicity\": \"" + periodicity + "\",\n" +
+                    "    \"status\": true,\n" +
+                    "    \"token\":\"" + token + "\"\n" +
+                    "}";
+
+            Log.d("JSON",json);
+            PostRequest request = new PostRequest(context, "http://wikilegis-staging.labhackercd.net/api/newsletter/");
+
+            try {
+                response = request.execute(json, "application/json").get();
+                System.out.println(response);
+            } catch (InterruptedException e) {
+                response = "500";
+            } catch (ExecutionException e) {
+                response = "500";
+            }
+        }
+        return response;
     }
 }

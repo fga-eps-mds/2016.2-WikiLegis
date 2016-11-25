@@ -29,7 +29,6 @@ public class DaoUtilities {
     }
 
 
-    //Método para inserir no banco local
     protected long insertAndClose(final SQLiteDatabase sqLiteDatabase, final String table,
                                   final ContentValues values) {
 
@@ -41,7 +40,6 @@ public class DaoUtilities {
         return resultInsert;
     }
 
-    //Metodo para deletar do banco local
     protected long deleteAndClose(final SQLiteDatabase sqLiteDatabase, final String table) {
         int delete;
 

@@ -4,20 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import gppmds.wikilegis.dao.api.DeleteRequest;
 import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.api.PostRequest;
 import gppmds.wikilegis.dao.api.PutRequest;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.VotesException;
-import gppmds.wikilegis.model.Segment;
 import gppmds.wikilegis.model.Vote;
 
 

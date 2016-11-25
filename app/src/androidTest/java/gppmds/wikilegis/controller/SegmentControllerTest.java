@@ -17,7 +17,6 @@ import gppmds.wikilegis.dao.api.JSONHelper;
 import gppmds.wikilegis.dao.database.SegmentDAO;
 import gppmds.wikilegis.exception.BillException;
 import gppmds.wikilegis.exception.SegmentException;
-import gppmds.wikilegis.model.Bill;
 import gppmds.wikilegis.model.Segment;
 
 import static junit.framework.Assert.assertEquals;
@@ -379,57 +378,13 @@ public class SegmentControllerTest {
         assert (segment.getId() == SEGMENT_ID);
     }
 
-    //FIXME
-    /*
-    @Test
-    public void testGetProposalsOfSegment(){
-        SegmentController segmentController = SegmentController.getInstance(context);
-        List<Segment> proposalList = new ArrayList<>();
 
-        SegmentDAO segmentDAO = SegmentDAO.getInstance(context);
-        segmentDAO.deleteAllSegments();
-
-        final Integer TYPE = 11;
-        final Integer NUMBER = 1;
-        final String CONTENT = "Content da subsecao.";
-        Segment segment = null;
-        Segment sugestedOne = null;
-        Segment sugestedTwo = null;
-        Segment sugestedThree = null;
-
-        try {
-            segment = new Segment(1, 1, 1, true, 0, 1, TYPE, NUMBER, CONTENT, "1");
-
-            sugestedOne = new Segment(2, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
-            sugestedTwo = new Segment(3, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
-            sugestedThree = new Segment(4, 1, 1, true, 1, 1, TYPE, NUMBER, CONTENT, "1");
-
-            segmentDAO.insertSegment(segment);
-            segmentDAO.insertSegment(sugestedOne);
-            segmentDAO.insertSegment(sugestedTwo);
-            segmentDAO.insertSegment(sugestedThree);
-
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            segmentController.initControllerSegmentsOffline();
-        } catch (SegmentException e) {
-            e.printStackTrace();
-        }
-
-        proposalList = segmentController.getProposalsOfSegment(segmentController.getAllSegments(),
-                1);
-
-        assertTrue(proposalList.size() == 3);
-    }*/
 
     @Test
     public void testRegisterSegmentWithEmptySuggestion() throws SegmentException, JSONException{
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        String status= segmentController.registerSegment(13, 131, "", context);
+        String status= segmentController.registerSegment(7, 30, "", context);
 
         assertEquals(status, "Por favor, digite uma sugestão");
     }
@@ -439,7 +394,7 @@ public class SegmentControllerTest {
 
         SegmentController segmentController = SegmentController.getInstance(context);
 
-        String status = segmentController.registerSegment(13, 121, "Testando", context);
+        String status = segmentController.registerSegment(7, 30, "Testando", context);
 
         assertEquals(status, "SUCCESS");
     }

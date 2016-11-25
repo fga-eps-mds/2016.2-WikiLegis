@@ -2,7 +2,6 @@ package gppmds.wikilegis.dao;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,9 +17,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by shammyz on 10/5/16.
- */
+
 public class BillDAOTest {
 
     Context context;
