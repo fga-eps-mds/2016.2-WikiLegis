@@ -30,9 +30,12 @@ import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<LoadingActivity> {
 
@@ -52,12 +55,6 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
             }
         };
         activityOnTest.runOnUiThread(wakeUpDevice);
-        SegmentController segmentController =
-                SegmentController.getInstance(getActivity().getBaseContext());
-
-        if(segmentController.isSegmentDatabaseIsEmpty()) {
-            onView(withId(R.id.button)).perform(click());
-        }
     }
 
     @Test
@@ -76,10 +73,14 @@ public class ViewBillFragmentTest extends ActivityInstrumentationTestCase2<Loadi
         }
 
         onView(withId(R.id.recycler_view_open))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
         onView(withId(R.id.action_profile_logged)).perform(click());
-        onView(withId(R.id.action_notification_logged)).perform(click());
-        //onView(withId(R.id.))
+        onView(withText("Ativar Notificação")).perform(click());
+        onView(withText("diariamente")).perform(click());
+        onView(withText("Confirmar")).perform(click());
+        onView(withText("Você receberá informações deste projeto.")).inRoot(withDecorView(not(is(getActivity()
+                .getWindow().getDecorView())))).check(matches(isDisplayed()));
+
     }
     //FIXME
     /*
